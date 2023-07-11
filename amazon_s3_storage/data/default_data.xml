@@ -1,0 +1,11 @@
+<odoo>
+  <data noupdate="0">
+    <record id="amozon_s3_config" model="s3.config">
+        <field name="name">AWS3 Config</field>
+        <field name="amazonS3bucket_name">XXXXXXXXXXXXXXX</field>
+        <field name="amazonS3secretkey">XXXXXXXXXXXXXXXXXXXXXXXXX</field>
+        <field name="amazonS3accessKeyId">XXXXXXXXXXXXXXXXXXXXXXX</field>
+        <field name="bucket_location">XXXXXXXX</field>
+    </record>
+  </data>
+</odoo>
