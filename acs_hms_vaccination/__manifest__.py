@@ -22,7 +22,7 @@
         This Module will add a Page in Patient for managing Vaccine for Paediatrics in HMS. acs hms
     """,
     'version': '1.0.3',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',

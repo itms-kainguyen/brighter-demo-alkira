@@ -20,7 +20,7 @@
     'summary' : 'Allow patients to Book an Appointment on-line from portal',
     'description' : """HMS Website Portal to Book an Appointment online. acs hms medical Allow patients to Book an Appointment online from portal""",
     'version': '1.1.10',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',

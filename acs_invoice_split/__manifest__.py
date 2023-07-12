@@ -28,7 +28,7 @@
         Deze module zal functionaliteit toevoegen voor het splitsen van facturen van geselecteerde facturen van een klant. splits factuurfacturering splitsfactuur splitsen
     """,
     'version': '1.2.3',
-    'category': 'Accounting',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',

@@ -22,7 +22,7 @@
         hospital management system ACS HMS
     """, 
     'version': '1.0.1',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',

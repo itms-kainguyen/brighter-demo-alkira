@@ -71,7 +71,7 @@
          gestión hospitalaria sistema de información gestión hospitalaria odoo hms odoo
     """,
     'version': '1.0.11',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',

@@ -17,7 +17,7 @@
 #╚══════════════════════════════════════════════════════════════════════╝
 {
     'name': 'Hospitalization (In-Patient - IPD)',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'summary': 'Manage your Hospital equipment and related process of Inpatient Registration, Surgery, Care, Discharge',
     'description': """
     Hospitalization is include Inpatient Registration, Surgery, Care, Discharge. Hospital related Flows. ACS HMS

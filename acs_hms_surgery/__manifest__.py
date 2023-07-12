@@ -17,7 +17,7 @@
 #╚══════════════════════════════════════════════════════════════════════╝
 {
     'name': 'Medical Surgery',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'summary': 'Manage Medical Surgery related operations',
     'description': """
     Manage Medical Surgery related operations hospital management system medical ACS HMS

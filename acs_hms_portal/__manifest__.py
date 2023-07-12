@@ -23,7 +23,7 @@
     HMS Website Portal acs hms hospital management system medical
     """,
     'version': '1.0.6',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',
