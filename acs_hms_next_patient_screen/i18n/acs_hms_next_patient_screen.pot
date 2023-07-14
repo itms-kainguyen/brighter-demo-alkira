@@ -299,19 +299,19 @@ msgstr ""
 #. module: acs_hms_next_patient_screen
 #: model:ir.model.fields,field_description:acs_hms_next_patient_screen.field_acs_hms_waiting_screen__acs_physician_field_id
 msgid "Physician"
-msgstr ""
+msgstr "Prescriber"
 
 #. module: acs_hms_next_patient_screen
 #: model:ir.model.fields,help:acs_hms_next_patient_screen.field_acs_hms_waiting_screen__acs_physician_field_id
 msgid ""
-"Physician Field shown on waiting screen: If no physician in object user can "
+"Prescriber Field shown on waiting screen: If no Prescriber in object user can "
 "be also shown."
 msgstr ""
 
 #. module: acs_hms_next_patient_screen
 #: model:ir.model.fields,field_description:acs_hms_next_patient_screen.field_acs_hms_waiting_screen__physician_ids
 msgid "Physicians"
-msgstr ""
+msgstr "Prescribers"
 
 #. module: acs_hms_next_patient_screen
 #: model:ir.model.fields,field_description:acs_hms_next_patient_screen.field_acs_hms_waiting_screen__acs_states_to_include

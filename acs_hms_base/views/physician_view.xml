@@ -73,7 +73,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="action_physician_degree">
-        <field name="name">Physician Degree</field>
+        <field name="name">Prescriber Degree</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">physician.degree</field>
         <field name="view_mode">tree,form</field>
@@ -236,7 +236,7 @@
     </record>
 
     <record id="action_physician" model="ir.actions.act_window">
-        <field name="name">Physician</field>
+        <field name="name">Prescriber</field>
         <field name="res_model">hms.physician</field>
         <field name="view_mode">kanban,tree,form,search</field>
         <field name="help" type="html">

@@ -162,13 +162,13 @@
                                 </div>
 
                                 <div t-if="allow_department_selection or allow_physician_selection" class="text-center col-12 mt32">
-                                    <span>Select <t t-if="allow_department_selection">Department or</t> Physician and Book Appointment.<br/>
-                                    If you do not select Department or Physician All available slots will be shown.</span>
+                                    <span>Select <t t-if="allow_department_selection">Department or</t> Prescriber and Book Appointment.<br/>
+                                    If you do not select Department or Prescriber All available slots will be shown.</span>
                                 </div>
 
                                 <div t-else="" class="text-center col-12 mt32">
                                     <div class="col-12 alert alert-danger">
-                                        Online Appointment booking option is not published by Specific Department/Physician yet. Get Appointment Slots may show slots available generic Slots, if any available. (Not specific to Doctor or Department.)
+                                        Online Appointment booking option is not published by Specific Department/Prescriber yet. Get Appointment Slots may show slots available generic Slots, if any available. (Not specific to Doctor or Department.)
                                     </div>
                                 </div>
 
@@ -183,7 +183,7 @@
                                     </t>
                                     <t t-if="not physician_ids">
                                         <div class="col-12 alert alert-danger">
-                                            No Physicians to book appointment, please do booking by selecting Department.
+                                            No Prescribers to book appointment, please do booking by selecting Department.
                                         </div>
                                     </t>
                                 </div>
@@ -196,7 +196,7 @@
                                     </t>
                                     <t t-if="not department_ids">
                                         <div class="col-12 alert alert-danger">
-                                            No Departments to book appointment, please do booking by selecting physician.
+                                            No Departments to book appointment, please do booking by selecting Prescriber.
                                         </div>
                                     </t>
                                 </div>

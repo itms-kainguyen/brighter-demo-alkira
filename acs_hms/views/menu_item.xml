@@ -5,7 +5,7 @@
 
     <menuitem id="action_menu_patient" name="Patients" sequence="0" parent="menu_hms" action="acs_hms_base.action_patient"/>
 
-    <menuitem id="action_menu_doctors" name="Physicians" parent="menu_hms" action="acs_hms_base.action_physician" sequence="2"/>
+    <menuitem id="action_menu_doctors" name="Prescribers" parent="menu_hms" action="acs_hms_base.action_physician" sequence="2"/>
 
     <menuitem id="action_menu_treatment" name="Treatments" parent="menu_hms" sequence="3" action="acs_action_form_hospital_treatment"/>
 

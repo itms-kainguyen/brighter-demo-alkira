@@ -215,7 +215,7 @@ msgstr ""
 #. module: acs_hms_next_patient_screen
 #: model:ir.model.fields,field_description:acs_hms_next_patient_screen.field_acs_hms_waiting_screen__physician_ids
 msgid "Physicians"
-msgstr ""
+msgstr "Prescribers"
 
 #. module: acs_hms_next_patient_screen
 #: model:ir.model.fields,field_description:acs_hms_next_patient_screen.field_acs_hms_waiting_screen__activity_user_id
