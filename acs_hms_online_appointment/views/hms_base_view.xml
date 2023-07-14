@@ -27,7 +27,7 @@
         <field name="inherit_id" ref="acs_hms.view_physician_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='gneral_info']/group" position="after">
-                <group string="Online Appoitnment">
+                <group string="Online Appointment">
                     <group>
                         <field name='allowed_online_booking'/>
                         <field name='allow_home_appointment'/>
