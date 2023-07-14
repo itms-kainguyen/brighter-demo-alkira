@@ -57,7 +57,7 @@
         'acs_hms_online_appointment',
         'acs_documents_preview',
         'acs_hms_documents_preview',
-        'acs_hms_operation_theater',
+        # 'acs_hms_operation_theater',
         'acs_hms_icd10',
         'acs_hms_webcam',
         'acs_invoice_split',
