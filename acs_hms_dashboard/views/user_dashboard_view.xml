@@ -163,7 +163,7 @@
                                         <t t-set="acs_field2_name" t-value="record.total_referring_physicians.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_referring_physicians'"/>
                                         <t t-set="acs_record2_lable">Ref. Phy.</t>
-                                        <t t-set="acs_lable">Physicians</t>
+                                        <t t-set="acs_lable">Prescribers</t>
                                     </t>
                                 </div>
 

@@ -67,7 +67,7 @@
         </div>
     </template>
 
-    <template id="physician_data" name="Appoitnment Physician Data">
+    <template id="physician_data" name="Appoitnment Prescriber Data">
         <div class="col-md-4 col-xs-12 acs_radio_block acs_physician_block">
             <input type="radio" name="physician_id" class="acs_checkbox sr-only" t-att-value="physician.id" t-attf-id="physician_{{physician.id}}"/>
             <label t-attf-for="physician_{{physician.id}}">
