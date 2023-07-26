@@ -1,0 +1,56 @@
+<odoo>
+    <data>
+       <record id="view_all_appointmetpayment_tree" model="ir.ui.view">
+        <field name="name">appointment.tree</field>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <tree string="Payments" create="false" delete="false" edit="false">
+                <field name="apppoint_event_id" string="Appointment"/>
+                <field name="name" string="Appointment Type" />
+                <field name="doctore_id" string="Doctor"/>
+                <field name="start_at" string="Date"/>
+                <field name="partner_new" readonly="1" string="Appointment With" />
+                <field name="start_time" />
+                <field name="end_time" />
+                <field name="amount" string="Charge" />
+                <field name="state" string="Status" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_all_appointment_payment_form" model="ir.ui.view">
+        <field name="name">appointment.form</field>
+        <field name="model">calendar.event</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Payments/" create="false" delete="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                             <field name="apppoint_event_id" string="Appointment"/>
+                             <field name="name" string="Appointment Type" />
+                             <field name="doctore_id" string="Doctor"/>
+                             <field name="start_at" string="Date"/>
+                            <field name="partner_new" readonly="1" string="Appointment With" />
+                        </group>
+                        <group>
+                            <field name="start_time" />
+                             <field name="end_time" />
+                            <field name="amount" string="Charge" />
+                            <field name="state" string="Status" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+         <record id="action_payment_appointment" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id"/>
+    </record>
+    <menuitem id="appointment_payment_menu" name="Payments" parent="doctor_appointment_booking_advance_axis.appointment_booking"
+        action="action_payment_appointment" sequence="10" />
+    </data>
+</odoo>
