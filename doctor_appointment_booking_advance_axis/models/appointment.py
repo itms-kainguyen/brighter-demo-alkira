@@ -7,11 +7,11 @@ class appointment_booking(models.Model):
     _name = 'appointment'
     _description = 'appointment'
 
-    customer = fields.Many2one('res.partner', string='Customer')
-    appointment_group_id = fields.Many2one('appointment.group', string='Appointment Group')
-    appoint_person_id = fields.Many2one('res.partner', string='Appointees')
-    time_slot = fields.Many2one('appointment.timeslot', string='Time Slot')
-    appoint_date = fields.Date(string="Appointment Date")
+    customer = fields.Many2one('res.partner', string='Patient')
+    appointment_group_id = fields.Many2one('appointment.group', string='Consultation Type')
+    appoint_person_id = fields.Many2one('res.partner', string='Doctor')
+    time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
+    appoint_date = fields.Date(string="Date")
     source = fields.Many2one('appointment.source', string='Source')
     create_date = fields.Datetime(string='Create Date')
     pricelist_id = fields.Many2one('product.pricelist', string='Pricelist')
@@ -23,6 +23,8 @@ class appointment_booking(models.Model):
     address_id = fields.Char(string='Address')
     email_id = fields.Char(string='Email')
     mobile_number = fields.Char(string='Mobile Number')
+    remark = fields.Text(string='Remarks')
+
 
 class Partner(models.Model):
     _inherit = 'res.partner'

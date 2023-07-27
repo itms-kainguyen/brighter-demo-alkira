@@ -8,8 +8,8 @@
         <field name="arch" type="xml">
             <tree string="Appointments">
                 <field name="customer" />
-                <field name="appointment_group_id" />
                 <field name="appoint_person_id" />
+                <field name="appointment_group_id" />
                 <field name="time_slot" />
                 <field name="appoint_date" />
                 <field name="source" />
@@ -29,15 +29,15 @@
                     <group>
                         <group>
                             <field name="customer" />
-                            <field name="appointment_group_id" />
                             <field name="appoint_person_id" />
-                            <field name="create_date" />
+                            <field name="appointment_group_id" />
+                            <field name="appoint_date" />
+                            <field name="create_date" invisible="1"/>
                         </group>
                         <group>
                             <field name="time_slot" />
                             <field name="source" />
                             <field name="pricelist_id" />
-                            <field name="appoint_date" />
                         </group>
                     </group>
                     <notebook>
