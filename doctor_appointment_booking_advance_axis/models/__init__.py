@@ -6,3 +6,4 @@ from . import calendar_appointment
 from . import appointment
 from . import appointment_dashboard
 from . import res_config
+from . import product_template
