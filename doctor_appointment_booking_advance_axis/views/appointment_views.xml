@@ -28,8 +28,8 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="customer" />
-                            <field name="appoint_person_id" />
+                            <field name="customer" domain="[('function','=','Patient')]"/>
+                            <field name="appoint_person_id" domain="[('function','=','Doctor')]"/>
                             <field name="appointment_group_id" />
                             <field name="appoint_date" />
                             <field name="create_date" invisible="1"/>
