@@ -154,6 +154,7 @@
                                 <group>
                                     <field name="work_exp" placeholder="e.g. 1-2 years"/>
                                     <field name="specialist" />
+                                    <field name="company_id" />
                                 </group>
                             </group>
                         </sheet>

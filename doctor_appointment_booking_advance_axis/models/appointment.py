@@ -41,11 +41,16 @@ class Partner(models.Model):
     appointment_type = fields.Many2one('calendar.appointment.type', string="Appointment Type")
     country_id = fields.Many2one('res.country', string='Country', ondelete='restrict', )
     start_datetime = fields.Datetime(string="Appointment Date")
+    doctor_id = fields.Many2one('res.partner', 'Doctor')
+    nurses_id = fields.Many2one('res.partner', 'Nurses')
+    birth_date = fields.Date('Birth Date')
+    blood_group = fields.Char(string='Allergies')
+    sex = fields.Selection([('Female', 'Female'), ('Male', 'Male')], string='Sex')
 
     @api.depends('last_name')
     def _compute_fullname(self):
         for rec in self:
-            rec.full_name = ('%s  %s' %(rec.name or '', rec.last_name or '')) or ''
+            rec.full_name = ('%s  %s' % (rec.name or '', rec.last_name or '')) or ''
 
     @api.onchange('appointment_type')
     def _onchange_parnter(self):
