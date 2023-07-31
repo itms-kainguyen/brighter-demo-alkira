@@ -37,10 +37,13 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='email']" position="after">
+                <field name="position_type"/>
                 <field name="birth_date"/>
                 <field name="sex"/>
-                <field name="doctor_id"/>
-                <field name="nurses_id"/>
+                <field name="doctor_id" domain="[('function','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
+                <field name="nurses_id" domain="[('function','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
+                <field name="provider"/>
+                <field name="prescriber"/>
                 <field name="title" />
                 <field name="appointment_charge" widget="monetary"/>
                 <field name="appoint_product_id" />

@@ -9,7 +9,7 @@ class appointment_booking(models.Model):
 
     customer = fields.Many2one('res.partner', string='Patient')
     appointment_group_id = fields.Many2one('appointment.group', string='Consultation Type')
-    appoint_person_id = fields.Many2one('res.partner', string='Doctor')
+    appoint_person_id = fields.Many2one('res.partner', string='Prescriber')
     time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
     appoint_date = fields.Date(string="Date")
     source = fields.Many2one('appointment.source', string='Source')
@@ -41,11 +41,15 @@ class Partner(models.Model):
     appointment_type = fields.Many2one('calendar.appointment.type', string="Appointment Type")
     country_id = fields.Many2one('res.country', string='Country', ondelete='restrict', )
     start_datetime = fields.Datetime(string="Appointment Date")
-    doctor_id = fields.Many2one('res.partner', 'Doctor')
+    doctor_id = fields.Many2one('res.partner', 'Prescriber')
     nurses_id = fields.Many2one('res.partner', 'Nurses')
     birth_date = fields.Date('Birth Date')
     blood_group = fields.Char(string='Allergies')
     sex = fields.Selection([('Female', 'Female'), ('Male', 'Male')], string='Sex')
+    provider = fields.Char(string='Provider')
+    prescriber = fields.Char(string='Prescriber')
+    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurses'), ('Patient', 'Patient')],
+                                     string='Position Type')
 
     @api.depends('last_name')
     def _compute_fullname(self):
