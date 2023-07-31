@@ -10,85 +10,88 @@
                       <!-- Start: Appointment Cards -->
                       <div class="row">
                         <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card1 rounded p-sm-4 p-3 more-today-appointment">
-                            <i class="fa fa-bell position-absolute opacity_icon"></i>
-                            <div class="row align-items-center">
-                              <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="today-appointment"></b></h1>
-                              </div>
-                              <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Appointment</h4>
-                                <h2 class="m-0 text-white card_main_title">Today</h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card2 rounded p-sm-4 p-3 more-pending-appointment">
-                            <i class="fa fa-info-circle position-absolute opacity_icon"></i>
-                            <div class="row align-items-center">
-                              <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="pending-appointment"></b></h1>
-                              </div>
-                              <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Appointment</h4>
-                                <h2 class="m-0 text-white card_main_title">Pending</h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card3 rounded p-sm-4 p-3 more-approved-appointment">
-                            <i class="fa fa-check-square position-absolute opacity_icon"></i>
-                            <div class="row align-items-center">
-                              <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="approved-appointment"></b></h1>
-                              </div>
-                              <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Appointment</h4>
-                                <h2 class="m-0 text-white card_main_title">Complete</h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card4 rounded p-sm-4 p-3 more-rejected-appointment">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card1 rounded p-sm-4 p-3 more-patient-appointment">
                             <i class="fa fa-bed position-absolute opacity_icon"></i>
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="rejected-appointment"></b></h1>
+                                <h1 class="card_number_text m-0 text-white"><b class="patient-appointment"></b></h1>
                               </div>
                               <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Total</h4>
-                                <h2 class="m-0 text-white card_main_title">Patients</h2>
+                                <h4 class="mb-1 text-white card_up_title">Patient</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Today</h2>-->
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card5 rounded p-sm-4 p-3 more-service">
-                            <i class="fa fa-child position-absolute opacity_icon"></i>
-                            <div class="row align-items-center">
-                              <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="total-service"></b></h1>
-                              </div>
-                              <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Total</h4>
-                                <h2 class="m-0 text-white card_main_title">Services</h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card6 rounded p-sm-4 p-3 more-appointment">
-                            <i class="fa fa-plus-circle position-absolute opacity_icon"></i>
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card2 rounded p-sm-4 p-3 more-appointment">
+                            <i class="fa fa-bell position-absolute opacity_icon"></i>
+<!--                            <i class="fa fa-info-circle position-absolute opacity_icon"></i>-->
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
                                 <h1 class="card_number_text m-0 text-white"><b class="total-appointment"></b></h1>
                               </div>
                               <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Total</h4>
-                                <h2 class="m-0 text-white card_main_title">Appointments</h2>
+                                <h4 class="mb-1 text-white card_up_title">Appointment</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Pending</h2>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card3 rounded p-sm-4 p-3 more-shop-appointment">
+                            <i class="fa fa-check-square position-absolute opacity_icon"></i>
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="shop-appointment"></b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Shop</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Complete</h2>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card4 rounded p-sm-4 p-3 more-rejected-appointment1">
+                            <i class="fa fa-plus-circle position-absolute opacity_icon"></i>
+<!--                            <i class="fa fa-bed position-absolute opacity_icon"></i>-->
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="rejected-appointment1">0</b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Prescriptions</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Patients</h2>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card5 rounded p-sm-4 p-3 more-service1">
+                            <i class="fa fa-child position-absolute opacity_icon"></i>
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="total-service1">0</b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Consent Forms</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Services</h2>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card6 rounded p-sm-4 p-3 more-appointment1">
+                            <i class="fa fa-info-circle position-absolute opacity_icon"></i>
+<!--                            <i class="fa fa-plus-circle position-absolute opacity_icon"></i>-->
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="total-appointment1">0</b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Protocols</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Appointments</h2>-->
                               </div>
                             </div>
                           </div>

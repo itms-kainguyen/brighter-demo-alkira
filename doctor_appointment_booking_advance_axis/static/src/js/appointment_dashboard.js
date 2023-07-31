@@ -29,6 +29,8 @@ var MyCustomAction = AbstractAction.extend({
         'click .more-approved-appointment':'action_approved_appointment',
         'click .more-rejected-appointment': 'action_rejected_appointment',
         'click .more-today-appointment': 'action_today_appointment',
+        'click .more-patient-appointment': 'action_patient_appointment',
+        'click .more-shop-appointment': 'action_shop_appointment',
        
     },
 
@@ -106,6 +108,8 @@ var MyCustomAction = AbstractAction.extend({
                     self.$el.find('.approved-appointment').text(result['approved_appointment'])
                     self.$el.find('.rejected-appointment').text(result['rejected_appointment'])
                     self.$el.find('.today-appointment').text(result['today_appointment'])
+                    self.$el.find('.patient-appointment').text(result['patient-appointment'])
+                    self.$el.find('.shop-appointment').text(result['shop-appointment'])
                     self.$el.find('.table').text(result['sale_tables'])                  
             });
         
@@ -143,7 +147,7 @@ var MyCustomAction = AbstractAction.extend({
             res_model: 'calendar.event',
             view_mode: 'calendar,tree,form',
             view_type: 'tree',
-            views: [[false, 'list'],[false, 'calendar'],[false, 'form']],
+            views: [[false, 'calendar'],[false, 'list'],[false, 'form']],
             target: 'current'
         },)
 
@@ -237,11 +241,56 @@ var MyCustomAction = AbstractAction.extend({
             view_type: 'list',
             views: [[false, 'calendar'],[false, 'list'],[false, 'form']],
             views: [[false, 'list'],[false, 'form']],
-            context: {                        
-                        'search_default_today_appointment':true,                   
+            context: {
+                        'search_default_today_appointment':true,
                     },
             domain: [['start_at','=',today]],
             target: 'current'
+        },)
+
+
+    },
+
+     action_patient_appointment:function(event){
+        var self = this;
+        var timeElapsed = Date.now();
+        var today = new Date(timeElapsed)
+        today.toLocaleDateString();
+        // var today = new Date();
+        // var dd = String(today.getDate()).padStart(2, '0');
+        // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        // var yyyy = today.getFullYear();
+
+        // today = mm + '/' + dd + '/' + yyyy;
+        event.stopPropagation();
+        event.preventDefault();
+        this.do_action({
+            name: _t("Patient"),
+            type: 'ir.actions.act_window',
+            res_model: 'res.partner',
+            view_mode: 'kanban,tree,form',
+            view_type: 'list',
+            views: [[false, 'kanban'],[false, 'list'],[false, 'form']],
+            views: [[false, 'kanban'],[false, 'list'],[false, 'form']],
+            context: {},
+            domain: [['position_type','=','Patient']],
+            target: 'current'
+        },)
+
+
+    },
+
+    action_shop_appointment:function(event){
+        var self = this;
+        var timeElapsed = Date.now();
+        var today = new Date(timeElapsed)
+        today.toLocaleDateString();
+        event.stopPropagation();
+        event.preventDefault();
+        this.do_action({
+                "url": '/shop',
+                "type": "ir.actions.act_url",
+                "target": "self",
         },)
 
 
