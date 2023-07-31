@@ -40,8 +40,8 @@
                 <field name="position_type"/>
                 <field name="birth_date"/>
                 <field name="sex"/>
-                <field name="doctor_id" domain="[('function','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
-                <field name="nurses_id" domain="[('function','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
+                <field name="doctor_id" domain="[('position_type','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
+                <field name="nurses_id" domain="[('position_type','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="provider" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
                 <field name="prescriber" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
                 <field name="title" />
