@@ -42,8 +42,8 @@
                 <field name="sex"/>
                 <field name="doctor_id" domain="[('function','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="nurses_id" domain="[('function','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
-                <field name="provider" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber','Nurses'))]}"/>
-                <field name="prescriber" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber','Nurses'))]}"/>
+                <field name="provider" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
+                <field name="prescriber" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
                 <field name="title" />
                 <field name="appointment_charge" widget="monetary"/>
                 <field name="appoint_product_id" />
