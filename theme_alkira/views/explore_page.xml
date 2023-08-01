@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="explore_page" model="ir.ui.view">
+            <field name="name">explore page</field>
+            <field name="type">qweb</field>
+            <field name="key">theme_alkira.explore_page</field>
+            <field name="arch" type="xml">
+                <t name="explore" t-name="theme_alkira.explore_page">
+                    <t t-call="website.layout">
+                        <div id="wrap" class="">
+                            <section class="bg_blue s_text_image o_colored_level pb256 pt208"
+                                     data-snippet="s_text_image" data-name="Text - Image"
+                                     style="background-image: none;">
+                                <div class="container">
+                                    <div class="row align-items-center" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip347484">
+                                        <div class="pt16 pb16 o_colored_level col-lg-3" data-bs-original-title=""
+                                             title="" aria-describedby="tooltip913980">
+                                            <span style="color: rgb(255, 255, 255)">Explore our community...</span>
+                                            <br/>
+                                            <p data-bs-original-title="" title="" aria-describedby="tooltip48938">
+                                                Learn never seen before course content and share in the world's best
+                                                courses curated by leaders in the aesthetic community.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                        <div class="pt16 pb16 o_colored_level col-lg-9" style="">
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="bg_orange s_text_image pt32 pb32 o_colored_level"
+                                     data-snippet="s_text_image" data-name="Text - Image"
+                                     style="background-image: none;">
+                                <div class="container">
+                                    <div class="row align-items-center" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip347484">
+                                        <div class="pt16 pb16 o_colored_level col-lg-5 o_we_force_no_transition"
+                                             data-bs-original-title="" title="" aria-describedby="tooltip913980">
+                                            <img src="/theme_alkira/static/images/connicons-250x169.png"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-src="/theme_alkira/static/images/connicons-250x169.png"
+                                                 data-mimetype="image/png" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                            <p data-bs-original-title="" title="" aria-describedby="tooltip48938">
+                                                Advance your practice with mentoring from globally recognised industry
+                                                educators with industry relevant webinars, a journal club and much more.
+                                                Connect with local aesthetic leaders, advance practice colleagues and
+                                                hihgly skilled mentors. With a clinical practice forum and live advance
+                                                practice chat room you have access to clinical excellence at your
+                                                fingertips 24-7. Because no man is an island and together we are better
+                                                and brighter.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                        <div class="pt16 pb16 o_colored_level col-lg-7" style="">
+                                            <img src="/theme_alkira/static/images/Forumplaceholder-731x695.png"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-id="162"
+                                                 data-original-src="/theme_alkira/static/images/Forumplaceholder-731x695.png"
+                                                 data-mimetype="image/png" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="bg_orange s_text_image pt32 pb32 o_colored_level"
+                                     data-snippet="s_text_image" data-name="Text - Image"
+                                     style="background-image: none;">
+                                <div class="container-fluid">
+                                    <div class="row align-items-center" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip347484">
+                                        <div class="pt16 pb16 o_colored_level col-lg-7" style="">
+                                            <img src="/theme_alkira/static/images/legislationscompliance-660x560.jpg"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-id="162"
+                                                 data-original-src="/theme_alkira/static/images/legislationscompliance-660x560.jpg"
+                                                 data-mimetype="image/jpeg" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                        </div>
+                                        <div class="pt16 pb16 o_colored_level col-lg-5" data-bs-original-title=""
+                                             title="" aria-describedby="tooltip913980">
+                                            <img src="/theme_alkira/static/images/compicons-250x169.png"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-src="/theme_alkira/static/images/compicons-250x169.png"
+                                                 data-mimetype="image/png" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                            <p data-bs-original-title="" title="" aria-describedby="tooltip48938">Get
+                                                advanced support through best practice treatment protocols, clinical
+                                                standard operating procedures, regulatory and compliance guidelines,
+                                                legislation and compliance adherence with access to complete
+                                                complications and adverse event management with a total clinic
+                                                management solution.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="bg_orange s_text_image pt32 pb32 o_colored_level"
+                                     data-snippet="s_text_image" data-name="Text - Image"
+                                     style="background-image: none;">
+                                <div class="container-fluid">
+                                    <div class="row align-items-center" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip347484">
+                                        <div class="pt16 pb16 o_colored_level col-lg-5" data-bs-original-title=""
+                                             title="" aria-describedby="tooltip913980">
+                                            <img src="/theme_alkira/static/images/advicons-250x169.png"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-src="/theme_alkira/static/images/advicons-250x169.png"
+                                                 data-mimetype="image/png" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                            <p data-bs-original-title="" title="" aria-describedby="tooltip48938">
+                                                Advance your practice with mentoring from globally recognised industry
+                                                educators with industry relevant webinars, a journal club and much more.
+                                                Connect with local aesthetic leaders, advance practice colleagues and
+                                                hihgly skilled mentors. With a clinical practice forum and live advance
+                                                practice chat room you have access to clinical excellence at your
+                                                fingertips 24-7. Because no man is an island and together we are better
+                                                and brighter.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                        <div class="pt16 pb16 o_colored_level col-lg-7" style="">
+                                            <img src="/theme_alkira/static/images/brightermockupc-660x560.jpg"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-id="162"
+                                                 data-original-src="/theme_alkira/static/images/brightermockupc-660x560.jpg"
+                                                 data-mimetype="image/jpeg" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="bg_orange s_text_image pt32 pb32 o_colored_level"
+                                     data-snippet="s_text_image" data-name="Text - Image"
+                                     style="background-image: none;">
+                                <div class="container-fluid">
+                                    <div class="row align-items-center" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip347484">
+                                        <div class="pt16 pb16 o_colored_level col-lg-7" style="">
+                                            <img src="/theme_alkira/static/images/Connect-3.svg"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-id="162"
+                                                 data-original-src="/theme_alkira/static/images/Connect-3.svg"
+                                                 data-mimetype="image/jpeg" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                        </div>
+                                        <div class="pt16 pb16 o_colored_level col-lg-5" data-bs-original-title=""
+                                             title="" aria-describedby="tooltip913980">
+                                            <img src="/theme_alkira/static/images/shareicons-250x169.png"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-src="/theme_alkira/static/images/shareicons-250x169.png"
+                                                 data-mimetype="image/png" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                            <p data-bs-original-title="" title="" aria-describedby="tooltip48938">
+                                                Advance your practice with mentoring from globally recognised industry
+                                                educators with industry relevant webinars, a journal club and much more.
+                                                Connect with local aesthetic leaders, advance practice colleagues and
+                                                hihgly skilled mentors. With a clinical practice forum and live advance
+                                                practice chat room you have access to clinical excellence at your
+                                                fingertips 24-7. Because no man is an island and together we are better
+                                                and brighter.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="oe_structure">
+                            <section class="bg_purple s_cover parallax s_parallax_is_fixed o_colored_level pt216 pb256"
+                                     data-scroll-background-ratio="1" data-snippet="s_cover" data-name="Cover"
+                                     style="background-image: none;">
+                                <div class="container s_allow_columns">
+                                    <h3 style="text-align: center;">
+                                        Video to go here
+                                        <br/>
+                                    </h3>
+                                    <p class="lead" style="text-align: center;">We will pop a video here of some
+                                        features in use but not all of them so as to provide a bit of a functions teaser
+                                        but not give away all the goodies.
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="oe_structure"/>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="explore" model="website.page">
+            <field name="is_published">True</field>
+            <field name="url">/explore</field>
+            <field name="view_id" ref="explore_page"/>
+            <field name="track">True</field>
+        </record>
+
+    </data>
+
+</odoo>
