@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="menu_temp" model="website.menu">
+            <field name="name">Temp</field>
+            <field name="url">/temp</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">20</field>
+        </record>
+
+        <record id="menu_bootstrap" model="theme.website.menu">
+            <field name="name">Bootstrap</field>
+            <field name="url">/bootstrap</field>
+            <field name="sequence" type="int">21</field>
+        </record>
+
+        <!-- submenu bootstrap -->
+        <record id="menu_bootstrap_item_hero" model="theme.website.menu">
+            <field name="name">Hero</field>
+            <field name="url">/bootstrap/hero</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">22</field>
+        </record>
+
+        <record id="menu_bootstrap_item_listgroup" model="theme.website.menu">
+            <field name="name">Listgroup</field>
+            <field name="url">/bootstrap/listgroup</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">22</field>
+        </record>
+        
+        <record id="menu_bootstrap_item_modal" model="theme.website.menu">
+            <field name="name">Modal</field>
+            <field name="url">/bootstrap/modal</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">23</field>
+        </record>
+
+        <record id="menu_bootstrap_item_badges" model="theme.website.menu">
+            <field name="name">Badges</field>
+            <field name="url">/bootstrap/badges</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+
+        <record id="menu_bootstrap_item_breadcrumbs" model="theme.website.menu">
+            <field name="name">Breadcrumbs</field>
+            <field name="url">/bootstrap/breadcrumbs</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+
+        <record id="menu_bootstrap_item_buttons" model="theme.website.menu">
+            <field name="name">Buttons</field>
+            <field name="url">/bootstrap/buttons</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+        
+        <record id="menu_bootstrap_item_album" model="theme.website.menu">
+            <field name="name">Album</field>
+            <field name="url">/bootstrap/album</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+
+        <record id="menu_bootstrap_item_pricing" model="theme.website.menu">
+            <field name="name">Pricing</field>
+            <field name="url">/bootstrap/pricing</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+
+        <record id="menu_bootstrap_item_checkout" model="theme.website.menu">
+            <field name="name">Checkout</field>
+            <field name="url">/bootstrap/checkout</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+
+        <record id="menu_bootstrap_item_carousel" model="theme.website.menu">
+            <field name="name">Carousel</field>
+            <field name="url">/bootstrap/carousel</field>
+            <field name="parent_id" ref="menu_bootstrap"/>
+            <field name="sequence" type="int">24</field>
+        </record>
+
+    </data>
+
+</odoo>
