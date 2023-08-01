@@ -16,17 +16,9 @@
         'views/website_data.xml',
 
         # pages
-        'views/temp_page.xml',
-        'views/hero_page.xml',
-        'views/modal_page.xml',
-        'views/badges_page.xml',
-        'views/listgroup_page.xml',
-        'views/breadcrumbs_page.xml',
-        'views/buttons_page.xml',
-        'views/album_page.xml',
-        'views/pricing_page.xml',
-        'views/checkout_page.xml',
-        'views/carousel_page.xml',
+        'views/about_page.xml',
+        'views/explore_page.xml',
+        
 
     ],
     'assets': {

@@ -72,6 +72,7 @@ section.s_cover.pt96.pb96.o_colored_level.s_parallax_no_overflow_hidden {
 
 .bg_orange {
     background: #f96c31;
+  color: white;
 }
 
 .round-icon {
@@ -81,6 +82,11 @@ section.s_cover.pt96.pb96.o_colored_level.s_parallax_no_overflow_hidden {
 
 .bg_purple {
   background: #5e21da;
+  color: white;
+}
+
+.bg_blue {
+  background: #484bc7;
   color: white;
 }
 
@@ -94,4 +100,11 @@ section.s_cover.pt96.pb96.o_colored_level.s_parallax_no_overflow_hidden {
 
 .allrights {
     padding-top: 20px !important;
+}
+
+.text-feature-about {
+  font-size: 12pt;
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 60px;
 }
