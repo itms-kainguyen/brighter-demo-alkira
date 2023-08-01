@@ -17,7 +17,7 @@
                                 <h1 class="card_number_text m-0 text-white"><b class="patient-appointment"></b></h1>
                               </div>
                               <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Patient</h4>
+                                <h4 class="mb-1 text-white card_up_title">Patients</h4>
 <!--                                <h2 class="m-0 text-white card_main_title">Today</h2>-->
                               </div>
                             </div>
@@ -32,7 +32,7 @@
                                 <h1 class="card_number_text m-0 text-white"><b class="total-appointment"></b></h1>
                               </div>
                               <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Appointment</h4>
+                                <h4 class="mb-1 text-white card_up_title">Appointments</h4>
 <!--                                <h2 class="m-0 text-white card_main_title">Pending</h2>-->
                               </div>
                             </div>

@@ -62,7 +62,7 @@ class Partner(models.Model):
     sex = fields.Selection([('Female', 'Female'), ('Male', 'Male')], string='Sex')
     provider = fields.Char(string='Provider')
     prescriber = fields.Char(string='Prescriber')
-    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurses'), ('Patient', 'Patient')],
+    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurse'), ('Patient', 'Patient')],
                                      string='Position Type')
 
     appointment_ids = fields.One2many('appointment', 'appoint_person_id', string='Appointment')
