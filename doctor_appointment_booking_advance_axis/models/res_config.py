@@ -26,7 +26,7 @@ class WebsiteConfigSettings(models.TransientModel):
 class Users(models.Model):
     _inherit = 'res.users'
 
-    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurse'), ('Patient', 'Patient')],
+    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurse'), ('Patient', 'Patient')], default='Nurses',
                                      string='Position Type')
 
     @api.model_create_multi
