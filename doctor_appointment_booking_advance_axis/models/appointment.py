@@ -67,6 +67,7 @@ class Partner(models.Model):
 
     appointment_ids = fields.One2many('appointment', 'appoint_person_id', string='Appointment')
     appointment_patient_ids = fields.One2many('appointment', 'customer', string='History')
+    password = fields.Char(string='Password')
 
     @api.depends('last_name')
     def _compute_fullname(self):

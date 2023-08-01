@@ -45,6 +45,7 @@
                  <field name="position_type"/>
              </xpath>
             <xpath expr="//field[@name='email']" position="after">
+                <field name="password" string="Password" password="True"/>
                 <field name="sex"/>
                 <field name="doctor_id" domain="[('position_type','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="nurses_id" domain="[('position_type','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
