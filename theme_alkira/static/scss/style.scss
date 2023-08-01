@@ -1,0 +1,97 @@
+.test {
+  background: #0000FF;
+  padding: 1em;
+  border-radius: 7px;
+  margin: 2em 0 3em;
+
+  li {
+    display: block;
+    position: relative;
+    color: #FFF;
+    padding: 2em;
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 1.0em;
+    background-color: #0000FF;
+  }
+}
+
+// hack fix bootstrap menu
+
+.navbar #top_menu.o_menu_loading {
+  opacity: 1 !important;
+}
+
+nav.navbar.navbar-light.o_colored_level.o_cc {
+  background: #f96c31;
+}
+
+div#top_menu_collapse {
+  background: rgb(94, 49, 243);
+}
+
+ul#top_menu {
+  display: grid;
+}
+
+ul#top_menu li {
+  color: white;
+  font-size: 20px;
+  line-height: 2;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+ul#top_menu li a {
+  color: white;
+}
+
+section.s_picture.pt48.pb24.o_cc.o_cc2.o_colored_level {
+  background: #f96c31;
+}
+
+img.figure-img.img-thumbnail.padding-large.img.img-fluid.o_we_custom_image {
+  background: none;
+  border: none;
+}
+
+section.s_cover.pt96.pb96.o_colored_level.s_parallax_no_overflow_hidden {
+  background: #f96c31;
+  color: white;
+}
+
+.btn-contactus {
+  background: #5e21da;
+  color: white;
+  font-size: 21px;
+  padding: 20px 56px;
+  border-radius: 4em;
+}
+
+.bg_orange {
+    background: #f96c31;
+}
+
+.round-icon {
+    background-color: #5e21da !important;
+    color: #FFFFFF;
+}
+
+.bg_purple {
+  background: #5e21da;
+  color: white;
+}
+
+.session_features {
+    color: white;
+}
+
+.o_footer_copyright  {
+    display: none;
+}
+
+.allrights {
+    padding-top: 20px !important;
+}

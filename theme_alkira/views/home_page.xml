@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="custom_homepage" inherit_id="website.homepage" name="Home">
+        <xpath expr="//t[@t-call='website.layout']" position="replace">
+
+            <t t-call="website.layout">
+                <t t-set="pageName" t-value="'homepage'"/>
+                <div id="wrap" class="oe_structure">
+
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_picture pt48 pb24 o_cc o_cc2 o_colored_level" data-snippet="s_picture"
+                                 data-name="Picture" style="background-image: none;">
+                            <div class="container">
+                                <h2 style="text-align: center;">
+                                    <font style="font-size: 62px;" class="o_default_snippet_text">​</font>
+                                </h2>
+                                <div class="row s_nb_column_fixed">
+                                    <div class="col-lg-10 offset-lg-1 pb24 o_colored_level" style="text-align: center;">
+                                        <figure class="figure">
+                                            <img src="/theme_alkira/static/images/Connect-3.svg" alt=""
+                                                 class="figure-img img-thumbnail padding-large img img-fluid o_we_custom_image"
+                                                 data-original-id="2230"
+                                                 data-original-src="/theme_alkira/static/images/Connect-3.svg"
+                                                 data-mimetype="image/svg+xml" data-resize-width="undefined"/>
+                                            <br/>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="bg_orange s_cover pt96 pb96 o_colored_level s_parallax_no_overflow_hidden"
+                                 data-scroll-background-ratio="0" data-snippet="s_cover" data-name="Cover"
+                                 style="background-image: none;">
+                            <div class="s_allow_columns container">
+                                <h1 style="text-align: center;">
+                                    <font style="font-size: 62px; font-weight: bold;">Together, we are brighter</font>
+                                </h1>
+                                <p class="lead" style="text-align: center;">Imagine access to world class medical
+                                    supervision and advice, complications and adverse event managment at your fingertips
+                                    with premium product purchasing, manufactuer training and access to global
+                                    conferences. Connect with globally recognised aesthetic educators, custom build your
+                                    own training with B2B mentoring and support through best practice treatment
+                                    protocols, webinars, regulatory compliance and a clinical advice forum. Become a
+                                    leader in your own practice, with access to best practice standards and the
+                                    opportunity to become a mentor or educator with advanced trainer programmes backed
+                                    by research and best practice legislation and compliance.
+                                </p>
+                                <p class="lead" style="text-align: center;">
+                                    <strong>The world for injectors suddenly looks a lot brighter.</strong>
+                                    <br/>
+                                </p>
+                                <p style="text-align: center;" data-bs-original-title="" title=""
+                                   aria-describedby="tooltip474006">
+                                    <a class="btn-contactus mb-2 btn btn-primary" href="/contactus"
+                                       data-bs-original-title=""
+                                       title="">Learn more
+                                    </a>
+                                    <br/>
+                                </p>
+                            </div>
+
+                        </section>
+
+                        <section class="session_features bg_orange s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block"
+                                 data-name="Text" style="background-image: none;">
+                            <div class="s_allow_columns container">
+                                <div class="row align-items-start" style="">
+                                    <div class="o_colored_level g-col-lg-4 g-height-16 col-lg-4" style="">
+
+                                        <div class="o_text_columns">
+                                            <div class="row o_grid_mode" style="" data-row-count="13">
+                                                <div class="o_colored_level o_grid_item g-height-6 g-col-lg-12 col-lg-12"
+                                                     style="grid-area: 1 / 1 / 7 / 13; z-index: 1;">
+                                                    <p style="text-align: center;">
+                                                        <span class="fa fa-pencil rounded-circle text-o-color-3 bg-o-color-1 round-icon fa-3x"
+                                                              data-bs-original-title="" title=""
+                                                              aria-describedby="tooltip638122" style=""/>
+                                                        <br/>
+                                                    </p>
+                                                    <h3 style="text-align: center;">
+                                                        Advanced Clinical tools
+                                                    </h3>
+                                                    <p style="text-align: center;">
+                                                        <font class="text-o-color-3">Advanced clinical training tools
+                                                            and patient record management
+                                                        </font>
+                                                        <br/>
+                                                    </p>
+                                                    <h2>&amp;nbsp;
+                                                        <br/>
+                                                    </h2>
+                                                </div>
+                                                <div class="o_colored_level o_grid_item g-height-6 g-col-lg-12 col-lg-12"
+                                                     style="z-index: 1; grid-area: 8 / 1 / 14 / 13;">
+                                                    <p style="text-align: center;">
+                                                        <span class="fa fa-video-camera rounded-circle text-o-color-3 bg-o-color-1 round-icon fa-3x"
+                                                              data-bs-original-title="" title=""
+                                                              aria-describedby="tooltip964676"/>
+                                                        <br/>
+                                                    </p>
+                                                    <h3 style="text-align: center;">
+                                                        <font class="text-o-color-4">Beyond consultations</font>
+                                                        <br/>
+                                                    </h3>
+                                                    <p style="text-align: center;">
+                                                        <font class="text-o-color-4">More than just a consultation
+                                                            network and scripting service. Go beyond your consult with
+                                                            advanced clinical training and support for the modern
+                                                            advanced injector.
+                                                        </font>
+                                                        <br/>
+                                                    </p>
+                                                    <h2>&amp;nbsp;
+                                                        <br/>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_colored_level g-col-lg-4 g-height-16 col-lg-4" style="">
+                                        <p>
+                                            <br/>
+                                        </p>
+                                        <div class="o_text_columns">
+                                            <div class="row">
+                                                <div class="o_colored_level col-lg-12">
+                                                    <p>
+                                                        <img src="/theme_alkira/static/images/iPhone-11-Mockup-480x860.png"
+                                                             alt="" class="img img-fluid o_we_custom_image"
+                                                             data-original-id="2403"
+                                                             data-original-src="/theme_alkira/static/images/iPhone-11-Mockup-480x860.png"
+                                                             data-mimetype="image/png" data-bs-original-title=""
+                                                             title="" aria-describedby="tooltip289418"
+                                                             data-resize-width="800" style="width: 100% !important;"
+                                                             loading="lazy"/>
+                                                        <br/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_colored_level g-col-lg-4 g-height-16 col-lg-4" style="">
+                                        <p>
+                                            <br/>
+                                        </p>
+                                        <div class="o_text_columns">
+                                            <div class="row o_grid_mode" style="" data-row-count="14">
+                                                <div class="o_colored_level o_grid_item g-col-lg-11 g-height-7 col-lg-11"
+                                                     style="z-index: 1; grid-area: 1 / 1 / 8 / 12;">
+                                                    <p style="text-align: center;">
+                                                        <span class="fa fa-headphones rounded-circle text-o-color-3 bg-o-color-1 round-icon fa-3x"/>
+                                                        <br/>
+                                                    </p>
+                                                    <h3 style="text-align: center;">
+                                                        <font class="text-o-color-4">24/7 Support</font>
+                                                        <br/>
+                                                    </h3>
+                                                    <p style="text-align: center;">
+                                                        <font class="text-o-color-4">24/7 Support from local Australian
+                                                            based team for your complications management, general
+                                                            inquiries and troubleshooting.
+                                                        </font>
+                                                        <br/>
+                                                    </p>
+                                                    <h2>&amp;nbsp;
+                                                        <br/>
+                                                    </h2>
+                                                </div>
+                                                <div class="o_colored_level o_grid_item g-col-lg-11 g-height-7 col-lg-11"
+                                                     style="z-index: 1; grid-area: 8 / 2 / 15 / 13;">
+                                                    <p style="text-align: center;">
+                                                        <span class="fa fa-group rounded-circle text-o-color-3 bg-o-color-1 round-icon fa-3x"
+                                                              data-bs-original-title="" title=""
+                                                              aria-describedby="tooltip985262"/>
+                                                        <br/>
+                                                    </p>
+                                                    <h3 style="text-align: center;">
+                                                        <font class="text-o-color-4">Community</font>
+                                                        <br/>
+                                                    </h3>
+                                                    <p style="text-align: center;">
+                                                        <font class="text-o-color-4">Join an exclusive group of world
+                                                            renowned injectors on our advanced community platform and
+                                                            listen to members only content.
+                                                        </font>
+                                                        <br/>
+                                                    </p>
+                                                    <h2>&amp;nbsp;
+                                                        <br/>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="bg_purple s_website_form pt16 pb16 o_colored_level" data-vcss="001"
+                                 data-snippet="s_website_form" data-name="Form" style="background-image: none;">
+                            <div class="container">
+                                <form action="/website/form/" method="post" enctype="multipart/form-data"
+                                      class="o_mark_required" data-mark="*" data-pre-fill="true"
+                                      data-success-mode="redirect" data-success-page="/contactus-thank-you"
+                                      data-model_name="mail.mail">
+                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                        <div data-visibility-condition="" data-visibility-between=""
+                                             class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required"
+                                             data-type="char" data-name="Field">
+                                            <label class="s_website_form_label" style="width: 200px" for="or00sfvvjmk">
+                                                <span class="s_website_form_label_content">Name</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="Name"
+                                                   required="1" value="" placeholder="" id="or00sfvvjmk"
+                                                   data-fill-with="name"/>
+                                        </div>
+                                        <div data-visibility-condition="" data-visibility-between=""
+                                             class="s_website_form_field mb-3 col-12 s_website_form_custom"
+                                             data-type="tel" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px"
+                                                   for="oyi4ot8b5co9">
+                                                <span class="s_website_form_label_content">Phone Number</span>
+                                            </label>
+                                            <input type="tel" class="form-control s_website_form_input"
+                                                   name="Phone Number" value="" placeholder="" id="oyi4ot8b5co9"
+                                                   data-fill-with="phone"/>
+                                        </div>
+                                        <div data-visibility-condition="" data-visibility-between=""
+                                             class="s_website_form_field mb-3 col-12 s_website_form_model_required"
+                                             data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px"
+                                                   for="ot7lqpdtu4nl">
+                                                <span class="s_website_form_label_content">Email</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input"
+                                                   name="email_from" required="true" placeholder="" id="ot7lqpdtu4nl"
+                                                   data-fill-with="email"/>
+                                        </div>
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_field_hidden"
+                                             data-type="char" data-name="Field" data-visibility-condition=""
+                                             data-visibility-between="">
+                                            <label class="s_website_form_label " style="width: 200px"
+                                                   for="o43roj79kjdi">
+                                                <span class="s_website_form_label_content">Your Company</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input"
+                                                   name="Your Company" value="" placeholder="" id="o43roj79kjdi"
+                                                   data-fill-with="commercial_company_name"/>
+                                        </div>
+                                        <div data-visibility-condition="" data-visibility-between=""
+                                             class="s_website_form_field mb-3 col-12 s_website_form_model_required s_website_form_field_hidden"
+                                             data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px"
+                                                   for="okszisv0e84b">
+                                                <span class="s_website_form_label_content">Subject</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="subject"
+                                                   required="true" value="sign up" placeholder="" id="okszisv0e84b"
+                                                   data-fill-with="undefined"/>
+                                        </div>
+                                        <div data-visibility-condition="" data-visibility-between=""
+                                             class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required"
+                                             data-type="text" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px"
+                                                   for="ojo8ji8dwoik">
+                                                <span class="s_website_form_label_content">Comment or Message</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <textarea class="form-control s_website_form_input"
+                                                      name="Comment or Message" required="1" placeholder=""
+                                                      id="ojo8ji8dwoik" rows="3"/>
+                                        </div>
+                                        <div class="s_website_form_field mb-3 col-12    s_website_form_dnone"
+                                             data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label "
+                                                       style="width: 200px">
+                                                    <span class="s_website_form_label_content"/>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="hidden" class="form-control s_website_form_input"
+                                                           name="email_to" value="info@yourcompany.example.com"/>
+                                                    <div class="s_website_form_field_description small form-text text-muted">
+                                                        Separate email addresses with a comma.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-0 py-2 col-12 s_website_form_submit col-lg-2 o_we_force_no_transition"
+                                             data-name="Submit Button" data-bs-original-title="" title=""
+                                             aria-describedby="tooltip29587">
+                                            <div style="width: 200px;" class="s_website_form_label"/>
+                                            <a href="#" role="button"
+                                               class="s_website_form_send btn btn-primary btn-lg o_we_force_no_transition"
+                                               data-bs-original-title="" title="">
+                                                Submit
+                                            </a>
+                                            <span id="s_website_form_result"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+
+                    </div>
+
+
+                </div>
+            </t>
+
+
+        </xpath>
+    </template>
+
+</odoo>
