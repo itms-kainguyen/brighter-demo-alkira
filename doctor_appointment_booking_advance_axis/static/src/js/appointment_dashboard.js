@@ -142,7 +142,7 @@ var MyCustomAction = AbstractAction.extend({
         event.stopPropagation();
         event.preventDefault();
         this.do_action({
-            name: _t("Meetings"),
+            name: _t("Appointments"),
             type: 'ir.actions.act_window',
             res_model: 'calendar.event',
             view_mode: 'calendar,tree,form',
@@ -265,7 +265,7 @@ var MyCustomAction = AbstractAction.extend({
         event.stopPropagation();
         event.preventDefault();
         this.do_action({
-            name: _t("Patient"),
+            name: _t("Patients"),
             type: 'ir.actions.act_window',
             res_model: 'res.partner',
             view_mode: 'kanban,tree,form',
