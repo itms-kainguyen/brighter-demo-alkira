@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="breadcrumbs_page" model="website.page">
+            <field name="name">Breadcrumbs page</field>
+            <field name="website_published">True</field>
+            <field name="url">/bootstrap/breadcrumbs</field>
+            <field name="type">qweb</field>
+            <field name="key">theme_alkira.breadcrumbs_page</field>
+            <field name="arch" type="xml">
+                <t t-name="theme_alkira.breadcrumbs_page">
+                    <t t-call="website.layout">
+                        <div id="wrap" class="container">
+
+
+                            <div class="container my-5">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                                        <li class="breadcrumb-item">
+
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">
+                                                Library
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Data
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+
+                            <div class="b-example-divider"></div>
+
+                            <div class="container my-5">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+                                        <li class="breadcrumb-item">
+
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">
+                                                Library
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Data
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+
+                            <div class="b-example-divider"></div>
+
+                            <div class="container my-5">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb breadcrumb-custom overflow-hidden text-center bg-body-tertiary border rounded-3">
+                                        <li class="breadcrumb-item">
+                                            
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">
+                                                Library
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Data
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+
+
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+    </data>
+
+</odoo>
