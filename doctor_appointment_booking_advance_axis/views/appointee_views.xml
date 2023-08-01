@@ -9,15 +9,15 @@
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field style="margin-left: 5px;" name="last_name" placeholder="Last name" attrs="{'invisible': [('company_type', '=', 'company')]}"/>
+                <field style="margin-left: 5px;" name="last_name" placeholder="Last name" invisible="1" attrs="{'invisible': [('company_type', '=', 'company')]}"/>
                 <group>
                 <field name="full_name" invisible="1"/>
                 </group>
             </field>
             <xpath expr="//field[@name='vat']" position="before">
-                <field name="appointment_group_ids" widget="many2many_tags"/>
-                <field name="appointment_type" widget="many2one_tags" domain="[('partner_id.name','=',name)]" options="{'no_create': True}"/>
-                <field name="start_datetime"/>
+                <field name="appointment_group_ids" widget="many2many_tags" invisible="1"/>
+                <field name="appointment_type" widget="many2one_tags" domain="[('partner_id.name','=',name)]" options="{'no_create': True}" invisible="1"/>
+                <field name="start_datetime" invisible="1"/>
             </xpath>
             <xpath expr="//div[@class='o_address_format']" position="replace">
                 <div class="o_address_format">
@@ -36,17 +36,23 @@
                         attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                 </div>
             </xpath>
-            <xpath expr="//field[@name='email']" position="after">
-                <field name="position_type"/>
+             <field name="vat" position="after">
                 <field name="birth_date"/>
+                <field name="allergies" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}"/>
+                 <field name="company_id" string="Clinic" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('parent_id', '!=', False)]}" force_save="1"/>
+             </field>
+             <xpath expr="//field[@name='function']" position="before">
+                 <field name="position_type"/>
+             </xpath>
+            <xpath expr="//field[@name='email']" position="after">
                 <field name="sex"/>
                 <field name="doctor_id" domain="[('position_type','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="nurses_id" domain="[('position_type','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="provider" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
                 <field name="prescriber" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
-                <field name="title" />
-                <field name="appointment_charge" widget="monetary"/>
-                <field name="appoint_product_id" />
+                <field name="title" invisible="1"/>
+                <field name="appointment_charge" widget="monetary" invisible="1"/>
+                <field name="appoint_product_id" invisible="1"/>
             </xpath>
             <xpath expr="//notebook/page[1]" position="replace">
                  <page string="Contacts &amp; Addresses" class="d-none">
@@ -154,7 +160,7 @@
                         </page>
             </xpath>
             <xpath expr="//notebook/page[2]" position="after">
-               <page string="General Information" autofocus="autofocus">
+                <page string="General Information" autofocus="autofocus" invisible="1">
                     <form>
                         <sheet>
                             <group>
@@ -166,8 +172,20 @@
                             </group>
                         </sheet>
                     </form>
-                </page> 
-                 <page string="Timeslots">
+                </page>
+                <page string="Appointment" attrs="{'invisible' : [('position_type', '!=', 'Prescriber')]}">
+                   <field name="appointment_ids" widget="section_and_note_one2many" mode="tree">
+                        <tree string="Appointments">
+                            <field name="customer" />
+                            <field name="appoint_person_id" />
+                            <field name="appointment_group_id" />
+                            <field name="time_slot" />
+                            <field name="appoint_date" />
+                            <field name="create_date" />
+                        </tree>
+                   </field>
+             </page>
+                <page string="Times Schedule" attrs="{'invisible' : [('position_type', '!=', 'Prescriber')]}">
                     <form>
                         <sheet>
                             <group>
@@ -175,7 +193,31 @@
                             </group>
                         </sheet>
                     </form>
-                </page> 
+                </page>
+                <page string="History" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
+                   <field name="appointment_patient_ids" widget="section_and_note_one2many" mode="tree">
+                        <tree string="History">
+                            <field name="customer" />
+                            <field name="appoint_person_id" />
+                            <field name="appointment_group_id" />
+                            <field name="time_slot" />
+                            <field name="appoint_date" />
+                            <field name="create_date" />
+                        </tree>
+                   </field>
+             </page>
+                <page string="Treatment Note" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
+
+             </page>
+                <page string="Prescription" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
+
+             </page>
+                <page string="Consent" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
+
+             </page>
+                <page string="Photography" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
+
+             </page>
             </xpath>
             <xpath expr="//notebook/page[2]" position="replace">
                <page name='sales_purchases' string="Sales &amp; Purchase" class="d-none">
@@ -187,7 +229,7 @@
                         </group>
                         <group name="misc" string="Misc">
                             <field name="ref" string="Reference"/>
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('parent_id', '!=', False)]}" force_save="1"/>
+                            <field name="company_id" groups="base.group_multi_company"  invisible="1" options="{'no_create': True}" attrs="{'readonly': [('parent_id', '!=', False)]}" force_save="1"/>
                             <field name="industry_id" attrs="{'invisible': [('is_company', '=', False)]}" options="{'no_create': True}"/>
                         </group>
                     </group>

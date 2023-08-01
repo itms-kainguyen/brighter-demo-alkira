@@ -12,8 +12,8 @@
                 <field name="appointment_group_id" />
                 <field name="time_slot" />
                 <field name="appoint_date" />
-                <field name="source" />
-                <field name="pricelist_id" />
+                <field name="source" invisible="1"/>
+                <field name="pricelist_id" invisible="1"/>
                 <field name="create_date" />
             </tree>
         </field>

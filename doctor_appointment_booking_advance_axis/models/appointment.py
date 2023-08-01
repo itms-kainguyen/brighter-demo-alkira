@@ -44,12 +44,29 @@ class Partner(models.Model):
     doctor_id = fields.Many2one('res.partner', 'Prescriber')
     nurses_id = fields.Many2one('res.partner', 'Nurses')
     birth_date = fields.Date('Birth Date')
-    blood_group = fields.Char(string='Allergies')
+    allergies = fields.Selection([('none', 'None'),
+                                  ('Bees /wasps', 'Bees /wasps'),
+                                  ('Penicillin', 'Penicillin'),
+                                  ('Hylase', 'Hylase'),
+                                  ('Anaesthetic', 'Anaesthetic'),
+                                  ('Latex', 'Latex'),
+                                  ('Other', 'Other'),
+                                  ('Paracetamol', 'Paracetamol'),
+                                  ('Sulphur', 'Sulphur'),
+                                  ('Maxalon', 'Maxalon'),
+                                  ('Stemetil', 'Stemetil'),
+                                  ('Vaccination', 'Vaccination'),
+                                  ('Boosters', 'Boosters'),
+                                  ('Peanuts', 'Peanuts')], default='none', string='Allergies')
+    blood_group = fields.Char(string='Blood Group')
     sex = fields.Selection([('Female', 'Female'), ('Male', 'Male')], string='Sex')
     provider = fields.Char(string='Provider')
     prescriber = fields.Char(string='Prescriber')
     position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurses'), ('Patient', 'Patient')],
                                      string='Position Type')
+
+    appointment_ids = fields.One2many('appointment', 'appoint_person_id', string='Appointment')
+    appointment_patient_ids = fields.One2many('appointment', 'customer', string='History')
 
     @api.depends('last_name')
     def _compute_fullname(self):
