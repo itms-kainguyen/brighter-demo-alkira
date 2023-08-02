@@ -25,6 +25,11 @@
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
             <form string="Appointments">
+                  <header>
+                      <button name="action_confirm" id="action_confirm" data-hotkey="v" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['pending'])]}"/>
+                      <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|', ('state', 'not in', ['pending', 'confirmed']), ('id', '=', False)]}" data-hotkey="z"/>
+                      <field name="state" widget="statusbar" statusbar_visible="pending,confirmed,treated,cancelled"/>
+                  </header>
                 <sheet>
                     <group>
                         <group>

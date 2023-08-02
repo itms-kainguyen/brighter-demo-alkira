@@ -37,21 +37,30 @@
                 </div>
             </xpath>
              <field name="vat" position="after">
-                <field name="birth_date"/>
+                 <label for="birth_date"/>
+                  <div>
+                     <field name="birth_date" class="oe_inline"/>
+                     <span>    AGE:
+                         <field name="age" class="oe_inline"/>
+                     </span>
+                 </div>
                 <field name="allergies" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}"/>
                  <field name="company_id" string="Clinic" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('parent_id', '!=', False)]}" force_save="1"/>
              </field>
              <xpath expr="//field[@name='function']" position="before">
                  <field name="position_type"/>
              </xpath>
+            <xpath expr="//field[@name='function']" position="attributes">
+                <attribute name="attrs">{'invisible' : [('position_type', 'in', ('Nurses'))]}</attribute>
+            </xpath>
             <xpath expr="//field[@name='email']" position="after">
-                <field name="password" string="Password" password="True"/>
+                <field name="password" string="Password" password="True" invisible="1"/>
                 <field name="sex"/>
                 <field name="doctor_id" domain="[('position_type','=','Prescriber')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="nurses_id" domain="[('position_type','=','Nurses')]" attrs="{'invisible' : [('position_type', 'in', ('Prescriber','Nurses'))]}"/>
                 <field name="provider" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
                 <field name="prescriber" attrs="{'invisible' : [('position_type', 'not in', ('Prescriber'))]}"/>
-                <field name="title" invisible="1"/>
+                <field name="title" attrs="{'invisible' : [('position_type', 'in', ('Nurses'))]}"/>
                 <field name="appointment_charge" widget="monetary" invisible="1"/>
                 <field name="appoint_product_id" invisible="1"/>
             </xpath>

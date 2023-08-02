@@ -2,6 +2,9 @@
 
 from odoo import models, fields, api
 
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+
 
 class appointment_booking(models.Model):
     _name = 'appointment'
@@ -24,6 +27,16 @@ class appointment_booking(models.Model):
     email_id = fields.Char(string='Email')
     mobile_number = fields.Char(string='Mobile Number')
     remark = fields.Text(string='Remarks')
+    state = fields.Selection([('pending', 'Pending Confirmation'),
+                              ('confirmed', 'Confirmed'),
+                              ('treated', 'Treated'),
+                              ('cancelled', 'Cancelled')], default='pending', string='Status')
+
+    def action_confirm(self):
+        return self.write({'state': 'confirmed'})
+
+    def action_cancel(self):
+        return self.write({'state': 'cancelled'})
 
 
 class Partner(models.Model):
@@ -68,6 +81,13 @@ class Partner(models.Model):
     appointment_ids = fields.One2many('appointment', 'appoint_person_id', string='Appointment')
     appointment_patient_ids = fields.One2many('appointment', 'customer', string='History')
     password = fields.Char(string='Password')
+    age = fields.Integer(compute='_compute_age', string='Age')
+
+    @api.depends('birth_date')
+    def _compute_age(self):
+        for rec in self:
+            if rec.birth_date:
+                rec.age = datetime.now().year - rec.birth_date.year
 
     @api.depends('last_name')
     def _compute_fullname(self):
