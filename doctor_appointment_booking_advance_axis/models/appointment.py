@@ -86,6 +86,7 @@ class Partner(models.Model):
     @api.depends('birth_date')
     def _compute_age(self):
         for rec in self:
+            rec.age = 0
             if rec.birth_date:
                 rec.age = datetime.now().year - rec.birth_date.year
 
