@@ -60,6 +60,7 @@
     'author': 'Axis Technolabs',
     'website': 'https://www.axistechnolabs.com',
     'installable': True,
+    'application': True,
     'license': 'OPL-1',
     'images': ['static/description/Advance_doctor_appointment_booking.gif','static/description/images/banner.png'],
 
