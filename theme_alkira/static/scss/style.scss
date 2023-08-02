@@ -132,15 +132,6 @@ h6.o_wsale_products_item_title {
   color: #35979c;
 }
 
-h6.o_wsale_products_item_title:hover {
-  width: 100%;
-  display: -webkit-box;
-  -webkit-line-clamp: 100;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  color: #35979c;
-}
-
 // products 2 colums
 #product_detail > div.row.align-items-center > div:nth-child(1) {
   width: 60%;
