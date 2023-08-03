@@ -51,14 +51,24 @@
         <record model="ir.rule" id="itms_contact_action_rule">
             <field name="name">itms.contact.multi.company</field>
             <field name="model_id" ref="base.model_res_partner" />
-<!--             <field name="global" eval="True" />-->
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('doctor_appointment_booking_advance_axis.group_helpdesk_user')),(4, ref('doctor_appointment_booking_advance_axis.group_helpdesk_manager')),
             (4, ref('doctor_appointment_booking_advance_axis.group_helpdesk_admin'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="True"/>
-            <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="True"/>
+        </record>
+
+         <record id="contact_see_all" model="ir.rule">
+            <field name="name">All Contact</field>
+            <field name="model_id" ref="base.model_res_partner" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('doctor_appointment_booking_advance_axis.group_helpdesk_manager')),
+            (4, ref('doctor_appointment_booking_advance_axis.group_helpdesk_admin'))]"/>
+        </record>
+
+        <record id="nurse_user_rule" model="ir.rule">
+            <field name="name">Nurse User</field>
+            <field name="model_id" ref="base.model_res_partner" />
+            <field name="global" eval="True" />
+            <field name="domain_force">[('nurses_id','=',user.id),('company_id', 'in', company_ids)]</field>
         </record>
 
     </data>
