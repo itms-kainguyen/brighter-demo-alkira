@@ -154,3 +154,38 @@ div#product_details {
   border-radius: 10px;
   padding: 40px;
 }
+
+
+.oe_website_sale .o_wsale_filmstip_wrapper::-webkit-scrollbar {
+    height: 10px;
+}
+
+.oe_website_sale .o_wsale_filmstip_wrapper::-webkit-scrollbar-thumb {
+    background: #71639e;
+}
+
+.oe_website_sale .o_wsale_filmstip_wrapper::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+
+}
