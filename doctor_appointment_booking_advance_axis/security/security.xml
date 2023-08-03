@@ -67,8 +67,8 @@
         <record id="nurse_user_rule" model="ir.rule">
             <field name="name">Nurse User</field>
             <field name="model_id" ref="base.model_res_partner" />
-            <field name="global" eval="True" />
             <field name="domain_force">[('nurses_id','=',user.partner_id.id),('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('doctor_appointment_booking_advance_axis.group_helpdesk_user'))]"/>
         </record>
 
     </data>
