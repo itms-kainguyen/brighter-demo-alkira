@@ -31,6 +31,9 @@ class appointment_group(models.Model):
             [('attendee_ids.state', '=', 'declined')])
         today_appointment = request.env['calendar.event'].sudo().search_count([('start_at', '=', fields.Date.today())])
         patient_appointment = request.env['res.partner'].sudo().search_count([('position_type', '=', 'Patient')])
+        if not self.env.is_admin():
+            patient_appointment = request.env['res.partner'].sudo().search_count(
+                [('position_type', '=', 'Patient'), ('nurses_id', '=', self.env.user.partner_id.id)])
         shop_appointment = request.env['product.template'].sudo().search_count([('is_published', '=', True)])
 
         return {
