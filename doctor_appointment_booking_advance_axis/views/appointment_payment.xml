@@ -23,21 +23,23 @@
         <field name="model">calendar.event</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <form string="Payments/" create="false" delete="false" edit="false">
+            <form string="Payments/">
                 <sheet>
                     <group>
                         <group>
-                             <field name="apppoint_event_id" string="Appointment"/>
-                             <field name="name" string="Appointment Type" />
-                             <field name="doctore_id" string="Doctor"/>
+                             <field name="name" invisible="1"/>
+                             <field name="partner_new" domain="[('position_type','=','Patient')]"/>
+                             <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>
+                             <field name="appointment_group_id"/>
                              <field name="start_at" string="Date"/>
-                            <field name="partner_new" readonly="1" string="Appointment With" />
+                             <field name="time_slot"/>
+                             <field name="description" sring="Remark"/>
+                            <field name="state" string="Status" />
                         </group>
                         <group>
-                            <field name="start_time" />
-                             <field name="end_time" />
-                            <field name="amount" string="Charge" />
-                            <field name="state" string="Status" />
+                            <field name="start_time" invisible="1"/>
+                             <field name="end_time" invisible="1"/>
+                            <field name="amount" string="Charge" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
