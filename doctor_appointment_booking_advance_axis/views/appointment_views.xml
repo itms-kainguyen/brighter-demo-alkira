@@ -41,6 +41,7 @@
                         </group>
                         <group>
                             <field name="time_slot" />
+                            <field name="remark" />
                             <field name="source" invisible="1"/>
                             <field name="pricelist_id" invisible="1"/>
                         </group>

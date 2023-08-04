@@ -10,8 +10,13 @@ class appointment_booking(models.Model):
     _name = 'appointment'
     _description = 'appointment'
 
+    @api.model
+    def _get_default_appointment_group_id(self):
+        return self.env['appointment.group'].search(
+            [('product_template_id.name', '=', 'Prescriber Service')], limit=1) or False
+
     customer = fields.Many2one('res.partner', string='Patient')
-    appointment_group_id = fields.Many2one('appointment.group', string='Consultation Type')
+    appointment_group_id = fields.Many2one('appointment.group',  default=_get_default_appointment_group_id, string='Consultation Type')
     appoint_person_id = fields.Many2one('res.partner', string='Prescriber')
     time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
     appoint_date = fields.Date(string="Date")
@@ -28,7 +33,7 @@ class appointment_booking(models.Model):
     mobile_number = fields.Char(string='Mobile Number')
     remark = fields.Text(string='Remarks')
     state = fields.Selection([('pending', 'Pending Confirmation'),
-                              ('confirmed', 'Confirmed'),
+                              ('confirmed', 'Submit'),
                               ('treated', 'Treated'),
                               ('cancelled', 'Cancelled')], default='pending', string='Status')
 
@@ -37,6 +42,11 @@ class appointment_booking(models.Model):
 
     def action_cancel(self):
         return self.write({'state': 'cancelled'})
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        if self.product_id:
+            self.price_unit = self.product_id.lst_price
 
 
 class Partner(models.Model):
@@ -66,6 +76,8 @@ class Partner(models.Model):
     country_id = fields.Many2one('res.country', string='Country', ondelete='restrict', )
     start_datetime = fields.Datetime(string="Appointment Date")
     doctor_id = fields.Many2one('res.partner', 'Prescriber')
+    # nurses_id = fields.Many2one('res.users', domain="[('position_type', '=', 'Nurses'),('company_id', '=',
+    # company_id)]", string='Nurses')
     nurses_id = fields.Many2one('res.partner', readonly="1",
                                 domain="[('position_type', '=', 'Nurses'),('company_id', '=', company_id)]",
                                 default=_get_default_nurse,

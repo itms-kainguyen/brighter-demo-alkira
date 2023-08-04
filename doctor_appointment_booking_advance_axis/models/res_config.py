@@ -26,8 +26,11 @@ class WebsiteConfigSettings(models.TransientModel):
 class Users(models.Model):
     _inherit = 'res.users'
 
-    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurse'), ('Patient', 'Patient')], default='Nurses',
+    position_type = fields.Selection([('Prescriber', 'Prescriber'), ('Nurses', 'Nurse'), ('Patient', 'Patient')],
+                                     default='Nurses',
                                      string='Position Type')
+
+    # patient_ids = fields.One2many('res.partner', 'nurses_id', string='Patients')
 
     @api.model_create_multi
     def create(self, vals_list):
