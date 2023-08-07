@@ -339,7 +339,7 @@ class CalendarAppointmentSlot(models.Model):
     def name_get(self):
         weekdays = dict(self._fields['weekday'].selection)
         return self.mapped(lambda slot: (
-        slot.id, "%s, %02d:%02d" % (weekdays.get(slot.weekday), int(slot.hour), int(round((slot.hour % 1) * 60)))))
+            slot.id, "%s, %02d:%02d" % (weekdays.get(slot.weekday), int(slot.hour), int(round((slot.hour % 1) * 60)))))
 
     @api.onchange('hour')
     def check_appoint_hour(self):
@@ -398,27 +398,73 @@ class CalendarEvent(models.Model):
                        ('cancelled', 'Cancelled')]
 
     partner_new = fields.Many2one('res.partner', string='Patient')
-    start_at = fields.Date()
+    start_at = fields.Date('Date', default=fields.Date.today)
     start_time = fields.Char(string='Start Time')
     end_time = fields.Char(string='End Time')
     doctore_id = fields.Many2one('res.partner', string='Prescriber')
     apppoint_event_id = fields.Char()
     amount = fields.Float()
-    state = fields.Selection(STATE_SELECTION, string='Status', default='pending',
+    state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending',
                              help="Status of the attendee's participation")
     appointment_group_id = fields.Many2one('appointment.group', default=_get_default_appointment_group_id,
                                            string='Consultation Type')
     time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
 
+    payment_state = fields.Selection([('not_paid', 'Not Paid'),
+                                      ('in_payment', 'In Payment'),
+                                      ('paid', 'Paid')], default='not_paid', string='Payment Status')
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        if res:
+            invoice_vals = res._prepare_invoice()
+            for line in invoice_vals:
+                invoice_line_vals = res._prepare_invoice_line()
+                line['invoice_line_ids'].append([0, 0, invoice_line_vals])
+            moves = self.env['account.move'].sudo().create(invoice_vals)
+        return res
+
+    def _prepare_invoice(self):
+        self.ensure_one()
+        vals = []
+        for move_type in ['out_invoice', 'in_invoice']:
+            vals.append({
+                'move_type': move_type,
+                'calendar_event_id': self.id,
+                'narration': self.description,
+                'currency_id': self.user_id.company_id.currency_id.id,
+                'partner_id': self.partner_new.id if move_type == 'out_invoice' else self.doctore_id.id,
+                'partner_shipping_id': self.partner_new.id if move_type == 'out_invoice' else self.doctore_id.id,
+                'invoice_origin': self.name,
+                'invoice_payment_term_id': self.partner_new.property_payment_term_id.id if move_type == 'out_invoice' else self.doctore_id.property_payment_term_id.id,
+                'invoice_user_id': self.user_id.id,
+                'company_id': self.user_id.company_id.id,
+                'invoice_date': self.start_at,
+                'invoice_line_ids': [],
+            })
+        return vals
+
+    def _prepare_invoice_line(self):
+        product_id = False
+        if self.appointment_group_id and self.appointment_group_id.product_template_id:
+            product_id = self.env['product.product'].search(
+                [('product_tmpl_id', '=', self.appointment_group_id.product_template_id.id)], limit=1).id
+        if not product_id:
+            return
+        return {
+            'product_id': product_id,
+            'quantity': 1,
+            'price_unit': self.appointment_group_id.product_template_id.list_price,
+            'name': self.appointment_group_id.product_template_id.name or self.name,
+            'product_uom_id': self.appointment_group_id.product_template_id.uom_id.id,
+        }
+
     @api.onchange('partner_new')
     def onchange_partner_new(self):
         if self.partner_new:
             self.name = self.partner_new.name
-
-    # @api.onchange('doctore_id')
-    # def onchange_doctore_id(self):
-    #     if self.doctore_id:
-    #         self.sudo().write({'partner_ids': [Command.link(self.doctore_id.id)]})
+            # self.sudo().write({'partner_ids': [Command.link(self.partner_new.id)]})
 
     def _default_access_token(self):
         return str(uuid.uuid4())

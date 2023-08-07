@@ -13,7 +13,8 @@
                 <field name="start_time" />
                 <field name="end_time" />
                 <field name="amount" string="Charge" />
-                <field name="state" string="Status" />
+                <field name="payment_state" string="Payment Status" />
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -34,7 +35,8 @@
                              <field name="start_at" string="Date"/>
                              <field name="time_slot"/>
                              <field name="description" sring="Remark"/>
-                            <field name="state" string="Status" />
+                            <field name="payment_state"/>
+                            <field name="state"/>
                         </group>
                         <group>
                             <field name="start_time" invisible="1"/>

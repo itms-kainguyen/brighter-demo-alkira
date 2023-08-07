@@ -23,25 +23,25 @@
             </field>
         </record>
 
-        <record id="abcd" model="ir.ui.view">
-            <field name="name">calendar.event.form</field>
-            <field name="model">calendar.event</field>
-            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
-            <field name="arch" type="xml">
-<!--                <xpath expr="//label[@for='partner_ids']" position="replace">-->
-<!--                    <label for="doctore_id" string="Attendees" class="oe_edit_only"/>-->
-<!--                </xpath>-->
-                <field name="partner_ids" position="after">
-<!--                     <field name="partner_ids" invisible="1"/>-->
-                    <field name="doctore_id" invisible="1"/>
-                </field>
-                <field name="start" position="after">
-                    <field name="start_at" widget="date"/>
-                    <field name="start_time"/>
-                    <field name="end_time"/>
-                </field>
-            </field>
-        </record>
+<!--        <record id="abcd" model="ir.ui.view">-->
+<!--            <field name="name">calendar.event.form</field>-->
+<!--            <field name="model">calendar.event</field>-->
+<!--            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--&lt;!&ndash;                <xpath expr="//label[@for='partner_ids']" position="replace">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="doctore_id" string="Attendees" class="oe_edit_only"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+<!--                <field name="partner_ids" position="after">-->
+<!--&lt;!&ndash;                     <field name="partner_ids" invisible="1"/>&ndash;&gt;-->
+<!--                    <field name="doctore_id" invisible="1"/>-->
+<!--                </field>-->
+<!--                <field name="start" position="after">-->
+<!--                    <field name="start_at" widget="date"/>-->
+<!--                    <field name="start_time"/>-->
+<!--                    <field name="end_time"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <record id="abcd_tree_view" model="ir.ui.view">
             <field name="name">calendar.event.tree</field>
