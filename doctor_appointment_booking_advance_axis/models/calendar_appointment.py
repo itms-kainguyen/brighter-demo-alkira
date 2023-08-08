@@ -393,7 +393,7 @@ class CalendarEvent(models.Model):
     name = fields.Char('Meeting Subject', required=True)
 
     STATE_SELECTION = [('pending', 'Pending Confirmation'),
-                       ('confirmed', 'Submit'),
+                       ('confirmed', 'Confirmed'),
                        ('treated', 'Treated'),
                        ('cancelled', 'Cancelled')]
 
