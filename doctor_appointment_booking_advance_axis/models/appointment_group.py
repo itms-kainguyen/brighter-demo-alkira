@@ -4,6 +4,7 @@ from odoo import models, fields, api, _
 from odoo.http import request
 from datetime import datetime
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv import expression
 
 
 class appointment_group(models.Model):
@@ -31,9 +32,14 @@ class appointment_group(models.Model):
             [('attendee_ids.state', '=', 'declined')])
         today_appointment = request.env['calendar.event'].sudo().search_count([('start_at', '=', fields.Date.today())])
         patient_appointment = request.env['res.partner'].sudo().search_count([('position_type', '=', 'Patient')])
-        if not self.env.is_admin():
-            patient_appointment = request.env['res.partner'].sudo().search_count(
-                [('position_type', '=', 'Patient'), ('nurses_id', '=', self.env.user.partner_id.id)])
+        if not self.env.user.has_group('doctor_appointment_booking_advance_axis.group_helpdesk_manager') and \
+                not self.env.user.has_group('doctor_appointment_booking_advance_axis.group_helpdesk_admin') and \
+                not self.env.user.is_admin():
+            domain = [('position_type', '=', 'Patient'), '|', ('nurses_id', '=', self.env.user.partner_id.id),
+                      ('doctor_id', '=', self.env.user.partner_id.id)]
+            patient_appointment = request.env['res.partner'].sudo().search_count(domain)
+            total_appointment = request.env['calendar.event'].sudo().search_count(
+                [('user_id', '=', self.env.user.id), ('partner_ids', 'in', self.env.user.partner_id.id)])
         shop_appointment = request.env['product.template'].sudo().search_count([('is_published', '=', True)])
 
         return {

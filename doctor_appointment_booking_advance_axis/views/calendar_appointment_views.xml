@@ -240,7 +240,7 @@
                                 <group>
                                    <field name="name" invisible="1"/>
                                     <field name="partner_new" domain="[('position_type','=','Patient')]"/>
-                                    <field name="start_at" string="Date"/>
+                                    <field name="start" string="Date"/>
                                     <field name="state"/>
                                     <field name="appointment_group_id"/>
                                     <field name="payment_state" readonly="1"/>
@@ -335,7 +335,7 @@
                     <field name="is_organizer_alone" invisible="1"/>
                     <field name="display_description" invisible="1"/>
                     <field name="location" attrs="{'invisible': [('location', '=', False)]}"/>
-                    <field name="description" attrs="{'invisible': [('display_description', '=', False)]}"/>
+                    <field name="description" attrs="{'invisible': [('display_description', '=', False)]}" string="Remark"/>
                     <field name="privacy"/>
                     <field name="alarm_ids" attrs="{'invisible': [('alarm_ids', '=', [])]}"/>
                     <field name="categ_ids" attrs="{'invisible': [('categ_ids', '=', [])]}"/>
@@ -347,10 +347,10 @@
                      <field name="partner_new"/>
                      <field name="doctore_id"/>
                      <field name="appointment_group_id"/>
-                     <field name="start_at" string="Date"/>
+                     <field name="start" string="Date"/>
                      <field name="time_slot"/>
                      <field name="description" string="Remark"/>
-                    <field name="payment_state"/>
+                    <field name="payment_state" invisible="1"/>
                     <field name="state" filters="1"/>
             </calendar>
             </xpath>

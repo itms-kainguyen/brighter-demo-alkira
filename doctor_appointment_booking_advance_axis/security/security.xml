@@ -46,6 +46,24 @@
             <field name="groups" eval="[(4, ref('group_helpdesk_user'))]"/>
         </record>
 
+          <record id="helpdesk_calendar_event_rule_employee" model="ir.rule">
+              <field ref="calendar.model_calendar_event" name="model_id"/>
+              <field name="name">All Calendar Event</field>
+              <field name="domain_force">[(1, '=', 1)]</field>
+              <field name="groups" eval="[(4, ref('group_helpdesk_manager')),(4, ref('group_helpdesk_admin'))]"/>
+        </record>
+
+         <record id="helpdesk_calendar_event_rule_private" model="ir.rule">
+            <field ref="calendar.model_calendar_event" name="model_id"/>
+            <field name="name">Own Calendar Only Rule</field>
+            <field name="domain_force">[('user_id', '=', user.id), ('partner_ids', 'in', user.partner_id.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+             <field name="groups" eval="[(4, ref('group_helpdesk_user'))]"/>
+        </record>
+
         <!-- Rule -->
 
          <record id="contact_see_all" model="ir.rule">
@@ -60,13 +78,6 @@
             <field name="name">Patient by Nurse</field>
             <field name="model_id" ref="base.model_res_partner" />
             <field name="domain_force">['|',('nurses_id','=',user.partner_id.id),('nurses_id','=',False)]</field>
-            <field name="groups" eval="[(4, ref('group_helpdesk_user'))]"/>
-        </record>
-
-          <record id="nurse_calendar_rule" model="ir.rule">
-            <field name="name">Nurse Calendar</field>
-            <field name="model_id" ref="calendar.model_calendar_event" />
-            <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
             <field name="groups" eval="[(4, ref('group_helpdesk_user'))]"/>
         </record>
 
