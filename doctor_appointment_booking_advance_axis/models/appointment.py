@@ -65,7 +65,7 @@ class Partner(models.Model):
 
     last_name = fields.Char(string='Last name', )
     full_name = fields.Char(string='Last name', compute='_compute_fullname', store=True)
-    appointment_group_ids = fields.Many2many('appointment.group')
+    appointment_group_ids = fields.Many2many('appointment.group', string='Consultation Type')
     title = fields.Many2one('res.partner.title', string='Title')
     appointment_charge = fields.Float(string='Appointment Charge')
     appoint_product_id = fields.Many2one('product.template', string='Appointee Product')

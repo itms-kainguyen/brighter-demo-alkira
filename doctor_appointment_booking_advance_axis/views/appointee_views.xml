@@ -15,7 +15,7 @@
                 </group>
             </field>
             <xpath expr="//field[@name='vat']" position="before">
-                <field name="appointment_group_ids" widget="many2many_tags" invisible="1"/>
+                <field name="appointment_group_ids" widget="many2many_tags" invisible="0"/>
                 <field name="appointment_type" widget="many2one_tags" domain="[('partner_id.name','=',name)]" options="{'no_create': True}" invisible="1"/>
                 <field name="start_datetime" invisible="1"/>
             </xpath>

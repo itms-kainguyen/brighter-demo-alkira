@@ -466,6 +466,14 @@ class CalendarEvent(models.Model):
             self.name = self.partner_new.name
             # self.sudo().write({'partner_ids': [Command.link(self.partner_new.id)]})
 
+    @api.onchange('doctore_id')
+    def _onchange_doctore_id(self):
+        self.appointment_group_id = False
+        result = {}
+        if self.doctore_id:
+            result['domain'] = {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)]}
+        return result
+
     def _default_access_token(self):
         return str(uuid.uuid4())
 
