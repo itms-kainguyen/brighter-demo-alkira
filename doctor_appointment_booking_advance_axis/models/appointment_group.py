@@ -35,7 +35,7 @@ class appointment_group(models.Model):
         if not self.env.user.has_group('doctor_appointment_booking_advance_axis.group_helpdesk_manager') and \
                 not self.env.user.has_group('doctor_appointment_booking_advance_axis.group_helpdesk_admin') and \
                 not self.env.user.is_admin():
-            domain = [('position_type', '=', 'Patient'), '|', ('nurses_id', '=', self.env.user.partner_id.id),
+            domain = [('position_type', '=', 'Patient'), ('nurses_id', '=', self.env.user.partner_id.id), '|',
                       ('doctor_id', '=', self.env.user.partner_id.id)]
             patient_appointment = request.env['res.partner'].sudo().search_count(domain)
             total_appointment = request.env['calendar.event'].sudo().search_count(
