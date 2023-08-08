@@ -14,7 +14,12 @@
                 <field name="end_time" />
                 <field name="amount" string="Charge" />
                 <field name="payment_state" string="Payment Status" />
-                <field name="state"/>
+                 <field name="state"
+                        decoration-success="state == 'confirmed'"
+                        decoration-warning="state == 'pending'"
+                        decoration-info="state == 'treated'"
+                        decoration-danger="state == 'cancelled'"
+                        widget="badge"/>
             </tree>
         </field>
     </record>
@@ -51,7 +56,7 @@
          <record id="action_payment_appointment" model="ir.actions.act_window">
         <field name="name">Payments</field>
         <field name="res_model">calendar.event</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">calendar,tree,form</field>
         <field name="view_id"/>
     </record>
     <menuitem id="appointment_payment_menu" name="Payments" parent="doctor_appointment_booking_advance_axis.appointment_booking"

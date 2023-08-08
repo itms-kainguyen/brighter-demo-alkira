@@ -407,7 +407,7 @@ class CalendarEvent(models.Model):
     state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending',
                              help="Status of the attendee's participation")
     appointment_group_id = fields.Many2one('appointment.group', default=_get_default_appointment_group_id,
-                                           string='Consultation Type')
+                                           required=True, string='Consultation Type')
     time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
 
     payment_state = fields.Selection([('not_paid', 'Not Paid'),
