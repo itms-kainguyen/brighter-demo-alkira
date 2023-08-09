@@ -22,7 +22,7 @@
 <!--    </record>-->
 
     <record id="group_helpdesk_admin" model="res.groups">
-        <field name="name">See's all appointments</field>
+        <field name="name">Administrator: All Apointments</field>
         <field name="category_id" ref="doctor_appointment_booking_advance_axis.module_category_appointment"/>
         <field name="implied_ids" eval="[(4, ref('group_helpdesk_user'))]"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
