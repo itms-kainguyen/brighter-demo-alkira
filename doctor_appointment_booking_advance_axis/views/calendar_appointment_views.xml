@@ -224,7 +224,7 @@
             <xpath expr="//form" position="replace">
                 <form string="Meetings" js_class="calendar_form">
                     <sheet>
-                        <div class="d-flex align-items-baseline">
+                        <div class="d-flex align-items-baseline" invisible="1">
                             <field name="partner_ids" widget="many2manyattendee"
                                 placeholder="Select attendees..."
                                 context="{'force_email':True}"
@@ -239,16 +239,18 @@
                          <group>
                                 <group>
                                    <field name="name" invisible="1"/>
-                                    <field name="partner_new" domain="[('position_type','=','Patient')]"/>
-                                    <field name="start" string="Date"/>
-                                    <field name="state"/>
-                                    <field name="appointment_group_id"/>
-                                    <field name="payment_state" readonly="1"/>
+                                 <field name="partner_new" domain="[('position_type','=','Patient')]"/>
+                                 <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>
+                                 <field name="appointment_group_id"/>
+                                 <field name="start" string="Start Date"/>
+                                 <field name="stop" string="End Date" invisible="1"/>
+                                 <field name="time_slot"/>
+                                 <field name="description" string="Remark"/>
+                                <field name="payment_state" invisible="1"/>
+                                <field name="state"/>
                                 </group>
                                  <group>
-                                  <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>
-                                  <field name="time_slot"/>
-                                  <field name="description" sring="Remark"/>
+                                 
                                 </group>
                             </group>
                     </sheet>

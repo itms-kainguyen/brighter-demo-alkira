@@ -33,20 +33,18 @@
                 <sheet>
                     <group>
                         <group>
-                             <field name="name" invisible="1"/>
+                            <field name="name" invisible="1"/>
                              <field name="partner_new" domain="[('position_type','=','Patient')]"/>
                              <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>
                              <field name="appointment_group_id"/>
-                             <field name="start" string="Date"/>
+                             <field name="start" string="Start Date"/>
+                             <field name="stop" string="End Date" invisible="1"/>
                              <field name="time_slot"/>
-                             <field name="description" sring="Remark"/>
+                             <field name="description" string="Remark"/>
                             <field name="payment_state" invisible="1"/>
                             <field name="state"/>
                         </group>
                         <group>
-                            <field name="start_time" invisible="1"/>
-                             <field name="end_time" invisible="1"/>
-                            <field name="amount" string="Charge" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
@@ -56,7 +54,7 @@
          <record id="action_payment_appointment" model="ir.actions.act_window">
         <field name="name">Payments</field>
         <field name="res_model">calendar.event</field>
-        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="view_id"/>
     </record>
     <menuitem id="appointment_payment_menu" name="Payments" parent="doctor_appointment_booking_advance_axis.appointment_booking"
