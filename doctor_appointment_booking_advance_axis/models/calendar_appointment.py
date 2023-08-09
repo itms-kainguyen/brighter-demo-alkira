@@ -425,6 +425,12 @@ class CalendarEvent(models.Model):
             moves = self.env['account.move'].sudo().create(invoice_vals)
         return res
 
+    def write(self, values):
+        if 'doctore_id' in values:
+            self.sudo().write({'partner_ids': [Command.link(self.doctore_id.id)]})
+        res = super().write(values)
+        return res
+
     def _prepare_invoice(self):
         self.ensure_one()
         vals = []

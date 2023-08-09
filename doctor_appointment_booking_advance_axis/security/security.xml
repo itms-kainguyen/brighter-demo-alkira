@@ -56,7 +56,8 @@
          <record id="helpdesk_calendar_event_rule_private" model="ir.rule">
             <field ref="calendar.model_calendar_event" name="model_id"/>
             <field name="name">Own Calendar Only Rule</field>
-            <field name="domain_force">['|',('user_id', '=', user.id),'&amp;', ('partner_ids', 'in', user.partner_id.id),('doctore_id', '=', user.partner_id.id),'&amp;', ('doctore_id.position_type', '=', 'Prescriber')]</field>
+             <field name="domain_force">['|',('user_id', '=', user.id),'|', ('partner_ids', 'in', user.partner_id.id),('doctore_id', '=', user.partner_id.id)]</field>
+<!--          ['|','&amp;',('user_id', '=', user.id),'&amp;', ('partner_ids', 'in', user.partner_id.id),('doctore_id', '=', user.partner_id.id), ('doctore_id.position_type', '=', 'Prescriber')]</field>-->
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
