@@ -427,8 +427,10 @@ class CalendarEvent(models.Model):
 
     def write(self, values):
         if 'doctore_id' in values:
-            self.sudo().write({'partner_ids': [Command.link(self.doctore_id.id)]})
+            self.sudo().write(
+                {'partner_ids': [(6, 0, [self.env.user.partner_id.id, values.get('doctore_id')])]})
         res = super().write(values)
+        #[(6, 0, family_partner_ids)]
         return res
 
     def _prepare_invoice(self):
