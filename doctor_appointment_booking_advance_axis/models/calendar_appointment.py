@@ -330,7 +330,7 @@ class CalendarAppointmentSlot(models.Model):
     ], string='Week Day', required=True)
     hour = fields.Float('Starting Hour', required=True, default=8.0)
     end_date = fields.Float('Ending Hour', store=True)
-    duration = fields.Float(store=True, string='Duration')
+    duration = fields.Float(related='appointment_type_id.appointment_duration', store=True, string='Duration')
 
     @api.constrains('hour')
     def check_hour(self):
@@ -437,7 +437,7 @@ class CalendarEvent(models.Model):
             self.sudo().write(
                 {'partner_ids': [(6, 0, [self.env.user.partner_id.id, values.get('doctore_id')])]})
         res = super().write(values)
-        #[(6, 0, family_partner_ids)]
+        # [(6, 0, family_partner_ids)]
         return res
 
     def _prepare_invoice(self):
