@@ -330,6 +330,7 @@ class CalendarAppointmentSlot(models.Model):
     ], string='Week Day', required=True)
     hour = fields.Float('Starting Hour', required=True, default=8.0)
     end_date = fields.Float('Ending Hour', store=True)
+    duration = fields.Float(store=True, string='Duration')
 
     @api.constrains('hour')
     def check_hour(self):
@@ -344,6 +345,11 @@ class CalendarAppointmentSlot(models.Model):
     @api.onchange('hour')
     def check_appoint_hour(self):
         self.end_date = self.hour + self.appointment_type_id.appointment_duration
+
+    @api.depends('hour', 'end_date')
+    def _compute_duration(self):
+        for rec in self:
+            rec.duration = rec.end_date - rec.hour
 
 
 class CalendarAppointmentQuestion(models.Model):
