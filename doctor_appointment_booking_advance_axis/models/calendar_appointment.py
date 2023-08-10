@@ -414,7 +414,8 @@ class CalendarEvent(models.Model):
                              help="Status of the attendee's participation")
     appointment_group_id = fields.Many2one('appointment.group', default=_get_default_appointment_group_id,
                                            required=True, string='Consultation Type')
-    time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
+    time_slot = fields.Many2one('calendar.appointment.slot', string='Available Slots')
+    # time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
 
     payment_state = fields.Selection([('not_paid', 'Not Paid'),
                                       ('in_payment', 'In Payment'),
@@ -485,7 +486,8 @@ class CalendarEvent(models.Model):
         self.appointment_group_id = False
         result = {}
         if self.doctore_id:
-            result['domain'] = {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)]}
+            result['domain'] = {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)],
+                                'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}
         return result
 
     def _default_access_token(self):
