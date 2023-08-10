@@ -340,7 +340,7 @@ class CalendarAppointmentSlot(models.Model):
     def name_get(self):
         weekdays = dict(self._fields['weekday'].selection)
         return self.mapped(lambda slot: (
-            slot.id, "%s, %02d:%02d" % (weekdays.get(slot.weekday), int(slot.hour), int(round((slot.hour % 1) * 60)))))
+            slot.id, "%s To %s" % (str(slot.hour), str(slot.end_date))))
 
     @api.onchange('hour')
     def check_appoint_hour(self):
