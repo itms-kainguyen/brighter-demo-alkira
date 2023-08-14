@@ -37,7 +37,8 @@
                              <field name="partner_new" domain="[('position_type','=','Patient')]"/>
                              <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>
                              <field name="appointment_group_id"/>
-                             <field name="start" string="Start Date"/>
+                             <field name="start_at" string="Date"/>
+                             <field name="start" string="Start Date" invisible="1"/>
                              <field name="stop" string="End Date" invisible="1"/>
                              <field name="time_slot"/>
                              <field name="description" string="Remark"/>

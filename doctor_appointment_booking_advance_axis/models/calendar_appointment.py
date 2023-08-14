@@ -490,6 +490,14 @@ class CalendarEvent(models.Model):
                                 'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}
         return result
 
+    @api.onchange('time_slot', 'start_at')
+    def _onchange_time_slot(self):
+        if self.time_slot:
+            start_at = datetime.strftime(self.start_at, '%Y-%m-%d')
+            self.start = (datetime.strptime(start_at, '%Y-%m-%d') + timedelta(hours=self.time_slot.hour)).astimezone(
+                pytz.UTC).replace(tzinfo=None)
+            self.duration = self.time_slot.duration
+
     def _default_access_token(self):
         return str(uuid.uuid4())
 
