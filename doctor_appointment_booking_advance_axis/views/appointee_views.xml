@@ -224,9 +224,9 @@
                 <page string="Prescription" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
 
              </page>
-                <page string="Consent" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
+<!--                <page string="Consent" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">-->
 
-             </page>
+<!--             </page>-->
                 <page string="Photography" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}">
 
              </page>
