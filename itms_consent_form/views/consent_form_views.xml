@@ -95,24 +95,24 @@
 
 
     <menuitem id="menu_consent_form"
-        name="Consents"
+        name="Consent Forms"
         sequence="3"/>
 <!--      parent="contacts.menu_contacts"-->
 
       <menuitem id="menu_consent_form_form"
         action="action_consent_form"
-        name="Consent Form"
+        name="Consent Forms"
         sequence="1" parent="menu_consent_form"/>
 
        <menuitem id="menu_consent_category_form"
         action="document_page.action_category"
-        name="Consent Category"
+        name="Category's"
         sequence="2" parent="menu_consent_form"/>
 <!--      parent="contacts.res_partner_menu_config"-->
 
 
       <record id="act_res_partner_2_consent" model="ir.actions.act_window">
-        <field name="name">Consents</field>
+        <field name="name">Consent Form</field>
         <field name="res_model">consent.consent</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{'default_patient_id': active_id}</field>
