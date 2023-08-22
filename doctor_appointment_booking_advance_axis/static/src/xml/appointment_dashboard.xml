@@ -68,11 +68,11 @@
                           </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card5 rounded p-sm-4 p-3 more-service1">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card5 rounded p-sm-4 p-3 more-consent">
                             <i class="fa fa-child position-absolute opacity_icon"></i>
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="total-service1">0</b></h1>
+                                <h1 class="card_number_text m-0 text-white"><b class="total-consent"></b></h1>
                               </div>
                               <div class="col-9">
                                 <h4 class="mb-1 text-white card_up_title">Consent Forms</h4>

@@ -32,6 +32,7 @@ class appointment_group(models.Model):
             [('attendee_ids.state', '=', 'declined')])
         today_appointment = request.env['calendar.event'].sudo().search_count([('start_at', '=', fields.Date.today())])
         patient_appointment = request.env['res.partner'].sudo().search_count([('position_type', '=', 'Patient')])
+        consents = request.env['consent.consent'].sudo().search_count([])
         if not self.env.user.has_group('doctor_appointment_booking_advance_axis.group_helpdesk_admin') and \
                 not self.env.is_admin():
             domain = [('position_type', '=', 'Patient'), ('nurses_id', '=', self.env.user.partner_id.id)]
@@ -42,7 +43,9 @@ class appointment_group(models.Model):
                            ('doctore_id.position_type', '=', 'Prescriber')]
             patient_appointment = request.env['res.partner'].sudo().search_count(domain)
             total_appointment = request.env['calendar.event'].sudo().search_count(domain2)
+            consents = request.env['consent.consent'].sudo().search_count([('nurses_id', '=', self.env.user.partner_id.id)])
         shop_appointment = request.env['product.template'].sudo().search_count([('is_published', '=', True)])
+
 
         return {
             'total_service': total_service,
@@ -52,7 +55,8 @@ class appointment_group(models.Model):
             'rejected_appointment': rejected_appointment,
             'today_appointment': today_appointment,
             'patient-appointment': patient_appointment,
-            'shop-appointment': shop_appointment
+            'shop-appointment': shop_appointment,
+            'total-consent': consents
         }
 
     def write(self, vals):

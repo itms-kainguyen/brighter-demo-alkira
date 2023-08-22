@@ -31,6 +31,7 @@ var MyCustomAction = AbstractAction.extend({
         'click .more-today-appointment': 'action_today_appointment',
         'click .more-patient-appointment': 'action_patient_appointment',
         'click .more-shop-appointment': 'action_shop_appointment',
+        'click .more-consent': 'action_consent_form',
        
     },
 
@@ -110,6 +111,7 @@ var MyCustomAction = AbstractAction.extend({
                     self.$el.find('.today-appointment').text(result['today_appointment'])
                     self.$el.find('.patient-appointment').text(result['patient-appointment'])
                     self.$el.find('.shop-appointment').text(result['shop-appointment'])
+                    self.$el.find('.total-consent').text(result['total_consent'])
                     self.$el.find('.table').text(result['sale_tables'])                  
             });
         
@@ -134,6 +136,21 @@ var MyCustomAction = AbstractAction.extend({
         },)
 
 
+    },
+
+    action_consent_form:function(event){
+        var self = this;
+        event.stopPropagation();
+        event.preventDefault();
+        this.do_action({
+            name: _t("Consent Form"),
+            type: 'ir.actions.act_window',
+            res_model: 'consent.consent',
+            view_mode: 'tree,form',
+            view_type: 'form',
+            views: [[false, 'list'],[false, 'form']],
+            target: 'current'
+        },)
     },
 
     
