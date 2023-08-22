@@ -111,7 +111,7 @@ var MyCustomAction = AbstractAction.extend({
                     self.$el.find('.today-appointment').text(result['today_appointment'])
                     self.$el.find('.patient-appointment').text(result['patient-appointment'])
                     self.$el.find('.shop-appointment').text(result['shop-appointment'])
-                    self.$el.find('.total-consent').text(result['total_consent'])
+                    self.$el.find('.total-consent').text(result['total-consent'])
                     self.$el.find('.table').text(result['sale_tables'])                  
             });
         
