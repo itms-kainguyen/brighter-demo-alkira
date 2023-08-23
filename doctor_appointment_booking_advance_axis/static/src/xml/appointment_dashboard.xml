@@ -101,7 +101,7 @@
                       <div class="row">
                         <div class="col-lg-4 col-sm-6 col-12">
                           <div class="appointment_cards position-relative overflow-hidden appointment_card7 rounded p-sm-4 p-3 more-patient-appointment">
-                            <i class="fa fa-headset position-absolute opacity_icon"></i>
+                            <i class="fa fa-phone-volume position-absolute opacity_icon"></i>
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
 <!--                                <h1 class="card_number_text m-0 text-white"><b class="patient-appointment"></b></h1>-->
