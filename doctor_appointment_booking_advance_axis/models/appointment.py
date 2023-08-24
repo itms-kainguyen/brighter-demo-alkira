@@ -111,6 +111,7 @@ class Partner(models.Model):
     age = fields.Integer(compute='_compute_age', string='Age')
     company_id = fields.Many2one('res.company', default=_get_default_company, string='Company',
                                  index=True)
+    zoom_id = fields.Char(string='Zoom ID')
 
     @api.depends('birth_date')
     def _compute_age(self):

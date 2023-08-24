@@ -46,6 +46,7 @@
                      </span>
                  </div>
                 <field name="allergies" attrs="{'invisible' : [('position_type', '!=', 'Patient')]}"/>
+                 <field name="zoom_id" attrs="{'invisible' : [('position_type', '!=', 'Prescriber')]}"/>
                  <field name="company_id" string="Clinic" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('parent_id', '!=', False)]}" force_save="1"/>
              </field>
              <xpath expr="//field[@name='function']" position="before">
