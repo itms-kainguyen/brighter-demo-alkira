@@ -104,7 +104,7 @@
                             <i class="fa fa-phone position-absolute opacity_icon"></i>
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
-<!--                                <h1 class="card_number_text m-0 text-white"><b class="patient-appointment"></b></h1>-->
+                                <h1 class="card_number_text m-0 text-white"><b class="total-support">0</b></h1>
                               </div>
                               <div class="col-9">
                                 <h4 class="mb-1 text-white card_up_title">Clinical Support</h4>
@@ -119,7 +119,7 @@
 <!--                            <i class="fa fa-info-circle position-absolute opacity_icon"></i>-->
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
-<!--                                <h1 class="card_number_text m-0 text-white"><b class="total-appointment"></b></h1>-->
+                                <h1 class="card_number_text m-0 text-white"><b class="total-meet">0</b></h1>
                               </div>
                               <div class="col-9">
                                 <h4 class="mb-1 text-white card_up_title">Meet Now</h4>
@@ -133,7 +133,7 @@
                             <i class="fa fa-ambulance position-absolute opacity_icon"></i>
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
-<!--                                <h1 class="card_number_text m-0 text-white"><b class="shop-appointment"></b></h1>-->
+                                <h1 class="card_number_text m-0 text-white"><b class="total-emergency">0</b></h1>
                               </div>
                               <div class="col-9">
                                 <h4 class="mb-1 text-white card_up_title">Emergency</h4>
