@@ -37,6 +37,7 @@
             '/doctor_appointment_booking_advance_axis/static/src/js/jquery.dataTables.min.js',
             '/doctor_appointment_booking_advance_axis/static/src/js/datatables.min.js',
             '/doctor_appointment_booking_advance_axis/static/src/js/dataTables.buttons.min.js',
+            '/doctor_appointment_booking_advance_axis/static/src/js/calendar_model_custom.js',
 
 
             '/doctor_appointment_booking_advance_axis/static/src/js/Chart.js',
