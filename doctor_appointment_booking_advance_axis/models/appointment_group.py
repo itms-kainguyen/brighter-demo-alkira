@@ -43,9 +43,14 @@ class appointment_group(models.Model):
                            ('doctore_id.position_type', '=', 'Prescriber')]
             patient_appointment = request.env['res.partner'].sudo().search_count(domain)
             total_appointment = request.env['calendar.event'].sudo().search_count(domain2)
-            consents = request.env['consent.consent'].sudo().search_count([('nurses_id', '=', self.env.user.partner_id.id)])
+            consents = request.env['consent.consent'].sudo().search_count(
+                [('nurses_id', '=', self.env.user.partner_id.id)])
         shop_appointment = request.env['product.template'].sudo().search_count([('is_published', '=', True)])
 
+        # total_support = request.env['product.template'].sudo().search_count([('is_published', '=', True)])
+        total_meet = request.env['calendar.event'].sudo().search_count([])
+        total_emergency = request.env['ir.attachment'].sudo().search_count(
+            [('clouds_folder_id.name', 'like', ''), ('res_model', '=', 'clouds.folder')])
 
         return {
             'total_service': total_service,
@@ -56,7 +61,9 @@ class appointment_group(models.Model):
             'today_appointment': today_appointment,
             'patient-appointment': patient_appointment,
             'shop-appointment': shop_appointment,
-            'total-consent': consents
+            'total-consent': consents,
+            'total-meet': total_meet,
+            'total-emergency': total_emergency
         }
 
     def write(self, vals):

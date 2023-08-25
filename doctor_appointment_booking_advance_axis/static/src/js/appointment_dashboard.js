@@ -32,6 +32,7 @@ var MyCustomAction = AbstractAction.extend({
         'click .more-patient-appointment': 'action_patient_appointment',
         'click .more-shop-appointment': 'action_shop_appointment',
         'click .more-consent': 'action_consent_form',
+        'click .more-emergency': 'action_emergency',
        
     },
 
@@ -112,6 +113,8 @@ var MyCustomAction = AbstractAction.extend({
                     self.$el.find('.patient-appointment').text(result['patient-appointment'])
                     self.$el.find('.shop-appointment').text(result['shop-appointment'])
                     self.$el.find('.total-consent').text(result['total-consent'])
+                    self.$el.find('.total-meet').text(result['total-meet'])
+                    self.$el.find('.total-emergency').text(result['total-emergency'])
                     self.$el.find('.table').text(result['sale_tables'])                  
             });
         
@@ -165,6 +168,24 @@ var MyCustomAction = AbstractAction.extend({
             view_mode: 'calendar,tree,form',
             view_type: 'tree',
             views: [[false, 'calendar'],[false, 'list'],[false, 'form']],
+            target: 'current'
+        },)
+
+
+    },
+
+    action_emergency:function(event){
+        var self = this;
+        event.stopPropagation();
+        event.preventDefault();
+        this.do_action({
+            name: _t("Emergency's"),
+            type: 'ir.actions.act_window',
+            res_model: 'ir.attachment',
+            view_mode: 'tree,form',
+            view_type: 'tree',
+            views: [[false, 'list'],[false, 'form']],
+            domain: [['res_name','=','Adverse Event Mgt'],['res_model', '=', 'clouds.folder']],
             target: 'current'
         },)
 
