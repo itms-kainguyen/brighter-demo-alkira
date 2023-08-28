@@ -494,8 +494,7 @@ class CalendarEvent(models.Model):
     def _onchange_time_slot(self):
         if self.time_slot:
             start_at = datetime.strftime(self.start_at, '%Y-%m-%d')
-            self.start = (datetime.strptime(start_at, '%Y-%m-%d') + timedelta(hours=self.time_slot.hour)).astimezone(
-                pytz.UTC).replace(tzinfo=None)
+            self.start = (datetime.strptime(start_at, '%Y-%m-%d') + timedelta(hours=self.time_slot.hour)) - timedelta(hours=7)
             self.duration = self.time_slot.duration
 
     def _default_access_token(self):
