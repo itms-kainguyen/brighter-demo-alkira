@@ -339,8 +339,17 @@ class CalendarAppointmentSlot(models.Model):
 
     def name_get(self):
         weekdays = dict(self._fields['weekday'].selection)
-        return self.mapped(lambda slot: (
-            slot.id, "%s To %s" % (str(slot.hour), str(slot.end_date))))
+        result = []
+        for record in self:
+            lable_hour = 'AM'
+            lable_end = 'AM'
+            if 12 < record.hour <= 23:
+                lable_hour = 'PM'
+            if 12 < record.end_date <= 23:
+                lable_end = 'PM'
+            result.append(
+                (record.id, "%s %s To %s %s" % (str(record.hour), lable_hour, str(record.end_date), lable_end)))
+        return result
 
     @api.onchange('hour')
     def check_appoint_hour(self):
@@ -484,17 +493,29 @@ class CalendarEvent(models.Model):
     @api.onchange('doctore_id')
     def _onchange_doctore_id(self):
         self.appointment_group_id = False
-        result = {}
+        self.time_slot = False
+        result = {'appointment_group_id': False,
+                  'time_slot': False}
         if self.doctore_id:
+            tmp = self.doctore_id.slot_ids
             result['domain'] = {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)],
                                 'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}
         return result
+
+    # @api.model
+    # def _get_view(self, view_id=None, view_type='form', **options):
+    #     arch, view = super()._get_view(view_id, view_type, **options)
+    #     if view_type == 'form' and self.doctore_id:
+    #         for node in arch.xpath("//field[@name='appointment_group_id']"):
+    #             node.set('domain', [('id', 'in', self.doctore_id.appointment_group_ids.ids)])
+    #     return arch, view
 
     @api.onchange('time_slot', 'start_at')
     def _onchange_time_slot(self):
         if self.time_slot:
             start_at = datetime.strftime(self.start_at, '%Y-%m-%d')
-            self.start = (datetime.strptime(start_at, '%Y-%m-%d') + timedelta(hours=self.time_slot.hour)) - timedelta(hours=7)
+            self.start = (datetime.strptime(start_at, '%Y-%m-%d') + timedelta(hours=self.time_slot.hour)) - timedelta(
+                hours=7)
             self.duration = self.time_slot.duration
 
     def _default_access_token(self):
