@@ -145,36 +145,36 @@
                       </div>
                       <!-- End: Appointment Cards -->
                       <!-- Start: Appointment Charts -->
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">
-                            <h4 class="mb-2 text-dark">Weekly Appointments</h4>
-                            <div class="card-body shadow">
-                              <div class="panel">
-                                  <div class="panel-heading">
-                                  </div>
-                                  <div class="panel-body">
-                                        <canvas id="highprice" width="500px" height="400px"/>
-                                  </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">
-                            <h4 class="mb-2 text-dark">Monthly Appointments</h4>
-                            <div class="card-body shadow">
-                              <div class="panel">
-                                  <div class="panel-heading">
-                                  </div>
-                                  <div class="panel-body">
-                                        <canvas id="monthlyappointment" width="500px" height="400px"/>
-                                  </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+<!--                      <div class="row">-->
+<!--                        <div class="col-md-6">-->
+<!--                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">-->
+<!--                            <h4 class="mb-2 text-dark">Weekly Appointments</h4>-->
+<!--                            <div class="card-body shadow">-->
+<!--                              <div class="panel">-->
+<!--                                  <div class="panel-heading">-->
+<!--                                  </div>-->
+<!--                                  <div class="panel-body">-->
+<!--                                        <canvas id="highprice" width="500px" height="400px"/>-->
+<!--                                  </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">-->
+<!--                            <h4 class="mb-2 text-dark">Monthly Appointments</h4>-->
+<!--                            <div class="card-body shadow">-->
+<!--                              <div class="panel">-->
+<!--                                  <div class="panel-heading">-->
+<!--                                  </div>-->
+<!--                                  <div class="panel-body">-->
+<!--                                        <canvas id="monthlyappointment" width="500px" height="400px"/>-->
+<!--                                  </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
                       <!-- End: Appointment Charts -->
                     </div>
                   </div>
