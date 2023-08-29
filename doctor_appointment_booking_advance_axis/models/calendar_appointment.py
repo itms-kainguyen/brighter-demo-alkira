@@ -495,12 +495,8 @@ class CalendarEvent(models.Model):
     def _onchange_doctore_id(self):
         self.appointment_group_id = False
         self.time_slot = False
-        result = {'appointment_group_id': False,
-                  'time_slot': False}
-        if self.doctore_id:
-            tmp = self.doctore_id.slot_ids  # .filtered(lambda r: r.start_date and not r.end_date)
-            result['domain'] = {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)],
-                                'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}
+        result = {'domain': {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)],
+                             'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}}
         return result
 
     # @api.model
