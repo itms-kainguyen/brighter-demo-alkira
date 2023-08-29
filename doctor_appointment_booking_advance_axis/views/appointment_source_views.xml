@@ -49,12 +49,22 @@
             <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
             <field name="arch" type="xml">
 
-                <field name="partner_ids" position="after">
-<!--                      <field name="partner_ids" invisible="1"/>-->
-                    <field name="partner_new" string="Attendee" invisible="1"/>
+                <field name="partner_ids" position="attributes">
+                     <attribute name="invisible">1</attribute>
                 </field>
                 <field name="name" position="after">
                     <field name="doctore_id" string="Doctor"/>
+                    <field name="partner_new" string="Patient"/>
+                     <field name="start_at" string="Date"/>
+                </field>
+                 <field name="start" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                 <field name="location" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                 <field name="stop" position="attributes">
+                     <attribute name="invisible">1</attribute>
                 </field>
 
             </field>

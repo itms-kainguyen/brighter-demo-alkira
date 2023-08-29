@@ -338,9 +338,9 @@ class CalendarAppointmentSlot(models.Model):
             raise ValidationError(_("Please enter a valid hour between 0:00 to 24:00 for your slots."))
 
     def name_get(self):
-        weekdays = dict(self._fields['weekday'].selection)
         result = []
         for record in self:
+            weekdays = dict(self._fields['weekday'].selection)[record.weekday]
             lable_hour = 'AM'
             lable_end = 'AM'
             if 12 < record.hour <= 23:
@@ -348,7 +348,8 @@ class CalendarAppointmentSlot(models.Model):
             if 12 < record.end_date <= 23:
                 lable_end = 'PM'
             result.append(
-                (record.id, "%s %s To %s %s" % (str(record.hour), lable_hour, str(record.end_date), lable_end)))
+                (record.id,
+                 "%s %s %s To %s %s" % (weekdays, str(record.hour), lable_hour, str(record.end_date), lable_end)))
         return result
 
     @api.onchange('hour')
@@ -497,7 +498,7 @@ class CalendarEvent(models.Model):
         result = {'appointment_group_id': False,
                   'time_slot': False}
         if self.doctore_id:
-            tmp = self.doctore_id.slot_ids
+            tmp = self.doctore_id.slot_ids  # .filtered(lambda r: r.start_date and not r.end_date)
             result['domain'] = {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)],
                                 'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}
         return result
