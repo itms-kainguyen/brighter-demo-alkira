@@ -9,7 +9,7 @@
     'version': '16.0.2',
     # any module necessary for this one to work correctly
     'depends': ['base','calendar','account','crm','contacts',
-                'website','website_sale', 'hr','itms_consent_form'],
+                'website','website_sale', 'hr','zoom_meeting','itms_consent_form'],
 
     # always loaded
     'data': [
