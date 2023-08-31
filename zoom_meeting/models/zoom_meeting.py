@@ -15,16 +15,18 @@
 ##########################################################################
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-import logging,requests,json
-_logger=logging.getLogger(__name__)
+import logging, requests, json
+
+_logger = logging.getLogger(__name__)
+
+
 class ZoomMeeting(models.Model):
     _inherit = 'calendar.event'
-    zoom_description=fields.Html("Zoom meeting Description")
-    meeting_id=fields.Char("Meeting Id")
-    password=fields.Char("Password")
-    start_meeting_url=fields.Char("Start meeting Url")
-    alternative_hosts = fields.Text(string = "Alternative Hosts")
-    
+    zoom_description = fields.Html("Zoom meeting Description")
+    meeting_id = fields.Char("Meeting Id")
+    password = fields.Char("Password")
+    start_meeting_url = fields.Char("Start meeting Url")
+    alternative_hosts = fields.Text(string="Alternative Hosts")
 
     def start_zoom_meeting(self):
         if self.start_meeting_url:
@@ -63,5 +65,3 @@ class ZoomMeeting(models.Model):
             "view_mode": "form",
             "target": "new",
         }
-    
-   
