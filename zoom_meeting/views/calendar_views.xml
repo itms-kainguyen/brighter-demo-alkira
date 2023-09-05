@@ -19,7 +19,7 @@
                     <group name="Meeting Description">
                         <field name="meeting_id" invisible="True"/>
                         <field name="start_meeting_url" invisible="True"/>
-                        <field name="zoom_description"/>
+                        <field name="zoom_description" invisible="1"/>
                     </group>
                 </page>
             </xpath>
