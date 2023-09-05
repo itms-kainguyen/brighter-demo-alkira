@@ -263,7 +263,7 @@
                                 </group>
                             </group>
                         <notebook>
-                         <page string="Zoom Meeting Description" name="meeting">
+                         <page string="Zoom Meeting Description" name="meeting" invisible="1">
                             <group name="Meeting Description">
                                 <field name="meeting_id" invisible="True"/>
                                 <field name="start_meeting_url" invisible="True"/>
