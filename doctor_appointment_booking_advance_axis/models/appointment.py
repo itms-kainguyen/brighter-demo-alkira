@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
+import logging
+import requests
+import json
+
+_logger = logging.getLogger(__name__)
 
 
 class appointment_booking(models.Model):
@@ -16,7 +22,8 @@ class appointment_booking(models.Model):
             [('product_template_id.name', '=', 'Prescriber Service')], limit=1) or False
 
     customer = fields.Many2one('res.partner', string='Patient')
-    appointment_group_id = fields.Many2one('appointment.group',  default=_get_default_appointment_group_id, string='Consultation Type')
+    appointment_group_id = fields.Many2one('appointment.group', default=_get_default_appointment_group_id,
+                                           string='Consultation Type')
     appoint_person_id = fields.Many2one('res.partner', string='Prescriber')
     time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
     appoint_date = fields.Date(string="Date")
@@ -111,7 +118,80 @@ class Partner(models.Model):
     age = fields.Integer(compute='_compute_age', string='Age')
     company_id = fields.Many2one('res.company', default=_get_default_company, string='Company',
                                  index=True)
-    zoom_id = fields.Char(string='Zoom ID')
+    zoom_id = fields.Char(string='Zoom ID', copy=False)
+    zoom_password = fields.Char("Password", copy=False)
+    join_url = fields.Char('Join URL', copy=False)
+    start_meeting_url = fields.Char('Start Meeting URL', copy=False)
+
+    def create_zoom_meeting(self):
+        meeting_invitees = []
+        join_before_host = 'true'
+        waiting_room = 'false'
+        for record in self:
+            meeting_invitees.append({"email": record.email})
+            meetingdetails = {"topic": record.name,
+                              "type": 1,
+                              "start_time": datetime.strftime(datetime.now(), '%Y-%m-%dT%H:%M:%SZ'),
+                              "duration": 360,
+                              "timezone": self.env.context.get('tz'),
+                              "agenda": self.name,
+                              "recurrence": {"type": 1,
+                                             "repeat_interval": 1
+                                             },
+                              "settings": {"host_video": 'true',
+                                           "email_notification": 'true',
+                                           "participant_video": 'true',
+                                           "join_before_host": join_before_host,
+                                           "waiting_room": waiting_room,
+                                           "mute_upon_entry": 'false',
+                                           "watermark": 'false',
+                                           #    "registrants_confirmation_email"
+                                           "meeting_invitees": meeting_invitees,
+                                           "audio": "voip",
+                                           "auto_recording": "cloud"
+                                           }
+                              }
+            # if self.password:
+            #     meetingdetails.update({
+            #         "password": self.zoom_password,
+            #     })
+
+            if (self.env.user).refresh_token:
+                (self.env.user).refresh_access_token()
+                access_token = (self.env.user).access_token
+
+            elif (self.env.company).refresh_token:
+                (self.env.company).refresh_access_token()
+                access_token = (self.env.company).access_token
+            else:
+                raise UserError(_("First generate token in User or Company"))
+            try:
+                headers = {'authorization': 'Bearer ' + access_token,
+                           'content-type': 'application/json'}
+                r = requests.post('https://api.zoom.us/v2/users/me/meetings',
+                                  headers=headers, data=json.dumps(meetingdetails))
+
+                resp = json.loads(r.text)
+                record.write({'zoom_id': resp.get('id', False), 'join_url': resp.get(
+                    'join_url', False), 'start_meeting_url': resp.get('start_url', False),
+                              'zoom_password': resp.get('password', False)})
+                template_id = self.env.ref('zoom_meeting.mail_template_meeting_invitation')
+                # template_id.send_mail(record.id, force_send=True)
+                return self.env['wk.wizard.message'].genrated_message("Your zoom meeting has been created",
+                                                                      name='Message')
+            except:
+                raise UserError(
+                    _("There is a problem in fields data or access token, please check and try again "))
+
+    def start_zoom_meeting(self):
+        # if self.join_url in [None, False, '']:
+        self.create_zoom_meeting()
+        if self.join_url:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': self.join_url,
+                'target': '_new',  # open in a new tab
+            }
 
     @api.depends('birth_date')
     def _compute_age(self):
