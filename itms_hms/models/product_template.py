@@ -4,7 +4,6 @@ from odoo import models, fields, api
 
 
 class ProductTemplate(models.Model):
-    _name = 'product.template'
     _inherit = 'product.template'
 
     retail_price = fields.Float(string='RRP Price', digits='Product Unit of Measure')
@@ -12,7 +11,6 @@ class ProductTemplate(models.Model):
 
 
 class ProductProduct(models.Model):
-    _name = 'product.product'
     _inherit = 'product.product'
 
     retail_price = fields.Float(string='RRP Price', digits='Product Unit of Measure')

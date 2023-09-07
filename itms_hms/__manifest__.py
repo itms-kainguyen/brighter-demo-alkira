@@ -6,7 +6,7 @@
     'category': 'website',
     'version': '16.0.2',
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','product'],
     # always loaded
     'data': [
         # 'security/security.xml',
