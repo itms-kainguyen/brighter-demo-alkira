@@ -160,8 +160,8 @@ class Hospitalization(models.Model):
     prescription_count = fields.Integer(compute='_rec_count', string='# Prescriptions')
     surgery_ids = fields.One2many('hms.surgery', 'hospitalization_id', "Surgeries")
     surgery_count = fields.Integer(compute='_rec_count', string='# Surgery')
-    ref_physician_id = fields.Many2one('res.partner', ondelete='restrict', string='Referring Physician', 
-        index=True, help='Referring Physician', states=READONLY_STATES)
+    ref_physician_id = fields.Many2one('res.partner', ondelete='restrict', string='Referring Prescriber',
+        index=True, help='Referring Prescriber', states=READONLY_STATES)
     death_register_id = fields.Many2one('patient.death.register', string='Death Register', states=READONLY_STATES)
     care_plan_template_id = fields.Many2one('hms.care.plan.template', ondelete='restrict',
         string= "Care Plan Template", states=READONLY_STATES)

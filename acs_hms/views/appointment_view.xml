@@ -480,7 +480,7 @@
                     <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>
                     <filter string="Purpose" name="purpose_groupby" domain="[]" context="{'group_by':'purpose_id'}" />
                     <filter string="Department" name="department_groupby" domain="[]" context="{'group_by':'department_id'}" />
-                    <filter string="Referring physician" name="ref_physician_groupby" domain="[]" context="{'group_by':'ref_physician_id'}" />
+                    <filter string="Referring Prescriber" name="ref_physician_groupby" domain="[]" context="{'group_by':'ref_physician_id'}" />
                 </group>
             </search>
         </field>

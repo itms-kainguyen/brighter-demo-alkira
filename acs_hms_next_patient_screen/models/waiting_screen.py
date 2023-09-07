@@ -11,7 +11,7 @@ class AcsHmsWaitingScreen(models.Model):
     name = fields.Char(string='Screen Name', required=True, tracking=True)
     code = fields.Char(string='Code', tracking=True)
     res_model_id = fields.Many2one('ir.model', string='Model', ondelete="cascade", required=True)
-    physician_ids = fields.Many2many('hms.physician', 'hms_physician_waiting_screen_rel','physician_id', 'screen_id', string='Physicians')
+    physician_ids = fields.Many2many('hms.physician', 'hms_physician_waiting_screen_rel','physician_id', 'screen_id', string='Prescribers')
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital',default=lambda self: self.env.user.company_id)
     show_patient_name_image = fields.Boolean("Show Patient Name & Image", default=True)
     show_cabin = fields.Boolean("Show Cabin", default=True)
@@ -21,7 +21,7 @@ class AcsHmsWaitingScreen(models.Model):
     in_progress_color = fields.Char(string='In-Progress Color', default="#d9534f")
 
     acs_physician_field_id = fields.Many2one('ir.model.fields','Physician', ondelete='cascade', domain="['&',('ttype', '=', 'many2one'),('model_id','=',res_model_id)]", required=True,
-        help="Physician Field shown on waiting screen: If no physician in object user can be also shown.")
+        help="Physician Field shown on waiting screen: If no Prescriber in object user can be also shown.")
     acs_patient_field_id = fields.Many2one('ir.model.fields','Patient', ondelete='cascade', domain="['&',('ttype', '=', 'many2one'),('model_id','=',res_model_id)]")
     acs_cabin_field_id = fields.Many2one('ir.model.fields','Cabin', ondelete='cascade', domain="['&',('ttype', '=', 'many2one'),('model_id','=',res_model_id)]",
         help="Selected field data willbe shown on cabin column in waiting screen.")

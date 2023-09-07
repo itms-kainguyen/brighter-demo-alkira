@@ -217,8 +217,8 @@ class Appointment(models.Model):
     treatment_id = fields.Many2one('hms.treatment', ondelete='cascade', 
         string='Treatment', help="Treatment Id", states=READONLY_STATES, tracking=True)
 
-    ref_physician_id = fields.Many2one('res.partner', ondelete='restrict', string='Referring Physician', 
-        index=True, help='Referring Physician', states=READONLY_STATES, domain=[('is_referring_doctor','=',True)])
+    ref_physician_id = fields.Many2one('res.partner', ondelete='restrict', string='Referring Prescriber',
+        index=True, help='Referring Prescriber', states=READONLY_STATES, domain=[('is_referring_doctor','=',True)])
     responsible_id = fields.Many2one('hms.physician', "Responsible Jr. Doctor", states=READONLY_STATES)
     medical_alert_ids = fields.Many2many('acs.medical.alert', 'appointment_medical_alert_rel','appointment_id', 'alert_id',
         string='Medical Alerts', related='patient_id.medical_alert_ids')
