@@ -134,7 +134,7 @@
                                 <div groups="acs_hms.group_hms_receptionist" t-if="!record.is_physician.raw_value or record.is_manager.raw_value" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_patients_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-wheelchair'"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-bed'"/>
                                         <t t-set="acs_field_name" t-value="record.total_patients.raw_value"/>
                                         <t t-set="acs_record_lable">Patients</t>
                                         <t t-set="acs_record_action" t-value="'open_patients'"/>
@@ -145,7 +145,7 @@
                                 <div groups="acs_hms.group_hms_jr_doctor" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.my_total_patients_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-wheelchair'"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-bed'"/>
                                         <t t-set="acs_field_name" t-value="record.my_total_patients.raw_value"/>
                                         <t t-set="acs_record_lable">My Total Patients</t>
                                         <t t-set="acs_record_action" t-value="'open_my_patients'"/>
@@ -171,7 +171,7 @@
                                 <div groups="acs_hms.group_hms_receptionist" t-if="!record.is_physician.raw_value or record.is_manager.raw_value" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_appointments_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-stethoscope'"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-bell'"/>
                                         <t t-set="acs_field_name" t-value="record.total_appointments.raw_value"/>
                                         <t t-set="acs_record_lable">Appointments</t>
                                         <t t-set="acs_record_action" t-value="'open_appointments'"/>
@@ -182,7 +182,7 @@
                                 <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.my_total_appointments_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-stethoscope'"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-bell'"/>
                                         <t t-set="acs_field_name" t-value="record.my_total_appointments.raw_value"/>
                                         <t t-set="acs_record_lable">My Appointments</t>
                                         <t t-set="acs_record_action" t-value="'open_my_appointments'"/>
