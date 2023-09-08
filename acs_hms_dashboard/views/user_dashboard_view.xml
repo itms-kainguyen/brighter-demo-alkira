@@ -210,7 +210,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-child'"/>
                                         <t t-set="acs_field_name" t-value="record.total_consent.raw_value"/>
                                         <t t-set="acs_record_lable">Consent Form</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_consent'"/>
                                     </t>
                                 </div>
 
@@ -222,7 +222,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-plus-circle'"/>
                                         <t t-set="acs_field_name" t-value="record.total_prescription.raw_value"/>
                                         <t t-set="acs_record_lable">Prescriptions</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_prescription'"/>
                                     </t>
                                 </div>
 
@@ -235,7 +235,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-info-circle'"/>
                                         <t t-set="acs_field_name" t-value="record.total_protocol.raw_value"/>
                                         <t t-set="acs_record_lable">Protocols</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_protocol'"/>
                                     </t>
                                 </div>
 
@@ -246,7 +246,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-check-square'"/>
                                         <t t-set="acs_field_name" t-value="record.total_shop.raw_value"/>
                                         <t t-set="acs_record_lable">Shop</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_shop'"/>
                                     </t>
                                 </div>
 
@@ -257,7 +257,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-users'"/>
                                         <t t-set="acs_field_name" t-value="record.total_meeting_now.raw_value"/>
                                         <t t-set="acs_record_lable">Meeting Now</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_meeting'"/>
                                     </t>
                                 </div>
                                 <!-- Emergency -->
@@ -267,7 +267,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-ambulance'"/>
                                         <t t-set="acs_field_name" t-value="record.total_emergency.raw_value"/>
                                         <t t-set="acs_record_lable">Emergency</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_emergency'"/>
                                     </t>
                                 </div>
 
@@ -290,7 +290,7 @@
                                         <t t-set="acs_record_icon" t-value="'fa-phone'"/>
                                         <t t-set="acs_field_name" t-value="record.total_support.raw_value"/>
                                         <t t-set="acs_record_lable">Clinical Support</t>
-                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>
+                                        <t t-set="acs_record_action" t-value="'open_support'"/>
                                     </t>
                                 </div>
 

@@ -475,4 +475,38 @@ class ResUsers(models.Model):
         action['domain'] = [('id', 'in', employee_ids.ids)]
         return action
 
+    def open_consent(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("itms_consent_form.action_consent_form")
+        return action
+
+    def open_shop(self):
+        action = {
+            "url": '/shop',
+            "type": "ir.actions.act_url",
+            "target": self,
+        }
+        return action
+
+    def open_meeting(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
+        return action
+
+    def open_protocol(self):
+        action = {}
+        return action
+
+    def open_prescription(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
+        return action
+
+    def open_support(self):
+        action = {}
+        return action
+
+    def open_emergency(self):
+        action = {}
+        return action
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
