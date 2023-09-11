@@ -5,6 +5,13 @@ from odoo import api, fields, models, _, Command
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
 
+    @api.model
+    def _get_service_id(self):
+        consultation = False
+        if self.env.user.company_id.consultation_product_id:
+            consultation = self.env.user.company_id.consultation_product_id.id
+        return consultation
+
     name = fields.Char('Meeting Subject', required=True)
     STATE_SELECTION = [('pending', 'Pending Confirmation'),
                        ('confirmed', 'Confirmed'),
@@ -17,7 +24,12 @@ class CalendarEvent(models.Model):
                              help="Status of the attendee's participation")
     consultation_type = fields.Many2one('hms.appointment',
                                         required=True, string='Consultation Type')
-    consultation_service = fields.Many2one('product.product', string='Consultation Service')
+
+    consultation_service = fields.Many2one('product.product', ondelete='restrict',
+        string='Consultation Service', help="Consultation Services",
+        domain=[('hospital_product_type', '=', "consultation")], required=True,
+        default=_get_service_id)
+
     time_slot = fields.Many2one('appointment.schedule.slot.lines', string='Available Slots')
     payment_state = fields.Selection([('not_paid', 'Not Paid'),
                                       ('in_payment', 'In Payment'),
