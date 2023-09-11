@@ -24,10 +24,6 @@ class CalendarEvent(models.Model):
                                       ('paid', 'Paid')], default='not_paid', string='Payment Status')
 
     def write(self, values):
-        if 'physician_id' in values:
-            self.sudo().write(
-                {'partner_ids': [
-                    (6, 0, [self.env.user.partner_id.id, values.get('physician_id'), values.get('patient_id')])]})
         res = super().write(values)
         return res
 
@@ -35,3 +31,51 @@ class CalendarEvent(models.Model):
     def onchange_patient_id(self):
         if self.patient_id:
             self.name = self.patient_id.partner_id.name
+
+    def _prepare_invoice(self):
+        self.ensure_one()
+        vals = []
+        for move_type in ['out_invoice', 'in_invoice']:
+            vals.append({
+                'move_type': move_type,
+                'calendar_event_id': self.id,
+                'narration': self.description,
+                'currency_id': self.user_id.company_id.currency_id.id,
+                'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'invoice_origin': self.name,
+                'invoice_user_id': self.user_id.id,
+                'company_id': self.user_id.company_id.id,
+                'invoice_date': self.start_at,
+                'invoice_line_ids': [],
+            })
+        return vals
+
+    def _prepare_invoice_line(self):
+        if not self.consultation_service:
+            return
+        return {
+            'product_id': self.consultation_service.id,
+            'quantity': 1,
+            'price_unit': self.consultation_service.list_price,
+            'name': self.consultation_service.name or self.name,
+            'product_uom_id': self.consultation_service.uom_id.id,
+        }
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        if res:
+            invoice_vals = res._prepare_invoice()
+            for line in invoice_vals:
+                invoice_line_vals = res._prepare_invoice_line()
+                line['invoice_line_ids'].append([0, 0, invoice_line_vals])
+            moves = self.env['account.move'].sudo().create(invoice_vals)
+        return res
+
+    @api.onchange('physician_id')
+    def _onchange_physician_id(self):
+        self.time_slot = False
+        result = {'domain': {'time_slot': [('id', '=', self.physician_id.id)]}}
+        return result
+
