@@ -29,7 +29,7 @@ patch(CalendarModel.prototype, "doctor_appointment_booking_advance_axis.Calendar
             );
         }
         const previousAllFilter = previousFilters.find((f) => f.type === "all");
-        const is_mmanager = this.user.hasGroup('doctor_appointment_booking_advance_axis.group_helpdesk_admin').then(hasGroup => {
+        const is_mmanager = this.user.hasGroup('itms_hms.group_calendar_admin').then(hasGroup => {
             if(hasGroup){
                 filters.push(this.makeFilterAll(previousAllFilter, isUserOrPartner));
             }

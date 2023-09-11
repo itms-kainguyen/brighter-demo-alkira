@@ -6,7 +6,7 @@
     'category': 'website',
     'version': '16.0.2',
     # any module necessary for this one to work correctly
-    'depends': ['base','product','acs_hms'],
+    'depends': ['base','product','acs_hms','acs_hms_online_appointment'],
     # always loaded
     'data': [
         'security/security.xml',
