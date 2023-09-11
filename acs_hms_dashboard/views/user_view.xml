@@ -41,6 +41,7 @@
                             <field name="total_meeting_now_color" widget="color"/>
                             <field name="total_emergency_color" widget="color"/>
                             <field name="total_shop_color" widget="color"/>
+                             <field name="total_consent_color" widget="color"/>
                         </group>
                         <group groups="account.group_account_invoice">
                             <field name="total_open_invoice_color" readonly="0" widget="color"/>
@@ -90,6 +91,7 @@
                             <field name="total_meeting_now_color" widget="color"/>
                             <field name="total_emergency_color" widget="color"/>
                             <field name="total_shop_color" widget="color"/>
+                            <field name="total_consent_color" widget="color"/>
                         </group>
                         <group groups="account.group_account_invoice">
                             <field name="total_open_invoice_color"  widget="color"/>
