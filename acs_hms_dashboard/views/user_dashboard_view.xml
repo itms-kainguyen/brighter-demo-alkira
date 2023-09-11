@@ -166,20 +166,7 @@
 <!--                                    </t>-->
 <!--                                </div>-->
 
-                                <!-- Physicians -->
-                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_manager">
-                                    <t t-call="acs_dashboard_block_second">
-                                        <t t-set="acs_record_color" t-value="record.physicians_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-user-md'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_physicians.raw_value"/>
-                                        <t t-set="acs_record_action" t-value="'open_physicians'"/>
-                                        <t t-set="acs_record_lable">Total Phy.</t>
-                                        <t t-set="acs_field2_name" t-value="record.total_referring_physicians.raw_value"/>
-                                        <t t-set="acs_record2_action" t-value="'open_referring_physicians'"/>
-                                        <t t-set="acs_record2_lable">Ref. Phy.</t>
-                                        <t t-set="acs_lable">Prescribers</t>
-                                    </t>
-                                </div>
+
 
                                 <!-- Appointments --> 
                                 <div groups="acs_hms.group_hms_receptionist" t-if="!record.is_physician.raw_value or record.is_manager.raw_value" class="col-3 acs_block">
@@ -211,6 +198,21 @@
                                         <t t-set="acs_field_name" t-value="record.total_shop.raw_value"/>
                                         <t t-set="acs_record_lable">Shop</t>
                                         <t t-set="acs_record_action" t-value="'open_shop'"/>
+                                    </t>
+                                </div>
+
+                                 <!-- Physicians -->
+                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_manager">
+                                    <t t-call="acs_dashboard_block_second">
+                                        <t t-set="acs_record_color" t-value="record.physicians_color.raw_value"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-user-md'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_physicians.raw_value"/>
+                                        <t t-set="acs_record_action" t-value="'open_physicians'"/>
+                                        <t t-set="acs_record_lable">Total Phy.</t>
+                                        <t t-set="acs_field2_name" t-value="record.total_referring_physicians.raw_value"/>
+                                        <t t-set="acs_record2_action" t-value="'open_referring_physicians'"/>
+                                        <t t-set="acs_record2_lable">Ref. Phy.</t>
+                                        <t t-set="acs_lable">Prescribers</t>
                                     </t>
                                 </div>
 
@@ -246,6 +248,21 @@
                                         <t t-set="acs_field_name" t-value="record.total_protocol.raw_value"/>
                                         <t t-set="acs_record_lable">Protocols</t>
                                         <t t-set="acs_record_action" t-value="'open_protocol'"/>
+                                    </t>
+                                </div>
+
+                                 <!-- Open Invoices -->
+                                <div class="col-3 acs_block" groups="account.group_account_invoice">
+                                    <t t-call="acs_dashboard_block_second">
+                                        <t t-set="acs_record_color" t-value="record.total_open_invoice_color.raw_value"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-list'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_open_invoice.raw_value"/>
+                                        <t t-set="acs_record_action" t-value="'open_invoices'"/>
+                                        <t t-set="acs_record_lable">Total</t>
+                                        <t t-set="acs_field2_name" t-value="record.total_open_invoice_amount.raw_value"/>
+                                        <t t-set="acs_record2_action" t-value="'open_invoices'"/>
+                                        <t t-set="acs_record2_lable">Amount</t>
+                                        <t t-set="acs_lable">Open Invoices</t>
                                     </t>
                                 </div>
 
@@ -297,20 +314,7 @@
 <!--                                    </t>-->
 <!--                                </div>-->
 
-                                <!-- Open Invoices -->
-                                <div class="col-3 acs_block" groups="account.group_account_invoice">
-                                    <t t-call="acs_dashboard_block_second">
-                                        <t t-set="acs_record_color" t-value="record.total_open_invoice_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-list'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_open_invoice.raw_value"/>
-                                        <t t-set="acs_record_action" t-value="'open_invoices'"/>
-                                        <t t-set="acs_record_lable">Total</t>
-                                        <t t-set="acs_field2_name" t-value="record.total_open_invoice_amount.raw_value"/>
-                                        <t t-set="acs_record2_action" t-value="'open_invoices'"/>
-                                        <t t-set="acs_record2_lable">Amount</t>
-                                        <t t-set="acs_lable">Open Invoices</t>
-                                    </t>
-                                </div>
+
 
                                 <!-- Treatments -->
                                 <div class="col-3 acs_block" groups="acs_hms.group_hms_receptionist" t-if="!record.is_physician.raw_value or record.is_manager.raw_value">
