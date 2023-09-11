@@ -13,9 +13,9 @@
                         options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     </div>
                 </xpath>
-                <xpath expr="//field[@name='categ_id']" position="after">
-                    <field name="brand"></field>
-                </xpath>
+<!--                <xpath expr="//field[@name='categ_id']" position="after">-->
+<!--                    <field name="brand"></field>-->
+<!--                </xpath>-->
 
             </field>
         </record>
