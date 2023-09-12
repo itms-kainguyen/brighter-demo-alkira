@@ -2,11 +2,12 @@
 
 from odoo import api, fields, models, _
 
+
 class MedicamentGroupLine(models.Model):
     _name = "medicament.group.line"
     _description = "Medicament Group Line"
 
-    @api.depends('dose','days')
+    @api.depends('dose', 'days')
     def _get_total_qty(self):
         for rec in self:
             rec.quantity = rec.days * rec.dose
@@ -16,15 +17,17 @@ class MedicamentGroupLine(models.Model):
     allow_substitution = fields.Boolean(string='Allow substitution')
     prnt = fields.Boolean(string='Print', help='Check this box to print this line of the prescription.')
     dose = fields.Float(string='Dosage', digits=(16, 2), help="Amount of medication (eg, 250 mg) per dose", default=1.0)
-    dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose', domain="[('category_id', '=', product_uom_category_id)]")
+    dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose',
+                                    domain="[('category_id', '=', product_uom_category_id)]")
     product_uom_category_id = fields.Many2one('uom.category', related='product_id.uom_id.category_id')
-    common_dosage_id = fields.Many2one('medicament.dosage', ondelete='cascade', 
-        string='Dosage Frequency', help='Amount of medication (eg, 250 mg) per dose')
+    common_dosage_id = fields.Many2one('medicament.dosage', ondelete='cascade',
+                                       string='Dosage Frequency', help='Amount of medication (eg, 250 mg) per dose')
     short_comment = fields.Char(string='Comment', help='Short comment on the specific drug')
     days = fields.Float("Days", default=1.0)
-    quantity = fields.Float("Total Qty", compute="_get_total_qty", 
-        help="Number of units of the medicament. Example : 30 capsules of amoxicillin", store=True)
+    quantity = fields.Float("Total Qty", compute="_get_total_qty",
+                            help="Number of units of the medicament. Example : 30 capsules of amoxicillin", store=True)
     qty_per_day = fields.Float(string='Qty Per Day', default=1.0)
+    route_id = fields.Many2one('drug.route', string='Route')
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -32,6 +35,7 @@ class MedicamentGroupLine(models.Model):
             self.common_dosage_id = self.product_id.common_dosage_id.id
             self.dosage_uom_id = self.product_id.dosage_uom_id.id
             self.quantity = self.dose * self.days
+            self.route_id = self.product_id.route_id.id
 
     @api.onchange('common_dosage_id')
     def onchange_common_dosage(self):
@@ -57,10 +61,10 @@ class ACSMedicationDosage(models.Model):
     _rec_name = 'abbreviation'
 
     name = fields.Char(translate=True)
-    abbreviation = fields.Char(string='Frequency',help='Dosage abbreviation, such as tid in the US or tds in the UK')
+    abbreviation = fields.Char(string='Frequency', help='Dosage abbreviation, such as tid in the US or tds in the UK')
     qty_per_day = fields.Float(string='Total Qty Per Day', default=1.0)
-    days = fields.Float("Days",default=1.0)
-    code = fields.Char(size=8, string='Code',help='Dosage Code,for example: SNOMED 229798009 = 3 times per day')
+    days = fields.Float("Days", default=1.0)
+    code = fields.Char(size=8, string='Code', help='Dosage Code,for example: SNOMED 229798009 = 3 times per day')
 
     _sql_constraints = [('name_uniq', 'UNIQUE(name)', 'Name must be unique!')]
 
@@ -72,16 +76,16 @@ class ACSPatientMedication(models.Model):
 
     patient_id = fields.Many2one('hms.patient', string='Patient')
     physician_id = fields.Many2one('hms.physician', string='Physician',
-        help='Physician who prescribed the medicament')
+                                   help='Physician who prescribed the medicament')
     adverse_reaction = fields.Text(string='Adverse Reactions',
-        help='Side effects or adverse reactions that the patient experienced')
+                                   help='Side effects or adverse reactions that the patient experienced')
     notes = fields.Text(string='Extra Info')
-    is_active = fields.Boolean(string='Active', 
-        help='Check if the patient is currently taking the medication')
+    is_active = fields.Boolean(string='Active',
+                               help='Check if the patient is currently taking the medication')
     course_completed = fields.Boolean(string='Course Completed')
     product_id = fields.Many2one('product.product', string='Medication')
     discontinued_reason = fields.Char(string='Reason for discontinuation',
-        help='Short description for discontinuing the treatment')
+                                      help='Short description for discontinuing the treatment')
     discontinued = fields.Boolean(string='Discontinued')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
