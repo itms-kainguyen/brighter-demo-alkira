@@ -13,6 +13,7 @@
             </field>
             <field name="drug_company_id" position="before">
                 <field name="manual_prescription_qty"/>
+                <field name="store_box"/>
             </field>
             <field name="hospital_product_type" position="after">
                 <field name="procedure_time" attrs="{'invisible': [('detailed_type','!=','service')]}" widget="float_time"/>

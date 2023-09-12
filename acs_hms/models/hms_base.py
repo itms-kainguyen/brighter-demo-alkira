@@ -157,6 +157,7 @@ class product_template(models.Model):
         ('anytime','Invoice Anytime'),
         ('advance','Invoice in Advance')], string="Appointment Invoicing Policy")
     acs_allow_substitution = fields.Boolean(string='Allow Substitution')
+    store_box = fields.Char(string='Store Box')
 
 
 class ACSConsumableLine(models.Model):

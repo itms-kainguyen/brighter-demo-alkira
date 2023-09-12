@@ -7,8 +7,8 @@
         <field name="arch" type="xml">
             <tree string="Line">
                 <field name="name"/>
-                <field name="physician_id"/>
-                <field name="diseases_id"/>
+<!--                <field name="physician_id"/>-->
+<!--                <field name="diseases_id"/>-->
             </tree>
         </field>
     </record>
@@ -26,10 +26,10 @@
                         </h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="physician_id"/>
-                            <field name="diseases_id"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="physician_id"/>-->
+<!--                            <field name="diseases_id"/>-->
+<!--                        </group>-->
                         <group>
                             <field name="limit"/>
                         </group>

@@ -87,7 +87,8 @@ class CalendarEvent(models.Model):
 
     @api.onchange('physician_id')
     def _onchange_physician_id(self):
+        self.consultation_service = False
         self.time_slot = False
-        result = {'domain': {'time_slot': [('id', '=', self.physician_id.id)]}}
+        result = {'domain': {'consultation_service': [('id', 'in', self.physician_id.consultaion_service_id.id)],'time_slot': [('id', '=', self.physician_id.id)]}}
         return result
 
