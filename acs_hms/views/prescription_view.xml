@@ -103,12 +103,12 @@
                             <field name="patient_id"/>
                             <field name="patient_age" invisible="1"/>
                             <field name="physician_id"/>
-                            <field name="group_id"/>
+                            <field name="group_id" string="Prescription Template"/>
 <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
                              <field name="advice_id" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group>
-                            <field name="diseases_ids" widget="many2many_tags"/>
+                            <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
                             <field name="prescription_date"/>
                             <field name="alert_count" invisible="1"/>
                             <field name="pregnancy_warning"/>
@@ -176,7 +176,7 @@
                         </page>
                     </notebook>
                     <group>
-                        <field name="notes" colspan="4"/>
+                        <field name="notes" string="Notes to Advice" colspan="4"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">

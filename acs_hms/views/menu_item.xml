@@ -71,7 +71,7 @@
 
     <menuitem id="menu_pres_cofig" name="Configuration" parent="hos_pres_root" groups="acs_hms.group_hms_doctor" sequence="100"/>
 
-    <menuitem id="menuitem_action_presc_medicament_group" name="Medicament Group"
+    <menuitem id="menuitem_action_presc_medicament_group" name="Prescription Template"
         parent="acs_hms.menu_pres_cofig" action="act_open_medicament_group_view" sequence="11"/>
 
     <menuitem id="menuitem_action_presc_advice_group" name="Advice Template"
