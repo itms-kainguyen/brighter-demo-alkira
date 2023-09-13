@@ -8,12 +8,12 @@
         <field name="inherit_id" ref='acs_hms.view_hms_prescription_order_form'/>
         <field name="arch" type="xml">
             <button name="button_reset" position="after">
-                <button name="create_invoice" string="Create Invoice" type="object" attrs="{'invisible': ['|',('invoice_id','!=', False),('state','!=', 'prescription')]}" groups="account.group_account_invoice"/>
-                <button name="acs_create_delivery" string="Create Delivery" type="object" attrs="{'invisible': ['|','|',('deliverd','=',True),('invoice_id','!=', False),('state','!=', 'prescription')]}" groups="stock.group_stock_user"/>
+                <button name="create_invoice" string="Create Invoice" type="object" invisible="1" attrs="{'invisible': ['|',('invoice_id','!=', False),('state','!=', 'prescription')]}" groups="account.group_account_invoice"/>
+                <button name="acs_create_delivery" string="Create Delivery" type="object" invisible="1" attrs="{'invisible': ['|','|',('deliverd','=',True),('invoice_id','!=', False),('state','!=', 'prescription')]}" groups="stock.group_stock_user"/>
             </button>
             <div name="button_box" position="inside">
-                <button name="view_invoice" string="View Invoice" groups="account.group_account_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_id','=', False)]}"/>
-                <button class="oe_stat_button" type="object" name="acs_view_delivery" icon="fa-truck" attrs="{'invisible': [('picking_count', '=', 0)]}" groups="stock.group_stock_user">
+                <button name="view_invoice" invisible="1" string="View Invoice" groups="account.group_account_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_id','=', False)]}"/>
+                <button class="oe_stat_button" invisible="1" type="object" name="acs_view_delivery" icon="fa-truck" attrs="{'invisible': [('picking_count', '=', 0)]}" groups="stock.group_stock_user">
                     <field string="Delivery" name="picking_count" widget="statinfo"/>
                 </button>
             </div>
@@ -21,6 +21,13 @@
                 <field name="invoice_id" invisible="1"/>
                 <field name="picking_ids" readonly="1" widget="many2many_tags" groups="stock.group_stock_user"/>
                 <field name="deliverd" readonly="1" groups="stock.group_stock_user"/>
+            </field>
+            <field name="pregnancy_warning" position="after">
+                  <label for="is_prescriber_fee" string="Prescriber fee"/>
+                 <div class="oe_inline">
+                     <field name="is_prescriber_fee"/>
+                     <span attrs="{'invisible': [('is_prescriber_fee', '=', False)]}"><field name="prescriber_fee" class="oe_inline"/></span>
+                 </div>
             </field>
             <field name="prescription_line_ids" position="after">
                 <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" groups="acs_hms_pharmacy.group_show_amounts_on_prescription">

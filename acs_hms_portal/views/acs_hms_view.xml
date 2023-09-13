@@ -20,7 +20,7 @@
         <field name="inherit_id" ref="acs_hms.view_hms_prescription_order_form"/>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="acs_preview_record" type="object" string="Preview" data-hotkey="o" title="Preview" attrs="{'invisible': [('state','in',['draft','cancel'])]}"/>
+                <button name="acs_preview_record" type="object" invisible="1" string="Preview" data-hotkey="o" title="Preview" attrs="{'invisible': [('state','in',['draft','cancel'])]}"/>
             </header>
         </field>
     </record>

@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="acs_hms_base.product_template_form_view_inherit"/>
         <field name="arch" type="xml">
             <field name="active_component_ids" position="before">
-                <field name="common_dosage_id"/>
+                <field name="common_dosage_id" string="Repeat"/>
                 <field name="acs_allow_substitution"/>
             </field>
             <field name="drug_company_id" position="before">

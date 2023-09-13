@@ -103,9 +103,9 @@
                             <field name="patient_id"/>
                             <field name="patient_age" invisible="1"/>
                             <field name="physician_id"/>
-                            <field name="group_id" string="Prescription Template"/>
+                            <field name="group_id" invisible="1" string="Prescription Template"/>
 <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
-                             <field name="advice_id" options="{'no_create': True, 'no_open': True}"/>
+                             <field name="advice_id" invisible="1" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group>
                             <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
