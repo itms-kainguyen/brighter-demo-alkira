@@ -74,16 +74,16 @@ class CalendarEvent(models.Model):
             'product_uom_id': self.consultation_service.uom_id.id,
         }
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        res = super().create(vals_list)
-        if res:
-            invoice_vals = res._prepare_invoice()
-            for line in invoice_vals:
-                invoice_line_vals = res._prepare_invoice_line()
-                line['invoice_line_ids'].append([0, 0, invoice_line_vals])
-            moves = self.env['account.move'].sudo().create(invoice_vals)
-        return res
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     res = super().create(vals_list)
+    #     if res:
+    #         invoice_vals = res._prepare_invoice()
+    #         for line in invoice_vals:
+    #             invoice_line_vals = res._prepare_invoice_line()
+    #             line['invoice_line_ids'].append([0, 0, invoice_line_vals])
+    #         moves = self.env['account.move'].sudo().create(invoice_vals)
+    #     return res
 
     @api.onchange('physician_id')
     def _onchange_physician_id(self):

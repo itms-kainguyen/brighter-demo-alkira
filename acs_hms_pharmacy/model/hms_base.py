@@ -127,10 +127,10 @@ class Prescription(models.Model):
         })
         self.sudo().invoice_id = invoice.id
 
-    def button_confirm(self):
-        res = super(Prescription, self).button_confirm()
-        self.create_invoice()
-        return res
+    # def button_confirm(self):
+    #     res = super(Prescription, self).button_confirm()
+    #     self.create_invoice()
+    #     return res
 
     def view_invoice(self):
         invoices = self.mapped('invoice_id')

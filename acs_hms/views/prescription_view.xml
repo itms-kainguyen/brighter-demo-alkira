@@ -176,7 +176,7 @@
                         </page>
                     </notebook>
                     <group>
-                        <field name="notes" string="Notes to Advice" colspan="4"/>
+                        <field name="notes" string="Advice" colspan="4"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">

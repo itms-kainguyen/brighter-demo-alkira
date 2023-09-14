@@ -34,7 +34,7 @@ class ACSPrescriptionOrder(models.Model):
                                states=READONLY_STATES, copy=False)
 
     advice_id = fields.Many2one('advice.template', ondelete="set null", string='Advice Template',
-                               states=READONLY_STATES, copy=False)
+                                states=READONLY_STATES, copy=False)
 
     patient_id = fields.Many2one('hms.patient', ondelete="restrict", string='Patient', required=True,
                                  states=READONLY_STATES, tracking=True)
@@ -106,6 +106,31 @@ class ACSPrescriptionOrder(models.Model):
     def button_reset(self):
         self.write({'state': 'draft'})
 
+    def _prepare_invoice(self):
+        self.ensure_one()
+        vals = []
+        for move_type in ['out_invoice', 'in_invoice']:
+            vals.append({
+                'move_type': move_type,
+                'narration': self.notes,
+                'currency_id': self.env.user.company_id.currency_id.id,
+                'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'patient_id': self.patient_id.id if move_type == 'out_invoice' else False,
+                'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'invoice_origin': self.name,
+                'company_id': self.env.user.company_id.id,
+                'invoice_date': self.prescription_date,
+                'prescription_id': self.id,
+                'invoice_line_ids': [[0, 0, {
+                                        'product_id': self.physician_id.consultaion_service_id[0].id,
+                                        'quantity': 1,
+                                        'price_unit': self.physician_id.consultaion_service_id[0].list_price if move_type == 'out_invoice' else self.physician_id.consultaion_service_id[0].standard_price,
+                                        'name': self.physician_id.consultaion_service_id[0].name or self.name,
+                                        'product_uom_id': self.physician_id.consultaion_service_id[0].uom_id.id}]]
+
+            })
+        return vals
+
     def button_confirm(self):
         for app in self:
             if not app.prescription_line_ids:
@@ -114,6 +139,8 @@ class ACSPrescriptionOrder(models.Model):
             app.state = 'prescription'
             if not app.name:
                 app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+            invoice_vals = self._prepare_invoice()
+            moves = self.env['account.move'].sudo().create(invoice_vals)
 
     def print_report(self):
         return self.env.ref('acs_hms.report_hms_prescription_id').report_action(self)
