@@ -192,6 +192,7 @@ class ACSPrescriptionOrder(models.Model):
     def get_acs_kit_lines(self):
         if not self.acs_kit_id:
             raise UserError("Please Select Kit first.")
+        self.notes = self.acs_kit_id.description
 
         lines = []
         appointment_id = self.appointment_id and self.appointment_id.id or False
