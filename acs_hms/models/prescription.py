@@ -110,25 +110,27 @@ class ACSPrescriptionOrder(models.Model):
         self.ensure_one()
         vals = []
         for move_type in ['out_invoice', 'in_invoice']:
-            vals.append({
-                'move_type': move_type,
-                'narration': self.notes,
-                'currency_id': self.env.user.company_id.currency_id.id,
-                'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                'patient_id': self.patient_id.id if move_type == 'out_invoice' else False,
-                'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                'invoice_origin': self.name,
-                'company_id': self.env.user.company_id.id,
-                'invoice_date': self.prescription_date,
-                'prescription_id': self.id,
-                'invoice_line_ids': [[0, 0, {
-                                        'product_id': self.physician_id.consultaion_service_id[0].id,
-                                        'quantity': 1,
-                                        'price_unit': self.physician_id.consultaion_service_id[0].list_price if move_type == 'out_invoice' else self.physician_id.consultaion_service_id[0].standard_price,
-                                        'name': self.physician_id.consultaion_service_id[0].name or self.name,
-                                        'product_uom_id': self.physician_id.consultaion_service_id[0].uom_id.id}]]
+            service = self.env['product.product'].search([('product_tmpl_id.name', '=', 'Prescriber Service')], limit=1)
+            if service:
+                vals.append({
+                    'move_type': move_type,
+                    'narration': self.notes,
+                    'currency_id': self.env.user.company_id.currency_id.id,
+                    'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                    'patient_id': self.patient_id.id if move_type == 'out_invoice' else False,
+                    'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                    'invoice_origin': self.name,
+                    'company_id': self.env.user.company_id.id,
+                    'invoice_date': self.prescription_date,
+                    'prescription_id': self.id,
+                    'invoice_line_ids': [[0, 0, {
+                        'product_id': service.id,
+                        'quantity': 1,
+                        'price_unit': service.list_price if move_type == 'out_invoice' else service.standard_price,
+                        'name': service.name or self.name,
+                        'product_uom_id': service.uom_id.id}]]
 
-            })
+                })
         return vals
 
     def button_confirm(self):
