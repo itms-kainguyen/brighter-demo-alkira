@@ -175,9 +175,8 @@
                             </group>
                         </page>
                     </notebook>
-                    <group>
-                        <field name="notes" string="Advice" colspan="4"/>
-                    </group>
+                    <label for="notes" string="Advice"/>
+                    <field name="notes" string="Advice" colspan="4"/>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
