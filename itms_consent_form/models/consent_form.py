@@ -11,10 +11,10 @@ class Consent(models.Model):
 
     name = fields.Char('Name', required=True, index='trigram')
     content = fields.Html('Content')
-    patient_id = fields.Many2one('res.partner', domain=[('position_type', '=', 'Patient')], string='Patient')
+    patient_id = fields.Many2one('hms.patient', string='Patient')
     category_id = fields.Many2one('document.page', domain=[('type', '=', 'category')], string='Category')
-    nurse_id = fields.Many2one('res.partner', domain=[('position_type', '=', 'Nurses')], readonly=1, string='Nurse',
-                               default=lambda self: self.env.user.partner_id.id)
+    nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], readonly=1, string='Nurse',
+                               default=lambda self: self.env.user.id)
     patient_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
                                              string='Patient Attachments')
     nurse_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
@@ -73,7 +73,6 @@ class Consent(models.Model):
             'url': self.get_portal_url(),
         }
 
-
     def action_consent_send(self):
         self.ensure_one()
         lang = self.env.context.get('lang')
@@ -110,6 +109,27 @@ class Consent(models.Model):
 
 class Partner(models.Model):
     _inherit = 'res.partner'
+
+    # consent_count = fields.Integer(compute='_compute_consent_count', string='Consent Count')
+    # consent_ids = fields.One2many('consent.consent', 'patient_id', 'Consent Form')
+    #
+    # def _compute_consent_count(self):
+    #     consents = self.env['consent.consent']._read_group([
+    #         ('patient_id', 'in', self.ids)
+    #     ], fields=['patient_id'], groupby=['patient_id'], lazy=False)
+    #     mapping = {(consent['patient_id'][0]): consent['__count'] for consent in consents}
+    #     for rule in self:
+    #         rule.consent_count = mapping.get(rule.id, 0)
+    #
+    # def action_view_consent_form(self):
+    #     action = self.env['ir.actions.act_window']._for_xml_id('itms_consent_form.act_res_partner_2_consent')
+    #     all_child = self.with_context(active_test=False).search([('id', 'child_of', self.ids)])
+    #     action["domain"] = [("patient_id", "in", all_child.ids)]
+    #     return action
+
+
+class ACSPatient(models.Model):
+    _inherit = 'hms.patient'
 
     consent_count = fields.Integer(compute='_compute_consent_count', string='Consent Count')
     consent_ids = fields.One2many('consent.consent', 'patient_id', 'Consent Form')

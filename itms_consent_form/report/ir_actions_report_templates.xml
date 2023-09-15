@@ -2,7 +2,7 @@
 <odoo>
 <template id="report_consent_document">
     <t t-call="web.external_layout">
-        <t t-set="doc" t-value="doc.with_context(lang=doc.patient_id.lang)" />
+        <t t-set="doc" t-value="doc.with_context(lang=doc.patient_id.partner_id.lang)" />
         <div class="page">
             <div class="oe_structure"/>
             <h2 class="mt-4" style="text-align:center">
