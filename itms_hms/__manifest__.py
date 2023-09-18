@@ -17,8 +17,7 @@
     'assets': {
         'web.assets_backend': [
             'itms_hms/static/src/scss/style.scss',
-            'itms_hms/static/src/js/calendar_model_custom.js',
-            'itms_hms/static/src/scss/call_participant_video.scss',
+            'itms_hms/static/src/js/calendar_model_custom.js'
         ],
         'web.assets_frontend': [
         ],
