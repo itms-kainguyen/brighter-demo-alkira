@@ -171,7 +171,7 @@ class ResUsers(models.Model):
         shop_domain += [('is_published', '=', True)]
         self.total_prescription = self.env['prescription.order'].sudo().search_count(prescription_domain)
         self.total_protocol = 0
-        self.total_meeting_now = self.env['calendar.event'].sudo().search_count(meet_domain)
+        self.total_meeting_now = self.env['mail.channel.rtc.session'].sudo().search_count(meet_domain)
         self.total_consent = self.env['consent.consent'].sudo().search_count(consent_domain)
         self.total_emergency = 0
         self.total_support = 0

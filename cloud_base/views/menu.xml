@@ -4,7 +4,7 @@
     <menuitem name="Cloud Storage"
               id="menu_cloud_base_main"
               sequence="40"
-              groups="cloud_base.group_cloud_base_user"
+              groups="cloud_base.group_cloud_base_admin"
               web_icon="cloud_base,static/description/icon.png"
     />
     <menuitem id="menu_file_manager"
@@ -12,7 +12,7 @@
               name="File Manager"
               parent="menu_cloud_base_main"
               sequence="10"
-              groups="cloud_base.group_cloud_base_user"
+              groups="cloud_base.group_cloud_base_admin"
     />
     <menuitem name="Configuration"
               id="menu_cloud_base_conf"
