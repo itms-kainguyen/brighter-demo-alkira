@@ -488,7 +488,7 @@ class ResUsers(models.Model):
         return action
 
     def open_meeting(self):
-        action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
+        action = self.env["ir.actions.actions"]._for_xml_id("mail.action_discuss")
         return action
 
     def open_protocol(self):

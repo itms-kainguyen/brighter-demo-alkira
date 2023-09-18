@@ -57,7 +57,6 @@
                     </group>
                     <notebook>
                         <page string="General Details" name="general_info" groups="acs_hms.group_hms_nurse">
-                            <field name="finding" placeholder="Findings from treatment.."/>
                             <separator string="Prescribed Medicine"/>
                             <field name="prescription_line_ids" string="Medicine" readonly='1'>
                                 <tree string="Medicine" create='false'>
@@ -70,6 +69,10 @@
                                     <field name="prescription_id"/>
                                 </tree>
                             </field>
+                            <group colspan="4">
+                                <field name="template_id" string="Select Treatment Note"></field>
+                                <field colspan="2" name="finding" string="Treatment Note" placeholder="Treatment Note..."/>
+                            </group>
                         </page>
                         <page name="patient_procedures" string="Patient Procedures">
                             <group>
@@ -119,6 +122,7 @@
                             </group>
                         </page>
                     </notebook>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
@@ -233,5 +237,56 @@
             </tree>
         </field>
     </record>
+    
+    
+    <record id="view_treatment_template_tree" model="ir.ui.view">
+        <field name="name">treatment.template.tree</field>
+        <field name="model">treatment.template</field>
+        <field name="arch" type="xml">
+            <tree string="Treatment Template">
+                <field name="name"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_treatment_template_form" model="ir.ui.view">
+        <field name="name">treatment.template.form</field>
+        <field name="model">treatment.template</field>
+        <field name="arch" type="xml">
+            <form string="Treatment Template">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Title..."/>
+                        </h1>
+                    </div>
+
+                    <notebook>
+                        <page string="treatment" name="template">
+                            <field name="notes" placeholder="e.g...."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_treatment_template_view">
+        <field name="name">treatment Template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">treatment.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add treatment.
+            </p>
+        </field>
+    </record>
+
 
 </odoo>

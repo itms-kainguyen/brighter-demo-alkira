@@ -53,6 +53,7 @@
     <menuitem id="menu_acs_patient_procedure_treatment" name="Patient Procedures" parent="main_menu_treatment" action="action_acs_patient_procedure" sequence="20"/>
     <menuitem id="menu_treatment_cofig" name="Configuration" parent="main_menu_treatment" groups="acs_hms_base.group_hms_manager" sequence="100"/>
     <menuitem id="menu_procedure_group" name="Procedure Groups" parent="menu_treatment_cofig" action="action_procedure_group" sequence="10"/>
+    <menuitem id="menu_treatment_template" name="Treatment Note Template" parent="menu_treatment_cofig" action="act_open_treatment_template_view" sequence="11"/>
 
     <!-- Main Appointment Menu -->
     <menuitem id="action_main_menu_appointmnet_opd" action="action_appointment" sequence="25" groups="acs_hms.group_hms_receptionist,acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" web_icon="acs_hms,static/src/img/appointment.png"/>
