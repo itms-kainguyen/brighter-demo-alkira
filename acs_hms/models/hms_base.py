@@ -169,6 +169,16 @@ class product_template(models.Model):
     batch_no = fields.Char(string='Batch No.')
 
 
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    store_box = fields.Char(string='Store Box')
+    generic_name = fields.Char(string='Generic Name')
+    company = fields.Char(string='Company')
+    lot_no = fields.Char(string='Lot No.')
+    batch_no = fields.Char(string='Batch No.')
+
+
 class ACSConsumableLine(models.Model):
     _inherit = "hms.consumable.line"
 
