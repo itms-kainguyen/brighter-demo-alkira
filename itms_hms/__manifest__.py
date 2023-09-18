@@ -6,7 +6,7 @@
     'category': 'website',
     'version': '16.0.2',
     # any module necessary for this one to work correctly
-    'depends': ['base','product','acs_hms','acs_hms_online_appointment'],
+    'depends': ['base', 'web', 'mail','product','acs_hms','acs_hms_online_appointment'],
     # always loaded
     'data': [
         'security/security.xml',
@@ -16,8 +16,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            '/itms_hms/static/src/scss/style.scss',
-            '/itms_hms/static/src/js/calendar_model_custom.js',
+            'itms_hms/static/src/scss/style.scss',
+            'itms_hms/static/src/js/calendar_model_custom.js'
         ],
         'web.assets_frontend': [
         ],
