@@ -49,7 +49,7 @@ class ACSTreatment(models.Model):
     prescription_line_ids = fields.One2many('prescription.line', 'treatment_id', 'Prescription',
                                             states=READONLY_STATES)
     template_id = fields.Many2one('treatment.template', 'Template Note')
-    finding = fields.Text(string="Findings", states=READONLY_STATES)
+    finding = fields.Html(string="Findings", states=READONLY_STATES)
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
