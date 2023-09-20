@@ -75,8 +75,8 @@
     <menuitem id="menuitem_action_presc_medicament_group" name="Prescription Template"
         parent="acs_hms.menu_pres_cofig" action="act_open_medicament_group_view" sequence="11"/>
 
-<!--    <menuitem id="menuitem_action_presc_advice_group" name="Advice Template"-->
-<!--        parent="acs_hms.menu_pres_cofig" action="act_open_advice_template_view" sequence="12"/>-->
+    <menuitem id="menuitem_action_presc_advice_group" name="Advice Template"
+        parent="acs_hms.menu_pres_cofig" action="act_open_advice_template_view" sequence="12"/>
 
     <!-- Main Medicine Menu -->
     <menuitem id="menu_medicine_medicament_dosage" name="Medication Dosage" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_dosage" sequence="7"/>
