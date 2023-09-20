@@ -39,7 +39,7 @@ class ACSPrescriptionOrder(models.Model):
     patient_id = fields.Many2one('hms.patient', ondelete="restrict", string='Patient', required=True,
                                  states=READONLY_STATES, tracking=True)
     pregnancy_warning = fields.Boolean(string='Pregnancy Warning', states=READONLY_STATES)
-    notes = fields.Text(string='Notes', states=READONLY_STATES)
+    notes = fields.Html(string='Notes', states=READONLY_STATES)
     prescription_line_ids = fields.One2many('prescription.line', 'prescription_id', string='Prescription line',
                                             states=READONLY_STATES, copy=True)
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital',
