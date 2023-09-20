@@ -39,7 +39,7 @@ class ACSProductKitLine(models.Model):
     standard_price = fields.Float(related='product_id.standard_price', string='Cost Price')
     total_price = fields.Float(compute=_get_total_price, string='Total Price')
     total_standard_price = fields.Float(compute=_get_total_price, string='Total Cost Price')
-    dosage = fields.Float(string='Dosage', help='Dosage')
+    dosage = fields.Char(string='Dosage', help='Dosage')
     route = fields.Char(string='Route')
     repeat = fields.Char(string='Repeats')
     reason = fields.Text(string='Reason')
