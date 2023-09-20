@@ -105,7 +105,6 @@
                             <field name="physician_id"/>
                             <field name="group_id" invisible="1" string="Prescription Template"/>
 <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
-                             <field name="advice_id" invisible="1" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group>
                             <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
@@ -162,6 +161,10 @@
                                     <field name="treatment_id" invisible="1"/>
                                 </tree>
                             </field>
+                            <group colspan="4">
+                                <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="notes" string="Advice" colspan="2"/>
+                            </group>
                         </page>
                         <page name="info" string="General Information">
                             <group>
@@ -175,8 +178,7 @@
                             </group>
                         </page>
                     </notebook>
-                    <label for="notes" string="Advice"/>
-                    <field name="notes" string="Advice" colspan="4"/>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>

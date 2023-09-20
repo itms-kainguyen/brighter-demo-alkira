@@ -97,6 +97,12 @@ class ACSPrescriptionOrder(models.Model):
         if self.appointment_id and self.appointment_id.treatment_id:
             self.treatment_id = self.appointment_id.treatment_id.id
 
+    @api.onchange('advice_id')
+    def onchange_advice_id(self):
+        self.notes = False
+        if self.advice_id:
+            self.notes = self.advice_id.description
+
     def unlink(self):
         for rec in self:
             if rec.state not in ['draft']:
