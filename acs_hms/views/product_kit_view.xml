@@ -56,7 +56,8 @@
         <field name="arch" type="xml">
             <tree string="Product Kits">
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
+                <field name="name" string="Name"/>
+                <field name="description"/>
             </tree>
         </field>
     </record>
