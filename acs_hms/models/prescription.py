@@ -61,7 +61,7 @@ class ACSPrescriptionOrder(models.Model):
                                          string='Medical Alerts', related="patient_id.medical_alert_ids")
     alert_count = fields.Integer(compute='_get_alert_count', default=0)
     old_prescription_id = fields.Many2one('prescription.order', 'Old Prescription', copy=False, states=READONLY_STATES)
-    acs_kit_id = fields.Many2one('acs.product.kit', string='Kit', states=READONLY_STATES)
+    acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=READONLY_STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=READONLY_STATES, default=1)
 
     @api.model_create_multi
@@ -197,13 +197,32 @@ class ACSPrescriptionOrder(models.Model):
             }))
         self.prescription_line_ids = product_lines
 
+    """
+    Retrieves the ACS kit lines associated with the current instance of the class.
+
+    Returns:
+        list: A list of tuples representing the ACS kit lines. Each tuple contains the following elements:
+            - int: The ID of the product.
+            - int: The ID of the common dosage.
+            - float: The dosage of the product.
+            - list: A list of IDs representing the active components of the product.
+            - int: The ID of the form.
+            - int: The quantity per day.
+            - int: The number of days.
+            - int: The appointment ID.
+
+    Raises:
+        UserError: If the ACS kit ID is not set.
+    """
+    @api.onchange('acs_kit_id')
     def get_acs_kit_lines(self):
         if not self.acs_kit_id:
             raise UserError("Please Select Kit first.")
-        self.notes = self.acs_kit_id.description
+        # self.notes = self.acs_kit_id.description
 
         lines = []
         appointment_id = self.appointment_id and self.appointment_id.id or False
+        self.prescription_line_ids = False
         for line in self.acs_kit_id.acs_kit_line_ids:
             lines.append((0, 0, {
                 'product_id': line.product_id.id,

@@ -110,7 +110,7 @@
                             <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
                             <field name="prescription_date"/>
                             <field name="alert_count" invisible="1"/>
-                            <field name="pregnancy_warning"/>
+                            <!--<field name="pregnancy_warning"/>-->
                         </group>
                     </group>
                     <notebook>
@@ -121,16 +121,16 @@
                                     <div name="acs_kit_id" attrs="{'invisible': [('state','!=', 'draft')]}">
                                         <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
                                         <!-- <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/> -->
-                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
+<!--                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>-->
                                     </div>
                                 </group>
-                                <group>
-                                    <label for="old_prescription_id"/>
-                                    <div name='old_prescription_id'>
-                                        <field name="old_prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription')]" nolabel="1" options="{'no_create': True}"/>
-                                        <button name="get_prescription_lines" string="Get Lines" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': ['|',('old_prescription_id','=', False), ('state','!=', 'draft')]}"/>
-                                    </div>
-                                </group>
+<!--                                <group>-->
+<!--                                    <label for="old_prescription_id"/>-->
+<!--                                    <div name='old_prescription_id'>-->
+<!--                                        <field name="old_prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription')]" nolabel="1" options="{'no_create': True}"/>-->
+<!--                                        <button name="get_prescription_lines" string="Get Lines" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': ['|',('old_prescription_id','=', False), ('state','!=', 'draft')]}"/>-->
+<!--                                    </div>-->
+<!--                                </group>-->
                             </group>
                             <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="section_and_note_one2many">
                                 <tree string="Prescription Line" editable="bottom">
@@ -201,7 +201,7 @@
                 <field name="physician_id"/>
                 <field name="treatment_id"/>
                 <field name="company_id"/>
-                <filter name="Pregancy Warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>
+                <!--<filter name="Pregancy Warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>-->
                 <newline/>
                 <group expand="0" string="Group By...">
                     <filter string="Patient" name="patient_id_groupby" domain="[]" context="{'group_by':'patient_id'}"/>

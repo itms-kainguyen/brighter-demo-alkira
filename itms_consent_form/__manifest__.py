@@ -3,7 +3,7 @@
 {
     "name": "ITMS CONSENT FORM",
     "version": "16.0.1.0.0",
-    "category": "Tools",
+    'category': 'ITMS/ITMS',
     "summary": "",
     'author': "ITMS Group",
     'website': "https://itmsgroup.com.au",
