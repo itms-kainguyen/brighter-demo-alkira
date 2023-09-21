@@ -22,7 +22,7 @@
                 <field name="picking_ids" readonly="1" widget="many2many_tags" groups="stock.group_stock_user"/>
                 <field name="deliverd" readonly="1" groups="stock.group_stock_user"/>
             </field>
-            <field name="pregnancy_warning" position="after">
+            <field name="company_id" position="after">
                   <label for="is_prescriber_fee" string="Prescriber fee"/>
                  <div class="oe_inline">
                      <field name="is_prescriber_fee"/>
