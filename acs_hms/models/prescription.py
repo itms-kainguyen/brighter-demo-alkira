@@ -216,24 +216,22 @@ class ACSPrescriptionOrder(models.Model):
     """
     @api.onchange('acs_kit_id')
     def get_acs_kit_lines(self):
-        if not self.acs_kit_id:
-            raise UserError("Please Select Kit first.")
         # self.notes = self.acs_kit_id.description
-
         lines = []
         appointment_id = self.appointment_id and self.appointment_id.id or False
         self.prescription_line_ids = False
-        for line in self.acs_kit_id.acs_kit_line_ids:
-            lines.append((0, 0, {
-                'product_id': line.product_id.id,
-                'common_dosage_id': line.product_id.common_dosage_id and line.product_id.common_dosage_id.id or False,
-                'dose': line.product_id.dosage,
-                'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
-                'form_id': line.product_id.form_id.id,
-                'qty_per_day': line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
-                'days': line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
-                'appointment_id': appointment_id,
-            }))
+        if self.acs_kit_id:
+            for line in self.acs_kit_id.acs_kit_line_ids:
+                lines.append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'common_dosage_id': line.product_id.common_dosage_id and line.product_id.common_dosage_id.id or False,
+                    'dose': line.product_id.dosage,
+                    'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
+                    'form_id': line.product_id.form_id.id,
+                    'qty_per_day': line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
+                    'days': line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
+                    'appointment_id': appointment_id,
+                }))
         self.prescription_line_ids = lines
 
     def action_prescription_send(self):
