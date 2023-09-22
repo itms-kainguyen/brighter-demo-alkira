@@ -110,7 +110,7 @@
                             <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
                             <field name="prescription_date"/>
                             <field name="alert_count" invisible="1"/>
-                            <!--<field name="pregnancy_warning"/>-->
+                            <field name="pregnancy_warning" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -146,7 +146,8 @@
                                     <field name="name" required="1" widget="section_and_note" attrs="{ 'readonly': [('id', '!=', False)]}" optional="hide"/>
                                     <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
                                     <field name="allow_substitution" optional="hide"/>
-                                    <field name="common_dosage_id"/>
+                                    <field name="common_dosage_id" invisible="1"/>
+                                     <field name="common_dosage_group"/>
                                     <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
                                     <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
                                     <field name="product_uom_category_id" invisible="1"/>

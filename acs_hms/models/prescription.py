@@ -86,7 +86,7 @@ class ACSPrescriptionOrder(models.Model):
                     'form_id': line.product_id.form_id.id,
                     'qty_per_day': line.dose,
                     'days': line.days,
-                    'short_comment': line.short_comment,
+                    'short_comment': line.reason,
                     'allow_substitution': line.allow_substitution,
                     'appointment_id': appointment_id,
                 }))
@@ -224,13 +224,14 @@ class ACSPrescriptionOrder(models.Model):
             for line in self.acs_kit_id.acs_kit_line_ids:
                 lines.append((0, 0, {
                     'product_id': line.product_id.id,
-                    'common_dosage_id': line.product_id.common_dosage_id and line.product_id.common_dosage_id.id or False,
+                    'common_dosage_group': line.dosage or False,
                     'dose': line.product_id.dosage,
                     'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
                     'form_id': line.product_id.form_id.id,
                     'qty_per_day': line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
                     'days': line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
                     'appointment_id': appointment_id,
+                    'short_comment': appointment_id,
                 }))
         self.prescription_line_ids = lines
 
@@ -297,6 +298,7 @@ class ACSPrescriptionLine(models.Model):
                                help='Drug form, such as tablet or gel')
     common_dosage_id = fields.Many2one('medicament.dosage', ondelete="cascade", string='Dosage/Frequency',
                                        help='Drug form, such as tablet or gel')
+    common_dosage_group = fields.Char(string='Dosage/Frequency', help='Drug form, such as tablet or gel')
     short_comment = fields.Char(string='Comment', help='Short comment on the specific drug')
     appointment_id = fields.Many2one('hms.appointment', ondelete="restrict", string='Appointment')
     treatment_id = fields.Many2one('hms.treatment', related='prescription_id.treatment_id', string='Treatment',
