@@ -40,8 +40,9 @@ class ACSPrescriptionOrder(models.Model):
                                  states=READONLY_STATES, tracking=True)
     pregnancy_warning = fields.Boolean(string='Pregnancy Warning', states=READONLY_STATES)
     notes = fields.Html(string='Notes', states=READONLY_STATES)
-    prescription_line_ids = fields.One2many('prescription.line', 'prescription_id', string='Prescription line',
-                                            states=READONLY_STATES, copy=True)
+    prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id', string='Prescription line',
+                                            states=READONLY_STATES, copy=True,auto_join=True)
+
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital',
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
@@ -79,6 +80,7 @@ class ACSPrescriptionOrder(models.Model):
             for line in rec.group_id.medicament_group_line_ids:
                 product_lines.append((0, 0, {
                     'product_id': line.product_id.id,
+                    'name': line.product_id.name,
                     'common_dosage_id': line.common_dosage_id and line.common_dosage_id.id or False,
                     'dose': line.dose,
                     'dosage_uom_id': line.dosage_uom_id,
