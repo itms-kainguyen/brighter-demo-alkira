@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="report_prescription_table">
-        <table class="table table-sm o_main_table mt16">
+        <table class="table table-sm o_main_table mt16" style="text-align: left !important;">
             <thead>
                 <tr>
                     <th>Sr.No</th>
