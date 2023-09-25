@@ -154,7 +154,7 @@ class product_template(models.Model):
     hospital_product_type = fields.Selection(
         selection_add=[('procedure', 'Procedure'), ('consultation', 'Consultation')])
     common_dosage_id = fields.Many2one('medicament.dosage', ondelete='cascade',
-                                       string='Frequency', help='Drug form, such as tablet or gel')
+                                       string='Frequency')
     manual_prescription_qty = fields.Boolean("Manual Prescription Qty")
     procedure_time = fields.Float("Procedure Time")
     appointment_invoice_policy = fields.Selection([('at_end', 'Invoice in the End'),
