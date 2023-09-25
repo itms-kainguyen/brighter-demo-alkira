@@ -42,7 +42,7 @@
 <!--    <menuitem id="menu_hms_genetic_disease" name="Genetic Disease" sequence="20" parent="acs_hms.diseases_menu" action="acs_hms.action_hms_genetic_disease" invisible="1"/>-->
  
     <!--Under Main Physician-->
-    <menuitem id="menu_physician_referring_physicians" sequence="1" parent="acs_hms_base.main_menu_physician" action='action_referring_doctors'/>
+<!--    <menuitem id="menu_physician_referring_physicians" sequence="1" parent="acs_hms_base.main_menu_physician" action='action_referring_doctors'/>-->
 
     <!-- Schedule Main menu -->
     <menuitem id="action_menu_working_schedule" name="Schedule" sequence="75" groups="acs_hms.group_hms_receptionist,acs_hms.group_hms_jr_doctor" action="action_resource_calendar" web_icon="acs_hms,static/src/img/calendar.png"/>
