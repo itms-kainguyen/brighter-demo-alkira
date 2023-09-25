@@ -10,7 +10,7 @@
                 <field name="hospital_product_type" required="1"/>
             </field>
             <xpath expr="//notebook/page[@name='general_information']" position="before">
-                <page string="Medicament Details" name="acs_medicament_data" attrs="{'invisible': [('hospital_product_type', '!=', 'medicament')]}">
+                <page string="Details" name="acs_medicament_data" attrs="{'invisible': [('hospital_product_type', '!=', 'medicament')]}">
                     <group name="acs_medicament_info">
                         <group>
                             <field name="form_id"/>
