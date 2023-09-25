@@ -17,8 +17,8 @@
     <menuitem id="hos_prescription" name="Prescription" parent="acs_hms.menu_hms" sequence="5" groups="acs_hms.group_hms_jr_doctor" action="act_open_hms_prescription_order_view"/>
 
     <!-- Referring Doc -->
-    <menuitem id="menu_referring_doctors" sequence="15"
-        parent="acs_hms.menu_hms" action='action_referring_doctors'/>
+<!--    <menuitem id="menu_referring_doctors" sequence="15"-->
+<!--        parent="acs_hms.menu_hms" action='action_referring_doctors'/>-->
 
     <!-- Pricelist -->
     <menuitem id="menu_product_pricelist_main" name="Pricelists" parent="acs_hms.menu_hms" action="product.product_pricelist_action2" groups="product.group_product_pricelist" sequence="20"/>
