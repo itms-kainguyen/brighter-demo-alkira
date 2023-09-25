@@ -20,7 +20,7 @@ class Physician(models.Model):
 
     consultaion_service_id = fields.Many2many('product.product', ondelete='restrict', string='Consultation Service')
     followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service')
-    appointment_duration = fields.Float('Default Consultation Duration', default=0.25)
+    appointment_duration = fields.Float('Consultant (min)', default=0.25)
 
     is_primary_surgeon = fields.Boolean(string='Primary Surgeon')
     signature = fields.Binary('Signature')

@@ -33,7 +33,7 @@ class ResUsers(models.Model):
             user.patient_count = Patient.search_count([('partner_id', '=', user.partner_id.id)])
 
     department_ids = fields.Many2many('hr.department', 'user_department_rel', 'user_id', 'department_id',
-                                      domain=[('patient_department', '=', True)], string='Departments')
+                                      domain=[('patient_department', '=', True)], string='Clinics')
     physician_count = fields.Integer(string="#Physician", compute="_compute_physician_count")
     physician_ids = fields.One2many('hms.physician', 'user_id', string='Related Physician')
     patient_count = fields.Integer(string="#Patient", compute="_compute_patient_count")

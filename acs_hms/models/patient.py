@@ -112,7 +112,7 @@ class ACSPatient(models.Model):
     genetic_risks_ids = fields.One2many('hms.patient.genetic.risk', 'patient_id', 'Genetic Risks')
     family_history_ids = fields.One2many('hms.patient.family.diseases', 'patient_id', 'Family Diseases History')
     department_ids = fields.Many2many('hr.department', 'patint_department_rel','patient_id', 'department_id',
-        domain=[('patient_department', '=', True)], string='Departments')
+        domain=[('patient_department', '=', True)], string='Clinics')
 
     medication_ids = fields.One2many('hms.patient.medication', 'patient_id', string='Medications')
     ethnic_group_id = fields.Many2one('acs.ethnicity', string='Ethnic group')

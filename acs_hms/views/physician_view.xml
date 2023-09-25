@@ -67,7 +67,7 @@
 
             <field name="specialty_id" position="after">
                 <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department"/>
-                <field name="employee_id"/>
+                <field name="employee_id" invisible="1"/>
             </field>
 
             <page name="gneral_info" position="inside">
@@ -87,7 +87,7 @@
                 <filter string="Primary Surgeon" name="is_primary_surgeon" domain="[('is_primary_surgeon','=',1)]"/>
             </xpath>
             <xpath expr="//group" position="inside">
-                <filter string="Departments" name="department_group" domain="[]" context="{'group_by':'department_ids'}"/>
+                <filter string="Clinics" name="department_group" domain="[]" context="{'group_by':'department_ids'}"/>
             </xpath>
         </field>
     </record>
