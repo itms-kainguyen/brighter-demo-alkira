@@ -62,7 +62,7 @@
                 <field name="consultaion_service_id" widget="many2many_tags" domain="[('type','=','service'), ('sale_ok','=',True)]" context="{'default_detailed_type':'service', 'default_hospital_product_type':'consultation'}"/>
                 <field name="followup_service_id" domain="[('type','=','service'),('sale_ok','=',True)]" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
                 <field name="appointment_duration" widget="float_time"/>
-                <field name="is_primary_surgeon"/>
+                <field name="is_primary_surgeon" invisible="1"/>
             </field>
 
             <field name="specialty_id" position="after">

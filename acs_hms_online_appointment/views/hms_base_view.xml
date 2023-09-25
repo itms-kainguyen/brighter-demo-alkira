@@ -13,7 +13,7 @@
             <xpath expr="//group[@name='right_data']" position="inside">
                 <separator string="Online Appoitnment"/>
                 <field name='allowed_online_booking'/>
-                <field name='allow_home_appointment'/>
+                <field name='allow_home_appointment' invisible="1"/>
                 <field name="show_fee_on_booking"/>
                 <field name='basic_info'/>
             </xpath>
@@ -30,7 +30,7 @@
                 <group string="Online Appointment">
                     <group>
                         <field name='allowed_online_booking'/>
-                        <field name='allow_home_appointment'/>
+                        <field name='allow_home_appointment' invisible="1"/>
                     </group>
                     <group>
                         <field name="show_fee_on_booking"/>

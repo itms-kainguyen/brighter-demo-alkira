@@ -80,7 +80,6 @@ class ACSPrescriptionOrder(models.Model):
             for line in rec.group_id.medicament_group_line_ids:
                 product_lines.append((0, 0, {
                     'product_id': line.product_id.id,
-                    'name': line.product_id.name,
                     'common_dosage_id': line.common_dosage_id and line.common_dosage_id.id or False,
                     'dose': line.dose,
                     'dosage_uom_id': line.dosage_uom_id,
@@ -88,7 +87,7 @@ class ACSPrescriptionOrder(models.Model):
                     'form_id': line.product_id.form_id.id,
                     'qty_per_day': line.dose,
                     'days': line.days,
-                    'short_comment': line.reason,
+                    'name': line.reason,
                     'allow_substitution': line.allow_substitution,
                     'appointment_id': appointment_id,
                 }))
@@ -193,7 +192,7 @@ class ACSPrescriptionOrder(models.Model):
                 'form_id': line.form_id.id,
                 'qty_per_day': line.qty_per_day,
                 'days': line.days,
-                'short_comment': line.short_comment,
+                'name': line.name,
                 'allow_substitution': line.allow_substitution,
                 'appointment_id': appointment_id,
             }))
@@ -233,7 +232,7 @@ class ACSPrescriptionOrder(models.Model):
                     'qty_per_day': line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
                     'days': line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
                     'appointment_id': appointment_id,
-                    'short_comment': appointment_id,
+                    'name': appointment_id,
                 }))
         self.prescription_line_ids = lines
 
@@ -275,7 +274,7 @@ class ACSPrescriptionLine(models.Model):
             else:
                 rec.quantity = rec.days * rec.qty_per_day * rec.dose
 
-    name = fields.Char()
+    name = fields.Char(string='Description', help='Short comment on the specific drug')
     sequence = fields.Integer("Sequence", default=10)
     prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
     product_id = fields.Many2one('product.product', ondelete="cascade", string='Product',

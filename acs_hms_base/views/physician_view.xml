@@ -162,14 +162,14 @@
                     </div>
                     <group>
                         <group>
-                            <field name="code" string="Doctor ID" style="width: 20%%" readonly="1"/>
-                            <field name="medical_license"/>
+                            <field name="code" string="Doctor ID" style="width: 20%%" readonly="1" invisible="1"/>
+                            <field name="medical_license" invisible="1"/>
                             <field name="user_id" required="False" invisible="1"/>
                             <field name="active" invisible="1"/>
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                            <field name="specialty_id" required="True"/>
+                            <field name="specialty_id" invisible="1"/>
                         </group>
                     </group>
                     <notebook>

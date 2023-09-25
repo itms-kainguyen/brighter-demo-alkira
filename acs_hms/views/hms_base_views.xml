@@ -86,7 +86,7 @@
             </field>
             <xpath expr="//group" position="after">
                 <notebook>
-                    <page name="info" string="Hospital Information" attrs="{'invisible': [('patient_department','=',False)]}">
+                    <page name="info" string="Clinic Information" attrs="{'invisible': [('patient_department','=',False)]}">
                         <group>
                             <group name="left_data">
                                 <field name='department_type'/>
@@ -191,7 +191,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <xpath expr="//page" position="after">
-                <page string="Hospital Info" name="hms_info">
+                <page string="Clinic Info" name="hms_info">
                     <group>
                         <group>
                             <field name="acs_patient_id"/>

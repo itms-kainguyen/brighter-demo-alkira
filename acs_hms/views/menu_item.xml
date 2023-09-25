@@ -33,13 +33,13 @@
 
     <!-- Patient Configuration Menu-->
     <menuitem id="menu_medical_alerts" name="Medical Alerts" sequence="11" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_medical_alerts"/>
-    <menuitem id="menu_family_relation" name="Family Relation" action="acs_hms.action_acs_family_relation" parent="acs_hms_base.menu_hms_patient_cofig" sequence="12"/>
-    <menuitem id="menu_ethnicity" name="Ethnicity" sequence="25" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_acs_ethnicity_view"/>
+<!--    <menuitem id="menu_family_relation" name="Family Relation" action="acs_hms.action_acs_family_relation" parent="acs_hms_base.menu_hms_patient_cofig" sequence="12" invisible="1"/>-->
+<!--    <menuitem id="menu_ethnicity" name="Ethnicity" sequence="25" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_acs_ethnicity_view" invisible="1"/>-->
 
-    <menuitem id="diseases_menu" name="Diseases" parent="acs_hms_base.menu_hms_patient_cofig" sequence="40"/>
-    <menuitem id="hms_diseases" name="Diseases" action="acs_hms.act_open_diseases_view" parent="acs_hms.diseases_menu" sequence="0"/>
-    <menuitem id="menu_disease_category" name="Disease Categories" sequence="10" parent="acs_hms.diseases_menu" action="acs_hms.act_open_acs_disease_category_view"/>
-    <menuitem id="menu_hms_genetic_disease" name="Genetic Disease" sequence="20" parent="acs_hms.diseases_menu" action="acs_hms.action_hms_genetic_disease"/>
+<!--    <menuitem id="diseases_menu" name="Diseases" parent="acs_hms_base.menu_hms_patient_cofig" sequence="40" invisible="1"/>-->
+<!--    <menuitem id="hms_diseases" name="Diseases" action="acs_hms.act_open_diseases_view" parent="acs_hms.diseases_menu" sequence="0" invisible="1"/>-->
+<!--    <menuitem id="menu_disease_category" name="Disease Categories" sequence="10" parent="acs_hms.diseases_menu" action="acs_hms.act_open_acs_disease_category_view" invisible="1"/>-->
+<!--    <menuitem id="menu_hms_genetic_disease" name="Genetic Disease" sequence="20" parent="acs_hms.diseases_menu" action="acs_hms.action_hms_genetic_disease" invisible="1"/>-->
  
     <!--Under Main Physician-->
     <menuitem id="menu_physician_referring_physicians" sequence="1" parent="acs_hms_base.main_menu_physician" action='action_referring_doctors'/>
