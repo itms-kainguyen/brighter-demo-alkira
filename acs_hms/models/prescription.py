@@ -43,7 +43,7 @@ class ACSPrescriptionOrder(models.Model):
     prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id', string='Prescription line',
                                             states=READONLY_STATES, copy=True,auto_join=True)
 
-    company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital',
+    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
                                         states=READONLY_STATES, tracking=True, copy=False)
@@ -304,7 +304,7 @@ class ACSPrescriptionLine(models.Model):
     appointment_id = fields.Many2one('hms.appointment', ondelete="restrict", string='Appointment')
     treatment_id = fields.Many2one('hms.treatment', related='prescription_id.treatment_id', string='Treatment',
                                    store=True)
-    company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital',
+    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='prescription_id.company_id')
     qty_available = fields.Float(related='product_id.qty_available', string='Available Qty')
     days = fields.Float("Days", default=1.0)
