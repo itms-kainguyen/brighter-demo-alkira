@@ -207,7 +207,7 @@
                 <group expand="0" string="Group By...">
                     <filter string="Patient" name="patient_id_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter string="Prescription Date" name="prescription_date_groupby" domain="[]" context="{'group_by':'prescription_date'}"/>
-                    <filter string="Prescribing Doctor" name="physician_id_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
+                    <filter string="Prescriber" name="physician_id_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
                     <filter name="today" string="Today's Prescription" domain="[('prescription_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('prescription_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
                     <filter string="Company" name="company_group" domain="[]" context="{'group_by':'company_id'}"/>
                     <filter string="Appointment" name="appointment_id_groupby" domain="[]" context="{'group_by':'appointment_id'}"/>

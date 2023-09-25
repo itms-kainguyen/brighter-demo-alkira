@@ -47,7 +47,7 @@ class ACSPrescriptionOrder(models.Model):
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
                                         states=READONLY_STATES, tracking=True, copy=False)
-    physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescribing Doctor',
+    physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
         ('draft', 'Draft'),
