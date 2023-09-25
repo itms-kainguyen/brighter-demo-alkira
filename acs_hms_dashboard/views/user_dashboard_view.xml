@@ -277,13 +277,13 @@
                                     </t>
                                 </div>
 
-                                  <!-- Meeting Now -->
+                                  <!-- Telehealth -->
                                 <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_meeting_now_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-users'"/>
                                         <t t-set="acs_field_name" t-value="record.total_meeting_now.raw_value"/>
-                                        <t t-set="acs_record_lable">Meeting Now</t>
+                                        <t t-set="acs_record_lable">Telehealth</t>
                                         <t t-set="acs_record_action" t-value="'open_meeting'"/>
                                     </t>
                                 </div>

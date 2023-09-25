@@ -48,7 +48,7 @@
 
     <menuitem id="menu_medicine_medicament_route" name="Medicament Route" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_route" sequence="10"/>
 
-    <menuitem name="Meeting Now"
+    <menuitem name="Telehealth"
         id="mail.menu_root_discuss"
         action="mail.action_discuss"
         web_icon="mail,static/description/icon.svg"
