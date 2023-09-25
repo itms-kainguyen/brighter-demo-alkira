@@ -106,7 +106,7 @@
 
        <menuitem id="menu_consent_category_form"
         action="document_page.action_category"
-        name="Category's"
+        name="Template"
         sequence="2" parent="menu_consent_form"/>
 <!--      parent="contacts.res_partner_menu_config"-->
 

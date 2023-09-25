@@ -12,7 +12,7 @@ class Consent(models.Model):
     name = fields.Char('Name', required=True, index='trigram')
     content = fields.Html('Content')
     patient_id = fields.Many2one('hms.patient', string='Patient')
-    category_id = fields.Many2one('document.page', domain=[('type', '=', 'category')], string='Category')
+    category_id = fields.Many2one('document.page', domain=[('type', '=', 'category')], string='Template')
     nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], readonly=1, string='Nurse',
                                default=lambda self: self.env.user.id)
     patient_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
