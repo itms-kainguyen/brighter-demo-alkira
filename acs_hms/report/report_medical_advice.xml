@@ -45,7 +45,7 @@
                                 <span t-field="line.quantity"/>
                             </td>
                             <td>
-                                <span t-field="line.short_comment"/>
+                                <span t-field="line.name"/>
                             </td>
                         </t>
                         <t t-if="line.display_type == 'line_section'">

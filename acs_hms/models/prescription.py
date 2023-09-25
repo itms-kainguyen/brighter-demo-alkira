@@ -326,7 +326,7 @@ class ACSPrescriptionLine(models.Model):
             self.dose = self.product_id.dosage or 1
             self.allow_substitution = self.product_id.acs_allow_substitution
             self.common_dosage_id = self.product_id.common_dosage_id and self.product_id.common_dosage_id.id or False
-            self.name = self.product_id.display_name
+            # self.name = self.product_id.display_name
 
             if self.prescription_id and self.prescription_id.pregnancy_warning:
                 warning = {}
