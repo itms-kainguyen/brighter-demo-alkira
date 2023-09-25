@@ -70,11 +70,9 @@
                 <field name="employee_id"/>
             </field>
 
-            <page name="gneral_info" position="after">
-                <page string="Personal Information" groups="acs_hms_base.group_hms_manager">
-                    <separator string="Signature"/>
+            <page name="gneral_info" position="inside">
+                <separator string="Signature"/>
                     <field name="signature" widget="signature"/>
-                </page>
             </page>
         </field>
     </record>
