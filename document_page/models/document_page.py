@@ -23,7 +23,7 @@ class DocumentPage(models.Model):
     )
     active = fields.Boolean(default=True)
     parent_id = fields.Many2one(
-        "document.page", "Category", domain=[("type", "=", "category")]
+        "document.page", "Template", domain=[("type", "=", "category")]
     )
     child_ids = fields.One2many("document.page", "parent_id", "Children")
     content = fields.Html(

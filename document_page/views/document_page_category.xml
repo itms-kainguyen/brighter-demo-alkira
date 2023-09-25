@@ -6,7 +6,7 @@
         <field name="model">document.page</field>
         <field name="priority">16</field>
         <field name="arch" type="xml">
-            <form string="Category">
+            <form string="Template">
                 <sheet>
                     <field name="type" invisible="1" />
                     <h1>
@@ -16,7 +16,7 @@
                         <group>
                             <field
                                 name="parent_id"
-                                string="Category"
+                                string="Template"
                                 context="{'default_type':'category'}"
                             />
                             <field
@@ -86,7 +86,7 @@
                 <group expand="0" string="Group By...">
                     <filter
                         name="group_by_category"
-                        string="Category"
+                        string="Template"
                         context="{'group_by':'parent_id'}"
                     />
                     <filter
@@ -105,7 +105,7 @@
     </record>
     <!-- Category Action -->
     <record id="action_category" model="ir.actions.act_window">
-        <field name="name">Category</field>
+        <field name="name">Template</field>
         <field name="res_model">document.page</field>
         <field name="domain">[('type','=','category')]</field>
         <field name="context">{'default_type': 'category'}</field>
