@@ -38,15 +38,15 @@
 
     <menuitem id="menu_medicine_drug" name="Drug Form" parent="acs_hms_base.menu_medicine_cofig" action="acs_hms_base.act_open_drug_form_view" sequence="2"/>
 
-    <menuitem id="menu_medicine_product_active_component" name="Active Component" parent="acs_hms_base.menu_medicine_cofig" action="act_open_active_comp" sequence="5"/>
+<!--    <menuitem id="menu_medicine_product_active_component" name="Active Component" parent="acs_hms_base.menu_medicine_cofig" action="act_open_active_comp" sequence="5"/>-->
 
-    <menuitem id="menu_medicine_drug_company" name="Drug Company" parent="acs_hms_base.menu_medicine_cofig" action="act_open_drug_company_form_view" sequence="6"/>
+    <menuitem id="menu_medicine_drug_company" name="Manufacturer" parent="acs_hms_base.menu_medicine_cofig" action="act_open_drug_company_form_view" sequence="6"/>
 
-    <menuitem id="menu_therapeutic_effect" name="Therapeutic Effect" parent="acs_hms_base.menu_medicine_cofig" action="act_open_therapeutic_effect" sequence="7"/>
+<!--    <menuitem id="menu_therapeutic_effect" name="Therapeutic Effect" parent="acs_hms_base.menu_medicine_cofig" action="act_open_therapeutic_effect" sequence="7"/>-->
 
-    <menuitem id="menu_medicine_medicament_flavour" name="Medicament Flavour" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_flavour" sequence="9"/>
+<!--    <menuitem id="menu_medicine_medicament_flavour" name="Medicament Flavour" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_flavour" sequence="9"/>-->
 
-    <menuitem id="menu_medicine_medicament_route" name="Medicament Route" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_route" sequence="10"/>
+    <menuitem id="menu_medicine_medicament_route" name="Route" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_route" sequence="10"/>
 
     <menuitem name="Telehealth"
         id="mail.menu_root_discuss"

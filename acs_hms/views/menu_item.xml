@@ -79,8 +79,8 @@
         parent="acs_hms.menu_pres_cofig" action="act_open_advice_template_view" sequence="12"/>
 
     <!-- Main Medicine Menu -->
-    <menuitem id="menu_medicine_medicament_dosage" name="Medication Dosage" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_dosage" sequence="7"/>
-    <menuitem id="menu_medicine_hms_medicament_group" name="Medicament Group" parent="acs_hms_base.acs_medicine_root" action="act_open_medicament_group_view" sequence="11"/>
-    <menuitem id="menu_acs_product_kit" name="Product Kit" parent="acs_hms_base.acs_medicine_root" action="action_acs_product_kit" sequence="15"/>
+    <menuitem id="menu_medicine_medicament_dosage" name="Dosage" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_dosage" sequence="7"/>
+<!--    <menuitem id="menu_medicine_hms_medicament_group" name="Medicament Group" parent="acs_hms_base.acs_medicine_root" action="act_open_medicament_group_view" sequence="11"/>-->
+    <menuitem id="menu_acs_product_kit" name="Template" parent="acs_hms_base.acs_medicine_root" action="action_acs_product_kit" sequence="15"/>
 
 </odoo>
