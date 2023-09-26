@@ -204,7 +204,7 @@ class Appointment(models.Model):
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
                                     'Diseases', states=READONLY_STATES)
-    medicine_ids = fields.Many2many('product.template', 'medicine_appointment_rel', 'medicine_id', 'appointment_id', 'Medicine', states=READONLY_STATES)
+    medicine_ids = fields.Many2many('product.product', 'medicine_appointment_rel', 'medicine_id', 'appointment_id', string='Medicine', domain=[('hospital_product_type', '=', 'medicament')],states=READONLY_STATES)
 
     medical_history = fields.Text(related='patient_id.medical_history',
                                   string="Past Medical History", readonly=True)

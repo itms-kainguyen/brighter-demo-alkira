@@ -68,7 +68,8 @@ class AcsPatientProcedure(models.Model):
     date = fields.Date("Date", states=STATES)
     date_stop = fields.Date("End Date", states=STATES)
     duration = fields.Float('Duration')
-    medicine_id = fields.Many2one('product.template', 'Medicine', states=STATES)
+    medicine_id = fields.Many2one('product.product', domain=[('hospital_product_type', '=', 'medicament')],
+                                  string='Medicine', states=STATES)
     diseas_id = fields.Many2one('hms.diseases', 'Disease', states=STATES)
     description = fields.Text(string="Description", states=STATES)
     treatment_id = fields.Many2one('hms.treatment', 'Treatment', states=STATES)
