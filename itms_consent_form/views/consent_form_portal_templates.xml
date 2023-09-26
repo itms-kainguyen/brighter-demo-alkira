@@ -170,11 +170,11 @@
 
     <template id="consent_content" name="Consent Portal Content">
         <!-- Intro -->
-        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
-          <h2 class="my-0">
-                <em t-out="consent.name"/>
-            </h2>
-        </div>
+<!--        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">-->
+<!--          <h2 class="my-0">-->
+<!--                <em t-out="consent.name"/>-->
+<!--            </h2>-->
+<!--        </div>-->
         <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
             <!-- Informations -->
 <!--            <div id="informations">-->
