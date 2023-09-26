@@ -19,8 +19,8 @@
             </div>
             <field name="appointment_id" position="after">
                 <field name="invoice_id" invisible="1"/>
-                <field name="picking_ids" readonly="1" widget="many2many_tags" groups="stock.group_stock_user"/>
-                <field name="deliverd" readonly="1" groups="stock.group_stock_user"/>
+                <field name="picking_ids" readonly="1" widget="many2many_tags" groups="stock.group_stock_user" invisible="1"/>
+                <field name="deliverd" readonly="1" groups="stock.group_stock_user" invisible="1"/>
             </field>
             <field name="prescription_date" position="after">
                   <label for="is_prescriber_fee" string="Prescriber fee"/>
