@@ -56,9 +56,9 @@ class ACSPatientDisease(models.Model):
 
     disease_id = fields.Many2one('hms.diseases', ondelete='set null', string='Medicine')
     description = fields.Char(string='Treatment Description')
-    diagnosed_date = fields.Date(string='Date of Diagnosis')
+    diagnosed_date = fields.Date(string='Date of Treatment')
     healed_date = fields.Date(string='Healed')
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician')
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Nurse')
     is_allergy = fields.Boolean(string='Allergic Disease')
     pregnancy_warning = fields.Boolean(string='Pregnancy warning')
     patient_id = fields.Many2one('hms.patient', ondelete='cascade', string='Nurse')

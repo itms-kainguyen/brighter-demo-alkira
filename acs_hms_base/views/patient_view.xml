@@ -83,7 +83,7 @@
                         </button>
                         <button class="oe_stat_button" type="object"
                             name="action_view_attachments" icon="fa-files-o">
-                            <field string="Documents" name="attach_count" widget="statinfo"/>
+                            <field string="Photos" name="attach_count" widget="statinfo"/>
                         </button>
                     </div>
 
@@ -141,7 +141,7 @@
                                     <field name="phone" widget="phone"/>
                                     <field name="mobile" widget="phone"/>
                                     <field name="email"/>
-                                    <field name="gov_code"/>
+                                    <field name="gov_code" invisible="1"/>
                                 </group>
                             </group>
                             <group> 
@@ -203,7 +203,7 @@
             <search string="Patient">
                 <field name="name" filter_domain="['|', '|', '|', '|', ('name', 'ilike', self), ('gov_code', 'ilike', self), ('code', 'ilike', self), ('email', 'ilike', self),  ('mobile', 'ilike', self)]"/>
                 <field name="mobile" filter_domain="[('mobile', 'ilike', self)]"/>
-                <field name="gov_code"/>
+                <field name="gov_code" invisible="1"/>
                 <field name="code"/>
                 <field name="primary_physician_id"/>
                 <field name="active" invisible="1"/>
