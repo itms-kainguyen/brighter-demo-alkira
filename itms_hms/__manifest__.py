@@ -12,15 +12,19 @@
         'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/product_template_views.xml',
-        'views/calendar_views.xml'
+        'views/calendar_views.xml',
+        'views/mail_channel_view.xml'
     ],
     'assets': {
         'web.assets_backend': [
             'itms_hms/static/src/scss/style.scss',
-            'itms_hms/static/src/js/calendar_model_custom.js'
+            'itms_hms/static/src/js/calendar_model_custom.js',
+            'itms_hms/static/src/xml/discuss_sidebar.xml',
+            'itms_hms/static/src/js/thread_view_topbar.js',
         ],
         'web.assets_frontend': [
         ],
+
     },
     'installable': True,
     'application': True,

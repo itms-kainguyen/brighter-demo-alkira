@@ -489,6 +489,10 @@ class ResUsers(models.Model):
 
     def open_meeting(self):
         action = self.env["ir.actions.actions"]._for_xml_id("mail.action_discuss")
+        # action['default_active_id'] = 'mail.channel_1'
+        action['context'] = {'default_active_id': 'mail.channel_37',
+                             'active_id': 'mail.channel_37'}
+
         return action
 
     def open_protocol(self):
@@ -506,7 +510,5 @@ class ResUsers(models.Model):
     def open_emergency(self):
         action = {}
         return action
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
