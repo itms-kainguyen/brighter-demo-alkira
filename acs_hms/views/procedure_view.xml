@@ -63,6 +63,7 @@
                 <field name="patient_id"/>
                 <field name="product_id"/>
                 <field name="price_unit" sum="total"/>
+                <field name="physician_id" invisible="1"/>
                 <field name="nurse_id"/>
                 <field name="department_id" invisible="1" groups="acs_hms.group_allow_multi_department"/>
                 <field name="date"/>
@@ -116,6 +117,7 @@
                             <field name="appointment_ids" widget="many2many_tags" domain="[('patient_id','=',patient_id)]"/>
                         </group>
                         <group>
+                            <field name="physician_id" invisible="1"/>
                             <field name="nurse_id"/>
                             <field name="product_id" context="{'default_detailed_type': 'service', 'default_hospital_product_type': 'procedure'}" domain="[('hospital_product_type','like','procedure')]"/>
                             <field name="price_unit"/>
