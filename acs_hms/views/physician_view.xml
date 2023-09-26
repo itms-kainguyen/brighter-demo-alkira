@@ -41,8 +41,8 @@
 
             <div name="button_box" position="inside">
             
-                <button name="action_patients" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wheelchair">
-                    <field string="Assigned Patients" name="patient_count" widget="statinfo"/>
+                <button name="action_patients" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-user">
+                    <field string="Patient" name="patient_count" widget="statinfo"/>
                 </button>
 
                 <button name="action_treatment" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-user-md">
