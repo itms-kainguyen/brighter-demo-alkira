@@ -165,9 +165,9 @@
                 <field name="cabin_id" optional="hide"/>
                 <field name="patient_id"/>
                 <field name="date"/>
-                <field name="department_id" groups="acs_hms.group_allow_multi_department" optional="hide"/>
+                <field name="department_id" groups="acs_hms.group_allow_multi_department" invisible="1"/>
                 <field name="physician_id"/>
-                <field name="responsible_id" optional="hide"/>
+                <field name="responsible_id" invisible="1"/>
                 <field name="create_uid" optional="hide"/>
                 <field name="consultation_type" optional="show"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
@@ -276,22 +276,22 @@
                                     <field name="nurse_id"/>
                                     <field name="cabin_id"/>
                                     <field name="diseases_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse"/>
-                                    <field name="responsible_id"/>
+                                    <field name="responsible_id" invisible="1"/>
                                 </group>
                                 <group>
                                     <field name="urgency"/>
                                     <field name="purpose_id"/>
-                                    <field name="outside_appointment"/>
-                                    <field name="location" widget="url" attrs="{'invisible': [('outside_appointment','=',False)]}"/>
-                                    <field name="is_video_call"/>
+                                    <field name="outside_appointment" invisible="1"/>
+                                    <field name="location" widget="url" invisible="1" attrs="{'invisible': [('outside_appointment','=',False)]}"/>
+                                    <field name="is_video_call" invisible="1"/>
                                 </group>
                             </group>
-                            <separator string="Chief Complaints"/>
-                            <field name="chief_complain" placeholder="Chief Complaints..."/>
-                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms.group_hms_nurse"/>
-                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms.group_hms_nurse"/>
-                            <separator name="past_history" string="Past History" groups="acs_hms.group_hms_nurse"/>
-                            <field name="past_history" placeholder="Past History..." groups="acs_hms.group_hms_nurse"/>
+<!--                            <separator string="Chief Complaints"/>-->
+<!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
+<!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms.group_hms_nurse"/>-->
+<!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms.group_hms_nurse"/>-->
+<!--                            <separator name="past_history" string="Past History" groups="acs_hms.group_hms_nurse"/>-->
+<!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms.group_hms_nurse"/>-->
                             <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
                             <group>
                                 <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
@@ -440,8 +440,12 @@
                             </group>
                         </page>
                     </notebook>
-                    <separator string="Notes"/>
-                    <field name="notes" placeholder="Notes..."/>
+
+                    <group colspan="4">
+                        <a>Notes</a>
+                        <field colspan="2" name="notes" nolabel="1" placeholder="Notes..."/>
+                    </group>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>

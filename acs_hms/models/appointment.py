@@ -112,8 +112,8 @@ class Appointment(models.Model):
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
-                                   index=True, help='Physician\'s Name', states=READONLY_STATES, tracking=True,
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Nurse',
+                                   index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True,
                                    default=_get_default_physician)
     department_id = fields.Many2one('hr.department', ondelete='restrict',
                                     domain=[('patient_department', '=', True)], string='Department', tracking=True,
@@ -203,7 +203,7 @@ class Appointment(models.Model):
         ('followup', 'Follow Up')], 'Consultation Type', states=READONLY_STATES, copy=False)
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
-                                    'Diseases', states=READONLY_STATES)
+                                    'Medicine', states=READONLY_STATES)
     medical_history = fields.Text(related='patient_id.medical_history',
                                   string="Past Medical History", readonly=True)
     patient_diseases_ids = fields.One2many('hms.patient.disease', readonly=True,
