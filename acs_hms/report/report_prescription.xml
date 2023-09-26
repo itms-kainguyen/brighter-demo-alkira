@@ -16,26 +16,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6" name="nurse_detail">
-                        <ul class="list-unstyled">
-                            <li><span>Prescriber: 3221190</span></li>
-                             <li><span>Provider: 6076941K</span></li>
-                             <li><span>Nurse Practitioner</span></li>
-                             <li><span>B.Health Sc MNP MBA MACN MANCP</span></li>
-                            <li><span>Mobile: 0431631292 (tel:0431631292)</span></li>
-                        </ul>
-                    </div>
+<!--                    <div class="col-6" name="nurse_detail">-->
+
+<!--                    </div>-->
                 </div>
             </div>
         </xpath>
+         <xpath expr="//div[hasclass('pt-5')]" position="attributes">
+        	<attribute name="class" add=""/>
+        </xpath>
+
     </template>
 
 
     <template id="report_hms_prescription_document">
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
-            <div class="page">
 
+            <div class="page">
+                <div t-if="doc.physician_id">
+                     <p t-field="doc.physician_id"/>
+                     <p t-field="doc.physician_id.user_id.signature"/>
+                 </div>
                 <center>
                     <h3>Medical Prescription: <span t-field="doc.name"/></h3>
                 </center>
@@ -49,10 +51,7 @@
                         <strong>Age</strong>
                         <p class="m-0" t-field="doc.patient_age"/>
                     </div>
-                    <div t-if="doc.physician_id" class="col-3 mb-2">
-                        <strong>Doctor</strong>
-                        <p class="m-0" t-field="doc.physician_id"/>
-                    </div>
+
                     <div t-if="doc.prescription_date" class="col-3 mb-2">
                         <strong>Date</strong>
                         <p class="m-0" t-field="doc.prescription_date"/>
