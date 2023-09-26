@@ -71,8 +71,8 @@
             </field>
 
             <page name="gneral_info" position="inside">
-                <separator string="Signature"/>
-                    <field name="signature" widget="signature"/>
+                <separator string="Signature" class="acs_separator"/>
+                    <field name="signature" widget="signature" class="img_fluid_signature"/>
             </page>
         </field>
     </record>
