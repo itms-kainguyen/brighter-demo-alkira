@@ -270,7 +270,7 @@ class Appointment(models.Model):
     user_id = fields.Many2one('res.users', string='Responsible', states=READONLY_STATES,
                               ondelete='cascade',
                               help='Responsible User for appointment validation And further Followup.')
-    acs_kit_id = fields.Many2one('acs.product.kit', string='Kit', states=READONLY_STATES)
+    acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=READONLY_STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=READONLY_STATES, default=1)
     invoice_ids = fields.One2many("account.move", "appointment_id", string="Invoices",
                                   groups="account.group_account_invoice")

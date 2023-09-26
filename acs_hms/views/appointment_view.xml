@@ -222,7 +222,7 @@
                         <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
                             <field string="Invoices" name="invoice_count" widget="statinfo"/>
                         </button>
-                        <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object" string="Patient Procedures"/>
+                        <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object" string="Procedures"/>
                         <field name="prescription_ids" invisible="1"/>
                         <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
@@ -261,12 +261,12 @@
                             <field name="follow_date" attrs="{'invisible': [('state', 'not in', ['in_consultation','done','to_invoice'])]}"/>
                         </group>
                         <group>
-                            <label for="date" string="Date"/>
-                            <div class="o_row">
-                                <field name="date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_to'}"/>
-                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                                <field name="date_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
-                            </div>
+<!--                            <label for="date" string="Date"/>-->
+<!--                            <div class="o_row">-->
+<!--                                <field name="date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_to'}"/>-->
+<!--                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>-->
+<!--                                <field name="date_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>-->
+<!--                            </div>-->
                             <field name="planned_duration" widget="float_time"/>
                         </group>
                     </group>
@@ -382,7 +382,7 @@
                             <div name="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}">
                                 <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
                                 <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
-                                <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
+                                <button name="get_acs_kit_lines" string="Add Template" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
                             </div>
                             <field name="pricelist_id" invisible="1"/>
                             <field name="consumable_line_ids" nolabel="1" colspan="4" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id, 'default_pricelist_id': pricelist_id}">
