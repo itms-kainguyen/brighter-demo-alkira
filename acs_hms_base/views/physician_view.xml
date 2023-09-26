@@ -155,12 +155,10 @@
                         <h1>
                             <field name="name" placeholder="Doctor's Name"/>
                         </h1>
-                        <div>
-                            <field name="degree_ids" widget="many2many_tags"/>
-                        </div>
                     </div>
                     <group>
                         <group>
+                            <field name="degree_ids" widget="many2many_tags"/>
                             <field name="code" string="Doctor ID" style="width: 20%%" readonly="1" invisible="1"/>
                             <field name="medical_license" invisible="1"/>
                             <field name="user_id" required="False" invisible="1"/>
