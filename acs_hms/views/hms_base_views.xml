@@ -9,15 +9,13 @@
         <field name="arch" type="xml">
             <field name="active_component_ids" position="before">
                 <field name="common_dosage_id" string="Repeat"/>
-                <field name="acs_allow_substitution"/>
+                <field name="acs_allow_substitution" invisible="1"/>
             </field>
-            <field name="form_id" position="before">
-                 <field name="generic_name"/>
+            <field name="drug_company_id" position="before">
+                  <field name="generic_name"/>
                  <field name="company"/>
                  <field name="lot_no" invisible="1"/>
                  <field name="batch_no"/>
-            </field>
-            <field name="drug_company_id" position="before">
                 <field name="manual_prescription_qty" invisible="1"/>
                 <field name="store_box" invisible="1"/>
             </field>
