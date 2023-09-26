@@ -194,7 +194,7 @@
                                     <field name="mobile" widget="phone"/>
                                     <field name="user_ids" invisible="1"/>
                                     <field name="email" widget="email" required="1"/>
-                                    <field name="vat"/>
+                                    <field name="vat" invisible="1"/>
                                 </group>
                             </group>
                         </page>
