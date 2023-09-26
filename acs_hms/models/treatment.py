@@ -36,12 +36,11 @@ class ACSTreatment(models.Model):
     department_id = fields.Many2one('hr.department', ondelete='restrict', string='Department',
                                     domain=[('patient_department', '=', True)], states=READONLY_STATES, tracking=True)
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
-    date = fields.Datetime(string='Date of Diagnosis', default=fields.Datetime.now, states=READONLY_STATES)
+    date = fields.Datetime(string='Date of Treatment', default=fields.Datetime.now, states=READONLY_STATES)
     healed_date = fields.Date(string='Healed Date', states=READONLY_STATES)
     end_date = fields.Date(string='End Date', help='End of treatment date', states=READONLY_STATES)
-    diagnosis_id = fields.Many2one('hms.diseases', string='Diagnosis', states=READONLY_STATES)
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
-                                   help='Physician who treated or diagnosed the patient', states=READONLY_STATES,
+    diagnosis_id = fields.Many2one('hms.diseases', string='Medicine', states=READONLY_STATES)
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Prescriber', states=READONLY_STATES,
                                    tracking=True)
     attending_physician_ids = fields.Many2many('hms.physician', 'hosp_treat_doc_rel', 'treat_id', 'doc_id',
                                                string='Primary Doctors',
@@ -77,20 +76,18 @@ class ACSTreatment(models.Model):
         ('improving', 'Improving'),
         ('worsening', 'Worsening'),
     ], string='Status of the disease', index=True, states=READONLY_STATES)
-    is_infectious = fields.Boolean(string='Infectious Disease', states=READONLY_STATES,
-                                   help='Check if the patient has an infectious transmissible disease')
+    is_infectious = fields.Boolean(string='Infectious Disease', states=READONLY_STATES)
     allergy_type = fields.Selection([
         ('da', 'Drug Allergy'),
         ('fa', 'Food Allergy'),
         ('ma', 'Misc Allergy'),
         ('mc', 'Misc Contraindication'),
     ], string='Allergy type', index=True, states=READONLY_STATES)
-    age = fields.Char(string='Age when diagnosed', states=READONLY_STATES,
-                      help='Patient age at the moment of the diagnosis. Can be estimative')
+    age = fields.Char(string='Age when diagnosed', states=READONLY_STATES)
     patient_disease_id = fields.Many2one('hms.patient.disease', string='Patient Disease', states=READONLY_STATES)
     invoice_id = fields.Many2one('account.move', string='Invoice', ondelete='restrict', copy=False)
     company_id = fields.Many2one('res.company', ondelete='restrict', states=READONLY_STATES,
-                                 string='Hospital', default=lambda self: self.env.company)
+                                 string='Clinic', default=lambda self: self.env.company)
     medical_alert_ids = fields.Many2many('acs.medical.alert', 'treatment_medical_alert_rel', 'treatment_id', 'alert_id',
                                          string='Medical Alerts', related="patient_id.medical_alert_ids")
     alert_count = fields.Integer(compute='_get_alert_count', default=0)
