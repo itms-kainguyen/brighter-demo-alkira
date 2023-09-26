@@ -53,7 +53,7 @@ class AcsPatientProcedure(models.Model):
         change_default=True, ondelete='restrict', states=STATES, required=True)
     price_unit = fields.Float("Price", states=STATES)
     invoice_id = fields.Many2one('account.move', string='Invoice', states=STATES, copy=False)
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician', 
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Nurse',
         index=True, states=STATES)
     state = fields.Selection([
         ('scheduled', 'Scheduled'),
