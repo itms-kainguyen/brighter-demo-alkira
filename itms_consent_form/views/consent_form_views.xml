@@ -6,7 +6,6 @@
         <field name="model">consent.consent</field>
         <field name="arch" type="xml">
             <tree string="Consents">
-                <field name="name" />
                 <field name="patient_id" />
                 <field name="nurse_id" />
                 <field name="patient_signed_on"/>
