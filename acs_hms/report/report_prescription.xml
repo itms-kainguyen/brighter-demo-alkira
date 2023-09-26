@@ -51,7 +51,7 @@
                 <br/>
                 <div class="row">
                     <div class="col-6">
-                        <b>Signature</b>
+                        <b class="col-6 pull-right">Signature</b>
                         <br/>
                         <t t-if="doc.physician_id and doc.physician_id.signature">
                             <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
