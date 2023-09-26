@@ -18,7 +18,7 @@ class Physician(models.Model):
             record.prescription_count = Prescription.search_count([('physician_id', '=', record.id)])
             record.patient_count = Patient.search_count(['|',('primary_physician_id','=',record.id), ('assignee_ids','in',record.partner_id.id)])
 
-    consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Telehealth Service', default=897 or False)
+    consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Telehealth Service', default=1336 or False)
     followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service', default=1292 or False)
     appointment_duration = fields.Float('Consultation (min)', default=0.25)
 
