@@ -63,11 +63,11 @@ class AcsPatientProcedure(models.Model):
     ], string='Status', default='scheduled', tracking=True)
     company_id = fields.Many2one('res.company', ondelete='restrict', states=STATES,
         string='Hospital', default=lambda self: self.env.company)
-    date = fields.Datetime("Date", states=STATES)
-    date_stop = fields.Datetime("End Date", states=STATES)
-    duration = fields.Float('Duration', compute="acs_get_duration", store=True)
+    date = fields.Date("Date", states=STATES)
+    date_stop = fields.Date("End Date", states=STATES)
+    duration = fields.Float('Duration')
 
-    diseas_id = fields.Many2one('hms.diseases', 'Disease', states=STATES)
+    diseas_id = fields.Many2one('hms.diseases', 'Medicine', states=STATES)
     description = fields.Text(string="Description", states=STATES)
     treatment_id = fields.Many2one('hms.treatment', 'Treatment', states=STATES)
     appointment_ids = fields.Many2many('hms.appointment', 'acs_appointment_procedure_rel', 'appointment_id', 'procedure_id', 'Appointments', states=STATES)
@@ -77,7 +77,7 @@ class AcsPatientProcedure(models.Model):
 
     consumable_line_ids = fields.One2many('hms.consumable.line', 'procedure_id',
         string='Consumable Line', states=STATES, copy=False)
-    acs_kit_id = fields.Many2one('acs.product.kit', string='Kit', states=STATES)
+    acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=STATES, default=1)
 
     @api.model
