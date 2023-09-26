@@ -112,11 +112,11 @@ class Appointment(models.Model):
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Nurse',
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
                                    index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True,
                                    default=_get_default_physician)
     department_id = fields.Many2one('hr.department', ondelete='restrict',
-                                    domain=[('patient_department', '=', True)], string='Department', tracking=True,
+                                    domain=[('patient_department', '=', True)], string='Clinic', tracking=True,
                                     states=READONLY_STATES)
 
     # ACS: Added department field agian here to avoid portal error. Insted of reading department_id used acs_department_idfield so error vanbe avoided.
@@ -203,7 +203,9 @@ class Appointment(models.Model):
         ('followup', 'Follow Up')], 'Consultation Type', states=READONLY_STATES, copy=False)
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
-                                    'Medicine', states=READONLY_STATES)
+                                    'Diseases', states=READONLY_STATES)
+    medicine_ids = fields.Many2many('product.template', 'medicine_appointment_rel', 'medicine_id', 'appointment_id', 'Medicine', states=READONLY_STATES)
+
     medical_history = fields.Text(related='patient_id.medical_history',
                                   string="Past Medical History", readonly=True)
     patient_diseases_ids = fields.One2many('hms.patient.disease', readonly=True,
@@ -234,7 +236,7 @@ class Appointment(models.Model):
     purpose_id = fields.Many2one('appointment.purpose', ondelete='cascade',
                                  string='Purpose', help="Appointment Purpose", states=READONLY_STATES)
     cabin_id = fields.Many2one('appointment.cabin', ondelete='cascade',
-                               string='Consultation Room (Cabin)', help="Appointment Cabin", states=READONLY_STATES,
+                               string='Consultation Room', help="Appointment Cabin", states=READONLY_STATES,
                                copy=False)
     treatment_id = fields.Many2one('hms.treatment', ondelete='cascade',
                                    string='Treatment', help="Treatment Id", states=READONLY_STATES, tracking=True)
@@ -298,7 +300,7 @@ class Appointment(models.Model):
 
     # Just to make object selectable in selction field this is required: Waiting Screen
     acs_show_in_wc = fields.Boolean(default=True)
-    nurse_id = fields.Many2one('res.users', 'Assigned Nurse', domain=[('physician_id', '=', False)])
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)])
 
     @api.depends('date', 'date_to')
     def _get_planned_duration(self):

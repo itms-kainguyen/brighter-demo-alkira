@@ -165,8 +165,8 @@
                 <field name="cabin_id" optional="hide"/>
                 <field name="patient_id"/>
                 <field name="date"/>
-                <field name="department_id" groups="acs_hms.group_allow_multi_department" invisible="1"/>
-                <field name="physician_id"/>
+                <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
+                <field name="nurse_id"/>
                 <field name="responsible_id" invisible="1"/>
                 <field name="create_uid" optional="hide"/>
                 <field name="consultation_type" optional="show"/>
@@ -256,7 +256,8 @@
                             <field name="age"/>
                             <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
                             <field name="department_type" invisible="1"/>
-                            <field name="physician_id" required="1"/>
+                            <field name="nurse_id"/>
+                            <field name="physician_id" required="0" invisible="1"/>
                             <field name="follow_date" attrs="{'invisible': [('state', 'not in', ['in_consultation','done','to_invoice'])]}"/>
                         </group>
                         <group>
@@ -273,9 +274,9 @@
                         <page name="info" string="General Information">
                             <group>
                                 <group>
-                                    <field name="nurse_id"/>
                                     <field name="cabin_id"/>
-                                    <field name="diseases_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse"/>
+                                    <field name="medicine_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse"/>
+                                    <field name="diseases_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse" invisible="1"/>
                                     <field name="responsible_id" invisible="1"/>
                                 </group>
                                 <group>
