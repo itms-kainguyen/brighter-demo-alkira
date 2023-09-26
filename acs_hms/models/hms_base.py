@@ -15,8 +15,7 @@ class ResPartner(models.Model):
     is_referring_doctor = fields.Boolean(string="Is Refereinng Physician")
     # ACS Note: Adding assignee as relation with partner for receptionist or Doctor to access only those patients assigned to them
     assignee_ids = fields.Many2many('res.partner', 'acs_partner_asignee_relation', 'partner_id', 'assigned_partner_id',
-                                    'Assignees',
-                                    help='Assigned partners for receptionist or doctor etc to see the records')
+                                    'Nurse')
 
 
 class ResUsers(models.Model):

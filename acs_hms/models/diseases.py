@@ -54,21 +54,20 @@ class ACSPatientDisease(models.Model):
     _name = 'hms.patient.disease'
     _description = "Patient Diseases"
 
-    disease_id = fields.Many2one('hms.diseases', ondelete='set null', string='Disease')
+    disease_id = fields.Many2one('hms.diseases', ondelete='set null', string='Medicine')
     description = fields.Char(string='Treatment Description')
     diagnosed_date = fields.Date(string='Date of Diagnosis')
     healed_date = fields.Date(string='Healed')
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
-        help='Physician who treated or diagnosed the patient')    
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician')
     is_allergy = fields.Boolean(string='Allergic Disease')
     pregnancy_warning = fields.Boolean(string='Pregnancy warning')
-    patient_id = fields.Many2one('hms.patient', ondelete='cascade', string='Patient')
+    patient_id = fields.Many2one('hms.patient', ondelete='cascade', string='Nurse')
     lactation = fields.Boolean('Lactation')
     disease_severity = fields.Selection([
             ('mild', 'Mild'),
             ('moderate', 'Moderate'),
             ('severe', 'Severe'),
-        ], string='Severity',index=True)
+        ], string='Severity', index=True)
     status = fields.Selection([
             ('acute', 'Acute'),
             ('chronic', 'Chronic'),
@@ -76,20 +75,17 @@ class ACSPatientDisease(models.Model):
             ('healed', 'Healed'),
             ('improving', 'Improving'),
             ('worsening', 'Worsening'),
-        ], string='Status of the disease',index=True)
-    is_infectious = fields.Boolean(string='Infectious Disease',
-        help='Check if the patient has an infectious' \
-        'transmissible disease')
+        ], string='Status of the disease', index=True)
+    is_infectious = fields.Boolean(string='Infectious Disease')
     allergy_type = fields.Selection([
             ('da', 'Drug Allergy'),
             ('fa', 'Food Allergy'),
             ('ma', 'Misc Allergy'),
             ('mc', 'Misc Contraindication'),
         ], string='Allergy type',index=True)
-    age = fields.Char(string='Age when diagnosed',
-        help='Patient age at the moment of the diagnosis. Can be estimative')
+    age = fields.Char(string='Age when diagnosed')
     treatment_id = fields.Many2one('hms.treatment', ondelete='cascade', 
-        string='Treatment', help="Treatment Id")
+        string='Treatment')
 
 
 class ACSDiseaseGene(models.Model):
