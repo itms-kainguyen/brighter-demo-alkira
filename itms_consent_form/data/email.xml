@@ -13,7 +13,7 @@
                 <div style="margin: 0px; padding: 0px;">
                     <p>Dear <t t-out="object.patient_id.name"></t>,</p>
                     <p></p>
-                    <p>You have consent need to accept and sign</p>
+                    <p>In preparation for your upcoming appointment, we kindly request that you click on the following link to access and electronically sign our consent form</p>
                     <div style="padding: 16px 0px 16px 0px;">
                         <a t-att-href="ctx.get('sign_url')"
                             target="_blank"
