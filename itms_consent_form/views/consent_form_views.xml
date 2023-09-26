@@ -21,7 +21,7 @@
             <field name="arch" type="xml">
                 <form string="Consent">
                     <header>
-                        <button name="action_consent_send" string="Send by Email" type="object" data-hotkey="g" attrs="{'invisible': [('patient_signature', '!=', False)]}"/>
+                        <button name="action_consent_send" string="Send by Email" type="object" data-hotkey="g" attrs="{'invisible': [('is_agree', '!=', False)]}"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
