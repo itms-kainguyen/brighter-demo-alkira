@@ -156,7 +156,6 @@
                             <field name="name" placeholder="Doctor's Name"/>
                         </h1>
                         <div>
-                            <label for="degree_ids" class="oe_edit_only"/>
                             <field name="degree_ids" widget="many2many_tags"/>
                         </div>
                     </div>
