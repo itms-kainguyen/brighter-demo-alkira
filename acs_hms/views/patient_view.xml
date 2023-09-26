@@ -73,7 +73,7 @@
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
                 <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object">
-                    <field string="Patient Procedures" name="patient_procedure_count" widget="statinfo"/>
+                    <field string="Procedures" name="patient_procedure_count" widget="statinfo"/>
                 </button>
             </div>
 
@@ -161,7 +161,7 @@
                     </group>
                     <separator string="Past Medical History" colspan="4" invisible="1"/>
                     <field name="medical_history" invisible="1"/>
-                    <separator string="Treatment" colspan="4"/>
+                    <separator string="Treatment" colspan="4" class="acs_separator"/>
                     <field name="patient_diseases_ids"  nolabel="1" colspan="4"/>
                     <separator string="Family Disease History" invisible="1"/>
                     <field name="family_history_ids" invisible="1"/>
