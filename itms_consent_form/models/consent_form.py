@@ -26,7 +26,7 @@ class Consent(models.Model):
         string="Patient Signed On", copy=False)
     is_agree = fields.Boolean('I read and give my consent to this document')
     nurse_signature = fields.Binary(string="Nurse Signature", copy=False)
-    nurse_signed_by = fields.Char(compute='_compute_nurse_signature', string="Nurse Signed By", readonly=1, copy=False,
+    nurse_signed_by = fields.Char(compute='_compute_nurse_signature', string="Nurse Signature", readonly=1, copy=False,
                                   store=True)
     nurse_signed_on = fields.Datetime(compute='_compute_nurse_signature',
                                       string="Nurse Signed On", readonly=1, copy=False)
@@ -144,6 +144,6 @@ class ACSPatient(models.Model):
 
     def action_view_consent_form(self):
         action = self.env['ir.actions.act_window']._for_xml_id('itms_consent_form.act_res_partner_2_consent')
-        all_child = self.with_context(active_test=False).search([('id', 'child_of', self.ids)])
+        all_child = self.with_context(active_test=False).search([('id', 'in', self.ids)])
         action["domain"] = [("patient_id", "in", all_child.ids)]
         return action
