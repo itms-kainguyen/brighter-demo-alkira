@@ -161,13 +161,13 @@
                             </group>
                             
                         </page>
-                        <page name="hospital_info" string="Clinic Info">
-                            <group>
-                                <group>
+                        <page name="hospital_info" string="Clinic Info" invisible="1">
+                            <group invisible="1">
+                                <group invisible="1">
                                     <field name="partner_id" groups="base.group_no_one" required="0" readonly="1"/>
                                     <field name="company_id" groups="base.group_multi_company"  options="{'no_create': True}"/>
                                 </group>
-                                <group name="ref_doc_details">
+                                <group name="ref_doc_details" invisible="1">
                                 </group>
                                 <group name="basic_medical" invisible="1">
                                     <field name="blood_group" invisible="1"/>
@@ -176,7 +176,7 @@
                                     <field name="date_of_death" force_save="True" invisible="1"/>
                                 </group>
                             </group>
-                            <group> 
+                            <group invisible="1">
                                 <group name="corporate_tieup" invisible="1">
                                     <field name="is_corpo_tieup" invisible="1"/>
                                     <field name="corpo_company_id" attrs="{'invisible': [('is_corpo_tieup', '!=', True)], 'required': [('is_corpo_tieup', '=', True)]}" context="{'default_is_company':True}"/>
