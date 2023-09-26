@@ -32,7 +32,7 @@
     <menuitem id="menu_working_schedule" sequence="20" parent="menu_hms_cofig" action='resource.action_resource_calendar_form'/>
 
     <!-- Patient Configuration Menu-->
-    <menuitem id="menu_medical_alerts" name="Medical Alerts" sequence="11" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_medical_alerts"/>
+<!--    <menuitem id="menu_medical_alerts" name="Medical Alerts" sequence="11" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_medical_alerts"/>-->
 <!--    <menuitem id="menu_family_relation" name="Family Relation" action="acs_hms.action_acs_family_relation" parent="acs_hms_base.menu_hms_patient_cofig" sequence="12" invisible="1"/>-->
 <!--    <menuitem id="menu_ethnicity" name="Ethnicity" sequence="25" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_acs_ethnicity_view" invisible="1"/>-->
 

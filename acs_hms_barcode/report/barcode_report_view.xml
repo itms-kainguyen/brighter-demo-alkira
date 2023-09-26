@@ -63,7 +63,7 @@
     </template>
 
     <record id="action_patient_barcode" model="ir.actions.report">
-        <field name="name">Patient BarCode</field>
+        <field name="name">Patient Barcode</field>
         <field name="model">hms.patient</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">acs_hms_barcode.report_patient_barcode</field>
