@@ -6,7 +6,7 @@
                 <tr>
                     <th>Sr.No</th>
                     <th>Medicine</th>
-                    <th>Allow Substitution</th>
+<!--                    <th>Allow Substitution</th>-->
                     <th>Frequency</th>
                     <th>Dose Qty.</th>
                     <th>Qty. Per Day</th>
@@ -25,9 +25,9 @@
                             <td>
                                 <span t-field="line.sudo().product_id.name"/>
                             </td>
-                            <td>
-                                <span t-field="line.allow_substitution"/>
-                            </td>
+<!--                            <td>-->
+<!--                                <span t-field="line.allow_substitution"/>-->
+<!--                            </td>-->
                             <td>
                                 <span t-if="line.common_dosage_id.name" t-field="line.common_dosage_id.name"/>
                                 <span t-if="not line.common_dosage_id.name" t-field="line.common_dosage_id.abbreviation"/>
@@ -45,7 +45,7 @@
                                 <span t-field="line.quantity"/>
                             </td>
                             <td>
-                                <span t-field="line.name"/>
+                                <span t-field="line.short_comment"/>
                             </td>
                         </t>
                         <t t-if="line.display_type == 'line_section'">

@@ -30,7 +30,8 @@
                 </div>
 
                 <div class="mb16" name="diseases">
-                    <b>Disease: </b><span t-esc="', '.join(map(lambda x: (x.name), doc.diseases_ids))"/>
+<!--                    <b>Disease: </b><span t-esc="', '.join(map(lambda x: (x.name), doc.diseases_ids))"/>-->
+                    <b></b>
                 </div>
 
                 <t t-if="doc.pregnancy_warning">
@@ -50,7 +51,7 @@
                 <br/>
                 <div class="row">
                     <div class="col-6">
-                        <b>Doctor’s Stamp/Signature</b>
+                        <b>Signature</b>
                         <br/>
                         <t t-if="doc.physician_id and doc.physician_id.signature">
                             <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
