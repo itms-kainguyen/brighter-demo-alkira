@@ -48,17 +48,11 @@
         XML Paper Specification (.XPS)
         Archive file types (.ZIP and .RAR)
         """,
-    "author": "Shurshilov Artem",
-    "website": "https://eurodoo.com",
-    "live_test_url": "https://eurodoo.com/login_employee?login=demo1&amp;password=demo1",
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    "category": "Point Of Sale",
-    "version": "13.0.0.0",
-    "license": "OPL-1",
-    # 'price': 29,
-    # 'currency': 'EUR',
+    'category': 'ITMS/ITMS',
+    "version": "16.0.0.0",
     "images": [
         "static/description/Microsoft and Google preview.gif",
         "static/description/button_url.png",
@@ -69,10 +63,18 @@
     "depends": ["base", "web", "mail"],
     "installable": True,
     # always loaded
-    "data": [
-        "views/assets.xml",
-    ],
-    "qweb": [
-        "static/src/xml/attachments_preview_ms_and_google.xml",
-    ],
+    "website": "https://www.itmsgroup.com.au",
+    "author": "ITMS Group",
+    "license": "AGPL-3",
+    # always loaded
+    "data": [],
+    'assets': {
+        'web.assets_backend': [
+            'attachments_preview_ms_google/static/src/css/attachment_dragdrop.css',
+            'attachments_preview_ms_google/static/src/js/attachments_preview_ms_google.js',
+            "attachments_preview_ms_google/static/src/xml/attachments_preview_ms_and_google.xml",
+        ],
+        'web.assets_frontend': [
+        ],
+    },
 }
