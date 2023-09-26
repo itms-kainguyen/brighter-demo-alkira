@@ -44,7 +44,7 @@
 
                 <br/><br/><br/>
                 <p>
-                    <b>Comment(If Any):</b>
+                    <b>Advice:</b>
                     <br/>
                     <span t-field="doc.notes"/>
                 </p>
@@ -56,12 +56,17 @@
                         <t t-if="doc.physician_id and doc.physician_id.signature">
                             <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
                         </t>
+                        <br/>
+                        <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">
+    <!--                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>-->
+                                <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" alt="Logo" style="width: 100px;" class="float-right"/>
+                        </div>
                     </div>
 
-                    <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">
-                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>
-                        <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" alt="Logo" style="width: 100px;" class="float-right"/>
-                    </div>
+<!--                    <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">-->
+<!--                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>-->
+<!--                        <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" alt="Logo" style="width: 100px;" class="float-right"/>-->
+<!--                    </div>-->
                 </div>
 
             </div>
