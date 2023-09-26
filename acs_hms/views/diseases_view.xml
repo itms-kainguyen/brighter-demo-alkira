@@ -163,7 +163,7 @@
                             <field name="healed_date" string="Healing Date" invisible="1"/>
                         </group>
                         <group>
-                            <field name="physician_id" string="Doctor"/>
+                            <field name="physician_id" string="Nurse"/>
                             <field name="description" string="Notes about the treatment"/>
                             <field name="status" invisible="1"/>
                             <field name="disease_severity" invisible="1"/>

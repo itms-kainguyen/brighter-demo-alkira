@@ -5,7 +5,7 @@ from odoo import api, fields, models, _
 
 class ACSDiseases(models.Model):
     _name = 'hms.diseases'
-    _description = "Diseases"
+    _description = "Treament"
     _rec_names_search = ['name', 'code']
     _order = "sequence"
 
@@ -119,7 +119,7 @@ class FamilyDiseases(models.Model):
     _description = 'Family Diseases'
 
     patient_id = fields.Many2one('hms.patient', ondelete='cascade', string='Patient', index=True)
-    diseases_ids = fields.Many2many('hms.diseases', 'rz_id','pz_id','cz_id' ,'Disease', required=True)
+    diseases_ids = fields.Many2many('hms.diseases', 'rz_id','pz_id','cz_id' ,'Treatment', required=True)
     xory = fields.Selection([
             ('m', 'Maternal'),
             ('f', 'Paternal')
