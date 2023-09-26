@@ -7,10 +7,10 @@
                 <a t-if="consent" t-attf-href="/my/consent-form?{{ keep_query() }}">Consent Form</a>
                 <t t-else="">Consent Form</t>
             </li>
-            <li t-if="consent">
-                <span t-field="consent.name"/>
-                <t t-out="consent.name"/>
-            </li>
+<!--            <li t-if="consent">-->
+<!--                <span t-field="consent.name"/>-->
+<!--                <t t-out="consent.name"/>-->
+<!--            </li>-->
         </xpath>
     </template>
 
@@ -66,7 +66,7 @@
                 <t t-call="portal.portal_record_sidebar">
                     <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
                     <t t-set="title">
-                        <h2 class="mb-0"><b t-field="consent.patient_id.name" data-id="name"/> </h2>
+                        <h4 class="mb-0"><b t-field="consent.patient_id.name" data-id="name" /> </h4>
                     </t>
                     <t t-set="entries">
                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
@@ -188,7 +188,7 @@
 <!--                </div>-->
 <!--            </div>-->
             <section t-if="not is_html_empty(consent.content)" id="content" class="mt-5">
-                <h3 style="text-align: center;" class=""><em t-out="consent.category_id.name"/></h3>
+                <h4 style="text-align: center;" class=""><em t-out="consent.category_id.name"/></h4>
                 <hr class="mt-0 mb-1"/>
                 <t><em t-field="consent.content"/></t>
             </section>
