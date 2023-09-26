@@ -42,7 +42,7 @@
             <div name="button_box" position="inside">
             
                 <button name="action_patients" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-user">
-                    <field string="Patient" name="patient_count" widget="statinfo"/>
+                    <field string="Patients" name="patient_count" widget="statinfo"/>
                 </button>
 
                 <button name="action_treatment" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-user-md">
@@ -50,7 +50,7 @@
                 </button>
 
                 <button name="action_appointment" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-stethoscope">
-                    <field string="Appointment" name="appointment_count" widget="statinfo"/>
+                    <field string="Appointments" name="appointment_count" widget="statinfo"/>
                 </button>
 
                 <button name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">

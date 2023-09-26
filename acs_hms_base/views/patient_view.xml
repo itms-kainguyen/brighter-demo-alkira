@@ -205,7 +205,7 @@
                 <field name="mobile" filter_domain="[('mobile', 'ilike', self)]"/>
                 <field name="gov_code" invisible="1"/>
                 <field name="code"/>
-                <field name="primary_physician_id" invisible="1"/>
+                <field name="primary_physician_id"/>
                 <field name="active" invisible="1"/>
                 <separator/>
                 <filter string="Is Male" name="gender" domain="[('gender','=','male')]"/>

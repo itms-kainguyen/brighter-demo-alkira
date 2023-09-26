@@ -36,7 +36,7 @@ class ACSPatient(models.Model):
     emp_code = fields.Char(string='Employee Code')
     user_id = fields.Many2one('res.users', string='Related User', ondelete='cascade', 
         help='User-related data of the patient')
-    primary_physician_id = fields.Many2one('hms.physician', 'Primary Care Doctor')
+    primary_physician_id = fields.Many2one('hms.physician', 'Nurse')
     acs_tag_ids = fields.Many2many('hms.patient.tag', 'patient_tag_hms_rel', 'tag_id', 'patient_tag_id', string="HMS Tags")
 
     invoice_count = fields.Integer(compute='_rec_count', string='# Invoices')
