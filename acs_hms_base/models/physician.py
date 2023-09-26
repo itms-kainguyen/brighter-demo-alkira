@@ -37,7 +37,7 @@ class Physician(models.Model):
         ondelete='cascade', help='User-related data of the physician')
     code = fields.Char(string='Physician Code', default='/', tracking=True)
     degree_ids = fields.Many2many('physician.degree', 'physician_rel_education', 'physician_ids','degree_ids', string='Qualifications')
-    specialty_id = fields.Many2one('physician.specialty', ondelete='set null', string='Specialty', help='Specialty Code', tracking=True)
+    specialty_id = fields.Many2one('physician.specialty', ondelete='set null', string='Consultation Type',  tracking=True)
     medical_license = fields.Char(string='Medical License', tracking=True)
 
     @api.model_create_multi

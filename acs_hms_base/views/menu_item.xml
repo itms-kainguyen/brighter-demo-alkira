@@ -20,7 +20,7 @@
 
     <menuitem id="menu_physician_cofig" name="Configuration" parent="main_menu_physician" groups="acs_hms_base.group_hms_manager" sequence="100"/>
 
-    <menuitem id="menu_physician_specialty" sequence="10" parent="menu_physician_cofig" action='action_physician_specialty'/>
+    <menuitem id="menu_physician_specialty" name="Consultation Type" sequence="10" parent="menu_physician_cofig" action='action_physician_specialty'/>
 
     <menuitem id="menu_physician_degree" sequence="10" parent="menu_physician_cofig" action='action_physician_degree'/>
 
