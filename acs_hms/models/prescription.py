@@ -313,6 +313,7 @@ class ACSPrescriptionLine(models.Model):
     display_type = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], help="Technical field for UX purpose.")
+    repeat = fields.Integer(string='Repeat', default=5)
 
     @api.onchange('product_id')
     def onchange_product(self):
@@ -323,6 +324,7 @@ class ACSPrescriptionLine(models.Model):
             self.dosage_uom_id = self.product_id.dosage_uom_id and self.product_id.dosage_uom_id.id or self.product_id.uom_id.id,
             self.quantity = 1
             self.dose = self.product_id.dosage or 1
+            self.repeat = 5
             self.allow_substitution = self.product_id.acs_allow_substitution
             self.common_dosage_id = self.product_id.common_dosage_id and self.product_id.common_dosage_id.id or False
             # self.name = self.product_id.display_name

@@ -268,6 +268,8 @@
                                 <field name="date_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
                             </div>
                             <field name="planned_duration" widget="float_time"/>
+                            <field name="prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}"/>
+                            <field name="consent_id" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                         </group>
                     </group>
                     <notebook>
@@ -365,13 +367,13 @@
                             <separator string="Radiological"/>
                             <field name="radiological_report" placeholder="Radiological Report..."/>
                         </page>
-                        <page name="advice" string="D/D &amp; Advice" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" attrs="{'invisible': [('state','=','draft')]}">
+                        <page name="advice" string="D/D &amp; Advice" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" attrs="{'invisible': [('state','=','draft')]}" invisible="1">
                             <separator string="Differential Diagnosis"/>
                             <field name="differencial_diagnosis" placeholder="Differential Diagnosis..."/>
                             <separator string="Medical Advice"/>
                             <field name="medical_advice" placeholder="Medical Advice..."/>
                         </page>
-                        <page name='diseases' string="Disease History" groups="acs_hms.group_hms_jr_doctor" attrs="{'invisible': [('state','=','draft')]}">
+                        <page name='diseases' string="Disease History" groups="acs_hms.group_hms_jr_doctor" attrs="{'invisible': [('state','=','draft')]}" invisible="1">
                             <separator string="Past Medical History"/>
                             <field name="medical_history"/>
                             <separator string="Diseases History"/>

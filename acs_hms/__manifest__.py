@@ -77,7 +77,7 @@
     'website': 'https://www.almightycs.com',
     'live_test_url': 'https://www.youtube.com/watch?v=hiumJoDEHxI',
     'license': 'OPL-1',
-    'depends': ['acs_hms_base', 'web_timer_widget', 'website', 'digest'],
+    'depends': ['acs_hms_base', 'web_timer_widget', 'website', 'digest', 'itms_consent_form'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',

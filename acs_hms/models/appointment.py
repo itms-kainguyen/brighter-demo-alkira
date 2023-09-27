@@ -204,7 +204,9 @@ class Appointment(models.Model):
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
                                     'Diseases', states=READONLY_STATES)
-    medicine_ids = fields.Many2many('product.product', 'medicines_appointment_rel', 'medicine_id', 'appointment_id', string='Medicine', domain=[('hospital_product_type', '=', 'medicament')],states=READONLY_STATES)
+    medicine_ids = fields.Many2many('product.product', 'medicines_appointment_rel', 'medicine_id', 'appointment_id',
+                                    string='Medicine', domain=[('hospital_product_type', '=', 'medicament')],
+                                    states=READONLY_STATES)
 
     medical_history = fields.Text(related='patient_id.medical_history',
                                   string="Past Medical History", readonly=True)
@@ -300,7 +302,9 @@ class Appointment(models.Model):
 
     # Just to make object selectable in selction field this is required: Waiting Screen
     acs_show_in_wc = fields.Boolean(default=True)
-    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)])
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
+    prescription_id = fields.Many2one('prescription.order', 'Prescription Order', required=True)
+    consent_id = fields.Many2one('consent.consent', 'Consent Form', required=True)
 
     @api.depends('date', 'date_to')
     def _get_planned_duration(self):
@@ -650,6 +654,9 @@ class Appointment(models.Model):
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
             template.sudo().send_mail(self.id, raise_exception=False)
+
+            template_consent = self.env.ref('itms_consent_form.email_patient_consent_form')
+            template_consent.sudo().send_mail(self.id, raise_exception=False)
 
         self.state = 'confirm'
 

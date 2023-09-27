@@ -149,6 +149,7 @@
                                     <field name="common_dosage_group"/>
                                     <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
                                     <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
+                                    <field name="repeat"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
                                     <field name="days" attrs="{'required': [('display_type', '=', False)]}"/>

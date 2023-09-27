@@ -9,11 +9,11 @@ class Consent(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = "Patient Consent Form"
 
+    name = fields.Char('Title', required=1)
     content = fields.Html('Content')
-    patient_id = fields.Many2one('hms.patient', string='Patient')
+    patient_id = fields.Many2one('hms.patient', required=1, string='Patient')
     category_id = fields.Many2one('document.page', domain=[('type', '=', 'category')], string='Template')
-    nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], readonly=1, string='Nurse',
-                               default=lambda self: self.env.user.id)
+    nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], string='Nurse')
     patient_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
                                              string='Patient Attachments')
     nurse_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
