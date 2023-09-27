@@ -4,7 +4,6 @@
 {
     'name': 'Advanced Workflow',
     'version': '16.0.1.0.0',
-    'live_test_url': 'https://youtu.be/rKxh8lXfdVw',
     'sequence': 1,
     'summary': """Advanced Stepper, Workflow Process, Advanced process, Advanced statusbar, Elegant Stepper, Elegant Workflow, Elegant statusbar, Workflow State, Workflow Status, Workflow Statusbar Odoo Actions,
                 Automatic Workflow Settings, Dynamic Workflow Builder, Module Workflows, Workflow Transactions, Auto Workflow Actions, Approval Workflow, Task Workflow Approval, Action Buttons, Take next step,
@@ -17,12 +16,9 @@
                 Customization Process, Customization stepper, Customization Statusbar, Customization Actions, Workflow View, Workflow Enhancements, Workflow Design, Workflow Style, CRM Lead Workflow Action Buttons,
                 All in One Process, All in One stepper, All in One step, All in One Status bar, All in One Action, Workflow Customization, Workflow Customize, Customization Workflow, Beautiful Stepper""",
     'description': "An incredible workflow for users to handle their process.",
-    'author': 'Innoway',
-    'maintainer': 'Innoway',
-    'price': '15.0',
-    'currency': 'EUR',
-    'website': 'https://innoway-solutions.com',
-    'license': 'OPL-1',
+    "website": "https://www.itmsgroup.com.au",
+    "author": "ITMS Group",
+    "license": "AGPL-3",
     'images': [
         'static/description/wallpaper.png'
     ],
@@ -39,5 +35,6 @@
     'demo': [],
     'installable': True,
     'application': True,
-    'auto_install': True,
+    'auto_install': False,
+    'category': 'ITMS/ITMS'
 }
