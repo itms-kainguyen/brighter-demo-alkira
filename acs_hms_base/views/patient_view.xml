@@ -111,6 +111,7 @@
                         <group>
                             <field name="birthday"/>
                             <field name="age"/>
+                            <field name="allergies_ids" options="{'color_field': 'color'}" widget="many2many_tags" string="Allergies"/>
                             <field name="acs_tag_ids" options="{'color_field': 'color'}" widget="many2many_tags" string="Tags"/>
                         </group>
                     </group>
