@@ -9,7 +9,6 @@ class Consent(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = "Patient Consent Form"
 
-    name = fields.Char('Name')
     content = fields.Html('Content')
     patient_id = fields.Many2one('hms.patient', string='Patient')
     category_id = fields.Many2one('document.page', domain=[('type', '=', 'category')], string='Template')

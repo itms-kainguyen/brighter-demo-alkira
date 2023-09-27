@@ -43,7 +43,7 @@
                 </thead>
                 <t t-foreach="consent_forms" t-as="consent">
                     <tr>
-                        <td><a t-att-href="consent.get_portal_url()"><t t-out="consent.name"/></a></td>
+                        <td><a t-att-href="consent.get_portal_url()"><t t-out="consent.category_id.name"/></a></td>
                         <td class="text-end"><span t-field="consent.patient_id.name"/></td>
                         <td class="text-end"><span t-field="consent.patient_signed_by"/></td>
                         <td class="text-center">
