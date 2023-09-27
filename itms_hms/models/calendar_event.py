@@ -5,13 +5,6 @@ from odoo import api, fields, models, _, Command
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
 
-    @api.model
-    def _get_service_id(self):
-        consultation = False
-        if self.env.user.company_id.consultation_product_id:
-            consultation = self.env.user.company_id.consultation_product_id.id
-        return consultation
-
     name = fields.Char('Meeting Subject', required=True)
     STATE_SELECTION = [('pending', 'Pending Confirmation'),
                        ('confirmed', 'Confirmed'),
@@ -20,15 +13,12 @@ class CalendarEvent(models.Model):
     patient_id = fields.Many2one('hms.patient', string='Patient')
     start_at = fields.Date('Date', default=fields.Date.today)
     physician_id = fields.Many2one('hms.physician', string='Prescriber')
-    state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending',
-                             help="Status of the attendee's participation")
+    state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending')
     consultation_type = fields.Many2one('hms.appointment',
                                         required=True, string='Consultation Type')
 
     consultation_service = fields.Many2one('product.product', ondelete='restrict',
-        string='Consultation Service', help="Consultation Services",
-        domain=[('hospital_product_type', '=', "consultation")], required=True,
-        default=_get_service_id)
+        string='Consultation Service', domain=[('hospital_product_type', '=', "consultation")])
 
     time_slot = fields.Many2one('appointment.schedule.slot.lines', string='Available Slots')
     payment_state = fields.Selection([('not_paid', 'Not Paid'),
@@ -85,10 +75,10 @@ class CalendarEvent(models.Model):
     #         moves = self.env['account.move'].sudo().create(invoice_vals)
     #     return res
 
-    @api.onchange('physician_id')
-    def _onchange_physician_id(self):
-        self.consultation_service = False
-        self.time_slot = False
-        result = {'domain': {'consultation_service': [('id', 'in', self.physician_id.consultaion_service_id.ids)],'time_slot': [('id', '=', self.physician_id.id)]}}
-        return result
+    # @api.onchange('physician_id')
+    # def _onchange_physician_id(self):
+    #     self.consultation_service = False
+    #     self.time_slot = False
+    #     result = {'domain': {'consultation_service': [('id', 'in', self.physician_id.consultaion_service_id.ids)],'time_slot': [('id', '=', self.physician_id.id)]}}
+    #     return result
 

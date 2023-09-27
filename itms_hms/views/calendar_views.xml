@@ -28,12 +28,12 @@
                         </div>
                          <group>
                                 <group>
-                                   <field name="name" invisible="1"/>
+                                 <field name="name" invisible="1"/>
                                  <field name="patient_id"/>
-                                 <field name="physician_id"/>
-                                 <field name="consultation_service"/>
-                                    <field name="start_at" string="Date"/>
-                                    <field name="time_slot"/>
+                                 <field name="physician_id" invisible="1"/>
+                                 <field name="consultation_service" widget="many2one"/>
+                                 <field name="start_at" string="Date"/>
+                                 <field name="time_slot" invisible="1"/>
                                  <field name="start" string="Start Date" invisible="1"/>
                                  <field name="stop" string="End Date" invisible="1"/>
                                  <field name="description" string="Remark"/>
