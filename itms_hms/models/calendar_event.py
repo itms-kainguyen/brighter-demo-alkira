@@ -14,11 +14,9 @@ class CalendarEvent(models.Model):
     start_at = fields.Date('Date', default=fields.Date.today)
     physician_id = fields.Many2one('hms.physician', string='Prescriber')
     state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending')
-    consultation_type = fields.Many2one('hms.appointment',
-                                        required=True, string='Consultation Type')
 
     consultation_service = fields.Many2one('product.product', ondelete='restrict',
-        string='Consultation Service', domain=[('hospital_product_type', '=', "consultation")])
+        string='Consultation Type', domain=[('hospital_product_type', '=', "consultation")])
 
     time_slot = fields.Many2one('appointment.schedule.slot.lines', string='Available Slots')
     payment_state = fields.Selection([('not_paid', 'Not Paid'),
