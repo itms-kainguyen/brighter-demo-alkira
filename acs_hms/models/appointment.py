@@ -308,6 +308,7 @@ class Appointment(models.Model):
     prescription_id = fields.Many2one('prescription.order', 'Prescription Order', required=True)
     consent_id = fields.Many2one('consent.consent', 'Consent Form', required=True)
     is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
+    prescription_repeat = fields.Integer('Prescription Repeat', readonly=True)
 
     @api.depends('consent_id', 'consent_id.patient_signature', 'consent_id.is_agree')
     def _compute_is_confirmed_consent(self):
@@ -317,6 +318,12 @@ class Appointment(models.Model):
                 if rec.consent_id.patient_signature and rec.consent_id.is_agree:
                     rec.state = 'confirm_consent'
                     rec.is_confirmed_consent = True
+
+    @api.onchange('prescription_id')
+    def onchange_prescription_id(self):
+        if self.prescription_id:
+            for line in self.prescription_id.prescription_line_ids:
+                self.prescription_repeat = line.repeat
 
     @api.depends('date', 'date_to')
     def _get_planned_duration(self):
