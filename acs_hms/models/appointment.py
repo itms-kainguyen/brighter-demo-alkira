@@ -179,7 +179,7 @@ class Appointment(models.Model):
         ('confirm', 'Consent Emailed'),
         ('confirm_consent', 'Consent Confirmed'),
         ('waiting', 'Waiting'),
-        ('in_consultation', 'In consultation'),
+        ('in_consultation', 'Consultation'),
         ('pause', 'Pause'),
         ('to_invoice', 'To Invoice'),
         ('done', 'Done'),
@@ -720,16 +720,16 @@ class Appointment(models.Model):
             self.appointment_duration = float(
                 ('%0*d') % (2, h) + '.' + ('%0*d') % (2, m * 1.677966102)) - self.pause_duration
         self.date_end = datetime.now()
-        if (self.invoice_exempt or self.invoice_id) and not (
-                self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
-            self.appointment_done()
-        else:
-            self.state = 'to_invoice'
+        # if (self.invoice_exempt or self.invoice_id) and not (
+        #         self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
+        # else:
+        #     self.state = 'to_invoice'
         if self.consumable_line_ids:
             self.consume_appointment_material()
         if self.prescription_id:
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
+        self.appointment_done()
 
     def appointment_done(self):
         self.state = 'done'
