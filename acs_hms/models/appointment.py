@@ -726,7 +726,9 @@ class Appointment(models.Model):
         self.state = 'cancel'
         self.waiting_date_start = False
         self.waiting_date_end = False
-
+        if self.prescription_id:
+            for line in self.prescription_id.prescription_line_ids:
+                line.repeat += 1
         if self.sudo().invoice_id and self.sudo().invoice_id.state == 'draft':
             self.sudo().invoice_id.unlink()
 
