@@ -206,7 +206,7 @@
                     <button name="consultation_done" states="in_consultation" groups="acs_hms.group_hms_jr_doctor" type="object" string="Consultation Done" class="oe_highlight"/>
                     <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,waiting,in_consultation" type="action"/>
                     <button name="appointment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,waiting,in_consultation,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,in_consultation,to_invoice,done"/>
                     <field name="appointment_invoice_policy" invisible="1"/>
                     <field name="consumable_invoice_id" invisible="1"/>
                     <field name="procedure_to_invoice_ids" invisible="1" widget="many2many_tags"/>
@@ -270,6 +270,7 @@
                             <field name="planned_duration" widget="float_time"/>
                             <field name="consultation_type"/>
                             <field name="product_id" required="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
+                            <field name="prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id}"/>
                             <field name="consent_id" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                         </group>0
                     </group>
@@ -435,7 +436,6 @@
                                     <field name="refered_to_physician_id" attrs="{'invisible': [('refered_to_appointment_id','=',False)]}"/>
                                 </group>
                                 <group>
-                                    <field name="prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id}"/>
                                     <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="1"/>
                                     <field name="user_id" widget="many2one_avatar_user" invisible="1"/>
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
