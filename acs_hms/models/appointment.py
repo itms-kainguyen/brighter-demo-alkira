@@ -669,9 +669,6 @@ class Appointment(models.Model):
             template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
             email_values = {'sign_url': self.consent_id.get_portal_url()}
             template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
-        if self.prescription_id:
-            for line in self.prescription_id.prescription_line_ids:
-                line.repeat -= 1
 
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
@@ -730,6 +727,9 @@ class Appointment(models.Model):
             self.state = 'to_invoice'
         if self.consumable_line_ids:
             self.consume_appointment_material()
+        if self.prescription_id:
+            for line in self.prescription_id.prescription_line_ids:
+                line.repeat -= 1
 
     def appointment_done(self):
         self.state = 'done'
@@ -740,9 +740,6 @@ class Appointment(models.Model):
         self.state = 'cancel'
         self.waiting_date_start = False
         self.waiting_date_end = False
-        if self.prescription_id:
-            for line in self.prescription_id.prescription_line_ids:
-                line.repeat += 1
         if self.sudo().invoice_id and self.sudo().invoice_id.state == 'draft':
             self.sudo().invoice_id.unlink()
 
