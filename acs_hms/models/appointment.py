@@ -655,9 +655,9 @@ class Appointment(models.Model):
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
             template.sudo().send_mail(self.id, raise_exception=False)
-            template_consent = self.env.ref('itms_consent_form.email_patient_consent_form')
+            template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
             email_values = {'sign_url': self.consent_id.get_portal_url()}
-            template_consent.with_context(**email_values).sudo().send_mail(self.consent_id.id, raise_exception=False)
+            template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
         if self.prescription_id:
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
