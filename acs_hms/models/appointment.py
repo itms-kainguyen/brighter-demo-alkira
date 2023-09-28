@@ -176,7 +176,8 @@ class Appointment(models.Model):
     ], string='Urgency Level', default='normal', states=READONLY_STATES)
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
+        ('confirm', 'Consent Emailed'),
+        ('confirm_consent', 'Consent Confirmed'),
         ('waiting', 'Waiting'),
         ('in_consultation', 'In consultation'),
         ('pause', 'Pause'),
@@ -306,6 +307,16 @@ class Appointment(models.Model):
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
     prescription_id = fields.Many2one('prescription.order', 'Prescription Order', required=True)
     consent_id = fields.Many2one('consent.consent', 'Consent Form', required=True)
+    is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
+
+    @api.depends('consent_id')
+    def _compute_is_confirmed_consent(self):
+        for rec in self:
+            rec.is_confirmed_consent = False
+            if rec.consent_id:
+                if rec.consent_id.patient_signature and rec.consent_id.is_agree:
+                    rec.state = 'confirm_consent'
+                    rec.is_confirmed_consent = True
 
     @api.depends('date', 'date_to')
     def _get_planned_duration(self):
@@ -661,6 +672,9 @@ class Appointment(models.Model):
         if self.prescription_id:
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
+
+        self.waiting_date_start = datetime.now()
+        self.waiting_duration = 0.1
 
         self.state = 'confirm'
 
