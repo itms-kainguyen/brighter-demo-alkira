@@ -280,6 +280,24 @@
                         </group>
                     </group>
                     <notebook>
+                        <page name="consent_form" string="Consent Form">
+                            <field name="consent_ids" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id, 'default_name':'consent'}">
+                                <tree editable="bottom">
+                                    <field name="nurse_signature" invisible="0"/>
+                                    <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
+                                    <field name="category_id" />
+                                    <field name="name"/>
+                                    <field name="patient_id" />
+                                    <field name="nurse_id"/>
+                                    <field name="nurse_signed_on"/>
+                                    <button name="action_open_form"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-arrow-right"
+                                            aria-label="Internal link"
+                                            data-tooltip="Internal link"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page name="info" string="General Information">
                             <group>
                                 <group>

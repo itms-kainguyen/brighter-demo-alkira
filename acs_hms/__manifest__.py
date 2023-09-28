@@ -120,6 +120,7 @@
         'views/digest_view.xml',
         'views/res_users.xml',
         'views/menu_item.xml',
+        'views/hr_employee.xml'
     ],
     'assets': {
         'web.assets_backend': [

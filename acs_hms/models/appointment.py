@@ -311,6 +311,9 @@ class Appointment(models.Model):
     prescription_repeat = fields.Integer(compute='_compute_prescription_id', store=True, string='Prescription Repeat',
                                          readonly=True)
 
+    #harry testing, revert it later
+    consent_ids = fields.One2many('consent.consent','appointment_id', 'Consent Forms')
+    
     @api.depends('consent_id', 'consent_id.patient_signature', 'consent_id.is_agree')
     def _compute_is_confirmed_consent(self):
         for rec in self:
