@@ -309,11 +309,11 @@ class Appointment(models.Model):
     consent_id = fields.Many2one('consent.consent', 'Consent Form', required=True)
     is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
 
-    @api.depends('consent_id')
+    @api.depends('consent_id', 'consent_id.patient_signature', 'consent_id.is_agree')
     def _compute_is_confirmed_consent(self):
         for rec in self:
             rec.is_confirmed_consent = False
-            if rec.consent_id:
+            if rec.consent_id and rec.state == 'confirm':
                 if rec.consent_id.patient_signature and rec.consent_id.is_agree:
                     rec.state = 'confirm_consent'
                     rec.is_confirmed_consent = True
