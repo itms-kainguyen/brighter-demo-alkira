@@ -49,7 +49,7 @@
         <field name="name">appointment.cabin.tree</field>
         <field name="model">appointment.cabin</field>
         <field name="arch" type="xml">
-            <tree string="Appointment Cabin">
+            <tree string="Room">
                 <field name="name"/>
             </tree>
         </field>
@@ -59,12 +59,12 @@
         <field name="name">appointment.cabin.form.form</field>
         <field name="model">appointment.cabin</field>
         <field name="arch" type="xml">
-            <form string="Appointment Cabin">
+            <form string="Room">
                 <sheet>
                     <div class="oe_title">
                         <label for="name" string="Name" class="oe_edit_only"/>
                         <h1>
-                            <field name="name" placeholder="Appointment Cabin"/>
+                            <field name="name" placeholder="Room"/>
                         </h1>
                     </div>
                 </sheet>
@@ -73,7 +73,7 @@
     </record>
 
     <record id="act_open_appointment_cabin" model="ir.actions.act_window">
-        <field name="name">Appointment Cabin</field>
+        <field name="name">Room</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">appointment.cabin</field>
         <field name="view_mode">tree,form</field>
@@ -82,7 +82,7 @@
                 No Record Found
             </p>
             <p>
-                Click to add an Appointment Cabin.
+                Click to add an Room.
             </p>
         </field>
     </record>
@@ -92,14 +92,14 @@
         <field name="name">acs.cancel.reason.tree</field>
         <field name="model">acs.cancel.reason</field>
         <field name="arch" type="xml">
-            <tree string="Cancel Reason" editable="bottom">
+            <tree string="Cancellation" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>
     </record>
 
     <record id="action_acs_cancel_reason" model="ir.actions.act_window">
-        <field name="name">Cancel Reason</field>
+        <field name="name">Cancellation</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">acs.cancel.reason</field>
         <field name="view_mode">tree</field>
@@ -108,7 +108,7 @@
                 No Record Found
             </p>
             <p>
-                Click to add a Cancel Reason.
+                Click to add a Cancellation.
             </p>
         </field>
     </record>
@@ -268,9 +268,10 @@
                                 <field name="date_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
                             </div>
                             <field name="planned_duration" widget="float_time"/>
-                            <field name="prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}"/>
+                            <field name="consultation_type"/>
+                            <field name="product_id" required="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
                             <field name="consent_id" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
-                        </group>
+                        </group>0
                     </group>
                     <notebook>
                         <page name="info" string="General Information">
@@ -434,8 +435,7 @@
                                     <field name="refered_to_physician_id" attrs="{'invisible': [('refered_to_appointment_id','=',False)]}"/>
                                 </group>
                                 <group>
-                                    <field name="consultation_type"/>
-                                    <field name="product_id" required="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
+                                    <field name="prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id}"/>
                                     <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="1"/>
                                     <field name="user_id" widget="many2one_avatar_user" invisible="1"/>
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>

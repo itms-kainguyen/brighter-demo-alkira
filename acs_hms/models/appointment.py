@@ -200,7 +200,8 @@ class Appointment(models.Model):
     invoice_exempt = fields.Boolean('Invoice Exempt', states=READONLY_STATES)
     consultation_type = fields.Selection([
         ('consultation', 'Consultation'),
-        ('followup', 'Follow Up')], 'Consultation Type', states=READONLY_STATES, copy=False)
+        ('consultation_prescription', 'Consultation and Prescription'),
+        ('followup', 'Follow-Up Appointment')], 'Consultation Type', states=READONLY_STATES, copy=False)
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
                                     'Diseases', states=READONLY_STATES)
@@ -654,9 +655,12 @@ class Appointment(models.Model):
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
             template.sudo().send_mail(self.id, raise_exception=False)
-
             template_consent = self.env.ref('itms_consent_form.email_patient_consent_form')
-            template_consent.sudo().send_mail(self.id, raise_exception=False)
+            email_values = {'sign_url': self.consent_id.get_portal_url()}
+            template_consent.with_context(**email_values).sudo().send_mail(self.consent_id.id, raise_exception=False)
+        if self.prescription_id:
+            for line in self.prescription_id.prescription_line_ids:
+                line.repeat -= 1
 
         self.state = 'confirm'
 

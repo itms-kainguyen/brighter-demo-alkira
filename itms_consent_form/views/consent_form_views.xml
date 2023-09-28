@@ -56,7 +56,7 @@
 <!--                            </div>-->
                             <div>
                                 <span>
-                                    <field name="is_agree" attrs="{'required': [('patient_signature', '!=', False)]}"/> I read and give my consent to this document
+                                    <field name="is_agree"/> I read and give my consent to this document
                                 </span>
                             </div>
                         </div>
