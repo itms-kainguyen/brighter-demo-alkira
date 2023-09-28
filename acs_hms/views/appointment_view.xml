@@ -283,7 +283,7 @@
                         <page name="consent_form" string="Consent Form">
                             <field name="consent_ids" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id, 'default_name':'consent'}">
                                 <tree editable="bottom">
-                                    <field name="nurse_signature" invisible="0"/>
+                                    <field name="nurse_signature" invisible="1"/>
                                     <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
                                     <field name="category_id" />
                                     <field name="name"/>
