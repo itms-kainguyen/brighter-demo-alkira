@@ -675,15 +675,14 @@ class Appointment(models.Model):
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
-            template.sudo().send_mail(self.id, raise_exception=False)
-            template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-            email_values = {'sign_url': self.consent_id.get_portal_url()}
-            template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
-
-        self.waiting_date_start = datetime.now()
-        self.waiting_duration = 0.1
-
-        self.state = 'confirm'
+            template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False)
+            if template_appointment_creation:
+                template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                email_values = {'sign_url': self.consent_id.get_portal_url()}
+                template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
+                self.waiting_date_start = datetime.now()
+                self.waiting_duration = 0.1
+                self.state = 'confirm'
 
     def appointment_waiting(self):
         self.state = 'waiting'
