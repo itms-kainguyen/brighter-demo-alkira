@@ -66,19 +66,21 @@
                 <templates>
                     <t t-name="acs_dashboard_block">
                         <div t-attf-class="card acs-card card-acs" t-attf-style="border-color:#{acs_record_color}">
-                            <div class="card-heading" t-attf-style="border-color:#{acs_record_color}; background-color: #{acs_record_color};">
-                                <div class="row">
-                                    <div class="col-3 stat-icon stat-icon">
-                                        <i t-attf-class="fa #{acs_record_icon}" aria-label="Info" title="Info"></i>
-                                    </div>
-                                    <div class="col-9 text-right">
-                                        <div class="value">
-                                            <span t-esc="acs_field_name"/>
+                            <a type="object" name="acs_open_dashboard_action" t-attf-context="{'acs_action': '#{acs_record_action}' }" >
+                                <div class="card-heading" t-attf-style="border-color:#{acs_record_color}; background-color: #{acs_record_color};">
+                                    <div class="row">
+                                        <div class="col-3 stat-icon stat-icon">
+                                            <i t-attf-class="fa #{acs_record_icon}" aria-label="Info" title="Info"></i>
                                         </div>
-                                        <div class="title"><t t-esc="acs_record_lable"/></div>
+                                        <div class="col-9 text-right">
+                                            <div class="value">
+                                                <span t-esc="acs_field_name"/>
+                                            </div>
+                                            <div class="title"><t t-esc="acs_record_lable"/></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                             <a type="object" name="acs_open_dashboard_action" t-attf-context="{'acs_action': '#{acs_record_action}' }" t-attf-style="color: #{acs_record_color};">
                                 <div class="card-footer acs-footer">
                                     <span class="float-start">View Details</span>
