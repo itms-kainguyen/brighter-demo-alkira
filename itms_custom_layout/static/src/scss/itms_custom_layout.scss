@@ -1,0 +1,25 @@
+.container-buttonbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    min-height: 80px;
+    max-height: 120px;    
+    overflow-x: auto;
+    overflow-y: auto;
+    justify-content: flex-end;
+    padding: 5px; /* this */
+}
+
+.container-buttonbox button {
+    margin: 10px;
+    border: 1px solid #dee2e6 !important;
+}
+
+.container-buttonbox button:hover {
+    margin: 10px;
+    box-shadow: 5px 5px 15px #aaaaaa;
+}
+
+
