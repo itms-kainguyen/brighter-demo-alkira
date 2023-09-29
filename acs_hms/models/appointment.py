@@ -680,12 +680,13 @@ class Appointment(models.Model):
             template = self.env.ref('acs_hms.acs_appointment_email')
             template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False)
             if template_appointment_creation:
-                template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-                email_values = {'sign_url': self.consent_id.get_portal_url()}
-                template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
+                for consent_id in self.consent_ids:
+                    template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                    email_values = {'sign_url': self.get_portal_url()}
+                    template_consent.with_context(**email_values).sudo().send_mail(consent_id.id, raise_exception=False)
                 self.waiting_date_start = datetime.now()
                 self.waiting_duration = 0.1
-                self.state = 'confirm'
+                self.state = 'confirm_consent'
 
     def appointment_waiting(self):
         self.state = 'waiting'
