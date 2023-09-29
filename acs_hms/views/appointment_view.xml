@@ -275,7 +275,7 @@
                                 <field name="prescription_id" class="oe_inline" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id}"/>
                                 <field name="prescription_repeat" class="oe_inline"/>
                             </div>
-                            <field name="consent_id" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
+                            <field name="consent_id" invisible="1" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                             <field name="is_confirmed_consent" invisible="1"/>
                         </group>
                     </group>

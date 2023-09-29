@@ -305,8 +305,8 @@ class Appointment(models.Model):
     # Just to make object selectable in selction field this is required: Waiting Screen
     acs_show_in_wc = fields.Boolean(default=True)
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
-    prescription_id = fields.Many2one('prescription.order', 'Prescription Order', required=True)
-    consent_id = fields.Many2one('consent.consent', 'Consent Form', required=True)
+    prescription_id = fields.Many2one('prescription.order', 'Prescription Order')
+    consent_id = fields.Many2one('consent.consent', 'Consent Form')
     is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
     prescription_repeat = fields.Integer(compute='_compute_prescription_id', store=True, string='Prescription Repeat',
                                          readonly=True)
