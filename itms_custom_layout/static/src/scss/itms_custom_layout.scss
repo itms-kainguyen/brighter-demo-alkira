@@ -35,7 +35,7 @@
 custom dashboard
 */
 
-#acs_hms_dashboard .card.acs-card.card-acs > a.oe_kanban_action {
+#acs_hms_dashboard .card.acs-card.card-acs > a.oe_kanban_action:last-child {
     display: none;
 }
 
