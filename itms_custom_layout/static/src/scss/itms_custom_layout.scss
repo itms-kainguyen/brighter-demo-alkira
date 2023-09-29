@@ -55,16 +55,14 @@ custom dashboard
 
 #acs_hms_dashboard .card.acs-card.card-acs {
     background: #e36f3c !important;
+    border: 1px solid #e98630 !important;
+    height: 77px;
 }
 
 #acs_hms_dashboard .card-heading {
     background: #e36f3c !important;
     border: 1px solid #e98630 !important;
     color: white;
-}
-
-#acs_hms_dashboard .card.acs-card.card-acs {
-    border: 1px solid #e98630 !important;
 }
 
 #acs_hms_dashboard thead.bg-info {
@@ -74,4 +72,10 @@ custom dashboard
 
 #acs_hms_dashboard #dashboard_graphs {
     display: none;
+}
+
+#acs_hms_dashboard .acs_block {
+    float: left;
+    height: 100px;
+    min-width: 330px !important;
 }
