@@ -65,6 +65,15 @@ custom dashboard
     color: white;
 }
 
+#acs_hms_dashboard .card-heading .col-6:first-child {
+    display: none;
+} 
+
+#acs_hms_dashboard .card-heading .col-6:last-child {
+    width: 100%;
+} 
+
+
 #acs_hms_dashboard thead.bg-info {
     background: #e36f3c !important;
     color: white;
