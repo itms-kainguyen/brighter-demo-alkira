@@ -6,7 +6,7 @@
             <field name="name">Appointment Creation</field>
             <field name="email_from">{{  user.email }}</field>
             <field name="email_to">{{ object.patient_id.email }}</field>
-            <field name="subject">{{ object.patient_id.name }} Your Appointment Have been Scheduled</field>
+            <field name="subject">{{ object.patient_id.name }} Your Appointment has been scheduled</field>
             <field name="model_id" ref="acs_hms.model_hms_appointment"/>
             <field name="report_template" ref="acs_hms.action_appointment_report"/>
             <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
@@ -16,7 +16,7 @@
 <div style="margin:auto;background: #FFFFFF;color:#777777">
     <t t-set="appointment_date" t-value="format_datetime(dt=object.date, tz=object.physician_id.tz or 'UTC', lang_code=object.physician_id.lang)"/>
     <p>Hello <t t-out="object.patient_id.name"/>,</p>
-    <p>Your Appointment Have been Scheduled with following details.</p>
+    <p>Your Appointment has been scheduled with following details.</p>
     <ul> 
         <li>
             <p>Subject: <t t-out="object.purpose_id.name"/></p>
@@ -78,7 +78,7 @@
 
          <record id="appointment_consent_form_email" model="mail.template">
             <field name="name">Consent Form</field>
-             <field name="model_id" ref="acs_hms.model_hms_appointment"/>
+            <field name="model_id" ref="acs_hms.model_hms_appointment"/>
             <field name="auto_delete" eval="False"/>
             <field name="description">Consent Form</field>
             <field name="email_from">{{ (ctx.get('consent_id').nurse_id.email or user.email_formatted) }}</field>

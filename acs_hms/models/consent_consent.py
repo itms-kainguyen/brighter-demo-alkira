@@ -23,5 +23,20 @@ class Consent(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             vals['name'] = self.env['ir.sequence'].next_by_code('consent.consent') or 'Consent'
-            
+            vals['content'] = None
+            if vals.get('category_id'):
+                category_consent = self.env['document.page'].browse(vals['category_id'])
+                vals['content'] = category_consent.template
+                vals['patient_signature'] = None
+                vals['patient_signed_by'] = None
+
         return super(Consent, self).create(vals_list)
+
+    def write(self, vals):
+        if vals.get('category_id'):
+            category_consent = self.env['document.page'].browse(vals['category_id'])
+            vals['content'] = category_consent.template
+            vals['patient_signature'] = None
+            vals['patient_signed_by'] = None
+
+        return super(Consent, self).write(vals)
