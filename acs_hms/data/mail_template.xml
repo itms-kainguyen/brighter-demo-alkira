@@ -93,7 +93,7 @@
                     <p></p>
                     <p>In preparation for your upcoming appointment, we kindly request that you click on the following link to access and electronically sign our consent form</p>
                     <div style="padding: 16px 0px 16px 0px;">
-                        <a t-att-href="ctx.get('sign_url')"
+                        <a t-att-href="(ctx.get('consent_id')).get_portal_url()"
                             target="_blank"
                             style="background-color: #875a7b; text-decoration: none; color: #fff; padding: 8px 16px 8px 16px; border-radius: 5px;"><t t-out="ctx.get('consent_id').name"></t></a>
                     </div>
