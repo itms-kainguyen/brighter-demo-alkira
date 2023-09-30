@@ -680,9 +680,9 @@ class Appointment(models.Model):
             template = self.env.ref('acs_hms.acs_appointment_email')
             template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False)
             if template_appointment_creation:
-                for consent_id in self.consent_ids:
+                for itms_consent_id in self.consent_ids:
                     template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-                    email_values = {'consent_id': consent_id}
+                    email_values = {'consent_id': itms_consent_id}
                     template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
 
                 self.waiting_date_start = datetime.now()
