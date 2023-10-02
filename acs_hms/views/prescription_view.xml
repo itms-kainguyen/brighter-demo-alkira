@@ -168,9 +168,9 @@
                                 <field name="notes" string="Advice" colspan="2"/>
                             </group>
                         </page>
-                        <page name="prescription_descriptions" string="Prescription Descriptions">
+                        <page name="prescription_details" string="Prescription Details">
                             <field name="prescription_detail_ids" nolabel="1" colspan="4">
-                                <tree string="Prescription Description" editable="bottom">
+                                <tree string="Prescription Detail" editable="bottom">
                                     <field name="id" invisible="1"/>
                                     <field name="prescription_id" invisible="1"/>
                                     <field name="line_id" invisible="1"/>
