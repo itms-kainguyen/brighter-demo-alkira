@@ -682,13 +682,12 @@ class Appointment(models.Model):
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
             try:
-                template_appointment_creation = template.sudo().send_mail(self.id)
+                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False, force_send=True)
                 if template_appointment_creation:
                     template.reset_template()
                     # Get the mail template for the sale order confirmation.
                     template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
                     for itms_consent_id in self.consent_ids:
-
                         # Generate the PDF attachment.
                         pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                             'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
@@ -702,7 +701,7 @@ class Appointment(models.Model):
                         template_consent.attachment_ids = attachment
                         # Send the email.
                         email_values = {'consent_id': itms_consent_id}
-                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
+                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False, force_send=True)
                         if template_consent_creation:
                             template_consent.reset_template()
             except Exception as e:
