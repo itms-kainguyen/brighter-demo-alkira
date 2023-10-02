@@ -416,19 +416,23 @@
                                                     </thead>
 
                                                     <tbody>
+                                                        <t t-set="limit" t-value="0"></t>
                                                         <tr t-foreach="appointment_data" t-as="line">
-                                                            <td><span t-esc="line_index + 1"/>.</td>
-                                                            <td>
-                                                                <a t-attf-href="/web#id={{ line.id }}&amp;model=hms.appointment&amp;view_type=form">
-                                                                    <span t-esc="line.name"/>
-                                                                </a>
-                                                            </td>
-                                                            <td><span t-esc="line.patient"/></td>
-                                                            <td><span t-esc="line.date"/></td>
-                                                            <td><span t-esc="line.physician"/></td>
-                                                            <td><span t-esc="line.waiting_duration"/></td>
-                                                            <td><span t-esc="line.appointment_duration"/></td>
-                                                            <td><span t-esc="line.state"/></td>
+                                                            <t t-if="limit &lt; 5">
+                                                                <td><span t-esc="line_index + 1"/>.</td>
+                                                                <td>
+                                                                    <a t-attf-href="/web#id={{ line.id }}&amp;model=hms.appointment&amp;view_type=form">
+                                                                        <span t-esc="line.name"/>
+                                                                    </a>
+                                                                </td>
+                                                                <td><span t-esc="line.patient"/></td>
+                                                                <td><span t-esc="line.date"/></td>
+                                                                <td><span t-esc="line.physician"/></td>
+                                                                <td><span t-esc="line.waiting_duration"/></td>
+                                                                <td><span t-esc="line.appointment_duration"/></td>
+                                                                <td><span t-esc="line.state"/></td>
+                                                                <t t-set="limit" t-value="limit + 1"></t>
+                                                            </t>
                                                         </tr>
                                                     </tbody>
                                                 </table>
