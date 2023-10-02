@@ -41,8 +41,9 @@ class ACSPrescriptionOrder(models.Model):
     pregnancy_warning = fields.Boolean(string='Pregnancy Warning', states=READONLY_STATES)
     notes = fields.Html(string='Notes', states=READONLY_STATES)
     prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id', string='Prescription line',
-                                            states=READONLY_STATES, copy=True,auto_join=True)
-
+                                            states=READONLY_STATES, copy=True, auto_join=True)
+    prescription_detail_ids = fields.One2many(comodel_name='prescription.detail', inverse_name='prescription_id', string='Prescription detail',
+                                            states=READONLY_STATES, copy=True, auto_join=True)
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
@@ -367,4 +368,21 @@ class AdviceTemplate(models.Model):
     name = fields.Char(string='Title', required=True)
     description = fields.Html(string='Advice', required=True)
 
+class PrescriptionDetail(models.Model):
+    _name = "prescription.detail"
+    _description = "Prescription Details"
+    _order = "sequence"
+
+    name = fields.Char(string='Title', required=True)
+    description = fields.Html(string='Advice', required=True)
+    sequence = fields.Integer("Sequence", default=10)
+    prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
+    line_id = fields.Many2one('prescription.line', ondelete="cascade", string='Prescription Line')
+    product_id = fields.Many2one('product.product', ondelete="cascade", string='Product', related="line_id.product_id")
+    scheduled_date = fields.Datetime(string='Scheduled Date')
+    state = fields.Selection([
+        ('schedule', 'Scheduled'),
+        ('done', 'Done'),
+        ('cancel', 'Cancelled')], store=True,
+        default='schedule', string='Status', tracking=True)
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
