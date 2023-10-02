@@ -151,7 +151,8 @@ class product_template(models.Model):
     _inherit = "product.template"
 
     hospital_product_type = fields.Selection(
-        selection_add=[('procedure', 'Procedure'), ('consultation', 'Consultation')])
+        selection_add=[('consultation', 'Consultation')])
+    #('procedure', 'Procedure'),
     common_dosage_id = fields.Many2one('medicament.dosage', ondelete='cascade',
                                        string='Frequency')
     manual_prescription_qty = fields.Boolean("Manual Prescription Qty")
