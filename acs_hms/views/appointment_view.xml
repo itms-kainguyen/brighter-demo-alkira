@@ -192,7 +192,7 @@
                 <header>
                     <button name="appointment_confirm" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/>
                     <button name="appointment_waiting" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Waiting" class="oe_highlight" invisible="1"/>
-                    <button name="print_report" string="Print" type="object" states="draft,confirm"/>
+                    <button name="print_report" string="Print" type="object" states="draft,confirm" invisible="1"/>
                     <button name="action_appointment_send" string="Send by Email" type="object" states="draft,confirm"/>
                     <button name="appointment_consultation" states="confirm_consent" groups="acs_hms.group_hms_jr_doctor" type="object" string="In Consultation" class="oe_highlight"/>
                     <button name="action_pause" states="in_consultation" groups="acs_hms.group_allow_consultation_pause" type="object" string="Pause"/>
