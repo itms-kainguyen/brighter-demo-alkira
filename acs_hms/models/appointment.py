@@ -6,6 +6,9 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import odoo
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class AppointmentPurpose(models.Model):
     _name = 'appointment.purpose'
@@ -678,30 +681,31 @@ class Appointment(models.Model):
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
-            template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False)
-            if template_appointment_creation:
-                # Get the mail template for the sale order confirmation.
-                template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-                for itms_consent_id in self.consent_ids:
-                    template_consent_creation = template_consent.sudo().send_mail(itms_consent_id.id,
-                                                                                  raise_exception=False)
-                    # # Generate the PDF attachment.
-                    # pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf('itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
-                    # attachment = self.env['ir.attachment'].create({
-                    #     'name': itms_consent_id.name,
-                    #     'type': 'binary',
-                    #     'raw': pdf_content,
-                    #     'res_model': itms_consent_id._name,
-                    #     'res_id': itms_consent_id.id
-                    # })
-                    # template_consent.attachment_ids = []
-                    # template_consent.attachment_ids |= attachment
-                    # # Send the email.
-                    # email_values = {'consent_id': itms_consent_id}
-                    # template_consent_creation = template_consent.sudo().send_mail(itms_consent_id.id, raise_exception=False)
-                    # if template_consent_creation:
-                    #     # Delete the attachment.
-                    #     attachment.unlink()
+            try:
+                template_appointment_creation = template.sudo().send_mail(self.id)
+                if template_appointment_creation:
+                    # Get the mail template for the sale order confirmation.
+                    template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                    for itms_consent_id in self.consent_ids:
+
+                        # Generate the PDF attachment.
+                        pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                            'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+                        attachment = self.env['ir.attachment'].create({
+                            'name': itms_consent_id.name,
+                            'type': 'binary',
+                            'raw': pdf_content,
+                            'res_model': itms_consent_id._name,
+                            'res_id': itms_consent_id.id
+                        })
+                        template_consent.attachment_ids = attachment
+                        # Send the email.
+                        email_values = {'consent_id': itms_consent_id}
+                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False)
+                        if template_consent_creation:
+                            template_consent.reset_template()
+            except Exception as e:
+                _logger.warning('Failed to send appointment confirmation email: %s', e)
 
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
