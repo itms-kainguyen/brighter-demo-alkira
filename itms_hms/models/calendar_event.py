@@ -16,12 +16,15 @@ class CalendarEvent(models.Model):
     state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending')
 
     consultation_service = fields.Many2one('product.product', ondelete='restrict',
-        string='Consultation Type', domain=[('hospital_product_type', '=', "consultation")])
+                                           string='Consultation Service',
+                                           domain=[('hospital_product_type', '=', "consultation")])
 
     time_slot = fields.Many2one('appointment.schedule.slot.lines', string='Available Slots')
     payment_state = fields.Selection([('not_paid', 'Not Paid'),
                                       ('in_payment', 'In Payment'),
                                       ('paid', 'Paid')], default='not_paid', string='Payment Status')
+
+    appointment_id = fields.Many2one('hms.appointment', string='Appointment')
 
     def write(self, values):
         res = super().write(values)
@@ -62,16 +65,20 @@ class CalendarEvent(models.Model):
             'product_uom_id': self.consultation_service.uom_id.id,
         }
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     res = super().create(vals_list)
-    #     if res:
-    #         invoice_vals = res._prepare_invoice()
-    #         for line in invoice_vals:
-    #             invoice_line_vals = res._prepare_invoice_line()
-    #             line['invoice_line_ids'].append([0, 0, invoice_line_vals])
-    #         moves = self.env['account.move'].sudo().create(invoice_vals)
-    #     return res
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        if res:
+            vals_app = {
+                'schedule_date': res.start_at,
+                'patient_id': res.patient_id.id,
+                'notes': res.description,
+                'product_id': res.consultation_service.id,
+            }
+            appointment_id = self.env['hms.appointment'].create(vals_app)
+            if appointment_id:
+                res.appointment_id = appointment_id.id
+        return res
 
     # @api.onchange('physician_id')
     # def _onchange_physician_id(self):
@@ -79,4 +86,3 @@ class CalendarEvent(models.Model):
     #     self.time_slot = False
     #     result = {'domain': {'consultation_service': [('id', 'in', self.physician_id.consultaion_service_id.ids)],'time_slot': [('id', '=', self.physician_id.id)]}}
     #     return result
-

@@ -213,6 +213,30 @@ class ACSPatient(models.Model):
         invoice = self.acs_create_invoice(partner=self.partner_id, patient=self, product_data=[{'product_id': product_id}], inv_data={'hospital_invoice_type': 'patient'})
         self.invoice_id = invoice.id
 
+    def create_appointment(self):
+        # return the form view of this partner
+        self.ensure_one()
+
+        # Get the patient ID
+        patient_id = self.id
+
+        # Create a new appointment record
+        appointment = self.env['hms.appointment'].create({
+            'patient_id': patient_id,
+        })
+
+        # Return the form view of the new appointment record
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "hms.appointment",
+            "res_id": appointment.id,
+            "view_mode": "form",
+            "view_type": "form",
+            "views": [(False, "form")],
+            "view_id": False,
+            "target": "new",
+        }
+
     def action_appointment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
         action['domain'] = [('patient_id','=',self.id)]

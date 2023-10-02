@@ -24,13 +24,20 @@ class Consent(models.Model):
     patient_signed_on = fields.Datetime(
         string="Patient Signed On", copy=False)
     is_agree = fields.Boolean('I read and give my consent to this document')
-    nurse_signature = fields.Binary(string="Nurse Signature", copy=False)
+    nurse_signature = fields.Binary(string="Nurse Signature", compute="_compute_signature", readonly=False, store=True ,copy=False)
     nurse_signed_by = fields.Char(compute='_compute_nurse_signature', string="Nurse Signature", readonly=1, copy=False,
                                   store=True)
     nurse_signed_on = fields.Datetime(compute='_compute_nurse_signature',
                                       string="Nurse Signed On", readonly=1, copy=False)
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
                                  default=lambda self: self.env.company, store=True)
+
+    @api.depends('nurse_id')
+    def _compute_signature(self):
+        for rec in self:
+            rec.nurse_signature = None
+            if rec.nurse_id and rec.nurse_id.employee_ids:
+                rec.nurse_signature = rec.nurse_id.employee_ids[0].signature
 
     @api.depends('nurse_id', 'nurse_signature')
     def _compute_nurse_signature(self):
@@ -52,8 +59,8 @@ class Consent(models.Model):
             self.content = self.category_id.template
             self.patient_signature = None
             self.patient_signed_by = None
-            self.nurse_signature = None
-            self.nurse_signed_by = None
+            # self.nurse_signature = None
+            # self.nurse_signed_by = None
 
     def _compute_access_url(self):
         super()._compute_access_url()

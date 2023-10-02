@@ -17,5 +17,6 @@ from . import account
 from . import res_config_settings
 from . import digest
 from . import res_users
-
+from . import consent_consent
+from . import hr_employee
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

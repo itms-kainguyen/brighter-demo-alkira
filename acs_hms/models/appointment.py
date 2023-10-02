@@ -5,7 +5,10 @@ from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
+import odoo
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class AppointmentPurpose(models.Model):
     _name = 'appointment.purpose'
@@ -176,9 +179,10 @@ class Appointment(models.Model):
     ], string='Urgency Level', default='normal', states=READONLY_STATES)
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
+        ('confirm', 'Consent Emailed'),
+        ('confirm_consent', 'Consent Confirmed'),
         ('waiting', 'Waiting'),
-        ('in_consultation', 'In consultation'),
+        ('in_consultation', 'Consultation'),
         ('pause', 'Pause'),
         ('to_invoice', 'To Invoice'),
         ('done', 'Done'),
@@ -200,7 +204,8 @@ class Appointment(models.Model):
     invoice_exempt = fields.Boolean('Invoice Exempt', states=READONLY_STATES)
     consultation_type = fields.Selection([
         ('consultation', 'Consultation'),
-        ('followup', 'Follow Up')], 'Consultation Type', states=READONLY_STATES, copy=False)
+        ('consultation_prescription', 'Consultation and Prescription'),
+        ('followup', 'Follow-Up Appointment')], 'Consultation Type', states=READONLY_STATES, copy=False)
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
                                     'Diseases', states=READONLY_STATES)
@@ -303,8 +308,31 @@ class Appointment(models.Model):
     # Just to make object selectable in selction field this is required: Waiting Screen
     acs_show_in_wc = fields.Boolean(default=True)
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
-    prescription_id = fields.Many2one('prescription.order', 'Prescription Order', required=True)
-    consent_id = fields.Many2one('consent.consent', 'Consent Form', required=True)
+    prescription_id = fields.Many2one('prescription.order', 'Prescription Order')
+    consent_id = fields.Many2one('consent.consent', 'Consent Form')
+    is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
+    prescription_repeat = fields.Integer(compute='_compute_prescription_id', store=True, string='Prescription Repeat',
+                                         readonly=True)
+
+    #harry testing, revert it later
+    consent_ids = fields.One2many('consent.consent','appointment_id', 'Consent Forms')
+    
+    @api.depends('consent_id', 'consent_id.patient_signature', 'consent_id.is_agree')
+    def _compute_is_confirmed_consent(self):
+        for rec in self:
+            rec.is_confirmed_consent = False
+            if rec.consent_id and rec.state == 'confirm':
+                if rec.consent_id.patient_signature and rec.consent_id.is_agree:
+                    rec.state = 'confirm_consent'
+                    rec.is_confirmed_consent = True
+
+    @api.depends('prescription_id')
+    def _compute_prescription_id(self):
+        prescription_repeat = 0
+        if self.prescription_id:
+            for line in self.prescription_id.prescription_line_ids:
+                prescription_repeat = line.repeat
+        self.prescription_repeat = prescription_repeat
 
     @api.depends('date', 'date_to')
     def _get_planned_duration(self):
@@ -653,11 +681,34 @@ class Appointment(models.Model):
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
-            template.sudo().send_mail(self.id, raise_exception=False)
+            try:
+                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+                if template_appointment_creation:
+                    template.reset_template()
+                    # Get the mail template for the sale order confirmation.
+                    template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                    for itms_consent_id in self.consent_ids:
+                        # Generate the PDF attachment.
+                        pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                            'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+                        attachment = self.env['ir.attachment'].create({
+                            'name': itms_consent_id.name,
+                            'type': 'binary',
+                            'raw': pdf_content,
+                            'res_model': itms_consent_id._name,
+                            'res_id': itms_consent_id.id
+                        })
+                        template_consent.attachment_ids = attachment
+                        # Send the email.
+                        email_values = {'consent_id': itms_consent_id}
+                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False, force_send=True)
+                        if template_consent_creation:
+                            template_consent.reset_template()
+            except Exception as e:
+                _logger.warning('Failed to send appointment confirmation email: %s', e)
 
-            template_consent = self.env.ref('itms_consent_form.email_patient_consent_form')
-            template_consent.sudo().send_mail(self.id, raise_exception=False)
-
+        self.waiting_date_start = datetime.now()
+        self.waiting_duration = 0.1
         self.state = 'confirm'
 
     def appointment_waiting(self):
@@ -705,13 +756,16 @@ class Appointment(models.Model):
             self.appointment_duration = float(
                 ('%0*d') % (2, h) + '.' + ('%0*d') % (2, m * 1.677966102)) - self.pause_duration
         self.date_end = datetime.now()
-        if (self.invoice_exempt or self.invoice_id) and not (
-                self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
-            self.appointment_done()
-        else:
-            self.state = 'to_invoice'
+        # if (self.invoice_exempt or self.invoice_id) and not (
+        #         self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
+        # else:
+        #     self.state = 'to_invoice'
         if self.consumable_line_ids:
             self.consume_appointment_material()
+        if self.prescription_id:
+            for line in self.prescription_id.prescription_line_ids:
+                line.repeat -= 1
+        self.appointment_done()
 
     def appointment_done(self):
         self.state = 'done'
@@ -722,7 +776,6 @@ class Appointment(models.Model):
         self.state = 'cancel'
         self.waiting_date_start = False
         self.waiting_date_end = False
-
         if self.sudo().invoice_id and self.sudo().invoice_id.state == 'draft':
             self.sudo().invoice_id.unlink()
 
@@ -886,5 +939,4 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     appointment_id = fields.Many2one('hms.appointment', string="Appointment", ondelete="restrict")
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
