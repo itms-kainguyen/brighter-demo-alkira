@@ -279,6 +279,68 @@
                             <field name="is_confirmed_consent" invisible="1"/>
                         </group>
                     </group>
+
+                    <group name="group_info">
+                            <group>
+                                <group>
+                                    <field name="cabin_id"/>
+                                    <field name="medicine_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse"/>
+                                    <field name="diseases_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse" invisible="1"/>
+                                    <field name="responsible_id" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="urgency"/>
+                                    <field name="purpose_id"/>
+                                    <field name="outside_appointment" invisible="1"/>
+                                    <field name="location" widget="url" invisible="1" attrs="{'invisible': [('outside_appointment','=',False)]}"/>
+                                    <field name="is_video_call" invisible="1"/>
+                                </group>
+                            </group>
+<!--                            <separator string="Chief Complaints"/>-->
+<!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
+<!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms.group_hms_nurse"/>-->
+<!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms.group_hms_nurse"/>-->
+<!--                            <separator name="past_history" string="Past History" groups="acs_hms.group_hms_nurse"/>-->
+<!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms.group_hms_nurse"/>-->
+                            <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
+                            <group>
+                                <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
+                            </group>
+                            <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
+                    </group>
+
+                    <group name="group_other_info">
+                        <group>
+                                    <field name="waiting_duration_timer" widget="AcsTimer" attrs="{'invisible': [('state','!=','waiting')]}" options="{'widget_start_field': 'waiting_date_start', 'widget_stop_field': 'waiting_date_end', 'duration_field': 'waiting_duration_timer'}"/>
+                                    <field name="waiting_duration" attrs="{'invisible': [('state','=','waiting')]}" widget="float_time" invisible="1"/>
+                                    <field name="pause_duration" widget="float_time" attrs="{'invisible': [('pause_duration','=',0)]}"/>
+                                </group>
+                        <group>
+                            <field name="appointment_duration_timer" widget="AcsTimer" attrs="{'invisible': [('state','!=','in_consultation')]}" options="{'widget_start_field': 'date_start', 'widget_stop_field': 'date_end', 'duration_field': 'appointment_duration_timer'}"/>
+                            <field name="appointment_duration" widget="float_time" attrs="{'invisible': [('state','=','in_consultation')]}" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="treatment_id" domain="[('patient_id','=', patient_id)]" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}"/>
+                            <field name="ref_physician_id"/>
+                            <label for="invoice_exempt"/>
+                            <div name='invoice_exemption'>
+                                <field name='invoice_exempt' class="oe_inline" nolabel="1"/>
+                                <button name="acs_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('invoice_id','!=', False)]}" groups="acs_hms_base.group_acs_invoice_exemption"/>
+                            </div>
+                            <field name="refer_reason" invisible="1"/>
+                            <field name="refered_from_appointment_id" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}" readonly="1" force_save="1"/>
+                            <field name="refered_from_physician_id" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}"/>
+                            <field name="refered_from_reason" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}"/>
+                            <field name="refered_to_appointment_id" attrs="{'invisible': [('refered_to_appointment_id','=',False)]}" readonly="1" force_save="1"/>
+                            <field name="refered_to_physician_id" attrs="{'invisible': [('refered_to_appointment_id','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="1"/>
+                            <field name="user_id" widget="many2one_avatar_user" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
                     <notebook>
                         <page name="consent_form" string="Consent Form">
                             <field name="consent_ids" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id, 'default_name':'consent'}">
@@ -298,7 +360,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page name="info" string="General Information">
+                        <page name="info" string="General Information" invisible="1">
                             <group>
                                 <group>
                                     <field name="cabin_id"/>
@@ -432,7 +494,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page name="other_info" string="Other Information" groups="acs_hms.group_hms_receptionist">
+                        <page name="other_info" string="Other Information" groups="acs_hms.group_hms_receptionist" invisible="1">
                             <group name="extra_info">
                                 <group>
                                     <field name="waiting_duration_timer" widget="AcsTimer" attrs="{'invisible': [('state','!=','waiting')]}" options="{'widget_start_field': 'waiting_date_start', 'widget_stop_field': 'waiting_date_end', 'duration_field': 'waiting_duration_timer'}"/>
