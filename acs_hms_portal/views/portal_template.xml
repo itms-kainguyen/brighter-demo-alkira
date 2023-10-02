@@ -246,12 +246,12 @@
         <xpath expr="//div[hasclass('o_portal_my_home')]/h3" position="after">
             <div class="row" t-if="patient_id and patient_id.id">
                 <div class="col-12 mt8 mb8" name="acs_patient_actions">
-                    <a href="/my/evaluations/create" class="btn btn-primary">
-                        Create Evaluation
-                    </a>
-                    <a href="/my/evaluations/charts" class="btn btn-primary">
-                        Evaluation Charts
-                    </a>
+<!--                    <a href="/my/evaluations/create" class="btn btn-primary">-->
+<!--                        Create Evaluation-->
+<!--                    </a>-->
+<!--                    <a href="/my/evaluations/charts" class="btn btn-primary">-->
+<!--                        Evaluation Charts-->
+<!--                    </a>-->
                 </div>
             </div>
         </xpath>
