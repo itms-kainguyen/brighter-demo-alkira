@@ -18,7 +18,8 @@
             'itms_custom_layout/static/src/scss/itms_custom_layout.scss',
             'itms_custom_layout/static/src/js/itms_custom_layout.js',
             'itms_custom_layout/static/src/views/form/button_box/button_box.xml',
-            'itms_custom_layout/mail/static/src/components/channel_member_list/channel_member_list.xml',
+            'itms_custom_layout/static/src/views/mail/static/src/components/channel_member_list/channel_member_list.xml',
+            'itms_custom_layout/static/src/views/mail/static/src/components/thread_view_topbar/thread_view_topbar.xml',
         ],
         'web.assets_frontend': [
         ],
