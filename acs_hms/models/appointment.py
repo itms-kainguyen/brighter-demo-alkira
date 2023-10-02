@@ -684,6 +684,7 @@ class Appointment(models.Model):
             try:
                 template_appointment_creation = template.sudo().send_mail(self.id)
                 if template_appointment_creation:
+                    template.reset_template()
                     # Get the mail template for the sale order confirmation.
                     template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
                     for itms_consent_id in self.consent_ids:
