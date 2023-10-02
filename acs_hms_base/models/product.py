@@ -63,7 +63,7 @@ class product_template(models.Model):
                                             'Active Component')
     drug_company_id = fields.Many2one('drug.company', ondelete='cascade', string='Drug Company')
     hospital_product_type = fields.Selection([
-        ('medicament', 'Medicament'),
+        ('medicament', 'Medicines'),
         # ('fdrinks', 'Food & Drinks'),
         # ('os', 'Other Service'),
         ('not_medical', 'Non Medical'), ], string="Hospital Product Type", default='medicament')
