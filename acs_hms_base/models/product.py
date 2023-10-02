@@ -61,7 +61,7 @@ class product_template(models.Model):
     form_id = fields.Many2one('drug.form', ondelete='cascade', string='Drug Form', tracking=True)
     active_component_ids = fields.Many2many('active.comp', 'product_active_comp_rel', 'product_id', 'comp_id',
                                             'Active Component')
-    drug_company_id = fields.Many2one('drug.company', ondelete='cascade', string='Drug Company')
+    drug_company_id = fields.Many2one('drug.company', ondelete='cascade', string='Brand Name')
     hospital_product_type = fields.Selection([
         ('medicament', 'Medicines'),
         # ('fdrinks', 'Food & Drinks'),
