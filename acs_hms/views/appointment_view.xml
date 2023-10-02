@@ -326,7 +326,7 @@
                             </group>
                             <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
                         </page>
-                        <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse" attrs="{'invisible': [('state','=','draft')]}">
+                        <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse" attrs="{'invisible': [('state','=','draft')]}" invisible="1">
                             <div>NOTE: Details are shown based on Patient Evaluation. 
                                 <t attrs="{'invisible': [('evaluation_id','=',False)]}">Last Evaluation: <field name="evaluation_id" nolabel="1" class="oe_link"/></t>
                                 <t attrs="{'invisible': [('evaluation_id','!=',False)]}"><button name="action_create_evaluation" type="object" string="Create Evaluation" class=" oe_link"/></t>

@@ -94,7 +94,7 @@
             </group>
 
             <page name="hospital_info" position="after">
-                <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse">
+                <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse" invisible="1">
                     <div>NOTE: Details are shown based on last Completed Patient Evaluation. <t attrs="{'invisible': [('last_evaluation_id','=',False)]}">Last Evaluation: <field name="last_evaluation_id" nolabel="1" class="oe_link"/></t> <button class="oe_inline oe_stat_button btn-link" type="object" name="show_weight_chart" title="Show Evaluation Charts" icon="fa-area-chart"  string="Show Evaluation Charts" widget="statinfo"/></div>
 
                     <group>
