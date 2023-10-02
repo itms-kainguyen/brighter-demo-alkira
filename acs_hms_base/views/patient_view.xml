@@ -27,18 +27,30 @@
                             </div>
                             <t t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
                             <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('hms.patient', 'image_128', record.id.raw_value, placeholder)}')"/>
-                            <div class="oe_kanban_details">
-                                <strong class="oe_partner_heading"><field name="display_name"/></strong>
-                                <ul>
+                            <div class="oe_kanban_details d-flex flex-column justify-content-betwee">
+                                <div>
+                                    <strong class="oe_partner_heading"><field name="display_name"/></strong>
+                                    <ul>
 <!--                                    <li><b>Code:</b> <field name="code"/></li>-->
 <!--                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>-->
 <!--                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>-->
                                     <li t-if="record.primary_physician_id.raw_value"><b>Nurse:</b> <field name="primary_physician_id"/></li>
-                                </ul>
-                                <span class="oe_kanban_list_many2many">
-                                    <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                </span>
+                                    </ul>
+                                    <span class="oe_kanban_list_many2many">
+                                        <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    </span>
+                                     <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                             </div>
+                                </div>
+
                             </div>
+
                         </div>
                     </t>
                 </templates>
