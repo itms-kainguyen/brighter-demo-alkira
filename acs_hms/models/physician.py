@@ -32,6 +32,9 @@ class Physician(models.Model):
     prescription_count = fields.Integer(compute='_phy_rec_count', string='# Prescriptions')
     patient_count = fields.Integer(compute='_phy_rec_count', string='# Patients')
 
+    provider_number = fields.Char(string="Provider Number")
+    prescriber_number = fields.Char(string="Prescriber Number")
+
     def action_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
         action['domain'] = [('physician_id','=',self.id)]

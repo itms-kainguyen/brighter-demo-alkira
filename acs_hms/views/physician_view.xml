@@ -68,6 +68,8 @@
             <field name="specialty_id" position="after">
                 <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department"/>
                 <field name="employee_id" invisible="1"/>
+                <field name="provider_number"/>
+                <field name="prescriber_number"/>
             </field>
 
             <page name="gneral_info" position="inside">
