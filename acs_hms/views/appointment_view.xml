@@ -281,7 +281,6 @@
                     </group>
 
                     <group name="group_info">
-                            <group>
                                 <group>
                                     <field name="cabin_id"/>
                                     <field name="medicine_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse"/>
@@ -323,7 +322,7 @@
 
                                     <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
                                 </group>
-                            </group>
+
 <!--                            <separator string="Chief Complaints"/>-->
 <!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
 <!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms.group_hms_nurse"/>-->
