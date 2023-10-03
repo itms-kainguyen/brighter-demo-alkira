@@ -144,11 +144,16 @@ class ResUsers(models.Model):
                                                           ('physician_id.user_id', '=', self.env.uid)]
         self.my_total_running_treatments = Treatment.search_count(my_running_treatment_domain)
 
-        # open_prescriber
+        # total prescriber
         # physician
         prescriber_domain = self.get_filter('date')
         Prescriber = self.env['hms.physician']
         self.total_prescriber = Prescriber.search_count(prescriber_domain)
+
+        # total elearning
+        course_domain = self.get_filter('date')
+        Course = self.env['slide.channel']
+        self.total_course = Course.search_count(course_domain)
 
 
 
@@ -207,6 +212,8 @@ class ResUsers(models.Model):
     # total prescriber
     total_prescriber = fields.Integer(compute="_compute_dashboard_data")
 
+    # total course
+    total_course = fields.Integer(compute="_compute_dashboard_data")
 
     total_appointments = fields.Integer(compute="_compute_dashboard_data")
     total_appointments_color = fields.Char(string='Total Appointments Color', default="#f0ad4e")
@@ -426,12 +433,9 @@ class ResUsers(models.Model):
     
     def open_online_education(self):
 
-            action = {
-                "url": '#menu_id=350&amp;action=474',
-                "type": "ir.actions.act_url",
-                'target': 'self',
-            }
-            return action
+        action = self.env["ir.actions.actions"]._for_xml_id("website_slides.slide_channel_action_overview")
+        action['domain'] = self.get_filter('create_date')
+        return action
 
     def open_appointments(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
@@ -446,12 +450,9 @@ class ResUsers(models.Model):
         return action
     
     def open_prescriber(self):
-
-        action = {
-            "url": '#menu_id=550&action=753',
-            "type": "ir.actions.act_url",
-            'target': 'self',
-        }
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms_base.action_physician")
+        action['domain'] = self.get_filter('date')
+        action['context'] = {}
         return action
 
     def open_my_appointments(self):

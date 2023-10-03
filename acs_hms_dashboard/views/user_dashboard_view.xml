@@ -43,6 +43,7 @@
 
                 <field name="physicians_color"/>
                 <field name="total_physicians"/>
+                <field name="total_course"/>
                 <field name="total_referring_physicians"/>
                 <field name="total_shedules"/>
                 <field name="total_shedules_color"/>
@@ -248,11 +249,11 @@
                                     <t t-call="acs_dashboard_block_second">
                                         <t t-set="acs_record_color" t-value="record.physicians_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-university'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_physicians.raw_value"/>
+                                        <t t-set="acs_field_name" t-value="record.total_course.raw_value"/>
                                         <t t-set="acs_record_action" t-value="'open_physicians'"/>
                                         <t t-set="acs_record_lable">Total Phy.</t>
                                         <t t-set="acs_field2_name"
-                                           t-value="record.total_referring_physicians.raw_value"/>
+                                           t-value="record.total_course.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_online_education'"/>
                                         <t t-set="acs_record2_lable">Online Education</t>
                                         <t t-set="acs_lable">Prescribers</t>
