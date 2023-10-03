@@ -137,7 +137,7 @@
                 <div style="margin: 0px; padding: 0px;">
                     <p>Dear <t t-out="object.prescription_id.patient_id.name"></t>,</p>
                     <p></p>
-                    <p>This is a friendly reminder that you have a prescribed medication scheduled in a few day, details:
+                    <p>This is a friendly reminder that you have a prescribed medication scheduled in a few days, details:
                     <br/><br/>
                     <t t-set="ids" t-value="(ctx.get('lines'))"/>
                     <t t-set="records" t-value="object.sudo().browse(list(ids))"/>
