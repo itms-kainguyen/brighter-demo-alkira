@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.exceptions import UserError
 
 from dateutil.relativedelta import relativedelta
@@ -45,7 +45,7 @@ class ACSPrescriptionOrder(models.Model):
     prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id', string='Prescription line',
                                             states=READONLY_STATES, copy=True, auto_join=True)
     prescription_detail_ids = fields.One2many(comodel_name='prescription.detail', inverse_name='prescription_id', string='Prescription detail',
-                                            states=READONLY_STATES, copy=True, auto_join=True)
+                                            copy=False, auto_join=True)
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
@@ -406,11 +406,40 @@ class PrescriptionDetail(models.Model):
     sequence = fields.Integer("Sequence", default=10)
     prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
     line_id = fields.Many2one('prescription.line', ondelete="cascade", string='Prescription Line')
-    product_id = fields.Many2one('product.product', ondelete="cascade", string='Product')
+    product_id = fields.Many2one('product.product', required=True, ondelete="cascade", string='Product')
     scheduled_date = fields.Date(string='Scheduled Date')
     state = fields.Selection([
         ('schedule', 'Scheduled'),
+        ('sent', 'Email Sent'),
         ('done', 'Done'),
-        ('cancel', 'Cancelled')], store=True,
+        ('cancel', 'Cancelled')], store=True, required=True,
         default='schedule', string='Status', tracking=True)
+    
+    @api.model
+    def send_prescription_reminder(self):
+        """
+        This function is used to send the prescription reminder
+        """
+        today = fields.Date.today()
+        prescription_ids = self.search([('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])
+        # use a hack here to avoid sending multiple email to the same patient
+        patient_ids = {}
+        for rec in prescription_ids:
+            if rec.prescription_id.patient_id not in patient_ids:
+                patient_ids[rec.prescription_id.patient_id] = rec
+            else:
+                patient_ids[rec.prescription_id.patient_id] += rec
+        for key, value in patient_ids.items():
+            if value:
+                value[0].send_prescription_reminder_mail(ids=value.ids)
+                value.write({'state': 'sent'})
+
+    def send_prescription_reminder_mail(self, ids=False):
+        """
+        This function is used to send the prescription reminder mail
+        """
+        template_id = self.env.ref('acs_hms.email_template_prescription_reminder')
+        template_id.with_context(lines=ids).send_mail(res_id = self.id, email_values={
+            'email_from': self.env.user.with_user(SUPERUSER_ID).email_formatted})
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
