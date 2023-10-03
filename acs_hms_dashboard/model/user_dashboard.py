@@ -151,7 +151,7 @@ class ResUsers(models.Model):
         self.total_prescriber = Prescriber.search_count(prescriber_domain)
 
         # total elearning
-        course_domain = self.get_filter('date')
+        course_domain = self.get_filter('create_date')
         Course = self.env['slide.channel']
         self.total_course = Course.search_count(course_domain)
 
