@@ -44,6 +44,7 @@
                 <field name="physicians_color"/>
                 <field name="total_physicians"/>
                 <field name="total_course"/>
+                <field name="total_branch"/>
                 <field name="total_referring_physicians"/>
                 <field name="total_shedules"/>
                 <field name="total_shedules_color"/>
@@ -294,20 +295,20 @@
                                     </t>
                                 </div>
 
-                                <!-- Open Invoices -->
+                                <!-- Open branch -->
                                 <div class="col-3 acs_block" groups="account.group_account_invoice">
                                     <t t-call="acs_dashboard_block_second">
                                         <t t-set="acs_record_color"
                                            t-value="record.total_open_invoice_color.raw_value"/>
-                                        <t t-set="acs_record_icon" t-value="'fa-list'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_open_invoice.raw_value"/>
-                                        <t t-set="acs_record_action" t-value="'open_invoices'"/>
-                                        <t t-set="acs_record_lable">Total</t>
+                                        <t t-set="acs_record_icon" t-value="'fa-building'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_branch.raw_value"/>
+                                        <t t-set="acs_record_action" t-value="'open_branch'"/>
+                                        <t t-set="acs_record_lable">Branch</t>
                                         <t t-set="acs_field2_name"
-                                           t-value="record.total_open_invoice_amount.raw_value"/>
-                                        <t t-set="acs_record2_action" t-value="'open_invoices'"/>
-                                        <t t-set="acs_record2_lable">Amount</t>
-                                        <t t-set="acs_lable">Open Invoices</t>
+                                           t-value="record.total_branch.raw_value"/>
+                                        <t t-set="acs_record2_action" t-value="'open_branch'"/>
+                                        <t t-set="acs_record2_lable">Branch</t>
+                                        <t t-set="acs_lable">Branch</t>
                                     </t>
                                 </div>
 
