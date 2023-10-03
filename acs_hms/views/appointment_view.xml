@@ -289,6 +289,7 @@
                                     <field name="responsible_id" invisible="1"/>
 
                                     <field name="treatment_id" domain="[('patient_id','=', patient_id)]" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}"/>
+                                    <field name="urgency"/>
                                     <field name="refer_reason" invisible="1"/>
                                     <field name="refered_from_appointment_id" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}" readonly="1" force_save="1"/>
                                     <field name="refered_from_physician_id" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}"/>
@@ -301,7 +302,6 @@
                                     <field name="pause_duration" widget="float_time" attrs="{'invisible': [('pause_duration','=',0)]}"/>
                                 </group>
                                 <group>
-                                    <field name="urgency"/>
                                     <field name="purpose_id"/>
                                     <field name="outside_appointment" invisible="1"/>
                                     <field name="location" widget="url" invisible="1" attrs="{'invisible': [('outside_appointment','=',False)]}"/>
@@ -315,10 +315,13 @@
                                         <field name='invoice_exempt' class="oe_inline" nolabel="1"/>
                                         <button name="acs_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('invoice_id','!=', False)]}" groups="acs_hms_base.group_acs_invoice_exemption"/>
                                     </div>
-                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-
+                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                                      <field name="appointment_duration_timer" widget="AcsTimer" attrs="{'invisible': [('state','!=','in_consultation')]}" options="{'widget_start_field': 'date_start', 'widget_stop_field': 'date_end', 'duration_field': 'appointment_duration_timer'}"/>
                                      <field name="appointment_duration" widget="float_time" attrs="{'invisible': [('state','=','in_consultation')]}" invisible="1"/>
+                                    <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
+                                    <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
+
+                                    <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
                                 </group>
                             </group>
 <!--                            <separator string="Chief Complaints"/>-->
@@ -327,11 +330,7 @@
 <!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms.group_hms_nurse"/>-->
 <!--                            <separator name="past_history" string="Past History" groups="acs_hms.group_hms_nurse"/>-->
 <!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms.group_hms_nurse"/>-->
-                            <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
-                            <group>
-                                <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
-                            </group>
-                            <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
+
                     </group>
 
                     <notebook>
