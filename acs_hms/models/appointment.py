@@ -314,9 +314,25 @@ class Appointment(models.Model):
     prescription_repeat = fields.Integer(compute='_compute_prescription_id', store=True, string='Prescription Repeat',
                                          readonly=True)
 
-    #harry testing, revert it later
     consent_ids = fields.One2many('consent.consent','appointment_id', 'Consent Forms')
+    is_prescription_expired = fields.Boolean(compute='_compute_is_prescription_expired')
     
+    @api.depends('prescription_id', 'prescription_id.expire_date')
+    def _compute_is_prescription_expired(self):
+        for rec in self:
+            rec.is_prescription_expired = False
+            if rec.prescription_id and rec.prescription_id.expire_date < fields.Date.today():
+                rec.is_prescription_expired = True
+    
+    @api.onchange('prescription_id')
+    def onchange_prescription_id(self):
+        self.ensure_one()
+        if self.prescription_id and self.is_prescription_expired:
+            return {'warning': 
+                        {'title': _('Warning'), 
+                         'message': _('Prescription %s is expired!') % self.prescription_id.name}}
+
+
     @api.depends('consent_id', 'consent_id.patient_signature', 'consent_id.is_agree')
     def _compute_is_confirmed_consent(self):
         for rec in self:

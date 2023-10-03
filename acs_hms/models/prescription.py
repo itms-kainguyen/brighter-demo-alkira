@@ -2,6 +2,8 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+
+from dateutil.relativedelta import relativedelta
 import uuid
 
 
@@ -65,6 +67,10 @@ class ACSPrescriptionOrder(models.Model):
     old_prescription_id = fields.Many2one('prescription.order', 'Old Prescription', copy=False, states=READONLY_STATES)
     acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=READONLY_STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=READONLY_STATES, default=1)
+    expire_date = fields.Date(
+        string='Expire Date', 
+        default=lambda x:fields.Date.today()+relativedelta(years=1), 
+        states=READONLY_STATES)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -151,6 +157,23 @@ class ACSPrescriptionOrder(models.Model):
                 app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
+            # create prescription detail based on prescription line
+            vals_list = []
+            for line in app.prescription_line_ids:
+                if line.product_id and line.repeat > 0:
+                    for i in range(line.repeat):
+                        vals = {
+                            'name': line.product_id.name,
+                            'description': line.product_id.description or '',
+                            'prescription_id': app.id,
+                            'line_id': line.id,
+                            'product_id': line.product_id.id,
+                            'scheduled_date': 
+                                app.prescription_date.date() + relativedelta(months=i*line.use_every),
+                        }
+                        vals_list.append(vals)
+        if vals_list:
+            self.env['prescription.detail'].create(vals_list)
 
     def print_report(self):
         return self.env.ref('acs_hms.report_hms_prescription_id').report_action(self)
@@ -315,6 +338,11 @@ class ACSPrescriptionLine(models.Model):
         ('line_section', "Section"),
         ('line_note', "Note")], help="Technical field for UX purpose.")
     repeat = fields.Integer(string='Repeat', default=5)
+    use_every = fields.Integer(
+        "Use Every (months)", default=1, 
+        help="This field used to schedule \
+            the email notify the customer \
+            to schedule the appointment")
 
     @api.onchange('product_id')
     def onchange_product(self):
@@ -378,8 +406,8 @@ class PrescriptionDetail(models.Model):
     sequence = fields.Integer("Sequence", default=10)
     prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
     line_id = fields.Many2one('prescription.line', ondelete="cascade", string='Prescription Line')
-    product_id = fields.Many2one('product.product', ondelete="cascade", string='Product', related="line_id.product_id")
-    scheduled_date = fields.Datetime(string='Scheduled Date')
+    product_id = fields.Many2one('product.product', ondelete="cascade", string='Product')
+    scheduled_date = fields.Date(string='Scheduled Date')
     state = fields.Selection([
         ('schedule', 'Scheduled'),
         ('done', 'Done'),

@@ -66,6 +66,7 @@
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
                 <field name="name"/>
                 <field name="prescription_date"/>
+                <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
                 <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
@@ -108,6 +109,7 @@
                         </group>
                         <group>
                             <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="expire_date"/>
                             <field name="prescription_date"/>
                             <field name="alert_count" invisible="1"/>
                             <field name="pregnancy_warning" invisible="1"/>
@@ -150,6 +152,7 @@
                                     <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
                                     <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
                                     <field name="repeat"/>
+                                    <field name="use_every" optional="show"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
                                     <field name="days" attrs="{'required': [('display_type', '=', False)]}"/>
@@ -168,14 +171,15 @@
                                 <field name="notes" string="Advice" colspan="2"/>
                             </group>
                         </page>
-                        <page name="prescription_descriptions" string="Prescription Descriptions">
+                        <page name="prescription_details" string="Prescription Details">
                             <field name="prescription_detail_ids" nolabel="1" colspan="4">
-                                <tree string="Prescription Description" editable="bottom">
+                                <tree string="Prescription Detail" editable="bottom">
                                     <field name="id" invisible="1"/>
                                     <field name="prescription_id" invisible="1"/>
                                     <field name="line_id" invisible="1"/>
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" string="Medicine Name"/>
+                                    <field name="description" />
                                     <field name="scheduled_date" />
                                     <field name="state" />
                                 </tree>
