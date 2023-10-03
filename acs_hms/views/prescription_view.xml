@@ -181,7 +181,7 @@
                                     <field name="prescription_id" invisible="1"/>
                                     <field name="line_id" invisible="1"/>
                                     <field name="sequence" widget="handle"/>
-                                    <field name="product_id" string="Medicine Name"/>
+                                    <field name="product_id" attrs="{'readonly':[('parent.state', '!=', 'draft')] }" string="Medicine Name"/>
                                     <field name="description" />
                                     <field name="scheduled_date" />
                                     <field name="state" />
