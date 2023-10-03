@@ -168,6 +168,19 @@
                                 <field name="notes" string="Advice" colspan="2"/>
                             </group>
                         </page>
+                        <page name="prescription_details" string="Prescription Details">
+                            <field name="prescription_detail_ids" nolabel="1" colspan="4">
+                                <tree string="Prescription Detail" editable="bottom">
+                                    <field name="id" invisible="1"/>
+                                    <field name="prescription_id" invisible="1"/>
+                                    <field name="line_id" invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" string="Medicine Name"/>
+                                    <field name="scheduled_date" />
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                        </page>
                         <page name="info" string="General Information">
                             <group>
                                 <group>
