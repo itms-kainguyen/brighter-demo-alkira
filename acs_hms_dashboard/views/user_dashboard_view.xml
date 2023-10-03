@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
 
-    
+
     <record id="user_dashboard_kanban_view" model="ir.ui.view">
         <field name="name">Dashboard</field>
         <field name="model">res.users</field>
@@ -39,6 +39,8 @@
                 <field name="avg_time_color"/>
                 <field name="total_treatments"/>
                 <field name="total_treatments_color"/>
+                <field name="total_prescriber"/>
+
                 <field name="physicians_color"/>
                 <field name="total_physicians"/>
                 <field name="total_referring_physicians"/>
@@ -48,7 +50,7 @@
                 <field name="is_physician"/>
                 <field name="is_manager"/>
                 <field name="appointment_data"/>
-                 <field name="total_prescription"/>
+                <field name="total_prescription"/>
                 <field name="total_protocol"/>
                 <field name="total_meeting_now"/>
                 <field name="total_consent"/>
@@ -62,12 +64,14 @@
                 <field name="total_emergency_color"/>
                 <field name="total_support_color"/>
                 <field name="total_shop_color"/>
-                
+
                 <templates>
                     <t t-name="acs_dashboard_block">
                         <div t-attf-class="card acs-card card-acs" t-attf-style="border-color:#{acs_record_color}">
-                            <a type="object" name="acs_open_dashboard_action" t-attf-context="{'acs_action': '#{acs_record_action}' }" >
-                                <div class="card-heading" t-attf-style="border-color:#{acs_record_color}; background-color: #{acs_record_color};">
+                            <a type="object" name="acs_open_dashboard_action"
+                               t-attf-context="{'acs_action': '#{acs_record_action}' }">
+                                <div class="card-heading"
+                                     t-attf-style="border-color:#{acs_record_color}; background-color: #{acs_record_color};">
                                     <div class="row">
                                         <div class="col-3 stat-icon stat-icon">
                                             <i t-attf-class="fa #{acs_record_icon}" aria-label="Info" title="Info"></i>
@@ -76,12 +80,16 @@
                                             <div class="value">
                                                 <span t-esc="acs_field_name"/>
                                             </div>
-                                            <div class="title"><t t-esc="acs_record_lable"/></div>
+                                            <div class="title">
+                                                <t t-esc="acs_record_lable"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </a>
-                            <a type="object" name="acs_open_dashboard_action" t-attf-context="{'acs_action': '#{acs_record_action}' }" t-attf-style="color: #{acs_record_color};">
+                            <a type="object" name="acs_open_dashboard_action"
+                               t-attf-context="{'acs_action': '#{acs_record_action}' }"
+                               t-attf-style="color: #{acs_record_color};">
                                 <div class="card-footer acs-footer">
                                     <span class="float-start">View Details</span>
                                     <span class="float-end">
@@ -95,7 +103,8 @@
 
                     <t t-name="acs_dashboard_block_second">
                         <div t-attf-class="card acs-card card-acs" t-attf-style="border-color:#{acs_record_color}">
-                            <div class="card-heading" t-attf-style="border-color:#{acs_record_color}; background-color: #{acs_record_color};">
+                            <div class="card-heading"
+                                 t-attf-style="border-color:#{acs_record_color}; background-color: #{acs_record_color};">
                                 <div class="row">
                                     <div class="col-3 stat-icon">
                                         <i t-attf-class="fa #{acs_record_icon}" aria-label="Info" title="Info"></i>
@@ -103,8 +112,9 @@
                                     <div class="col-9 text-right">
                                         <div class="row">
                                             <div class="col-6 text-center my-auto">
-                                                <a type="object" name="acs_open_dashboard_action" t-attf-context="{'acs_action': '#{acs_record_action}' }">
-                                                
+                                                <a type="object" name="acs_open_dashboard_action"
+                                                   t-attf-context="{'acs_action': '#{acs_record_action}' }">
+
                                                     <div class="value big-acs-number">
                                                         <span t-esc="acs_field_name"/>
                                                     </div>
@@ -115,8 +125,9 @@
                                             </div>
 
                                             <div class="col-6 text-center my-auto">
-                                                <a type="object" name="acs_open_dashboard_action" t-attf-context="{'acs_action': '#{acs_record2_action}' }">
-                                                
+                                                <a type="object" name="acs_open_dashboard_action"
+                                                   t-attf-context="{'acs_action': '#{acs_record2_action}' }">
+
                                                     <div class="value big-acs-number">
                                                         <span t-esc="acs_field2_name"/>
                                                     </div>
@@ -124,10 +135,12 @@
                                                         <t t-esc="acs_record2_lable"/>
                                                     </div>
                                                 </a>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                         <hr class="acs-hr"/>
-                                        <div class="text-center title"><t t-esc="acs_lable"/></div>
+                                        <div class="text-center title">
+                                            <t t-esc="acs_lable"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -139,15 +152,25 @@
                             <div class="row">
                                 <span t-esc="dashboard_data_filter"/>
                                 <div class="btn-group col-4 mt8 mb8" role="group" aria-label="Filters">
-                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='today' ? 'btn-primary' : 'btn-secondary'}" type="object" name="today_data">Today</button>
-                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='week' ? 'btn-primary' : 'btn-secondary'}" type="object" name="week_data">This Week</button>
-                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='month' ? 'btn-primary' : 'btn-secondary'}" type="object" name="month_data">This Month</button>
-                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='all' ? 'btn-primary' : 'btn-secondary'}" type="object" name="all_data">Till Now</button>
+                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='today' ? 'btn-primary' : 'btn-secondary'}"
+                                            type="object" name="today_data">Today
+                                    </button>
+                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='week' ? 'btn-primary' : 'btn-secondary'}"
+                                            type="object" name="week_data">This Week
+                                    </button>
+                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='month' ? 'btn-primary' : 'btn-secondary'}"
+                                            type="object" name="month_data">This Month
+                                    </button>
+                                    <button t-attf-class="btn #{record.dashboard_data_filter.raw_value=='all' ? 'btn-primary' : 'btn-secondary'}"
+                                            type="object" name="all_data">Till Now
+                                    </button>
                                 </div>
                             </div>
                             <div class="row">
                                 <!-- Total Patients -->
-                                <div groups="acs_hms_base.group_hms_user" t-if="!record.is_physician.raw_value or record.is_manager.raw_value" class="col-3 acs_block">
+                                <div groups="acs_hms_base.group_hms_user"
+                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value"
+                                     class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_patients_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-bed'"/>
@@ -158,22 +181,24 @@
                                 </div>
 
                                 <!-- My Patients -->
-<!--                                <div groups="acs_hms.group_hms_jr_doctor" class="col-3 acs_block">-->
-<!--                                    <t t-call="acs_dashboard_block">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.my_total_patients_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-bed'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.my_total_patients.raw_value"/>-->
-<!--                                        <t t-set="acs_record_lable">My Total Patients</t>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_my_patients'"/>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!--                                <div groups="acs_hms.group_hms_jr_doctor" class="col-3 acs_block">-->
+                                <!--                                    <t t-call="acs_dashboard_block">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.my_total_patients_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-bed'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.my_total_patients.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_lable">My Total Patients</t>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_my_patients'"/>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
 
 
-
-                                <!-- Appointments --> 
-                                <div groups="acs_hms_base.group_hms_user" t-if="!record.is_physician.raw_value or record.is_manager.raw_value" class="col-3 acs_block">
+                                <!-- Appointments -->
+                                <div groups="acs_hms_base.group_hms_user"
+                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value"
+                                     class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
-                                        <t t-set="acs_record_color" t-value="record.total_appointments_color.raw_value"/>
+                                        <t t-set="acs_record_color"
+                                           t-value="record.total_appointments_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-bell'"/>
                                         <t t-set="acs_field_name" t-value="record.total_appointments.raw_value"/>
                                         <t t-set="acs_record_lable">Appointments</t>
@@ -182,17 +207,17 @@
                                 </div>
 
                                 <!-- My Appointments -->
-<!--                                <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
-<!--                                    <t t-call="acs_dashboard_block">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.my_total_appointments_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-bell'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.my_total_appointments.raw_value"/>-->
-<!--                                        <t t-set="acs_record_lable">My Appointments</t>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_my_appointments'"/>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!--                                <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
+                                <!--                                    <t t-call="acs_dashboard_block">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.my_total_appointments_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-bell'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.my_total_appointments.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_lable">My Appointments</t>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_my_appointments'"/>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
 
-                                     <!-- Shop -->
+                                <!-- Shop -->
                                 <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_shop_color.raw_value"/>
@@ -203,8 +228,8 @@
                                     </t>
                                 </div>
 
-                                 <!-- Physicians -->
-                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user">
+                                <!-- Physicians -->
+                                <!-- <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user">
                                     <t t-call="acs_dashboard_block_second">
                                         <t t-set="acs_record_color" t-value="record.physicians_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-user-md'"/>
@@ -216,9 +241,25 @@
                                         <t t-set="acs_record2_lable">Ref. Phy.</t>
                                         <t t-set="acs_lable">Prescribers</t>
                                     </t>
+                                </div> -->
+
+                                <!-- online education -->
+                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user">
+                                    <t t-call="acs_dashboard_block_second">
+                                        <t t-set="acs_record_color" t-value="record.physicians_color.raw_value"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-university'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_physicians.raw_value"/>
+                                        <t t-set="acs_record_action" t-value="'open_physicians'"/>
+                                        <t t-set="acs_record_lable">Total Phy.</t>
+                                        <t t-set="acs_field2_name"
+                                           t-value="record.total_referring_physicians.raw_value"/>
+                                        <t t-set="acs_record2_action" t-value="'open_online_education'"/>
+                                        <t t-set="acs_record2_lable">Online Education</t>
+                                        <t t-set="acs_lable">Prescribers</t>
+                                    </t>
                                 </div>
 
-                                  <!-- Consent Form -->
+                                <!-- Consent Form -->
                                 <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_consent_color.raw_value"/>
@@ -229,10 +270,11 @@
                                     </t>
                                 </div>
 
-                                     <!-- Prescriptions -->
+                                <!-- Prescriptions -->
                                 <div groups="acs_hms.group_hms_doctor" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
-                                        <t t-set="acs_record_color" t-value="record.total_prescription_color.raw_value"/>
+                                        <t t-set="acs_record_color"
+                                           t-value="record.total_prescription_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-plus-circle'"/>
                                         <t t-set="acs_field_name" t-value="record.total_prescription.raw_value"/>
                                         <t t-set="acs_record_lable">Prescriptions</t>
@@ -240,36 +282,37 @@
                                     </t>
                                 </div>
 
-
-
                                 <!-- Protocols -->
                                 <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_protocol_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-info-circle'"/>
                                         <t t-set="acs_field_name" t-value="record.total_protocol.raw_value"/>
-                                        <t t-set="acs_record_lable">Protocols</t>
+                                        <t t-set="acs_record_lable">Clinical Procedures</t>
                                         <t t-set="acs_record_action" t-value="'open_protocol'"/>
                                     </t>
                                 </div>
 
-                                 <!-- Open Invoices -->
+                                <!-- Open Invoices -->
                                 <div class="col-3 acs_block" groups="account.group_account_invoice">
                                     <t t-call="acs_dashboard_block_second">
-                                        <t t-set="acs_record_color" t-value="record.total_open_invoice_color.raw_value"/>
+                                        <t t-set="acs_record_color"
+                                           t-value="record.total_open_invoice_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-list'"/>
                                         <t t-set="acs_field_name" t-value="record.total_open_invoice.raw_value"/>
                                         <t t-set="acs_record_action" t-value="'open_invoices'"/>
                                         <t t-set="acs_record_lable">Total</t>
-                                        <t t-set="acs_field2_name" t-value="record.total_open_invoice_amount.raw_value"/>
+                                        <t t-set="acs_field2_name"
+                                           t-value="record.total_open_invoice_amount.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_invoices'"/>
                                         <t t-set="acs_record2_lable">Amount</t>
                                         <t t-set="acs_lable">Open Invoices</t>
                                     </t>
                                 </div>
 
-                                  <!-- Clinical Support -->
-                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager" class="col-3 acs_block">
+                                <!-- Clinical Support -->
+                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                     class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_support_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-phone'"/>
@@ -279,8 +322,9 @@
                                     </t>
                                 </div>
 
-                                  <!-- Telehealth -->
-                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager" class="col-3 acs_block">
+                                <!-- Telehealth -->
+                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                     class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_meeting_now_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-users'"/>
@@ -292,7 +336,8 @@
 
 
                                 <!-- Emergency -->
-                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager" class="col-3 acs_block">
+                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                     class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_emergency_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-ambulance'"/>
@@ -304,100 +349,102 @@
 
 
                                 <!-- Schedules -->
-<!--                                <div groups="acs_hms.group_hms_receptionist" class="col-3 acs_block">-->
-<!--                                    <t t-call="acs_dashboard_block">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.total_shedules_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-calendar'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.total_shedules.raw_value"/>-->
-<!--                                        <t t-set="acs_record_lable">Total Shedules</t>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!--                                <div groups="acs_hms.group_hms_receptionist" class="col-3 acs_block">-->
+                                <!--                                    <t t-call="acs_dashboard_block">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.total_shedules_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-calendar'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.total_shedules.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_lable">Total Shedules</t>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_shedules'"/>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
 
 
-
-                                <!-- Treatments -->
-                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user" t-if="!record.is_physician.raw_value or record.is_manager.raw_value">
+                                <!-- Prescriber -->
+                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user"
+                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value">
                                     <t t-call="acs_dashboard_block_second">
                                         <t t-set="acs_record_color" t-value="record.total_treatments_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-user-md'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_treatments.raw_value"/>
-                                        <t t-set="acs_record_action" t-value="'open_running_treatments'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_prescriber.raw_value"/>
+                                        <t t-set="acs_record_action" t-value="'open_running_prescriber'"/>
                                         <t t-set="acs_record_lable">Running</t>
-                                        <t t-set="acs_field2_name" t-value="record.total_treatments.raw_value"/>
-                                        <t t-set="acs_record2_action" t-value="'open_treatments'"/>
+                                        <t t-set="acs_field2_name" t-value="record.total_prescriber.raw_value"/>
+                                        <t t-set="acs_record2_action" t-value="'open_prescriber'"/>
                                         <t t-set="acs_record2_lable">Total</t>
-                                        <t t-set="acs_lable">Treatments</t>
+                                        <t t-set="acs_lable">Prescriber</t>
                                     </t>
                                 </div>
 
-                                <!-- My Treatments --> 
-<!--                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user" t-if="record.is_physician.raw_value">-->
-<!--                                    <t t-call="acs_dashboard_block_second">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.my_total_treatments_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-user-md'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.my_total_treatments.raw_value"/>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_my_running_treatments'"/>-->
-<!--                                        <t t-set="acs_record_lable">Running</t>-->
-<!--                                        <t t-set="acs_field2_name" t-value="record.my_total_treatments.raw_value"/>-->
-<!--                                        <t t-set="acs_record2_action" t-value="'open_my_treatments'"/>-->
-<!--                                        <t t-set="acs_record2_lable">Total</t>-->
-<!--                                        <t t-set="acs_lable">My Treatments</t>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!-- My Treatments -->
+                                <!--                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user" t-if="record.is_physician.raw_value">-->
+                                <!--                                    <t t-call="acs_dashboard_block_second">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.my_total_treatments_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-user-md'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.my_total_treatments.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_my_running_treatments'"/>-->
+                                <!--                                        <t t-set="acs_record_lable">Running</t>-->
+                                <!--                                        <t t-set="acs_field2_name" t-value="record.my_total_treatments.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record2_action" t-value="'open_my_treatments'"/>-->
+                                <!--                                        <t t-set="acs_record2_lable">Total</t>-->
+                                <!--                                        <t t-set="acs_lable">My Treatments</t>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
 
                                 <!-- Avg Time -->
-<!--                                <div groups="acs_hms_base.group_hms_manager" class="col-3 acs_block">-->
-<!--                                    <t t-call="acs_dashboard_block_second">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.avg_time_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-clock-o'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.avg_wait_time.raw_value"/>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_appointments'"/>-->
-<!--                                        <t t-set="acs_record_lable">Wait Time</t>-->
-<!--                                        <t t-set="acs_field2_name" t-value="record.avg_cons_time.raw_value"/>-->
-<!--                                        <t t-set="acs_record2_action" t-value="'open_appointments'"/>-->
-<!--                                        <t t-set="acs_record2_lable">Cons. Time</t>-->
-<!--                                        <t t-set="acs_lable">Average Time</t>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!--                                <div groups="acs_hms_base.group_hms_manager" class="col-3 acs_block">-->
+                                <!--                                    <t t-call="acs_dashboard_block_second">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.avg_time_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-clock-o'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.avg_wait_time.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_appointments'"/>-->
+                                <!--                                        <t t-set="acs_record_lable">Wait Time</t>-->
+                                <!--                                        <t t-set="acs_field2_name" t-value="record.avg_cons_time.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record2_action" t-value="'open_appointments'"/>-->
+                                <!--                                        <t t-set="acs_record2_lable">Cons. Time</t>-->
+                                <!--                                        <t t-set="acs_lable">Average Time</t>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
 
                                 <!-- My Avg Time -->
-<!--                                <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
-<!--                                    <t t-call="acs_dashboard_block_second">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.my_avg_time_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-clock-o'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.my_avg_wait_time.raw_value"/>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_my_appointments'"/>-->
-<!--                                        <t t-set="acs_record_lable">Wait Time</t>-->
-<!--                                        <t t-set="acs_field2_name" t-value="record.my_avg_cons_time.raw_value"/>-->
-<!--                                        <t t-set="acs_record2_action" t-value="'open_my_appointments'"/>-->
-<!--                                        <t t-set="acs_record2_lable">Cons. Time</t>-->
-<!--                                        <t t-set="acs_lable">My Average Time</t>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!--                                <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
+                                <!--                                    <t t-call="acs_dashboard_block_second">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.my_avg_time_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-clock-o'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.my_avg_wait_time.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_my_appointments'"/>-->
+                                <!--                                        <t t-set="acs_record_lable">Wait Time</t>-->
+                                <!--                                        <t t-set="acs_field2_name" t-value="record.my_avg_cons_time.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record2_action" t-value="'open_my_appointments'"/>-->
+                                <!--                                        <t t-set="acs_record2_lable">Cons. Time</t>-->
+                                <!--                                        <t t-set="acs_lable">My Average Time</t>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
 
-                                <!-- Todays Birthdays --> 
-<!--                                <div class="col-3 acs_block" groups="acs_hms.group_hms_receptionist">-->
-<!--                                    <t t-call="acs_dashboard_block_second">-->
-<!--                                        <t t-set="acs_record_color" t-value="record.birthday_color.raw_value"/>-->
-<!--                                        <t t-set="acs_record_icon" t-value="'fa-birthday-cake'"/>-->
-<!--                                        <t t-set="acs_field_name" t-value="record.birthday_employee.raw_value"/>-->
-<!--                                        <t t-set="acs_record_action" t-value="'open_birthday_employee'"/>-->
-<!--                                        <t t-set="acs_record_lable">Employee</t>-->
-<!--                                        <t t-set="acs_field2_name" t-value="record.birthday_patients.raw_value"/>-->
-<!--                                        <t t-set="acs_record2_action" t-value="'open_birthday_patients'"/>-->
-<!--                                        <t t-set="acs_record2_lable">Patient</t>-->
-<!--                                        <t t-set="acs_lable">Todays Birthday</t>-->
-<!--                                    </t>-->
-<!--                                </div>-->
+                                <!-- Todays Birthdays -->
+                                <!--                                <div class="col-3 acs_block" groups="acs_hms.group_hms_receptionist">-->
+                                <!--                                    <t t-call="acs_dashboard_block_second">-->
+                                <!--                                        <t t-set="acs_record_color" t-value="record.birthday_color.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_icon" t-value="'fa-birthday-cake'"/>-->
+                                <!--                                        <t t-set="acs_field_name" t-value="record.birthday_employee.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record_action" t-value="'open_birthday_employee'"/>-->
+                                <!--                                        <t t-set="acs_record_lable">Employee</t>-->
+                                <!--                                        <t t-set="acs_field2_name" t-value="record.birthday_patients.raw_value"/>-->
+                                <!--                                        <t t-set="acs_record2_action" t-value="'open_birthday_patients'"/>-->
+                                <!--                                        <t t-set="acs_record2_lable">Patient</t>-->
+                                <!--                                        <t t-set="acs_lable">Todays Birthday</t>-->
+                                <!--                                    </t>-->
+                                <!--                                </div>-->
                             </div>
 
                             <div class="row" id="appointment_list" groups="acs_hms.group_hms_receptionist">
                                 <div class="col-12 mb32">
-                                    <t t-value="JSON.parse(record.appointment_data.raw_value)" t-set="appointment_data"/>
+                                    <t t-value="JSON.parse(record.appointment_data.raw_value)"
+                                       t-set="appointment_data"/>
                                     <div class="card">
                                         <h5 class="card-header">
-                                            <a type="object" name="open_appointments">Appointments</a> <a href="#" title="This will show max 20 records only" class="o_doc_link"/>
+                                            <a type="object" name="open_appointments">Appointments</a>
+                                            <a href="#" title="This will show max 20 records only" class="o_doc_link"/>
                                         </h5>
                                         <div class="card-body p-0">
                                             <div class="table-responsive table-striped">
@@ -406,7 +453,7 @@
                                                         <tr class="border-0">
                                                             <th class="border-0">#</th>
                                                             <th class="border-0">Appointment</th>
-                                                            <th class="border-0">Patient </th>
+                                                            <th class="border-0">Patient</th>
                                                             <th class="border-0">Date</th>
                                                             <th class="border-0">Prescriber</th>
                                                             <th class="border-0">Wait Time</th>
@@ -419,18 +466,31 @@
                                                         <t t-set="limit" t-value="0"></t>
                                                         <tr t-foreach="appointment_data" t-as="line">
                                                             <t t-if="limit &lt; 5">
-                                                                <td><span t-esc="line_index + 1"/>.</td>
+                                                                <td><span t-esc="line_index + 1"/>.
+                                                                </td>
                                                                 <td>
                                                                     <a t-attf-href="/web#id={{ line.id }}&amp;model=hms.appointment&amp;view_type=form">
                                                                         <span t-esc="line.name"/>
                                                                     </a>
                                                                 </td>
-                                                                <td><span t-esc="line.patient"/></td>
-                                                                <td><span t-esc="line.date"/></td>
-                                                                <td><span t-esc="line.physician"/></td>
-                                                                <td><span t-esc="line.waiting_duration"/></td>
-                                                                <td><span t-esc="line.appointment_duration"/></td>
-                                                                <td><span t-esc="line.state"/></td>
+                                                                <td>
+                                                                    <span t-esc="line.patient"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-esc="line.date"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-esc="line.physician"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-esc="line.waiting_duration"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-esc="line.appointment_duration"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-esc="line.state"/>
+                                                                </td>
                                                                 <t t-set="limit" t-value="limit + 1"></t>
                                                             </t>
                                                         </tr>
@@ -447,11 +507,13 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-#{record.appointment_bar_graph_color.raw_value}">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Info"></i> Patient Appointments
+                                            <i class="fa fa-area-chart" aria-label="Info" title="Info"></i>
+                                            Patient Appointments
                                         </div>
                                         <div class="card-body o_acs_dashboard_graph">
                                             <t t-name="JournalBodyGraph">
-                                                <field name="appointment_bar_graph" graph_type="bar" widget="dashboard_graph"/>
+                                                <field name="appointment_bar_graph" graph_type="bar"
+                                                       widget="dashboard_graph"/>
                                             </t>
                                         </div>
                                     </div>
@@ -460,11 +522,13 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-#{record.patient_line_graph_color.raw_value}">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Info"></i> New Patients
+                                            <i class="fa fa-area-chart" aria-label="Info" title="Info"></i>
+                                            New Patients
                                         </div>
                                         <div class="card-body o_acs_dashboard_graph">
                                             <t t-name="JournalBodyGraph">
-                                                <field name="patient_line_graph" graph_type="line" widget="dashboard_graph"/>
+                                                <field name="patient_line_graph" graph_type="line"
+                                                       widget="dashboard_graph"/>
                                             </t>
                                         </div>
                                     </div>
@@ -487,8 +551,8 @@
     </record>
 
     <menuitem id="main_dashboard" name="My Dashboard" sequence="0"
-        web_icon="acs_hms_dashboard,static/description/icon.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
+              web_icon="acs_hms_dashboard,static/description/icon.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
     <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"
-        action="action_my_dashboard" sequence="1"/>
+              action="action_my_dashboard" sequence="1"/>
 
 </odoo>
