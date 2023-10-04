@@ -17,7 +17,7 @@
                                 <h1 class="card_number_text m-0 text-white"><b class="patient-appointment"></b></h1>
                               </div>
                               <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Patient</h4>
+                                <h4 class="mb-1 text-white card_up_title">Patients</h4>
 <!--                                <h2 class="m-0 text-white card_main_title">Today</h2>-->
                               </div>
                             </div>
@@ -32,7 +32,7 @@
                                 <h1 class="card_number_text m-0 text-white"><b class="total-appointment"></b></h1>
                               </div>
                               <div class="col-9">
-                                <h4 class="mb-1 text-white card_up_title">Appointment</h4>
+                                <h4 class="mb-1 text-white card_up_title">Appointments</h4>
 <!--                                <h2 class="m-0 text-white card_main_title">Pending</h2>-->
                               </div>
                             </div>
@@ -68,11 +68,11 @@
                           </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">
-                          <div class="appointment_cards position-relative overflow-hidden appointment_card5 rounded p-sm-4 p-3 more-service1">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card5 rounded p-sm-4 p-3 more-consent">
                             <i class="fa fa-child position-absolute opacity_icon"></i>
                             <div class="row align-items-center">
                               <div class="col-3 pr-0">
-                                <h1 class="card_number_text m-0 text-white"><b class="total-service1">0</b></h1>
+                                <h1 class="card_number_text m-0 text-white"><b class="total-consent"></b></h1>
                               </div>
                               <div class="col-9">
                                 <h4 class="mb-1 text-white card_up_title">Consent Forms</h4>
@@ -97,38 +97,84 @@
                           </div>
                         </div>
                       </div>
-                      <!-- End: Appointment Cards -->
-                      <!-- Start: Appointment Charts -->
+
                       <div class="row">
-                        <div class="col-md-6">
-                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">
-                            <h4 class="mb-2 text-dark">Weekly Appointments</h4>
-                            <div class="card-body shadow">
-                              <div class="panel">
-                                  <div class="panel-heading">
-                                  </div>
-                                  <div class="panel-body">
-                                        <canvas id="highprice" width="500px" height="400px"/>
-                                  </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card7 rounded p-sm-4 p-3 more-support">
+                            <i class="fa fa-phone position-absolute opacity_icon"></i>
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="total-support">0</b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Clinical Support</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Today</h2>-->
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">
-                            <h4 class="mb-2 text-dark">Monthly Appointments</h4>
-                            <div class="card-body shadow">
-                              <div class="panel">
-                                  <div class="panel-heading">
-                                  </div>
-                                  <div class="panel-body">
-                                        <canvas id="monthlyappointment" width="500px" height="400px"/>
-                                  </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card8 rounded p-sm-4 p-3 more-appointment">
+                            <i class="fa fa-users position-absolute opacity_icon"></i>
+<!--                            <i class="fa fa-info-circle position-absolute opacity_icon"></i>-->
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="total-meet"></b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Meet Now</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Pending</h2>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                          <div class="appointment_cards position-relative overflow-hidden appointment_card9 rounded p-sm-4 p-3 more-emergency2">
+                            <i class="fa fa-ambulance position-absolute opacity_icon"></i>
+                            <div class="row align-items-center">
+                              <div class="col-3 pr-0">
+                                <h1 class="card_number_text m-0 text-white"><b class="total-emergency1">0</b></h1>
+                              </div>
+                              <div class="col-9">
+                                <h4 class="mb-1 text-white card_up_title">Emergency</h4>
+<!--                                <h2 class="m-0 text-white card_main_title">Complete</h2>-->
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <!-- End: Appointment Cards -->
+                      <!-- Start: Appointment Charts -->
+<!--                      <div class="row">-->
+<!--                        <div class="col-md-6">-->
+<!--                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">-->
+<!--                            <h4 class="mb-2 text-dark">Weekly Appointments</h4>-->
+<!--                            <div class="card-body shadow">-->
+<!--                              <div class="panel">-->
+<!--                                  <div class="panel-heading">-->
+<!--                                  </div>-->
+<!--                                  <div class="panel-body">-->
+<!--                                        <canvas id="highprice" width="500px" height="400px"/>-->
+<!--                                  </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                          <div class="appontment_chart_cards p-sm-3 p-2 shadow-sm text-center border rounded">-->
+<!--                            <h4 class="mb-2 text-dark">Monthly Appointments</h4>-->
+<!--                            <div class="card-body shadow">-->
+<!--                              <div class="panel">-->
+<!--                                  <div class="panel-heading">-->
+<!--                                  </div>-->
+<!--                                  <div class="panel-body">-->
+<!--                                        <canvas id="monthlyappointment" width="500px" height="400px"/>-->
+<!--                                  </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
                       <!-- End: Appointment Charts -->
                     </div>
                   </div>

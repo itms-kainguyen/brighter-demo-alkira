@@ -58,15 +58,16 @@
         <field name="name">acs.patient.procedure.list</field>
         <field name="model">acs.patient.procedure</field>
         <field name="arch" type="xml">
-            <tree string="Patient Procedure" decoration-info="state=='scheduled'" decoration-muted="state=='cancel'" decoration-danger="state=='done' and (invoice_id==False)">
+            <tree string="Procedure" decoration-info="state=='scheduled'" decoration-muted="state=='cancel'" decoration-danger="state=='done' and (invoice_id==False)">
                 <field name="name"/>
                 <field name="patient_id"/>
                 <field name="product_id"/>
                 <field name="price_unit" sum="total"/>
-                <field name="physician_id"/>
-                <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
+                <field name="physician_id" invisible="1"/>
+                <field name="nurse_id"/>
+                <field name="department_id" invisible="1" groups="acs_hms.group_allow_multi_department"/>
                 <field name="date"/>
-                <field name="date_stop"/>
+                <field name="date_stop" invisible="1"/>
                 <field name="state" decoration-info="state=='scheduled'" decoration-danger="state=='cancel'" decoration-success="state=='done'" decoration-warning="state=='running'" widget="badge"/>
                 <field name="invoice_id" invisible="1"/>
             </tree>
@@ -77,7 +78,7 @@
         <field name="name">acs.patient.procedure.form</field>
         <field name="model">acs.patient.procedure</field>
         <field name="arch" type="xml">
-             <form string="Patient Procedure">
+             <form string="Procedure">
                 <header>
                     <button name="action_schedule" string="Schedule" type="object" states="cancel"/>
                     <button name="action_running" string="Running" type="object" states="scheduled" class="oe_highlight"/>
@@ -102,20 +103,22 @@
                     <group>
                         <group>
                             <field name="patient_id"/>
-                            <label for="date" string="Date"/>
-                            <div class="o_row">
-                                <field name="date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_stop'}"/>
-                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                                <field name="date_stop" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
-                            </div>
-                            <field name="duration" widget="float_time"/>
-                            <field name="diseas_id"/>
+                            <field name="date"/>
+<!--                            <label for="date" string="Date"/>-->
+<!--                            <div class="o_row">-->
+<!--                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>-->
+<!--                                <field name="date_stop" nolabel="1" class="oe_inline"/>-->
+<!--                            </div>-->
+<!--                            <field name="duration" widget="float_time"/>-->
+                            <field name="diseas_id" string="Medicine" invisible="1"/>
+                            <field name="medicine_id"/>
                             <field name="treatment_id"/>
-                            <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
+                            <field name="department_id" invisible="1" groups="acs_hms.group_allow_multi_department"/>
                             <field name="appointment_ids" widget="many2many_tags" domain="[('patient_id','=',patient_id)]"/>
                         </group>
                         <group>
-                            <field name="physician_id"/>
+                            <field name="physician_id" invisible="1"/>
+                            <field name="nurse_id"/>
                             <field name="product_id" context="{'default_detailed_type': 'service', 'default_hospital_product_type': 'procedure'}" domain="[('hospital_product_type','like','procedure')]"/>
                             <field name="price_unit"/>
                             <field name="invoice_id"/>
@@ -127,11 +130,11 @@
                     </group>
                     <notebook>
                         <page name="consumed_products" string="Consumed Products">
-                            <label for="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}"/>
+                            <label for="acs_kit_id" string="Template" attrs="{'invisible': [('state','in', ['done','cancel'])]}"/>
                             <div name="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}">
                                 <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
                                 <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
-                                <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
+                                <button name="get_acs_kit_lines" string="Add Template" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
                             </div>
                             <field name="consumable_line_ids" nolabel="1" colspan="4" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}">
                                 <tree string="Line" editable="top">
@@ -168,10 +171,11 @@
             <search string="Procedure">
                 <field name="name"/>
                 <field name="patient_id"/>
-                <field name="physician_id"/>
+                <field name="physician_id" invisible="1"/>
+                <field name="nurse_id"/>
                 <field name="product_id"/>
                 <field name="appointment_ids"/>
-                <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
+                <field name="department_id" groups="acs_hms.group_allow_multi_department" invisible="1"/>
                 <separator/>
                 <filter name="my_procedures" string="My Procedure" domain="[('physician_id.user_id', '=',uid)]"/>
                 <separator/>
@@ -193,8 +197,9 @@
         <field name="model">acs.patient.procedure</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
-            <calendar string="Patient Procedures" color="product_id" date_start="date" date_stop="date_stop">
-                <field name="physician_id"/>
+            <calendar string="Procedures" color="product_id" date_start="date" date_stop="date_stop">
+                <field name="physician_id" invisible="1"/>
+                 <field name="nurse_id"/>
                 <field name="patient_id"/>
                 <field name="state"/>
             </calendar>
@@ -205,22 +210,23 @@
         <field name="name">acs.patient.procedure.pivot</field>
         <field name="model">acs.patient.procedure</field>
         <field name="arch" type="xml">
-            <pivot string="Patient Procedure">
+            <pivot string="Procedure">
                 <field name="date" type="row"/>
-                <field name="physician_id" type="row"/>
+                <field name="nurse_id" type="row"/>
+                <field name="physician_id" type="row" invisible="1"/>
                 <field name="patient_id" type="row"/>
             </pivot>
         </field>
     </record>
 
     <record id="action_acs_patient_procedure" model="ir.actions.act_window">
-        <field name="name">Patient Procedures</field>
+        <field name="name">Procedures</field>
         <field name="res_model">acs.patient.procedure</field>
         <field name="view_mode">tree,form,calendar,pivot</field>
         <field name="context">{'search_default_not_done': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Click to add a Patient Patient Procedure.
+                Click to add a Procedure.
             </p>
         </field>
     </record>

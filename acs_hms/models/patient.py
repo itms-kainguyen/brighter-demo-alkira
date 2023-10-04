@@ -106,13 +106,13 @@ class ACSPatient(models.Model):
 
     #Diseases
     medical_history = fields.Text(string="Past Medical History")
-    patient_diseases_ids = fields.One2many('hms.patient.disease', 'patient_id', string='Diseases')
+    patient_diseases_ids = fields.One2many('hms.patient.disease', 'patient_id', string='Treatment')
 
     #Family Form Tab
     genetic_risks_ids = fields.One2many('hms.patient.genetic.risk', 'patient_id', 'Genetic Risks')
     family_history_ids = fields.One2many('hms.patient.family.diseases', 'patient_id', 'Family Diseases History')
     department_ids = fields.Many2many('hr.department', 'patint_department_rel','patient_id', 'department_id',
-        domain=[('patient_department', '=', True)], string='Departments')
+        domain=[('patient_department', '=', True)], string='Clinic')
 
     medication_ids = fields.One2many('hms.patient.medication', 'patient_id', string='Medications')
     ethnic_group_id = fields.Many2one('acs.ethnicity', string='Ethnic group')
@@ -212,6 +212,30 @@ class ACSPatient(models.Model):
 
         invoice = self.acs_create_invoice(partner=self.partner_id, patient=self, product_data=[{'product_id': product_id}], inv_data={'hospital_invoice_type': 'patient'})
         self.invoice_id = invoice.id
+
+    def create_appointment(self):
+        # return the form view of this partner
+        self.ensure_one()
+
+        # Get the patient ID
+        patient_id = self.id
+
+        # Create a new appointment record
+        appointment = self.env['hms.appointment'].create({
+            'patient_id': patient_id,
+        })
+
+        # Return the form view of the new appointment record
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "hms.appointment",
+            "res_id": appointment.id,
+            "view_mode": "form",
+            "view_type": "form",
+            "views": [(False, "form")],
+            "view_id": False,
+            "target": "new",
+        }
 
     def action_appointment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")

@@ -112,7 +112,7 @@
                             </field>
                         </page>
 
-                        <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse,acs_hms_hospitalization.group_acs_hms_hospitalization_user">
+                        <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse,acs_hms_hospitalization.group_acs_hms_hospitalization_user" invisible="1">
                             <div>NOTE: Details are shown based on last Completed Patient Evaluation: <t attrs="{'invisible': [('last_evaluation_id','=',False)]}"><field name="last_evaluation_id" nolabel="1" class="oe_link"/></t><t attrs="{'invisible': [('state','=','done')]}"><button name="action_create_evaluation" type="object" string="Create Evaluation" class=" oe_link"/></t></div>
 
                             <group>

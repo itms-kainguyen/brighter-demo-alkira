@@ -38,7 +38,8 @@ class CalendarAppointmentType(models.Model):
     country_ids = fields.Many2many(
         'res.country', 'website_calendar_type_country_rel', string='Restrict Countries',
         help="Keep empty to allow visitors from any country, otherwise you only allow visitors from selected countries")
-    question_ids = fields.One2many('calendar.appointment.question', 'appointment_type_id', string='Questions', copy=True)
+    question_ids = fields.One2many('calendar.appointment.question', 'appointment_type_id', string='Questions',
+                                   copy=True)
 
     slot_ids = fields.One2many('calendar.appointment.slot', 'appointment_type_id', 'Availabilities', copy=True)
     appointment_tz = fields.Selection(
@@ -54,12 +55,13 @@ class CalendarAppointmentType(models.Model):
 
     @api.model
     def create(self, values):
-        res= super(CalendarAppointmentType, self).create(values)
-        res.partner_id.sudo().write({'appointment_type':res.id})
+        res = super(CalendarAppointmentType, self).create(values)
+        res.partner_id.sudo().write({'appointment_type': res.id})
         return res
 
     def _compute_appointment_count(self):
-        meeting_data = self.env['calendar.event'].read_group([('appointment_type_id', 'in', self.ids)], ['appointment_type_id'], ['appointment_type_id'])
+        meeting_data = self.env['calendar.event'].read_group([('appointment_type_id', 'in', self.ids)],
+                                                             ['appointment_type_id'], ['appointment_type_id'])
         mapped_data = {m['appointment_type_id'][0]: m['appointment_type_id_count'] for m in meeting_data}
         for appointment_type in self:
             appointment_type.appointment_count = mapped_data.get(appointment_type.id, 0)
@@ -77,7 +79,7 @@ class CalendarAppointmentType(models.Model):
     def action_calendar_meetings(self):
         self.ensure_one()
         action = self.env.ref('calendar.action_calendar_event').read()[0]
-        action['domain'] = [('appointment_type_id', '=',self.id)]
+        action['domain'] = [('appointment_type_id', '=', self.id)]
         action['context'] = {
             'default_appointment_type_id': self.id,
 
@@ -95,10 +97,14 @@ class CalendarAppointmentType(models.Model):
             :return: [ {'slot': slot_record, <timezone>: (date_start, date_end), ...},
                       ... ]
         """
+
         def append_slot(day, slot):
-            local_start = appt_tz.localize(datetime.combine(day, time(hour=int(slot.hour), minute=int(round((slot.hour % 1) * 60)))))
+            local_start = appt_tz.localize(
+                datetime.combine(day, time(hour=int(slot.hour), minute=int(round((slot.hour % 1) * 60)))))
             local_end = appt_tz.localize(
-                datetime.combine(day, time(hour=int(slot.hour), minute=int(round((slot.hour % 1) * 60)))) + relativedelta(hours=self.appointment_duration))
+                datetime.combine(day,
+                                 time(hour=int(slot.hour), minute=int(round((slot.hour % 1) * 60)))) + relativedelta(
+                    hours=self.appointment_duration))
             slots.append({
                 self.appointment_tz: (
                     local_start,
@@ -114,6 +120,7 @@ class CalendarAppointmentType(models.Model):
                 ),
                 'slot': slot,
             })
+
         appt_tz = pytz.timezone(self.appointment_tz)
         requested_tz = pytz.timezone(timezone)
 
@@ -143,9 +150,11 @@ class CalendarAppointmentType(models.Model):
         def is_work_available(start_dt, end_dt, intervals):
             """ check if the slot is contained in the employee's work hours (defined by intervals)
             """
+
             def find_start_index():
                 """ find the highest index of intervals for which the start_date (element [0]) is before (or at) start_dt
                 """
+
                 def recursive_find_index(lower_bound, upper_bound):
                     if upper_bound - lower_bound <= 1:
                         if intervals[upper_bound][0] <= start_dt:
@@ -183,21 +192,23 @@ class CalendarAppointmentType(models.Model):
             end_dt = slot['UTC'][1]
 
             event_in_scope = lambda ev: (
-                fields.Date.to_date(ev.start) <= fields.Date.to_date(end_dt)
-                and fields.Date.to_date(ev.stop) >= fields.Date.to_date(start_dt)
+                    fields.Date.to_date(ev.start) <= fields.Date.to_date(end_dt)
+                    and fields.Date.to_date(ev.stop) >= fields.Date.to_date(start_dt)
             )
 
             for ev in events.filtered(event_in_scope):
                 if ev.allday:
                     # allday events are considered to take the whole day in the related employee's timezone
-                    event_tz = pytz.timezone(ev.event_tz or employee.user_id.tz or self.env.user.tz or slot['slot'].appointment_type_id.appointment_tz or 'UTC')
+                    event_tz = pytz.timezone(ev.event_tz or employee.user_id.tz or self.env.user.tz or slot[
+                        'slot'].appointment_type_id.appointment_tz or 'UTC')
                     ev_start_dt = datetime.combine(fields.Date.from_string(ev.start_date), time.min)
                     ev_stop_dt = datetime.combine(fields.Date.from_string(ev.stop_date), time.max)
                     ev_start_dt = event_tz.localize(ev_start_dt).astimezone(pytz.UTC).replace(tzinfo=None)
                     ev_stop_dt = event_tz.localize(ev_stop_dt).astimezone(pytz.UTC).replace(tzinfo=None)
                     if ev_start_dt < end_dt and ev_stop_dt > start_dt:
                         return False
-                elif fields.Datetime.to_datetime(ev.start_datetime) < end_dt and fields.Datetime.to_datetime(ev.stop_datetime) > start_dt:
+                elif fields.Datetime.to_datetime(ev.start_datetime) < end_dt and fields.Datetime.to_datetime(
+                        ev.stop_datetime) > start_dt:
                     return False
             return True
 
@@ -271,7 +282,7 @@ class CalendarAppointmentType(models.Model):
 
                         while slots and (slots[0][timezone][0].date() <= day):
                             if self.env.company.is_single_booking == True:
-                                cal_event = self.env['calendar.event'].search([('start','=',slots[0][timezone][0])])
+                                cal_event = self.env['calendar.event'].search([('start', '=', slots[0][timezone][0])])
                                 if not cal_event:
                                     if (slots[0][timezone][0].date() == day):
                                         today_slots.append({
@@ -318,7 +329,8 @@ class CalendarAppointmentSlot(models.Model):
         ('7', 'Sunday'),
     ], string='Week Day', required=True)
     hour = fields.Float('Starting Hour', required=True, default=8.0)
-    end_date = fields.Float('Ending Hour',store=True)
+    end_date = fields.Float('Ending Hour', store=True)
+    duration = fields.Float(related='appointment_type_id.appointment_duration', store=True, string='Duration')
 
     @api.constrains('hour')
     def check_hour(self):
@@ -326,12 +338,29 @@ class CalendarAppointmentSlot(models.Model):
             raise ValidationError(_("Please enter a valid hour between 0:00 to 24:00 for your slots."))
 
     def name_get(self):
-        weekdays = dict(self._fields['weekday'].selection)
-        return self.mapped(lambda slot: (slot.id, "%s, %02d:%02d" % (weekdays.get(slot.weekday), int(slot.hour), int(round((slot.hour % 1) * 60)))))
+        result = []
+        for record in self:
+            weekdays = dict(self._fields['weekday'].selection)[record.weekday]
+            lable_hour = 'AM'
+            lable_end = 'AM'
+            if 12 < record.hour <= 23:
+                lable_hour = 'PM'
+            if 12 < record.end_date <= 23:
+                lable_end = 'PM'
+            result.append(
+                (record.id,
+                 "%s %s %s To %s %s" % (weekdays, str(record.hour), lable_hour, str(record.end_date), lable_end)))
+        return result
 
     @api.onchange('hour')
     def check_appoint_hour(self):
         self.end_date = self.hour + self.appointment_type_id.appointment_duration
+
+    @api.depends('hour', 'end_date')
+    def _compute_duration(self):
+        for rec in self:
+            rec.duration = rec.end_date - rec.hour
+
 
 class CalendarAppointmentQuestion(models.Model):
     _name = "calendar.appointment.question"
@@ -349,41 +378,142 @@ class CalendarAppointmentQuestion(models.Model):
         ('select', 'Dropdown (one answer)'),
         ('radio', 'Radio (one answer)'),
         ('checkbox', 'Checkboxes (multiple answers)')], 'Question Type', default='char')
-    answer_ids = fields.Many2many('calendar.appointment.answer', 'calendar_appointment_question_answer_rel', 'question_id', 'answer_id', string='Available Answers')
+    answer_ids = fields.Many2many('calendar.appointment.answer', 'calendar_appointment_question_answer_rel',
+                                  'question_id', 'answer_id', string='Available Answers')
 
 
 class CalendarAppointmentAnswer(models.Model):
     _name = "calendar.appointment.answer"
     _description = "Online Appointment : Answers"
 
-    question_id = fields.Many2many('calendar.appointment.question', 'calendar_appointment_question_answer_rel', 'answer_id', 'question_id', string='Questions')
+    question_id = fields.Many2many('calendar.appointment.question', 'calendar_appointment_question_answer_rel',
+                                   'answer_id', 'question_id', string='Questions')
     name = fields.Char('Answer', translate=True, required=True)
+
 
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
 
-    STATE_SELECTION = [
-        ('needsAction', 'Needs Action'),
-        ('tentative', 'Uncertain'),
-        ('declined', 'Declined'),
-        ('accepted', 'Accepted'),
-    ]
+    @api.model
+    def _get_default_appointment_group_id(self):
+        return self.env['appointment.group'].search(
+            [('product_template_id.name', '=', 'Prescriber Service')], limit=1) or False
 
-    partner_new = fields.Many2one('res.partner', string='attendee')
-    start_at = fields.Date()
+    # STATE_SELECTION = [
+    #     ('needsAction', 'Needs Action'),
+    #     ('tentative', 'Uncertain'),
+    #     ('declined', 'Declined'),
+    #     ('accepted', 'Accepted'),
+    # ]
+
+    name = fields.Char('Meeting Subject', required=True)
+
+    STATE_SELECTION = [('pending', 'Pending Confirmation'),
+                       ('confirmed', 'Confirmed'),
+                       ('treated', 'Treated'),
+                       ('cancelled', 'Cancelled')]
+
+    partner_new = fields.Many2one('res.partner', string='Patient')
+    start_at = fields.Date('Date', default=fields.Date.today)
     start_time = fields.Char(string='Start Time')
     end_time = fields.Char(string='End Time')
-    doctore_id = fields.Many2one('res.partner', string='Doctore')
+    doctore_id = fields.Many2one('res.partner', string='Prescriber')
     apppoint_event_id = fields.Char()
     amount = fields.Float()
-    state = fields.Selection(STATE_SELECTION, string='Status', readonly=True, default='needsAction',
+    state = fields.Selection(STATE_SELECTION, string='Appointment Status', default='pending',
                              help="Status of the attendee's participation")
+    appointment_group_id = fields.Many2one('appointment.group', default=_get_default_appointment_group_id,
+                                           required=True, string='Consultation Type')
+    time_slot = fields.Many2one('calendar.appointment.slot', string='Available Slots')
+    # time_slot = fields.Many2one('appointment.timeslot', string='Available Slots')
 
+    payment_state = fields.Selection([('not_paid', 'Not Paid'),
+                                      ('in_payment', 'In Payment'),
+                                      ('paid', 'Paid')], default='not_paid', string='Payment Status')
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        if res:
+            invoice_vals = res._prepare_invoice()
+            for line in invoice_vals:
+                invoice_line_vals = res._prepare_invoice_line()
+                line['invoice_line_ids'].append([0, 0, invoice_line_vals])
+            moves = self.env['account.move'].sudo().create(invoice_vals)
+        return res
+
+    def write(self, values):
+        if 'doctore_id' in values:
+            self.sudo().write(
+                {'partner_ids': [(6, 0, [self.env.user.partner_id.id, values.get('doctore_id')])]})
+        res = super().write(values)
+        # [(6, 0, family_partner_ids)]
+        return res
+
+    def _prepare_invoice(self):
+        self.ensure_one()
+        vals = []
+        for move_type in ['out_invoice', 'in_invoice']:
+            vals.append({
+                'move_type': move_type,
+                'calendar_event_id': self.id,
+                'narration': self.description,
+                'currency_id': self.user_id.company_id.currency_id.id,
+                'partner_id': self.partner_new.id if move_type == 'out_invoice' else self.doctore_id.id,
+                'partner_shipping_id': self.partner_new.id if move_type == 'out_invoice' else self.doctore_id.id,
+                'invoice_origin': self.name,
+                'invoice_payment_term_id': self.partner_new.property_payment_term_id.id if move_type == 'out_invoice' else self.doctore_id.property_payment_term_id.id,
+                'invoice_user_id': self.user_id.id,
+                'company_id': self.user_id.company_id.id,
+                'invoice_date': self.start_at,
+                'invoice_line_ids': [],
+            })
+        return vals
+
+    def _prepare_invoice_line(self):
+        product_id = False
+        if self.appointment_group_id and self.appointment_group_id.product_template_id:
+            product_id = self.env['product.product'].search(
+                [('product_tmpl_id', '=', self.appointment_group_id.product_template_id.id)], limit=1).id
+        if not product_id:
+            return
+        return {
+            'product_id': product_id,
+            'quantity': 1,
+            'price_unit': self.appointment_group_id.product_template_id.list_price,
+            'name': self.appointment_group_id.product_template_id.name or self.name,
+            'product_uom_id': self.appointment_group_id.product_template_id.uom_id.id,
+        }
+
+    @api.onchange('partner_new')
+    def onchange_partner_new(self):
+        if self.partner_new:
+            self.name = self.partner_new.name
+            # self.sudo().write({'partner_ids': [Command.link(self.partner_new.id)]})
 
     @api.onchange('doctore_id')
-    def onchange_doctore_id(self):
-        if self.doctore_id:
-            self.sudo().write({'partner_ids': [Command.link(self.doctore_id.id)]})
+    def _onchange_doctore_id(self):
+        self.appointment_group_id = False
+        self.time_slot = False
+        result = {'domain': {'appointment_group_id': [('id', 'in', self.doctore_id.appointment_group_ids.ids)],
+                             'time_slot': [('id', 'in', self.doctore_id.slot_ids.ids)]}}
+        return result
+
+    # @api.model
+    # def _get_view(self, view_id=None, view_type='form', **options):
+    #     arch, view = super()._get_view(view_id, view_type, **options)
+    #     if view_type == 'form' and self.doctore_id:
+    #         for node in arch.xpath("//field[@name='appointment_group_id']"):
+    #             node.set('domain', [('id', 'in', self.doctore_id.appointment_group_ids.ids)])
+    #     return arch, view
+
+    @api.onchange('time_slot', 'start_at')
+    def _onchange_time_slot(self):
+        if self.time_slot:
+            start_at = datetime.strftime(self.start_at, '%Y-%m-%d')
+            self.start = (datetime.strptime(start_at, '%Y-%m-%d') + timedelta(hours=self.time_slot.hour)) - timedelta(
+                hours=7)
+            self.duration = self.time_slot.duration
 
     def _default_access_token(self):
         return str(uuid.uuid4())
@@ -430,27 +560,27 @@ class CalendarEvent(models.Model):
         mydate = []
         mycount = []
         list_value = []
-        dict={} 
+        dict = {}
         count = 0
-        days = ["Monday", "Tuesday", "Wednesday", "Thursday", 
-                         "Friday", "Saturday", "Sunday"]
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday"]
         for data in partner_data:
             if data['date_time']:
                 mydate = data['date_time'].weekday()
                 if mydate >= 0:
                     value = days[mydate]
                     list_value.append(value)
-                    
+
                     list_value1 = list(set(list_value))
 
                     for record in list_value1:
                         count = 0
                         for rec in list_value:
-                            if rec ==record:
-                                count = count+1
-                            dict.update({record:count})
+                            if rec == record:
+                                count = count + 1
+                            dict.update({record: count})
                         keys, values = zip(*dict.items())
-                        data_set.update({"data":dict})
+                        data_set.update({"data": dict})
         return data_set
 
     @api.model
@@ -470,13 +600,13 @@ class CalendarEvent(models.Model):
         data_set = {}
         mycount = []
         list_value = []
-        
-        dict={} 
+
+        dict = {}
         count = 0
 
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                'August', 'September', 'October', 'November', 'December']
-    
+                  'August', 'September', 'October', 'November', 'December']
+
         for data in partner_data:
             if data['date_time']:
                 mydate = data['date_time'].month
@@ -488,9 +618,9 @@ class CalendarEvent(models.Model):
                         for record in list_value1:
                             count = 0
                             for rec in list_value:
-                                if rec ==record:
-                                    count = count+1
-                                dict.update({record:count})
+                                if rec == record:
+                                    count = count + 1
+                                dict.update({record: count})
                         keys, values = zip(*dict.items())
-                        data_set.update({"data":dict})
+                        data_set.update({"data": dict})
         return data_set

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <record id="zoom_res_company_view_form" model="ir.ui.view">
+        <field name="name">zoom.res.company.view.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Zoom Meeting" name="meeting">
+                <header>
+                    <field name="authentication_state" widget="statusbar" statusbar_visible="new,error,authorize_token"/>
+                </header>
+                    <group name="Zoom Meeting">
+                        <group>
+                            <field name="client_id" style="width:250px;border-width:3px;"/>
+                        </group>
+                        <group>
+                            <field name="secret_id" style="width:250px;border-width:3px;"/>
+                            <field name="refresh_token" invisible="True"/>
+                        </group>
+                        <group>
+                            <field name="redirect_urls" readonly="True" style="border-width:3px;"/>
+                        </group>
+                    </group>
+                    <button name="generate_access_token" type="object" string="Authorization" class="btn-primary" attrs="{'invisible': [('refresh_token', '!=', False)]}"/>
+                    <button name="refresh_access_token" type="object" string="Refresh Access Token" class="btn-success" attrs="{'invisible': [('refresh_token', '=', False)]}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

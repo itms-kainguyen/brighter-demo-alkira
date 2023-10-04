@@ -7,8 +7,8 @@
         <field name="arch" type="xml">
             <tree string="Line">
                 <field name="name"/>
-                <field name="physician_id"/>
-                <field name="diseases_id"/>
+<!--                <field name="physician_id"/>-->
+<!--                <field name="diseases_id"/>-->
             </tree>
         </field>
     </record>
@@ -17,19 +17,19 @@
         <field name="name">medicament.group.form</field>
         <field name="model">medicament.group</field>
         <field name="arch" type="xml">
-            <form string="Medicine Group">
+            <form string="Prescription Template">
                 <sheet>
                     <div class="oe_title">
                         <label for="name" string="Name" class="oe_edit_only"/>
                         <h1>
-                            <field name="name" placeholder="Medicine Group"/>
+                            <field name="name" placeholder="Prescription Template"/>
                         </h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="physician_id"/>
-                            <field name="diseases_id"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="physician_id"/>-->
+<!--                            <field name="diseases_id"/>-->
+<!--                        </group>-->
                         <group>
                             <field name="limit"/>
                         </group>
@@ -41,6 +41,7 @@
                             <field name="common_dosage_id"/>
                             <field name="dose"/>
                             <field name="dosage_uom_id"/>
+                            <field name="route_id"/>
                             <field name="product_uom_category_id" invisible="1"/>
                             <field name="qty_per_day"/>
                             <field name="days"/>
@@ -54,7 +55,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="act_open_medicament_group_view">
-        <field name="name">Medicaments Group</field>
+        <field name="name">Prescription Template</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medicament.group</field>
         <field name="view_mode">tree,form</field>
@@ -63,7 +64,7 @@
                 No Record Found
             </p>
             <p>
-                Click to add Medicaments Group.
+                Click to add Prescription Template.
             </p>
         </field>
     </record>

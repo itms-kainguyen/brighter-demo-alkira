@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, _
 
+
 class PrescriptionLine(models.Model):
     _inherit = 'prescription.line'
 
@@ -13,7 +14,9 @@ class PrescriptionLine(models.Model):
         for line in self:
             if not line.display_type:
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-                taxes = line.tax_ids.compute_all(price, line.prescription_id.currency_id, line.quantity, product=line.product_id, partner=line.prescription_id.create_uid.partner_id)
+                taxes = line.tax_ids.compute_all(price, line.prescription_id.currency_id, line.quantity,
+                                                 product=line.product_id,
+                                                 partner=line.prescription_id.create_uid.partner_id)
                 line.update({
                     'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
                     'price_total': taxes['total_included'],
@@ -30,10 +33,13 @@ class PrescriptionLine(models.Model):
     price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
     price_tax = fields.Float(compute='_compute_amount', string='Taxes Amount', readonly=True, store=True)
     price_total = fields.Monetary(compute='_compute_amount', string='Total', readonly=True, store=True)
-    currency_id = fields.Many2one(related='prescription_id.company_id.currency_id', store=True, string='Currency', readonly=True)
-    tax_ids = fields.Many2many('account.tax', string='Taxes', domain=['|', ('active', '=', False), ('active', '=', True)])
+    currency_id = fields.Many2one(related='prescription_id.company_id.currency_id', store=True, string='Currency',
+                                  readonly=True)
+    tax_ids = fields.Many2many('account.tax', string='Taxes',
+                               domain=['|', ('active', '=', False), ('active', '=', True)])
     move_id = fields.Many2one('stock.move', 'Stock Move', readonly=True)
-    move_ids = fields.Many2many('stock.move', 'prescription_line_stock_move_rel', 'move_id', 'prescription_line_id', 'Kit Stock Moves', readonly=True)
+    move_ids = fields.Many2many('stock.move', 'prescription_line_stock_move_rel', 'move_id', 'prescription_line_id',
+                                'Kit Stock Moves', readonly=True)
 
 
 class Prescription(models.Model):
@@ -73,12 +79,19 @@ class Prescription(models.Model):
     picking_ids = fields.One2many('stock.picking', 'prescription_id', 'Pickings', groups="stock.group_stock_user")
     picking_count = fields.Integer(compute="get_picking_count", string='#Pickings', groups="stock.group_stock_user")
     deliverd = fields.Boolean(compute='_compute_delivery', store=True, groups="stock.group_stock_user")
-    warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', default=_get_default_warehouse, groups="stock.group_stock_user")
-    currency_id = fields.Many2one("res.currency", related='company_id.currency_id', string="Currency", readonly=True, required=True)
+    warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', default=_get_default_warehouse,
+                                   groups="stock.group_stock_user")
+    currency_id = fields.Many2one("res.currency", related='company_id.currency_id', string="Currency", readonly=True,
+                                  required=True)
 
-    amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all', tracking=True, currency_field="currency_id")
-    amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all', currency_field="currency_id")
-    amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=True, currency_field="currency_id")
+    amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all',
+                                     tracking=True, currency_field="currency_id")
+    amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all',
+                                 currency_field="currency_id")
+    amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=True,
+                                   currency_field="currency_id")
+    is_prescriber_fee = fields.Boolean('Is Prescriber fee', default=True)
+    prescriber_fee = fields.Float('Prescriber fee', default=28.0)
 
     def get_prescription_invoice_data(self):
         product_data = [{
@@ -99,18 +112,25 @@ class Prescription(models.Model):
         if not self.prescription_line_ids:
             raise UserError(_("Please add prescription lines first."))
         product_data = self.get_prescription_invoice_data()
-        
+
         inv_data = {
             'physician_id': self.physician_id and self.physician_id.id or False,
             'hospital_invoice_type': 'pharmacy',
         }
-        acs_context = {'commission_partner_ids':self.physician_id.partner_id.id}
-        invoice = self.with_context(acs_context).acs_create_invoice(partner=self.patient_id.partner_id, patient=self.patient_id, product_data=product_data, inv_data=inv_data)
+        acs_context = {'commission_partner_ids': self.physician_id.partner_id.id}
+        invoice = self.with_context(acs_context).acs_create_invoice(partner=self.patient_id.partner_id,
+                                                                    patient=self.patient_id, product_data=product_data,
+                                                                    inv_data=inv_data)
         invoice.write({
             'create_stock_moves': False if self.deliverd else True,
             'prescription_id': self.id,
         })
         self.sudo().invoice_id = invoice.id
+
+    # def button_confirm(self):
+    #     res = super(Prescription, self).button_confirm()
+    #     self.create_invoice()
+    #     return res
 
     def view_invoice(self):
         invoices = self.mapped('invoice_id')
@@ -126,7 +146,7 @@ class Prescription(models.Model):
             'partner_id': self.patient_id.partner_id.id,
             'patient_id': self.patient_id.id,
             'prescription_id': self.id,
-            'date': fields.datetime.now(), 
+            'date': fields.datetime.now(),
             'company_id': self.company_id.id,
             'picking_type_id': picking_type_id.id,
             'location_id': location_id.id,
@@ -136,11 +156,11 @@ class Prescription(models.Model):
         })
 
         for line in self.prescription_line_ids:
-            if line.product_id and line.product_id.type!='service':
+            if line.product_id and line.product_id.type != 'service':
                 if line.product_id.is_kit_product:
                     move_ids = []
                     for kit_line in line.product_id.acs_kit_line_ids:
-                        if kit_line.product_id.type!='service':
+                        if kit_line.product_id.type != 'service':
                             move = StockMove.create({
                                 'product_id': kit_line.product_id.id,
                                 'product_uom_qty': kit_line.product_qty,
@@ -155,7 +175,7 @@ class Prescription(models.Model):
                             })
                             line.move_id = move.id
                             move_ids.append(move.id)
-                    line.move_ids = [(6,0,move_ids)]
+                    line.move_ids = [(6, 0, move_ids)]
                 else:
                     move = StockMove.create({
                         'product_id': line.product_id.id,
@@ -170,7 +190,7 @@ class Prescription(models.Model):
                         'location_dest_id': location_dest_id.id,
                     })
                     line.move_id = move.id
-                    line.move_ids = [(6,0,[move.id])]
+                    line.move_ids = [(6, 0, [move.id])]
         return self.acs_view_delivery()
 
     def acs_view_delivery(self):
@@ -180,8 +200,8 @@ class Prescription(models.Model):
             action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
             action['res_id'] = self.picking_ids[0].id
         return action
-    
-    #method to create get invoice data and set passed invoice id.
+
+    # method to create get invoice data and set passed invoice id.
     def acs_common_invoice_prescription_data(self, invoice_id=False):
         data = []
         if self.ids:
@@ -194,28 +214,27 @@ class Prescription(models.Model):
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    prescription_id = fields.Many2one('prescription.order',  string='Prescription')
+    prescription_id = fields.Many2one('prescription.order', string='Prescription')
 
-    #ACS: Stock move is not linked with related prescription line becase line is not even linked with invoice
-    @api.model 
+    # ACS: Stock move is not linked with related prescription line becase line is not even linked with invoice
+    @api.model
     def move_line_from_invoice_lines(self, picking, location_id, location_dest_id):
         StockMoveL = self.env['stock.move.line']
         for line in self.invoice_line_ids:
-            if line.product_id and line.product_id.type!='service':
+            if line.product_id and line.product_id.type != 'service':
                 if line.product_id.is_kit_product:
                     for kit_line in line.product_id.acs_kit_line_ids:
-                        if kit_line.product_id.type!='service':
-
+                        if kit_line.product_id.type != 'service':
                             StockMoveL.with_context(default_immediate_transfer=True).create({
                                 'product_id': kit_line.product_id.id,
                                 'product_uom_id': kit_line.product_id.uom_id.id,
-                                'date': fields.datetime.now(),                    
+                                'date': fields.datetime.now(),
                                 'picking_id': picking.id,
                                 'picking_type_id': picking.picking_type_id.id,
                                 'state': 'assigned',
                                 'location_id': location_id.id,
                                 'location_dest_id': location_dest_id.id,
-                                'acs_account_move_line_id': line.id, 
+                                'acs_account_move_line_id': line.id,
                                 'qty_done': kit_line.product_qty,
                                 'company_id': picking.company_id.id,
                                 'package_level_id': False,
@@ -223,17 +242,17 @@ class AccountMove(models.Model):
                 else:
                     StockMoveL.with_context(default_immediate_transfer=True).create({
                         'product_id': line.product_id.id,
-                        #'product_uom_qty': line.quantity,
+                        # 'product_uom_qty': line.quantity,
                         'product_uom_id': line.product_uom_id.id,
-                        'date': fields.datetime.now(),                    
+                        'date': fields.datetime.now(),
                         'picking_id': picking.id,
                         'picking_type_id': picking.picking_type_id.id,
                         'state': 'assigned',
                         'location_id': location_id.id,
                         'location_dest_id': location_dest_id.id,
-                        'lot_id': line.acs_lot_id and line.acs_lot_id.id or False, 
-                        'lot_name': line.acs_lot_id and line.acs_lot_id.name or '', 
-                        'acs_account_move_line_id': line.id, 
+                        'lot_id': line.acs_lot_id and line.acs_lot_id.id or False,
+                        'lot_name': line.acs_lot_id and line.acs_lot_id.name or '',
+                        'acs_account_move_line_id': line.id,
                         'qty_done': line.quantity,
                         'company_id': picking.company_id.id,
                         'package_level_id': False,
@@ -243,16 +262,17 @@ class AccountMove(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    prescription_id = fields.Many2one('prescription.order',  string='Prescription')
+    prescription_id = fields.Many2one('prescription.order', string='Prescription')
     patient_id = fields.Many2one('hms.patient', string='Patient')
 
 
 class HmsAppointment(models.Model):
     _inherit = "hms.appointment"
 
-    #Method to collect common invoice related records data
+    # Method to collect common invoice related records data
     def acs_appointment_common_data(self, invoice_id):
         data = super().acs_appointment_common_data(invoice_id)
-        prescription_ids = self.mapped('prescription_ids').filtered(lambda req: req.state=='prescription' and req.deliverd and not req.invoice_id)
+        prescription_ids = self.mapped('prescription_ids').filtered(
+            lambda req: req.state == 'prescription' and req.deliverd and not req.invoice_id)
         data += prescription_ids.acs_common_invoice_prescription_data(invoice_id)
         return data

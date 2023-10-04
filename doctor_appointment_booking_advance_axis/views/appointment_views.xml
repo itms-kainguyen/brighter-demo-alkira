@@ -12,8 +12,8 @@
                 <field name="appointment_group_id" />
                 <field name="time_slot" />
                 <field name="appoint_date" />
-                <field name="source" />
-                <field name="pricelist_id" />
+                <field name="source" invisible="1"/>
+                <field name="pricelist_id" invisible="1"/>
                 <field name="create_date" />
             </tree>
         </field>
@@ -25,6 +25,11 @@
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
             <form string="Appointments">
+                  <header>
+                      <button name="action_confirm" id="action_confirm" data-hotkey="v" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['pending'])]}"/>
+                      <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|', ('state', 'not in', ['pending', 'confirmed']), ('id', '=', False)]}" data-hotkey="z"/>
+                      <field name="state" widget="statusbar" statusbar_visible="pending,confirmed,treated,cancelled"/>
+                  </header>
                 <sheet>
                     <group>
                         <group>
@@ -36,6 +41,7 @@
                         </group>
                         <group>
                             <field name="time_slot" />
+                            <field name="remark" />
                             <field name="source" invisible="1"/>
                             <field name="pricelist_id" invisible="1"/>
                         </group>

@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="acs_hms.view_patient_form"/>
         <field name="arch" type="xml">
             <button name="action_view_attachments" position="after">
-                <button class="oe_inline oe_stat_button" type="object" name="acs_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+                <button class="oe_stat_button" type="object" name="acs_action_attachments_preview" title="Photos" icon="fa-files-o" string="Photos" widget="statinfo"/>
             </button>
         </field>
     </record>
@@ -20,7 +20,7 @@
         <field name="inherit_id" ref="acs_hms.view_hospital_hms_treatment_form"/>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button class="oe_inline oe_stat_button" type="object" name="acs_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+                <button class="oe_stat_button" type="object" name="acs_action_attachments_preview" title="Photos" icon="fa-files-o" string="Photos" widget="statinfo"/>
             </div>
         </field>
     </record>
@@ -32,7 +32,7 @@
         <field name="inherit_id" ref="acs_hms.view_acs_patient_procedure_form"/>
         <field name="arch" type="xml">
             <button name="action_view_attachments" position="after">
-                <button class="oe_inline oe_stat_button" type="object" name="acs_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+                <button class="oe_stat_button" type="object" name="acs_action_attachments_preview" title="Photos" icon="fa-files-o" string="Photos" widget="statinfo"/>
             </button>
         </field>
     </record>
@@ -44,7 +44,7 @@
         <field name="inherit_id" ref="acs_hms.view_hms_appointment_form"/>
         <field name="arch" type="xml">
             <button name="action_view_attachments" position="after">
-                <button class="oe_inline oe_stat_button" type="object" name="acs_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+                <button class="oe_stat_button" type="object" name="acs_action_attachments_preview" title="Photos" icon="fa-files-o" string="Photos" widget="statinfo"/>
             </button>
         </field>
     </record>

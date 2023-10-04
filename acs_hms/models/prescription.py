@@ -1,58 +1,76 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.exceptions import UserError
+
+from dateutil.relativedelta import relativedelta
 import uuid
 
 
 class ACSPrescriptionOrder(models.Model):
-    _name='prescription.order'
+    _name = 'prescription.order'
     _description = "Prescription Order"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'acs.hms.mixin', 'acs.qrcode.mixin']
     _order = 'id desc'
 
     @api.model
     def _current_user_doctor(self):
-        physician_id =  False
+        physician_id = False
         ids = self.env['hms.physician'].search([('user_id', '=', self.env.user.id)])
         if ids:
             physician_id = ids[0].id
         return physician_id
-
 
     @api.depends('medical_alert_ids')
     def _get_alert_count(self):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
-    READONLY_STATES={'cancel': [('readonly', True)], 'prescription': [('readonly', True)]}
+    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)]}
 
-    name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True, copy=False, tracking=True)
-    diseases_ids = fields.Many2many('hms.diseases', 'diseases_prescription_rel', 'diseas_id', 'prescription_id', 
-        string='Diseases', states=READONLY_STATES, tracking=True)
-    group_id = fields.Many2one('medicament.group', ondelete="set null", string='Medicaments Group', states=READONLY_STATES, copy=False)
-    patient_id = fields.Many2one('hms.patient', ondelete="restrict", string='Patient', required=True, states=READONLY_STATES, tracking=True)
+    name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
+                       copy=False, tracking=True)
+    diseases_ids = fields.Many2many('hms.diseases', 'diseases_prescription_rel', 'diseas_id', 'prescription_id',
+                                    string='Diseases', states=READONLY_STATES, tracking=True)
+    group_id = fields.Many2one('medicament.group', ondelete="set null", string='Medicaments Group',
+                               states=READONLY_STATES, copy=False)
+
+    advice_id = fields.Many2one('advice.template', ondelete="set null", string='Advice Template',
+                                states=READONLY_STATES, copy=False)
+
+    patient_id = fields.Many2one('hms.patient', ondelete="restrict", string='Patient', required=True,
+                                 states=READONLY_STATES, tracking=True)
     pregnancy_warning = fields.Boolean(string='Pregnancy Warning', states=READONLY_STATES)
-    notes = fields.Text(string='Notes', states=READONLY_STATES)
-    prescription_line_ids = fields.One2many('prescription.line', 'prescription_id', string='Prescription line', states=READONLY_STATES, copy=True)
-    company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital',default=lambda self: self.env.user.company_id, states=READONLY_STATES)
-    prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now, states=READONLY_STATES, tracking=True, copy=False)
-    physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescribing Doctor',
-        states=READONLY_STATES, default=_current_user_doctor, tracking=True)
+    notes = fields.Html(string='Notes', states=READONLY_STATES)
+    prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id', string='Prescription line',
+                                            states=READONLY_STATES, copy=True, auto_join=True)
+    prescription_detail_ids = fields.One2many(comodel_name='prescription.detail', inverse_name='prescription_id', string='Prescription detail',
+                                            copy=False, auto_join=True)
+    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
+                                 default=lambda self: self.env.user.company_id, states=READONLY_STATES)
+    prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
+                                        states=READONLY_STATES, tracking=True, copy=False)
+    physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
+                                   states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('prescription', 'Prescribed'),
         ('canceled', 'Cancelled')], string='Status', default='draft', tracking=True)
-    appointment_id = fields.Many2one('hms.appointment', ondelete="restrict", 
-        string='Appointment', states=READONLY_STATES)
+    appointment_id = fields.Many2one('hms.appointment', ondelete="restrict",
+                                     string='Appointment', states=READONLY_STATES)
     patient_age = fields.Char(related='patient_id.age', string='Age', store=True, readonly=True)
     treatment_id = fields.Many2one('hms.treatment', 'Treatment', states=READONLY_STATES)
-    medical_alert_ids = fields.Many2many('acs.medical.alert', 'prescription_medical_alert_rel','prescription_id', 'alert_id',
-        string='Medical Alerts', related="patient_id.medical_alert_ids")
+    medical_alert_ids = fields.Many2many('acs.medical.alert', 'prescription_medical_alert_rel', 'prescription_id',
+                                         'alert_id',
+                                         string='Medical Alerts', related="patient_id.medical_alert_ids")
     alert_count = fields.Integer(compute='_get_alert_count', default=0)
     old_prescription_id = fields.Many2one('prescription.order', 'Old Prescription', copy=False, states=READONLY_STATES)
-    acs_kit_id = fields.Many2one('acs.product.kit', string='Kit', states=READONLY_STATES)
+    acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=READONLY_STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=READONLY_STATES, default=1)
+    expire_date = fields.Date(
+        string='Expire Date', 
+        default=lambda x:fields.Date.today()+relativedelta(years=1), 
+        states=READONLY_STATES)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -67,16 +85,16 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             appointment_id = rec.appointment_id and rec.appointment_id.id or False
             for line in rec.group_id.medicament_group_line_ids:
-                product_lines.append((0,0,{
+                product_lines.append((0, 0, {
                     'product_id': line.product_id.id,
                     'common_dosage_id': line.common_dosage_id and line.common_dosage_id.id or False,
                     'dose': line.dose,
                     'dosage_uom_id': line.dosage_uom_id,
                     'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
-                    'form_id' : line.product_id.form_id.id,
+                    'form_id': line.product_id.form_id.id,
                     'qty_per_day': line.dose,
                     'days': line.days,
-                    'short_comment': line.short_comment,
+                    'name': line.reason,
                     'allow_substitution': line.allow_substitution,
                     'appointment_id': appointment_id,
                 }))
@@ -87,6 +105,12 @@ class ACSPrescriptionOrder(models.Model):
         if self.appointment_id and self.appointment_id.treatment_id:
             self.treatment_id = self.appointment_id.treatment_id.id
 
+    @api.onchange('advice_id')
+    def onchange_advice_id(self):
+        self.notes = False
+        if self.advice_id:
+            self.notes = self.advice_id.description
+
     def unlink(self):
         for rec in self:
             if rec.state not in ['draft']:
@@ -96,6 +120,33 @@ class ACSPrescriptionOrder(models.Model):
     def button_reset(self):
         self.write({'state': 'draft'})
 
+    def _prepare_invoice(self):
+        self.ensure_one()
+        vals = []
+        for move_type in ['out_invoice', 'in_invoice']:
+            service = self.env['product.product'].search([('product_tmpl_id.name', '=', 'Prescriber Service')], limit=1)
+            if service:
+                vals.append({
+                    'move_type': move_type,
+                    'narration': self.notes,
+                    'currency_id': self.env.user.company_id.currency_id.id,
+                    'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                    'patient_id': self.patient_id.id if move_type == 'out_invoice' else False,
+                    'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                    'invoice_origin': self.name,
+                    'company_id': self.env.user.company_id.id,
+                    'invoice_date': self.prescription_date,
+                    'prescription_id': self.id,
+                    'invoice_line_ids': [[0, 0, {
+                        'product_id': service.id,
+                        'quantity': 1,
+                        'price_unit': service.list_price if move_type == 'out_invoice' else service.standard_price,
+                        'name': service.name or self.name,
+                        'product_uom_id': service.uom_id.id}]]
+
+                })
+        return vals
+
     def button_confirm(self):
         for app in self:
             if not app.prescription_line_ids:
@@ -104,6 +155,25 @@ class ACSPrescriptionOrder(models.Model):
             app.state = 'prescription'
             if not app.name:
                 app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+            invoice_vals = self._prepare_invoice()
+            moves = self.env['account.move'].sudo().create(invoice_vals)
+            # create prescription detail based on prescription line
+            vals_list = []
+            for line in app.prescription_line_ids:
+                if line.product_id and line.repeat > 0:
+                    for i in range(line.repeat):
+                        vals = {
+                            'name': line.product_id.name,
+                            'description': line.product_id.description or '',
+                            'prescription_id': app.id,
+                            'line_id': line.id,
+                            'product_id': line.product_id.id,
+                            'scheduled_date': 
+                                app.prescription_date.date() + relativedelta(months=i*line.use_every),
+                        }
+                        vals_list.append(vals)
+        if vals_list:
+            self.env['prescription.detail'].create(vals_list)
 
     def print_report(self):
         return self.env.ref('acs_hms.report_hms_prescription_id').report_action(self)
@@ -111,7 +181,8 @@ class ACSPrescriptionOrder(models.Model):
     @api.onchange('patient_id')
     def onchange_patient(self):
         if self.patient_id:
-            prescription = self.search([('patient_id', '=', self.patient_id.id),('state','=','prescription')], order='id desc', limit=1)
+            prescription = self.search([('patient_id', '=', self.patient_id.id), ('state', '=', 'prescription')],
+                                       order='id desc', limit=1)
             self.old_prescription_id = prescription.id if prescription else False
 
     @api.onchange('pregnancy_warning')
@@ -137,37 +208,56 @@ class ACSPrescriptionOrder(models.Model):
         appointment_id = self.appointment_id and self.appointment_id.id or False
         product_lines = []
         for line in self.old_prescription_id.prescription_line_ids:
-            product_lines.append((0,0,{
+            product_lines.append((0, 0, {
                 'product_id': line.product_id.id,
                 'common_dosage_id': line.common_dosage_id and line.common_dosage_id.id or False,
                 'dose': line.dose,
                 'active_component_ids': [(6, 0, [x.id for x in line.active_component_ids])],
-                'form_id' : line.form_id.id,
+                'form_id': line.form_id.id,
                 'qty_per_day': line.qty_per_day,
                 'days': line.days,
-                'short_comment': line.short_comment,
+                'name': line.name,
                 'allow_substitution': line.allow_substitution,
                 'appointment_id': appointment_id,
             }))
         self.prescription_line_ids = product_lines
 
-    def get_acs_kit_lines(self):
-        if not self.acs_kit_id:
-            raise UserError("Please Select Kit first.")
+    """
+    Retrieves the ACS kit lines associated with the current instance of the class.
 
+    Returns:
+        list: A list of tuples representing the ACS kit lines. Each tuple contains the following elements:
+            - int: The ID of the product.
+            - int: The ID of the common dosage.
+            - float: The dosage of the product.
+            - list: A list of IDs representing the active components of the product.
+            - int: The ID of the form.
+            - int: The quantity per day.
+            - int: The number of days.
+            - int: The appointment ID.
+
+    Raises:
+        UserError: If the ACS kit ID is not set.
+    """
+    @api.onchange('acs_kit_id')
+    def get_acs_kit_lines(self):
+        # self.notes = self.acs_kit_id.description
         lines = []
         appointment_id = self.appointment_id and self.appointment_id.id or False
-        for line in self.acs_kit_id.acs_kit_line_ids:
-            lines.append((0,0,{
-                'product_id': line.product_id.id,
-                'common_dosage_id': line.product_id.common_dosage_id and line.product_id.common_dosage_id.id or False,
-                'dose': line.product_id.dosage,
-                'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
-                'form_id' : line.product_id.form_id.id,
-                'qty_per_day': line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
-                'days': line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
-                'appointment_id': appointment_id,
-            }))
+        self.prescription_line_ids = False
+        if self.acs_kit_id:
+            for line in self.acs_kit_id.acs_kit_line_ids:
+                lines.append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'common_dosage_group': line.dosage or False,
+                    'dose': line.product_id.dosage,
+                    'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
+                    'form_id': line.product_id.form_id.id,
+                    'qty_per_day': line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
+                    'days': line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
+                    'appointment_id': appointment_id,
+                    'name': appointment_id,
+                }))
         self.prescription_line_ids = lines
 
     def action_prescription_send(self):
@@ -175,7 +265,8 @@ class ACSPrescriptionOrder(models.Model):
         This function opens a window to compose an email, with the template message loaded by default
         '''
         self.ensure_one()
-        template_id = self.env['ir.model.data']._xmlid_to_res_id('acs_hms.acs_prescription_email', raise_if_not_found=False)
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('acs_hms.acs_prescription_email',
+                                                                 raise_if_not_found=False)
         ctx = {
             'default_model': 'prescription.order',
             'default_res_id': self.ids[0],
@@ -196,10 +287,10 @@ class ACSPrescriptionOrder(models.Model):
 
 class ACSPrescriptionLine(models.Model):
     _name = 'prescription.line'
-    _description = "Prescription Order Line" 
+    _description = "Prescription Order Line"
     _order = "sequence"
 
-    @api.depends('qty_per_day','days','dose', 'manual_quantity','manual_prescription_qty','state')
+    @api.depends('qty_per_day', 'days', 'dose', 'manual_quantity', 'manual_prescription_qty', 'state')
     def _get_total_qty(self):
         for rec in self:
             if rec.manual_prescription_qty:
@@ -207,34 +298,52 @@ class ACSPrescriptionLine(models.Model):
             else:
                 rec.quantity = rec.days * rec.qty_per_day * rec.dose
 
-    name = fields.Char()
+    name = fields.Char(string='Description', help='Short comment on the specific drug')
     sequence = fields.Integer("Sequence", default=10)
     prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
-    product_id = fields.Many2one('product.product', ondelete="cascade", string='Product', domain=[('hospital_product_type', '=', 'medicament')])
+    product_id = fields.Many2one('product.product', ondelete="cascade", string='Product',
+                                 domain=[('hospital_product_type', '=', 'medicament')])
     allow_substitution = fields.Boolean(string='Allow Substitution')
-    prnt = fields.Boolean(string='Print', help='Check this box to print this line of the prescription.',default=True)
-    manual_prescription_qty = fields.Boolean(related="product_id.manual_prescription_qty", string="Enter Prescription Qty Manually.", store=True)
-    quantity = fields.Float(string='Units', compute="_get_total_qty", inverse='_inverse_total_qty', compute_sudo=True, store=True, help="Number of units of the medicament. Example : 30 capsules of amoxicillin",default=1.0)
+    prnt = fields.Boolean(string='Print', help='Check this box to print this line of the prescription.', default=True)
+    manual_prescription_qty = fields.Boolean(related="product_id.manual_prescription_qty",
+                                             string="Enter Prescription Qty Manually.", store=True)
+    quantity = fields.Float(string='Units', compute="_get_total_qty", inverse='_inverse_total_qty', compute_sudo=True,
+                            store=True, help="Number of units of the medicament. Example : 30 capsules of amoxicillin",
+                            default=1.0)
     manual_quantity = fields.Float(string='Manual Total Qty', default=1)
-    active_component_ids = fields.Many2many('active.comp','product_pres_comp_rel','product_id','pres_id','Active Component')
-    dose = fields.Float('Dosage', help="Amount of medication (eg, 250 mg) per dose",default=1.0)
+    active_component_ids = fields.Many2many('active.comp', 'product_pres_comp_rel', 'product_id', 'pres_id',
+                                            'Active Component')
+    dose = fields.Float('Dosage', help="Amount of medication (eg, 250 mg) per dose", default=1.0)
     product_uom_category_id = fields.Many2one('uom.category', related='product_id.uom_id.category_id')
-    dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose', domain="[('category_id', '=', product_uom_category_id)]")
-    form_id = fields.Many2one('drug.form',related='product_id.form_id', string='Form',help='Drug form, such as tablet or gel')
-    route_id = fields.Many2one('drug.route', ondelete="cascade", string='Route', help='Drug form, such as tablet or gel')
-    common_dosage_id = fields.Many2one('medicament.dosage', ondelete="cascade", string='Dosage/Frequency', help='Drug form, such as tablet or gel')
+    dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose',
+                                    domain="[('category_id', '=', product_uom_category_id)]")
+    form_id = fields.Many2one('drug.form', related='product_id.form_id', string='Form',
+                              help='Drug form, such as tablet or gel')
+    route_id = fields.Many2one('drug.route', ondelete="cascade", string='Route',
+                               help='Drug form, such as tablet or gel')
+    common_dosage_id = fields.Many2one('medicament.dosage', ondelete="cascade", string='Dosage/Frequency',
+                                       help='Drug form, such as tablet or gel')
+    common_dosage_group = fields.Char(string='Dosage/Frequency', help='Drug form, such as tablet or gel')
     short_comment = fields.Char(string='Comment', help='Short comment on the specific drug')
     appointment_id = fields.Many2one('hms.appointment', ondelete="restrict", string='Appointment')
-    treatment_id = fields.Many2one('hms.treatment', related='prescription_id.treatment_id', string='Treatment', store=True)
-    company_id = fields.Many2one('res.company', ondelete="cascade", string='Hospital', related='prescription_id.company_id')
+    treatment_id = fields.Many2one('hms.treatment', related='prescription_id.treatment_id', string='Treatment',
+                                   store=True)
+    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
+                                 related='prescription_id.company_id')
     qty_available = fields.Float(related='product_id.qty_available', string='Available Qty')
-    days = fields.Float("Days",default=1.0)
+    days = fields.Float("Days", default=1.0)
     qty_per_day = fields.Float(string='Qty Per Day', default=1.0)
     state = fields.Selection(related="prescription_id.state", store=True)
     display_type = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], help="Technical field for UX purpose.")
- 
+    repeat = fields.Integer(string='Repeat', default=5)
+    use_every = fields.Integer(
+        "Use Every (months)", default=1, 
+        help="This field used to schedule \
+            the email notify the customer \
+            to schedule the appointment")
+
     @api.onchange('product_id')
     def onchange_product(self):
         if self.product_id:
@@ -244,9 +353,10 @@ class ACSPrescriptionLine(models.Model):
             self.dosage_uom_id = self.product_id.dosage_uom_id and self.product_id.dosage_uom_id.id or self.product_id.uom_id.id,
             self.quantity = 1
             self.dose = self.product_id.dosage or 1
+            self.repeat = 5
             self.allow_substitution = self.product_id.acs_allow_substitution
             self.common_dosage_id = self.product_id.common_dosage_id and self.product_id.common_dosage_id.id or False
-            self.name = self.product_id.display_name
+            # self.name = self.product_id.display_name
 
             if self.prescription_id and self.prescription_id.pregnancy_warning:
                 warning = {}
@@ -276,5 +386,60 @@ class ACSPrescriptionLine(models.Model):
                 line.manual_quantity = line.quantity
             else:
                 line.manual_quantity = 0.0
+
+
+class AdviceTemplate(models.Model):
+    _name = "advice.template"
+    _description = "Advice Template"
+    _rec_name = 'name'
+
+    name = fields.Char(string='Title', required=True)
+    description = fields.Html(string='Advice', required=True)
+
+class PrescriptionDetail(models.Model):
+    _name = "prescription.detail"
+    _description = "Prescription Details"
+    _order = "sequence"
+
+    name = fields.Char(string='Title', required=True)
+    description = fields.Html(string='Advice', required=True)
+    sequence = fields.Integer("Sequence", default=10)
+    prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
+    line_id = fields.Many2one('prescription.line', ondelete="cascade", string='Prescription Line')
+    product_id = fields.Many2one('product.product', required=True, ondelete="cascade", string='Product')
+    scheduled_date = fields.Date(string='Scheduled Date')
+    state = fields.Selection([
+        ('schedule', 'Scheduled'),
+        ('sent', 'Email Sent'),
+        ('done', 'Done'),
+        ('cancel', 'Cancelled')], store=True, required=True,
+        default='schedule', string='Status', tracking=True)
+    
+    @api.model
+    def send_prescription_reminder(self):
+        """
+        This function is used to send the prescription reminder
+        """
+        today = fields.Date.today()
+        prescription_ids = self.search([('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])
+        # use a hack here to avoid sending multiple email to the same patient
+        patient_ids = {}
+        for rec in prescription_ids:
+            if rec.prescription_id.patient_id not in patient_ids:
+                patient_ids[rec.prescription_id.patient_id] = rec
+            else:
+                patient_ids[rec.prescription_id.patient_id] += rec
+        for key, value in patient_ids.items():
+            if value:
+                value[0].send_prescription_reminder_mail(ids=value.ids)
+                value.write({'state': 'sent'})
+
+    def send_prescription_reminder_mail(self, ids=False):
+        """
+        This function is used to send the prescription reminder mail
+        """
+        template_id = self.env.ref('acs_hms.email_template_prescription_reminder')
+        template_id.with_context(lines=ids).send_mail(res_id = self.id, email_values={
+            'email_from': self.env.user.with_user(SUPERUSER_ID).email_formatted})
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

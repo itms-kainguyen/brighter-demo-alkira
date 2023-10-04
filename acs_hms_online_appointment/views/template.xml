@@ -32,7 +32,7 @@
                         <img class="acs_user_image" t-attf-src="data:image/png;base64,{{physician.image_1920}}" alt="Physician"/>
                     </t>
                     <t t-else="">
-                        <img class="acs_user_image" src="/acs_hms/static/src/img/physician.png" alt="Physician"/>
+                        <img class="acs_user_image" src="/acs_hms/static/src/img/physician.png" alt="Prescriber"/>
                     </t>
                 </div>
                 <div class="col-8">

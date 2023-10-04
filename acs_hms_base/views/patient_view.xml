@@ -27,18 +27,29 @@
                             </div>
                             <t t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
                             <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('hms.patient', 'image_128', record.id.raw_value, placeholder)}')"/>
-                            <div class="oe_kanban_details">
-                                <strong class="oe_partner_heading"><field name="display_name"/></strong>
-                                <ul>
-                                    <li><b>Code:</b> <field name="code"/></li>
-                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>
-                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>
-                                    <li t-if="record.primary_physician_id.raw_value"><b>Primary Physician:</b> <field name="primary_physician_id"/></li>
-                                </ul>
-                                <span class="oe_kanban_list_many2many">
-                                    <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                </span>
+                            <div class="oe_kanban_details d-flex flex-column justify-content-between">
+                                <div>
+                                    <strong class="oe_partner_heading"><field name="display_name"/></strong>
+                                    <ul>
+<!--                                    <li><b>Code:</b> <field name="code"/></li>-->
+<!--                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>-->
+<!--                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>-->
+                                    <li t-if="record.primary_physician_id.raw_value"><b>Nurse:</b> <field name="primary_physician_id"/></li>
+                                    </ul>
+                                    <span class="oe_kanban_list_many2many">
+                                        <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    </span>
+
+                                </div>
+                                 <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                 </div>
                             </div>
+
                         </div>
                     </t>
                 </templates>
@@ -111,7 +122,7 @@
                         <group>
                             <field name="birthday"/>
                             <field name="age"/>
-                            <field name="acs_tag_ids" options="{'color_field': 'color'}" widget="many2many_tags" string="Tags"/>
+                            <field name="acs_tag_ids" options="{'color_field': 'color'}" widget="many2many_tags" string="Tags" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -133,27 +144,27 @@
                                         <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'
                                        />
                                     </div>
-                                    <field name="nationality_id"/>
-                                    <field name="passport"/>
-                                    <field name="location_url" placeholder="https://www.google.com/maps/place/Almighty+Consulting+Solutions+Pvt.+Ltd./@23.1645694,72.6554962,17z/data=!3m1!4b1!4m6!3m5!1s0x395e872719d44beb:0x38d56e6bb07adf0b!8m2!3d23.1645645!4d72.6597234!16s%2Fg%2F11hbk9x_k2" widget="url"/>
+                                    <field name="nationality_id" invisible="1"/>
+                                    <field name="passport" invisible="1"/>
+                                    <field name="location_url" invisible="1" placeholder="https://www.google.com/maps/place/Almighty+Consulting+Solutions+Pvt.+Ltd./@23.1645694,72.6554962,17z/data=!3m1!4b1!4m6!3m5!1s0x395e872719d44beb:0x38d56e6bb07adf0b!8m2!3d23.1645645!4d72.6597234!16s%2Fg%2F11hbk9x_k2" widget="url"/>
                                 </group>
                                 <group>
                                     <field name="phone" widget="phone"/>
                                     <field name="mobile" widget="phone"/>
                                     <field name="email"/>
-                                    <field name="gov_code"/>
+                                    <field name="gov_code" invisible="1"/>
                                 </group>
                             </group>
                             <group> 
                                 <group name="basic_details">
-                                    <field name="occupation"/>
-                                    <field name="education"/>
-                                    <field name="acs_religion_id" groups="acs_hms_base.group_manage_ethnic_religion_tribe"/>
-                                    <field name="caste" groups="acs_hms_base.group_manage_ethnic_religion_tribe"/>
+                                    <field name="occupation" invisible="1"/>
+                                    <field name="education" invisible="1"/>
+                                    <field name="acs_religion_id" invisible="1" groups="acs_hms_base.group_manage_ethnic_religion_tribe"/>
+                                    <field name="caste" invisible="1" groups="acs_hms_base.group_manage_ethnic_religion_tribe"/>
                                 </group>
                                 <group>
-                                    <field name="property_product_pricelist" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}"/>
-                                    <field name="marital_status"/>
+                                    <field name="property_product_pricelist" invisible="1" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}"/>
+                                    <field name="marital_status" invisible="1"/>
                                     <field name="spouse_name" attrs="{'invisible': [('marital_status', '!=', 'married')]}"/>
                                     <field name="spouse_edu" attrs="{'invisible': [('marital_status', '!=', 'married')]}"/>
                                     <field name="spouse_business" attrs="{'invisible': [('marital_status', '!=', 'married')]}"/>
@@ -161,24 +172,24 @@
                             </group>
                             
                         </page>
-                        <page name="hospital_info" string="Hospital Info">
-                            <group>
-                                <group>
+                        <page name="hospital_info" string="Clinic Info" invisible="1">
+                            <group invisible="1">
+                                <group invisible="1">
                                     <field name="partner_id" groups="base.group_no_one" required="0" readonly="1"/>
                                     <field name="company_id" groups="base.group_multi_company"  options="{'no_create': True}"/>
                                 </group>
-                                <group name="ref_doc_details">
+                                <group name="ref_doc_details" invisible="1">
                                 </group>
-                                <group name="basic_medical">
-                                    <field name="blood_group"/>
+                                <group name="basic_medical" invisible="1">
+                                    <field name="blood_group" invisible="1"/>
                                 </group>
-                                <group name="death_details">
-                                    <field name="date_of_death" force_save="True"/>
+                                <group name="death_details" invisible="1">
+                                    <field name="date_of_death" force_save="True" invisible="1"/>
                                 </group>
                             </group>
-                            <group> 
-                                <group name="corporate_tieup">
-                                    <field name="is_corpo_tieup"/>
+                            <group invisible="1">
+                                <group name="corporate_tieup" invisible="1">
+                                    <field name="is_corpo_tieup" invisible="1"/>
                                     <field name="corpo_company_id" attrs="{'invisible': [('is_corpo_tieup', '!=', True)], 'required': [('is_corpo_tieup', '=', True)]}" context="{'default_is_company':True}"/>
                                     <field name="emp_code" attrs="{'invisible': [('is_corpo_tieup', '!=', True)], 'required': [('is_corpo_tieup', '=', True)]}"/>
                                 </group>
@@ -203,7 +214,7 @@
             <search string="Patient">
                 <field name="name" filter_domain="['|', '|', '|', '|', ('name', 'ilike', self), ('gov_code', 'ilike', self), ('code', 'ilike', self), ('email', 'ilike', self),  ('mobile', 'ilike', self)]"/>
                 <field name="mobile" filter_domain="[('mobile', 'ilike', self)]"/>
-                <field name="gov_code"/>
+                <field name="gov_code" invisible="1"/>
                 <field name="code"/>
                 <field name="primary_physician_id"/>
                 <field name="active" invisible="1"/>
@@ -238,6 +249,47 @@
             </p>
             <p>
                 Click to add a Patient. />
+            </p>
+        </field>
+    </record>
+
+     <record id="view_hms_patient_allergies_tree" model="ir.ui.view">
+        <field name="name">hms.patient.allergies.tree</field>
+        <field name="model">hms.patient.allergies</field>
+        <field name="arch" type="xml">
+            <tree string="Allergies" editable="bottom">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hms_patient_allergies_form" model="ir.ui.view">
+        <field name="name">hms.patient.allergies.form</field>
+        <field name="model">hms.patient.allergies</field>
+        <field name="arch" type="xml">
+            <form string="Allergies">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="act_open_patient_allergies" model="ir.actions.act_window">
+        <field name="name">Allergies</field>
+        <field name="res_model">hms.patient.allergies</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add a allergies. />
             </p>
         </field>
     </record>

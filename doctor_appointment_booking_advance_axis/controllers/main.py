@@ -272,6 +272,11 @@ class WebsiteCalendar(http.Controller):
 
 
 class WebsiteSale(WebsiteSale):
+    def _get_search_order(self, post):
+        # OrderBy will be parsed in orm and so no direct sql injection
+        # id is added to be sure that order is a unique sort key
+        order = post.get('order') or request.env['website'].get_current_website().shop_default_sort
+        return ' priority desc, is_published desc, %s, id desc' % order
 
     @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
     def shop_payment_confirmation(self, **post):

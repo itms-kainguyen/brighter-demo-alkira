@@ -10,7 +10,7 @@
                 <group string="Online Appoitnment">
                     <group>
                         <field name="acs_allowed_online_booking" string="Allowed Online Booking"/>
-                        <field name="acs_allow_home_appointment" string="Allowed Home Visit Booking"/>
+                        <field name="acs_allow_home_appointment" string="Allowed Home Visit Booking" invisible="1"/>
                     </group>
                     <group>
                         <field name="acs_show_fee_on_booking" string="Show Fee On Booking"/>

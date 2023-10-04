@@ -66,6 +66,7 @@
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
                 <field name="name"/>
                 <field name="prescription_date"/>
+                <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
                 <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
@@ -103,13 +104,15 @@
                             <field name="patient_id"/>
                             <field name="patient_age" invisible="1"/>
                             <field name="physician_id"/>
-                            <field name="group_id" domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"/>
+                            <field name="group_id" invisible="1" string="Prescription Template"/>
+<!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
                         </group>
                         <group>
-                            <field name="diseases_ids" widget="many2many_tags"/>
+                            <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="expire_date"/>
                             <field name="prescription_date"/>
                             <field name="alert_count" invisible="1"/>
-                            <field name="pregnancy_warning"/>
+                            <field name="pregnancy_warning" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -120,16 +123,16 @@
                                     <div name="acs_kit_id" attrs="{'invisible': [('state','!=', 'draft')]}">
                                         <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
                                         <!-- <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/> -->
-                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>
+<!--                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>-->
                                     </div>
                                 </group>
-                                <group>
-                                    <label for="old_prescription_id"/>
-                                    <div name='old_prescription_id'>
-                                        <field name="old_prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription')]" nolabel="1" options="{'no_create': True}"/>
-                                        <button name="get_prescription_lines" string="Get Lines" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': ['|',('old_prescription_id','=', False), ('state','!=', 'draft')]}"/>
-                                    </div>
-                                </group>
+<!--                                <group>-->
+<!--                                    <label for="old_prescription_id"/>-->
+<!--                                    <div name='old_prescription_id'>-->
+<!--                                        <field name="old_prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription')]" nolabel="1" options="{'no_create': True}"/>-->
+<!--                                        <button name="get_prescription_lines" string="Get Lines" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': ['|',('old_prescription_id','=', False), ('state','!=', 'draft')]}"/>-->
+<!--                                    </div>-->
+<!--                                </group>-->
                             </group>
                             <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="section_and_note_one2many">
                                 <tree string="Prescription Line" editable="bottom">
@@ -142,22 +145,46 @@
                                     <field name="display_type" invisible="1"/>
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" string="Medicine Name"/>
-                                    <field name="name" required="1" widget="section_and_note" attrs="{ 'readonly': [('id', '!=', False)]}" optional="hide"/>
                                     <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
                                     <field name="allow_substitution" optional="hide"/>
-                                    <field name="common_dosage_id"/>
+                                    <field name="common_dosage_id" invisible="1"/>
+                                    <field name="common_dosage_group"/>
                                     <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
                                     <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
+                                    <field name="repeat"/>
+                                    <field name="use_every" optional="show"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
-                                    <field name="days" attrs="{'required': [('display_type', '=', False)]}"/>
+                                    <!-- <field name="days" attrs="{'required': [('display_type', '=', False)]}"/> -->
                                     <field name="manual_prescription_qty" invisible="1"/>
                                     <field name="manual_quantity" invisible="1"/>
                                     <field name="quantity" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
                                     <field name="qty_available" readonly="1" optional="hide"/>
                                     <field name="prnt" invisible="1"/>
-                                    <field name="short_comment"/>
+                                    <field name="short_comment" invisible="1"/>
                                     <field name="treatment_id" invisible="1"/>
+                                    <field name="name" string="Comment" widget="section_and_note_text" optional="show"/>
+                                </tree>
+                            </field>
+                            <group colspan="4">
+                                <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="notes" string="Advice" colspan="2"/>
+                            </group>
+                        </page>
+                        <page name="prescription_details" string="Prescription Details">
+                            <field name="prescription_detail_ids" nolabel="1" colspan="4">
+                                <tree string="Prescription Detail" editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                    </control>
+                                    <field name="id" invisible="1"/>
+                                    <field name="prescription_id" invisible="1"/>
+                                    <field name="line_id" invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" attrs="{'readonly':[('parent.state', '!=', 'draft')] }" string="Medicine Name"/>
+                                    <field name="description" />
+                                    <field name="scheduled_date" />
+                                    <field name="state" />
                                 </tree>
                             </field>
                         </page>
@@ -173,9 +200,7 @@
                             </group>
                         </page>
                     </notebook>
-                    <group>
-                        <field name="notes" colspan="4"/>
-                    </group>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
@@ -198,12 +223,12 @@
                 <field name="physician_id"/>
                 <field name="treatment_id"/>
                 <field name="company_id"/>
-                <filter name="Pregancy Warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>
+                <!--<filter name="Pregancy Warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>-->
                 <newline/>
                 <group expand="0" string="Group By...">
                     <filter string="Patient" name="patient_id_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter string="Prescription Date" name="prescription_date_groupby" domain="[]" context="{'group_by':'prescription_date'}"/>
-                    <filter string="Prescribing Doctor" name="physician_id_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
+                    <filter string="Prescriber" name="physician_id_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
                     <filter name="today" string="Today's Prescription" domain="[('prescription_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('prescription_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
                     <filter string="Company" name="company_group" domain="[]" context="{'group_by':'company_id'}"/>
                     <filter string="Appointment" name="appointment_id_groupby" domain="[]" context="{'group_by':'appointment_id'}"/>
@@ -291,6 +316,55 @@
             </p>
             <p>
                 Click to add Prescrition.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_advice_template_tree" model="ir.ui.view">
+        <field name="name">advice.template.tree</field>
+        <field name="model">advice.template</field>
+        <field name="arch" type="xml">
+            <tree string="Advice Template">
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_advice_template_form" model="ir.ui.view">
+        <field name="name">advice.template.form</field>
+        <field name="model">advice.template</field>
+        <field name="arch" type="xml">
+            <form string="Advice Template">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Title..."/>
+                        </h1>
+                    </div>
+
+                    <notebook>
+                        <page string="Advice" name="template">
+                            <field name="description" placeholder="e.g...."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_advice_template_view">
+        <field name="name">Advice Template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">advice.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add Advice.
             </p>
         </field>
     </record>

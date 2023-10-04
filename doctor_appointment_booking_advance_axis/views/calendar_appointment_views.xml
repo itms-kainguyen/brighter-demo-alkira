@@ -219,50 +219,164 @@
         <field name="name">calendar.event.form</field>
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
-        <field name="priority" eval="1"/>
+        <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='page_invitations']" position="replace">
-               <page name="page_invitations" string="Invitations" >
-                            <button name="action_sendmail" type="object" string="Send Invitations" icon="fa-envelope" class="oe_link"/>
-                            <field name="attendee_ids" widget="one2many" mode="tree,kanban">
-                                <tree string="Invitation details" editable="top" create="false" delete="false">
-                                    <field name="partner_id"/>
-                                    <field name="email" widget="email"/>
-                                    <field name="phone" widget="phone"/>
-                                    <field name="state"/>
-
-                                    <button name="do_tentative" states="needsAction,declined,accepted" string="Uncertain" type="object" icon="fa-asterisk"/>
-                                    <button name="do_accept" string="Accept" states="needsAction,tentative,declined" type="object" icon="fa-check text-success"/>
-                                    <button name="do_decline" string="Decline" states="needsAction,tentative,accepted" type="object" icon="fa-times-circle text-danger"/>
-                                </tree>
-                                <kanban class="o_kanban_mobile" create="false" delete="false">
-                                    <field name="partner_id"/>
-                                    <field name="state"/>
-                                    <field name="email" widget="email"/>
-
-                                    <templates>
-                                        <t t-name="kanban-box">
-                                            <div class="d-flex flex-column justify-content-between">
-                                                <field name="partner_id"/>
-                                                <field name="email" widget="email"/>
-                                                <span>Status: <field name="state"/></span>
-
-                                                <div class="text-right">
-                                                    <button name="do_tentative" states="needsAction,declined,accepted" string="Uncertain" type="object" class="btn fa fa-asterisk"/>
-                                                    <button name="do_accept" states="needsAction,tentative,declined" string="Accept" type="object" class="btn fa fa-check text-success"/>
-                                                    <button name="do_decline" states="needsAction,tentative,accepted" string="Decline" type="object" class="btn fa fa-times-circle text-danger"/>
-                                                </div>
-                                            </div>
-                                        </t>
-                                    </templates>
-                                </kanban>
-                            </field>
+            <xpath expr="//form" position="replace">
+                <form string="Meetings" js_class="calendar_form">
+                    <sheet>
+                        <field name="res_model" invisible="1"/>
+                        <field name="res_id" invisible="1"/>
+                        <field name="attendee_status" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <button name="generate_meeting_link" type="object" string="Create Zoom meeting" class="m-1 btn-primary" attrs="{'invisible': [('meeting_id', '!=', False)]}"/>
+                        <button name="start_zoom_meeting" type="object" string="Start Zoom meeting" class="m-1 btn-primary" attrs="{'invisible': ['|',('meeting_id', '=', False),('start_meeting_url', '=', False)]}"/>
+                        <button name="update_meeting" type="object" string="Update Zoom meeting" class="m-1 btn-success" attrs="{'invisible': [('meeting_id', '=', False)]}"/>
+                        <button name="delete_meeting" type="object" string="Delete Zoom meeting" class="m-1 btn-danger" attrs="{'invisible': [('meeting_id', '=', False)]}"/>
+                        <div class="d-flex align-items-baseline" invisible="1">
+                            <field name="partner_ids" widget="many2manyattendee"
+                                placeholder="Select attendees..."
+                                context="{'force_email':True}"
+                                domain="[('type','!=','private')]"
+                                class="oe_inline o_calendar_attendees"
+                            />
+                            <div name="send_buttons" class="sm-2">
+                                <button name="action_open_composer" help="Send Email to attendees" type="object" string=" EMAIL" icon="fa-envelope"/>
+                            </div>
+<!--                            <button name="action_join_video_call" class="btn-primary" help="Join Video Call" type="object" string="Join Video Call" attrs="{'invisible': [('videocall_location', '=', False)]}"/>-->
+                        </div>
+                         <group>
+                                <group>
+                                   <field name="name" invisible="1"/>
+                                 <field name="partner_new" domain="[('position_type','=','Patient')]"/>
+                                 <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>
+                                 <field name="appointment_group_id"/>
+                                    <field name="start_at" string="Date"/>
+                                    <field name="time_slot"/>
+                                 <field name="start" string="Start Date" invisible="1"/>
+                                 <field name="stop" string="End Date" invisible="1"/>
+                                 <field name="description" string="Remark"/>
+                                <field name="payment_state" invisible="1"/>
+                                <field name="state"/>
+                                </group>
+                                 <group>
+                                 
+                                </group>
+                            </group>
+                        <notebook>
+                         <page string="Zoom Meeting Description" name="meeting" invisible="1">
+                            <group name="Meeting Description">
+                                <field name="meeting_id" invisible="True"/>
+                                <field name="start_meeting_url" invisible="True"/>
+                                <field name="zoom_description"/>
+                            </group>
                         </page>
+                    </notebook>
+                    </sheet>
+                </form>
             </xpath>
+<!--            <xpath expr="//page[@name='page_details']" position="replace">-->
+<!--                 <page name="page_details" string="Appointment Details">-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                             <field name="start" string="Starting at" attrs="{'required': [('allday','=',False)], 'invisible': [('allday','=',True)]}" invisible="1"/>-->
+<!--                            <field name="stop" string="Ending At" attrs="{'invisible': [('allday','=',True)]}" invisible="1"/>-->
+<!--                            <label for="duration" attrs="{'invisible': [('allday','=',True)]}" invisible="1"/>-->
+<!--                            <div attrs="{'invisible': [('allday','=',True)]}" invisible="1">-->
+<!--                                <field name="duration" widget="float_time" string="Duration" class="oe_inline" attrs="{'readonly': [('id', '!=', False), ('recurrency','=',True)]}"/>-->
+<!--                                <span> hours</span>-->
+<!--                            </div>-->
+<!--                            <field name="partner_new" domain="[('position_type','=','Patient')]"/>-->
+<!--                            <field name="start_at" string="Date"/>-->
+<!--                            <field name="state" string="Status" />-->
+<!--                            <field name="appointment_group_id"/>-->
+<!--                            <field name="payment_state"/>-->
+<!--                        </group>-->
+<!--                         <group>-->
+<!--                          <field name="doctore_id" domain="[('position_type','=','Prescriber')]"/>-->
+<!--                          <field name="time_slot"/>-->
+<!--                          <field name="description" sring="Remark"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                 </page>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//page[@name='page_invitations']" position="replace">-->
+<!--               <page name="page_invitations" string="Invitations" >-->
+<!--                            <button name="action_sendmail" type="object" string="Send Invitations" icon="fa-envelope" class="oe_link"/>-->
+<!--                            <field name="attendee_ids" widget="one2many" mode="tree,kanban">-->
+<!--                                <tree string="Invitation details" editable="top" create="false" delete="false">-->
+<!--                                    <field name="partner_id"/>-->
+<!--                                    <field name="email" widget="email"/>-->
+<!--                                    <field name="phone" widget="phone"/>-->
+<!--                                    <field name="state"/>-->
+
+<!--                                    <button name="do_tentative" states="needsAction,declined,accepted" string="Uncertain" type="object" icon="fa-asterisk"/>-->
+<!--                                    <button name="do_accept" string="Accept" states="needsAction,tentative,declined" type="object" icon="fa-check text-success"/>-->
+<!--                                    <button name="do_decline" string="Decline" states="needsAction,tentative,accepted" type="object" icon="fa-times-circle text-danger"/>-->
+<!--                                </tree>-->
+<!--                                <kanban class="o_kanban_mobile" create="false" delete="false">-->
+<!--                                    <field name="partner_id"/>-->
+<!--                                    <field name="state"/>-->
+<!--                                    <field name="email" widget="email"/>-->
+
+<!--                                    <templates>-->
+<!--                                        <t t-name="kanban-box">-->
+<!--                                            <div class="d-flex flex-column justify-content-between">-->
+<!--                                                <field name="partner_id"/>-->
+<!--                                                <field name="email" widget="email"/>-->
+<!--                                                <span>Status: <field name="state"/></span>-->
+
+<!--                                                <div class="text-right">-->
+<!--                                                    <button name="do_tentative" states="needsAction,declined,accepted" string="Uncertain" type="object" class="btn fa fa-asterisk"/>-->
+<!--                                                    <button name="do_accept" states="needsAction,tentative,declined" string="Accept" type="object" class="btn fa fa-check text-success"/>-->
+<!--                                                    <button name="do_decline" states="needsAction,tentative,accepted" string="Decline" type="object" class="btn fa fa-times-circle text-danger"/>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </t>-->
+<!--                                    </templates>-->
+<!--                                </kanban>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--            </xpath>-->
         </field>
      </record>
 
-
-
+    	    <record id="itms_view_calendar_event_calendar" model="ir.ui.view">
+        <field name="name">calendar.event.calendar.itms.appointment</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
+         <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="replace">
+                <calendar js_class="attendee_calendar" string="Appointment Calendar" date_start="start" date_stop="stop" color="state" date_delay="duration" all_day="allday" event_open_popup="true" quick_add="False" mode="month" event_limit="5">
+                    <field name="attendee_status" invisible="1"/>
+                    <field name="partner_ids" options="{'block': True, 'icon': 'fa fa-users'}" filters="1" widget="many2manyattendee" write_model="calendar.filters" write_field="partner_id" filter_field="partner_checked" avatar_field="avatar_128"/>
+                    <field name="videocall_location" widget="url" text="Join Video Call" options="{'icon': 'fa fa-lg fa-video-camera'}" attrs="{'invisible': [('videocall_location', '=', False)]}"/>
+                    <field name="is_highlighted" invisible="1"/>
+                    <field name="is_organizer_alone" invisible="1"/>
+                    <field name="display_description" invisible="1"/>
+                    <field name="location" attrs="{'invisible': [('location', '=', False)]}"/>
+                    <field name="description" attrs="{'invisible': [('display_description', '=', False)]}" string="Remark"/>
+                    <field name="privacy"/>
+                    <field name="alarm_ids" attrs="{'invisible': [('alarm_ids', '=', [])]}"/>
+                    <field name="categ_ids" attrs="{'invisible': [('categ_ids', '=', [])]}"/>
+                    <!-- For recurrence update Dialog -->
+                    <field name="recurrency" invisible="1"/>
+                    <field name="recurrence_update" invisible="1"/>
+                    <field name="partner_id" string="Nurse"/>
+                     <field name="name" invisible="1"/>
+                     <field name="partner_new"/>
+                     <field name="doctore_id"/>
+                     <field name="appointment_group_id"/>
+                     <field name="start_at" string="Date"/>
+                     <field name="time_slot"/>
+                     <field name="description" string="Remark"/>
+                    <field name="payment_state" invisible="1"/>
+                    <field name="state" filters="1"/>
+                     <field name="start" invisible="1"/>
+                    <field name="stop" invisible="1"/>
+            </calendar>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>

@@ -9,7 +9,7 @@
     'version': '16.0.2',
     # any module necessary for this one to work correctly
     'depends': ['base','calendar','account','crm','contacts',
-                'website','website_sale', 'hr'],
+                'website','website_sale', 'hr','zoom_meeting','itms_consent_form'],
 
     # always loaded
     'data': [
@@ -37,6 +37,7 @@
             '/doctor_appointment_booking_advance_axis/static/src/js/jquery.dataTables.min.js',
             '/doctor_appointment_booking_advance_axis/static/src/js/datatables.min.js',
             '/doctor_appointment_booking_advance_axis/static/src/js/dataTables.buttons.min.js',
+            '/doctor_appointment_booking_advance_axis/static/src/js/calendar_model_custom.js',
 
 
             '/doctor_appointment_booking_advance_axis/static/src/js/Chart.js',
@@ -60,6 +61,7 @@
     'author': 'Axis Technolabs',
     'website': 'https://www.axistechnolabs.com',
     'installable': True,
+    'application': True,
     'license': 'OPL-1',
     'images': ['static/description/Advance_doctor_appointment_booking.gif','static/description/images/banner.png'],
 

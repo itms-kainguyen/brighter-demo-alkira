@@ -10,14 +10,16 @@ from io import BytesIO
 
 
 class ResPartner(models.Model):
-    _inherit= "res.partner"
+    _inherit = "res.partner"
 
     is_referring_doctor = fields.Boolean(string="Is Refereinng Physician")
-    #ACS Note: Adding assignee as relation with partner for receptionist or Doctor to access only those patients assigned to them
-    assignee_ids = fields.Many2many('res.partner','acs_partner_asignee_relation','partner_id','assigned_partner_id','Assignees', help='Assigned partners for receptionist or doctor etc to see the records')
+    # ACS Note: Adding assignee as relation with partner for receptionist or Doctor to access only those patients assigned to them
+    assignee_ids = fields.Many2many('res.partner', 'acs_partner_asignee_relation', 'partner_id', 'assigned_partner_id',
+                                    'Nurse')
+
 
 class ResUsers(models.Model):
-    _inherit= "res.users"
+    _inherit = "res.users"
 
     @api.depends('physician_ids')
     def _compute_physician_count(self):
@@ -27,20 +29,20 @@ class ResUsers(models.Model):
     def _compute_patient_count(self):
         Patient = self.env['hms.patient']
         for user in self.with_context(active_test=False):
-            user.patient_count = Patient.search_count([('partner_id','=', user.partner_id.id)])
+            user.patient_count = Patient.search_count([('partner_id', '=', user.partner_id.id)])
 
-    department_ids = fields.Many2many('hr.department', 'user_department_rel', 'user_id','department_id', 
-        domain=[('patient_department', '=', True)], string='Departments')
+    department_ids = fields.Many2many('hr.department', 'user_department_rel', 'user_id', 'department_id',
+                                      domain=[('patient_department', '=', True)], string='Clinic')
     physician_count = fields.Integer(string="#Physician", compute="_compute_physician_count")
     physician_ids = fields.One2many('hms.physician', 'user_id', string='Related Physician')
     patient_count = fields.Integer(string="#Patient", compute="_compute_patient_count")
 
-    #ACS NOTE: On changing the department clearing the cache for the access rights and record rules
+    # ACS NOTE: On changing the department clearing the cache for the access rights and record rules
     def write(self, values):
         if 'department_ids' in values:
             self.env['ir.model.access'].call_cache_clearing_methods()
             self.env['ir.rule'].clear_caches()
-            #self.has_group.clear_cache(self)
+            # self.has_group.clear_cache(self)
         return super(ResUsers, self).write(values)
 
     @property
@@ -51,7 +53,7 @@ class ResUsers(models.Model):
     @property
     def SELF_WRITEABLE_FIELDS(self):
         user_fields = ['department_ids', 'physician_count', 'physician_ids', 'patient_count']
-        return super().SELF_WRITEABLE_FIELDS + user_fields 
+        return super().SELF_WRITEABLE_FIELDS + user_fields
 
     def action_create_physician(self):
         self.ensure_one()
@@ -74,7 +76,7 @@ class HospitalDepartment(models.Model):
     note = fields.Text('Note')
     patient_department = fields.Boolean("Patient Department", default=True)
     appointment_ids = fields.One2many("hms.appointment", "department_id", "Appointments")
-    department_type = fields.Selection([('general','General')], string="Hospital Department")
+    department_type = fields.Selection([('general', 'General')], string="Hospital Department")
     consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Consultation Service')
     followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service')
     image = fields.Binary(string='Image')
@@ -84,7 +86,7 @@ class ACSEthnicity(models.Model):
     _description = "Ethnicity"
     _name = 'acs.ethnicity'
 
-    name = fields.Char(string='Name', required=True ,translate=True)
+    name = fields.Char(string='Name', required=True, translate=True)
     code = fields.Char(string='Code')
     notes = fields.Char(string='Notes')
 
@@ -117,7 +119,7 @@ class ACSFamilyRelation(models.Model):
     def name_get(self):
         result = []
         for rec in self:
-            name = rec.name 
+            name = rec.name
             if rec.inverse_relation_id:
                 name += ' - ' + rec.inverse_relation_id.name
             result.append((rec.id, name))
@@ -148,15 +150,33 @@ class ACSFamilyRelation(models.Model):
 class product_template(models.Model):
     _inherit = "product.template"
 
-    hospital_product_type = fields.Selection(selection_add=[('procedure', 'Procedure'), ('consultation','Consultation')])
+    hospital_product_type = fields.Selection(
+        selection_add=[('consultation', 'Consultation')])
+    #('procedure', 'Procedure'),
     common_dosage_id = fields.Many2one('medicament.dosage', ondelete='cascade',
-        string='Frequency', help='Drug form, such as tablet or gel')
+                                       string='Frequency')
     manual_prescription_qty = fields.Boolean("Manual Prescription Qty")
     procedure_time = fields.Float("Procedure Time")
-    appointment_invoice_policy = fields.Selection([('at_end','Invoice in the End'),
-        ('anytime','Invoice Anytime'),
-        ('advance','Invoice in Advance')], string="Appointment Invoicing Policy")
+    appointment_invoice_policy = fields.Selection([('at_end', 'Invoice in the End'),
+                                                   ('anytime', 'Invoice Anytime'),
+                                                   ('advance', 'Invoice in Advance')],
+                                                  string="Appointment Invoicing Policy")
     acs_allow_substitution = fields.Boolean(string='Allow Substitution')
+    store_box = fields.Char(string='Store Box')
+    generic_name = fields.Char(string='Generic Name')
+    company = fields.Char(string='Company')
+    lot_no = fields.Char(string='Lot No.')
+    batch_no = fields.Char(string='Batch No.')
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    store_box = fields.Char(string='Store Box')
+    generic_name = fields.Char(string='Generic Name')
+    company = fields.Char(string='Company')
+    lot_no = fields.Char(string='Lot No.')
+    batch_no = fields.Char(string='Batch No.')
 
 
 class ACSConsumableLine(models.Model):
@@ -164,8 +184,9 @@ class ACSConsumableLine(models.Model):
 
     appointment_id = fields.Many2one('hms.appointment', ondelete="cascade", string='Appointment')
     procedure_id = fields.Many2one('acs.patient.procedure', ondelete="cascade", string="Procedure")
-    move_ids = fields.Many2many('stock.move', 'consumable_line_stock_move_rel', 'move_id', 'consumable_id', 'Kit Stock Moves', readonly=True)
-    #ACS: In case of kit moves set move_ids but add move_id also. Else it may lead to comume material process again.
+    move_ids = fields.Many2many('stock.move', 'consumable_line_stock_move_rel', 'move_id', 'consumable_id',
+                                'Kit Stock Moves', readonly=True)
+    # ACS: In case of kit moves set move_ids but add move_id also. Else it may lead to comume material process again.
 
 
 class Physician(models.Model):

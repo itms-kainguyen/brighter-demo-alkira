@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="zoom_meeting_form">
+            <field name="name">create meeting</field>
+            <field name="model">wizard.zoom</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Create Meeting">
+                    <span class="o_horizontal_separator">Basic details</span>
+                    <group>
+                        <field name="agenda" required="True"/>
+                        <field name="password" password="True"/>
+                        <field name="meeting_type"/>
+                    </group>
+                    <notebook>
+                        <page string="Configuration">
+                            <group>
+                                <group>
+                                    <field name="joining_option" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="mute_upon_entry"/>
+                                </group>
+                                <group>
+                                    <field name="host_video"/>
+                                    <field name="participant_video"/>
+                                    <field name="watermark"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="create_zoom_meeting" type="object" string="Create" class="btn-primary btn-lg"/>
+                        <button string="Close" special="cancel" class="btn-danger btn-lg"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="zoom_meeting_update_form">
+            <field name="name">Update meeting</field>
+            <field name="model">wizard.zoom</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Update Meeting">
+                    <span class="o_horizontal_separator">Basic details</span>
+                    <group>
+                        <field name="agenda"/>
+                        <field name="password" password="True"/>
+                        <field name="meeting_type"/>
+                        <field name="alternative_hosts" placeholder="enter email with comma seperate eq. text@er.com,abc123@xyz.su"/>
+                    </group>
+                    <span class="o_horizontal_separator">Configuration</span>
+                    <group>
+                        <group>
+                            <field name="mute_upon_entry"/>
+                            <field name="host_video"/>
+                        </group>
+                        <group>
+                            <field name="participant_video"/>
+                            <field name="watermark"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="update_zoom_meeting" type="object" string="Update" class="btn-primary btn-lg"/>
+                        <button string="Close" special="cancel" class="btn-danger btn-lg"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="zoom_meeting_delete_form">
+            <field name="name">Delete meeting</field>
+            <field name="model">wizard.zoom</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Delete Meeting">
+                    <span class="o_horizontal_separator">Optional part</span>
+                    <group>
+                        <group>
+                            <field name="schedule_for_reminder"/>
+                        </group>
+                        <group>
+                            <field name="cancel_meeting_reminder"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="delete_zoom_meeting" type="object" string="Delete" class="btn-danger"/>
+                        <button string="Close" special="cancel" class="btn-info"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

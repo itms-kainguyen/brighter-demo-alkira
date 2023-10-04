@@ -23,7 +23,7 @@
     </template>
 
     <record id="action_report_hms_medicines_label" model="ir.actions.report">
-        <field name="name">Medicines Label</field>
+        <field name="name">Product Label</field>
         <field name="model">prescription.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">acs_hms.report_hms_medicines_label</field>

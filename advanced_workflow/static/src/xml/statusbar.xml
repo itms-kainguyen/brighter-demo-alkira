@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template_advanced_workflow" xml:space="preserve">
+
+    <t t-name="web.StatusBarField" owl="1" t-inherit-mode="primary" t-inherit="web.StatusBarField">
+        <xpath expr="//div[hasclass('o_statusbar_status')]" position="replace">
+            <div class="o_statusbar_status">
+                <t t-set="items" t-value="computeItems()" />
+
+                <t t-if="items.folded.length">
+                    <button type="button" class="btn o_arrow_button dropdown-toggle text-uppercase">
+                        <Dropdown toggler="'parent'">
+                            <t t-foreach="items.folded" t-as="item" t-key="item.id">
+                                <DropdownItem class="getDropdownItemClassNames(item)" onSelected="() => this.selectItem(item)">
+                                    <t t-esc="item.name" />
+                                </DropdownItem>
+                            </t>
+                        </Dropdown>
+                        <t t-if="env.isSmall">
+                            <t t-esc="currentName" />
+                        </t>
+                        <t t-else="">More</t>
+                    </button>
+                </t>
+
+                <ol class="c-stepper">
+                    <t t-set="index" t-value="0"/>
+                    <t t-set="selected_index" t-value="0"/>
+                    <t t-foreach="items.unfolded" t-as="i" t-key="i.id">
+                        <t t-set="index" t-value="index+1"/>
+                        <t t-if="i.isSelected">
+                            <t t-set="selected_index" t-value="index"/>
+                        </t>
+                    </t>
+                    <t t-set="j" t-value="0"/>
+                    <t t-foreach="items.unfolded" t-as="item" t-key="item.id">
+                        <t t-set="j" t-value="j+1"/>
+                        <t t-if="j == items.unfolded.length and j == selected_index">
+                            <t t-set="className" t-value="'current__item'"/>
+                        </t>
+                        <t t-elif="j == selected_index">
+                            <t t-set="className" t-value="'current__item'"/>
+                        </t>
+                        <t t-elif="j &lt; selected_index">
+                            <t t-set="className" t-value="'done__item'"/>
+                        </t>
+                        <t t-elif="j &gt; selected_index">
+                            <t t-set="className" t-value=""/>
+                        </t>
+                        <li t-attf-class="c-stepper__item #{className}">
+                            <h3 class="c-stepper__title">
+                                <t t-esc="item.name"/>
+                            </h3>
+                        </li>
+                    </t>
+                </ol>
+            </div>
+        </xpath>
+    </t>
+    
+</templates>

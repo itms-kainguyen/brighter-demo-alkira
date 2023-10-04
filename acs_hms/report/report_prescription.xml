@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <template id="external_layout_standard_customized" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-att-style='report_header_style']" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="col-3 mb4">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                    </div>
+                    <div class="col-9 text-end" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                </div>
+                <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+                <div class="row">
+<!--                    <div class="col-6" name="nurse_detail">-->
+
+<!--                    </div>-->
+                </div>
+            </div>
+        </xpath>
+         <xpath expr="//div[hasclass('pt-5')]" position="attributes">
+        	<attribute name="class" add=""/>
+        </xpath>
+
+    </template>
+
+
     <template id="report_hms_prescription_document">
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
-            <div class="page">
 
+            <div class="page">
+                <div t-if="doc.physician_id">
+                     <p t-field="doc.physician_id"/>
+                     <p t-field="doc.physician_id.user_id.signature"/>
+                 </div>
                 <center>
                     <h3>Medical Prescription: <span t-field="doc.name"/></h3>
                 </center>
@@ -19,10 +51,7 @@
                         <strong>Age</strong>
                         <p class="m-0" t-field="doc.patient_age"/>
                     </div>
-                    <div t-if="doc.physician_id" class="col-3 mb-2">
-                        <strong>Doctor</strong>
-                        <p class="m-0" t-field="doc.physician_id"/>
-                    </div>
+
                     <div t-if="doc.prescription_date" class="col-3 mb-2">
                         <strong>Date</strong>
                         <p class="m-0" t-field="doc.prescription_date"/>
@@ -30,7 +59,8 @@
                 </div>
 
                 <div class="mb16" name="diseases">
-                    <b>Disease: </b><span t-esc="', '.join(map(lambda x: (x.name), doc.diseases_ids))"/>
+<!--                    <b>Disease: </b><span t-esc="', '.join(map(lambda x: (x.name), doc.diseases_ids))"/>-->
+                    <b></b>
                 </div>
 
                 <t t-if="doc.pregnancy_warning">
@@ -43,24 +73,29 @@
 
                 <br/><br/><br/>
                 <p>
-                    <b>Comment(If Any):</b>
+                    <b>Advice:</b>
                     <br/>
                     <span t-field="doc.notes"/>
                 </p>
                 <br/>
                 <div class="row">
                     <div class="col-6">
-                        <b>Doctor’s Stamp/Signature</b>
+                        <b class="col-6 pull-right">Signature</b>
                         <br/>
                         <t t-if="doc.physician_id and doc.physician_id.signature">
                             <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
                         </t>
+                        <br/>
+                        <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">
+    <!--                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>-->
+                                <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" alt="Logo" style="width: 100px;" class="float-right"/>
+                        </div>
                     </div>
 
-                    <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">
-                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>
-                        <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" alt="Logo" style="width: 100px;" class="float-right"/>
-                    </div>
+<!--                    <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">-->
+<!--                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>-->
+<!--                        <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" alt="Logo" style="width: 100px;" class="float-right"/>-->
+<!--                    </div>-->
                 </div>
 
             </div>

@@ -24,7 +24,7 @@
             <xpath expr="//field[@name='drug_company_id']" position="replace">
             </xpath>
             <xpath expr="//group[@name='acs_medicament_info']" position="after">
-                <separator string="Manufacturer (Drug Compnay) Details" colspan="4"/>
+                <separator string="Manufacturer Details" colspan="4" class="acs_separator"/>
                 <group name="acs_manufacturer_data">
                     <group>
                         <field name="drug_company_id"/>

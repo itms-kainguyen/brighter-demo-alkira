@@ -1,0 +1,90 @@
+.container-buttonbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    min-height: 80px;
+    max-height: 120px;    
+    overflow-x: auto;
+    overflow-y: auto;
+    justify-content: flex-end;
+    padding: 5px; /* this */
+}
+
+.container-buttonbox button {
+    margin: 10px 5px;
+    border: 1px solid #dee2e6 !important;
+    min-width: 155px;
+}
+
+.container-buttonbox button:hover {
+    box-shadow: 5px 5px 15px #aaaaaa;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .container-buttonbox button {
+        margin: 10px 5px;
+        border: 1px solid #dee2e6 !important;
+        min-width: 166px;
+    }
+}
+
+/**
+custom dashboard
+*/
+
+#acs_hms_dashboard .card.acs-card.card-acs > a.oe_kanban_action:last-child {
+    display: none;
+}
+
+#acs_hms_dashboard .acs-card:hover .stat-icon {
+    transform: unset !important;
+    -webkit-transform: unset !important;
+    -moz-transform: scale(1.5) rotate(60deg) translateX(30px) translateY(-15px);
+    -ms-transform: scale(1.5) rotate(60deg) translateX(30px) translateY(-15px);
+    -o-transform: scale(1.5) rotate(60deg) translateX(30px) translateY(-15px);
+    opacity: 1;
+    transition: unset !important;
+    -webkit-transition: unset !important;
+    -moz-transition: all 0.8s ease;
+    -ms-transition: all 0.8s ease;
+    -o-transition: all 0.8s ease;
+}
+
+#acs_hms_dashboard .card.acs-card.card-acs {
+    background: #e36f3c !important;
+    border: 1px solid #e98630 !important;
+    height: 77px;
+}
+
+#acs_hms_dashboard .card-heading {
+    background: #e36f3c !important;
+    border: 1px solid #e98630 !important;
+    color: white;
+}
+
+#acs_hms_dashboard .card-heading .col-6:first-child {
+    display: none;
+} 
+
+#acs_hms_dashboard .card-heading .col-6:last-child {
+    width: 100%;
+} 
+
+
+#acs_hms_dashboard thead.bg-info {
+    background: #e36f3c !important;
+    color: white;
+}
+
+#acs_hms_dashboard #dashboard_graphs {
+    display: none;
+}
+
+#acs_hms_dashboard .acs_block {
+    float: left;
+    height: 100px;
+    min-width: 330px !important;
+}

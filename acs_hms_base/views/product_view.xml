@@ -10,9 +10,14 @@
                 <field name="hospital_product_type" required="1"/>
             </field>
             <xpath expr="//notebook/page[@name='general_information']" position="before">
-                <page string="Medicament Details" name="acs_medicament_data" attrs="{'invisible': [('hospital_product_type', '!=', 'medicament')]}">
+                <page string="Details" name="acs_medicament_data" attrs="{'invisible': [('hospital_product_type', '!=', 'medicament')]}">
                     <group name="acs_medicament_info">
                         <group>
+                            <field name="drug_company_id"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                        </group> 
+                        <group>
+                            <field name="active_component_ids" widget="many2many_tags" invisible="1"/>
                             <field name="form_id"/>
                             <field name="route_id"/>
                             <label for="dosage"/>
@@ -20,29 +25,24 @@
                                 <field name="dosage"/>
                                 <span><field name="dosage_uom_id"/></span>
                             </div>
-                            <field name="drug_company_id"/>
-                            <field name="product_uom_category_id" invisible="1"/>
-                        </group> 
-                        <group>
-                            <field name="active_component_ids" widget="many2many_tags"/>
-                            <field name="therapeutic_effect_ids" widget="many2many_tags"/>
-                            <field name="adverse_reaction"/>
+                            <field name="therapeutic_effect_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="adverse_reaction" invisible="1"/>
                         </group>
                     </group>
-                    <separator string="Pregnancy" colspan="4" name="pregnancy_warning_separator"/>
-                    <group  name="pregnancy_warning">
+                    <separator string="Pregnancy" colspan="4" name="pregnancy_warning_separator" invisible="1"/>
+                    <group  name="pregnancy_warning" invisible="1">
                         <group>
-                            <field name="pregnancy_warning"/>
+                            <field name="pregnancy_warning" invisible="1"/>
                         </group>
                         <group>
-                            <field name="lactation_warning"/>
+                            <field name="lactation_warning" invisible="1"/>
                         </group>
-                        <field name="pregnancy" placeholder="Pregnancy/Lactation Warning"/>
+                        <field name="pregnancy" placeholder="Pregnancy/Lactation Warning" invisible="1"/>
                     </group>
 
-                    <separator string="Indications" colspan="4"/>
-                    <field name="indications" nolabel="1" colspan="4"/>
-                    <separator string="Notes" colspan="4"/>
+                    <separator string="Indications" colspan="4" invisible="1"/>
+                    <field name="indications" nolabel="1" colspan="4" invisible="1"/>
+                    <separator string="Notes" colspan="4" class="acs_separator"/>
                     <field name="notes" nolabel="1" colspan="4"/>
                 </page>
             </xpath>
@@ -55,7 +55,7 @@
         <field name="inherit_id" ref="product.product_template_search_view"/>
         <field name="arch" type="xml">
             <field name='name' position="after">
-                <field name="active_component_ids"/>
+                <field name="active_component_ids" invisible="1"/>
                 <field name="drug_company_id"/>
             </field>
         </field>

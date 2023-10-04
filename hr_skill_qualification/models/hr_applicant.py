@@ -14,7 +14,7 @@ class HrApplicant(models.Model):
     nontechskill_ids = fields.One2many(
         "emp.nontech.skills", "applicant_id", "Non-Technical Skills"
     )
-    education_ids = fields.One2many("employee.education", "applicant_id", "Education")
+    education_ids = fields.One2many("employee.education", "applicant_id", "Qualifications")
     certification_ids = fields.One2many(
         "employee.certification", "applicant_id", "Certification"
     )
