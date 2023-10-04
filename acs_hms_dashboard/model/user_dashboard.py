@@ -151,10 +151,15 @@ class ResUsers(models.Model):
         self.total_prescriber = Prescriber.search_count(prescriber_domain)
 
         # total elearning
-        course_domain = self.get_filter('date')
+        course_domain = self.get_filter('create_date')
         Course = self.env['slide.channel']
         self.total_course = Course.search_count(course_domain)
 
+
+        # total branch
+        branch_domain = self.get_filter('create_date')
+        Branch = self.env['res.branch']
+        self.total_branch = Branch.sudo().search_count(branch_domain)
 
 
         # Open Invoices
@@ -214,6 +219,9 @@ class ResUsers(models.Model):
 
     # total course
     total_course = fields.Integer(compute="_compute_dashboard_data")
+
+    # total branch
+    total_branch = fields.Integer(compute="_compute_dashboard_data")
 
     total_appointments = fields.Integer(compute="_compute_dashboard_data")
     total_appointments_color = fields.Char(string='Total Appointments Color', default="#f0ad4e")
@@ -434,6 +442,12 @@ class ResUsers(models.Model):
     def open_online_education(self):
 
         action = self.env["ir.actions.actions"]._for_xml_id("website_slides.slide_channel_action_overview")
+        action['domain'] = self.get_filter('create_date')
+        return action
+
+    def open_branch(self):
+
+        action = self.env["ir.actions.actions"]._for_xml_id("branch.branch_action_res_branch")
         action['domain'] = self.get_filter('create_date')
         return action
 

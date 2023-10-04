@@ -124,5 +124,37 @@
             </field>
         </record>
 
+        <record id="email_template_prescription_reminder" model="mail.template">
+            <field name="name">Prescription Reminder</field>
+            <field name="model_id" ref="acs_hms.model_prescription_detail"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="description">Prescription Reminder</field>
+            <field name="email_from">{}</field>
+            <field name="email_to">{{ (object.prescription_id.patient_id.email_formatted) }}</field>
+            <field name="subject">Reminder</field>
+            <field name="lang">{{ object.prescription_id.patient_id.lang }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear <t t-out="object.prescription_id.patient_id.name"></t>,</p>
+                    <p></p>
+                    <p>This is a friendly reminder that you have a prescribed medication scheduled in a few days, details:
+                    <br/><br/>
+                    <t t-set="ids" t-value="(ctx.get('lines'))"/>
+                    <t t-set="records" t-value="object.sudo().browse(list(ids))"/>
+                    <t t-foreach="records" t-as="line">
+                        <t t-if="line and line.product_id">
+                            <t t-out="line.product_id.display_name"/><br/>
+                        </t>
+                    </t>
+                    <br/>
+                    To ensure your continued care, we recommend scheduling an appointment with your healthcare provider.
+
+                    Please feel free to contact us if you have any questions or need assistance.
+                    </p>
+                    <p>Kind regards,</p>
+                </div>
+            </field>
+        </record>
+
     </data>
 </odoo>
