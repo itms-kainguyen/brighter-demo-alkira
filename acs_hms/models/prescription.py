@@ -414,7 +414,9 @@ class PrescriptionDetail(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled')], store=True, required=True,
         default='schedule', string='Status', tracking=True)
-    
+    is_done = fields.Boolean(string='Done')
+    done_at = fields.Datetime("Done at")
+
     @api.model
     def send_prescription_reminder(self):
         """

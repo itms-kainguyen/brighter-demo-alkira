@@ -185,6 +185,8 @@
                                     <field name="description" />
                                     <field name="scheduled_date" />
                                     <field name="state" />
+                                    <field name="is_done" readonly="1" />
+                                    <field name="done_at" readonly="1" />
                                 </tree>
                             </field>
                         </page>
