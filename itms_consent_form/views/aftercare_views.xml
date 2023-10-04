@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="view_aftercare_tree" model="ir.ui.view">
+        <field name="name">patient.aftercare.tree</field>
+        <field name="model">patient.aftercare</field>
+        <field name="arch" type="xml">
+            <tree string="Aftercare">
+                <field name="name" />
+                <button name="action_aftercare_download" class="btn btn-secondary" string="Download" type="object"></button>
+                <button name="action_aftercare_send" class="btn btn-secondary" string="Send by Email" type="object"/>
+            </tree>
+        </field>
+    </record>
+
+      <record id="view_patient_aftercare_form" model="ir.ui.view">
+            <field name="name">patient.aftercare.form</field>
+            <field name="model">patient.aftercare</field>
+            <field name="arch" type="xml">
+                <form string="Aftercare">
+                    <header>
+                        <button name="action_aftercare_send" string="Send by Email" type="object" data-hotkey="g"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <group>
+                             <group>
+                                 <field name="name" string="Title"/>
+                             </group>
+                             <group>
+                             </group>
+                        </group>
+                        <field name="content" widget="html" invisible="1" placeholder="e.g. content..." options="{'safe': True, 'codeview': True, 'collaborative': True}"/>
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+      </record>
+
+
+       <record id="action_aftercare_form" model="ir.actions.act_window">
+            <field name="name">Aftercare</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">patient.aftercare</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Aftercare
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+
+
+      <menuitem id="menu_aftercare_form_form"
+        action="action_aftercare_form"
+        name="Aftercare"
+        sequence="11" parent="acs_hms_base.main_menu_patient"/>
+
+
+      <record id="hms_patient_view_buttons" model="ir.ui.view">
+        <field name="name">hms.patient.view.buttons</field>
+        <field name="model">hms.patient</field>
+        <field name="inherit_id" ref="acs_hms_base.view_patient_form" />
+        <field name="priority" eval="4"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" string="Aftercare" name="action_view_aftercare"
+                    icon="fa-files-o">
+                </button>
+            </div>
+        </field>
+      </record>
+
+    </data>
+</odoo>

@@ -85,6 +85,7 @@
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription"/>
                     <button name="button_reset" states="prescription" string="Reset to Draft" type="object" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms.group_hms_jr_doctor"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,prescription"/>
                 </header>
                 <div class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
@@ -155,7 +156,7 @@
                                     <field name="use_every" optional="show"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
-                                    <field name="days" attrs="{'required': [('display_type', '=', False)]}"/>
+                                    <!-- <field name="days" attrs="{'required': [('display_type', '=', False)]}"/> -->
                                     <field name="manual_prescription_qty" invisible="1"/>
                                     <field name="manual_quantity" invisible="1"/>
                                     <field name="quantity" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
@@ -174,14 +175,19 @@
                         <page name="prescription_details" string="Prescription Details">
                             <field name="prescription_detail_ids" nolabel="1" colspan="4">
                                 <tree string="Prescription Detail" editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                    </control>
                                     <field name="id" invisible="1"/>
                                     <field name="prescription_id" invisible="1"/>
                                     <field name="line_id" invisible="1"/>
                                     <field name="sequence" widget="handle"/>
-                                    <field name="product_id" string="Medicine Name"/>
+                                    <field name="product_id" attrs="{'readonly':[('parent.state', '!=', 'draft')] }" string="Medicine Name"/>
                                     <field name="description" />
                                     <field name="scheduled_date" />
                                     <field name="state" />
+                                    <field name="is_done" readonly="1" />
+                                    <field name="done_at" readonly="1" />
                                 </tree>
                             </field>
                         </page>

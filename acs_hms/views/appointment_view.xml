@@ -50,7 +50,7 @@
         <field name="model">appointment.cabin</field>
         <field name="arch" type="xml">
             <tree string="Room">
-                <field name="name"/>
+                <field name="name" string="Appointment Room"/>
             </tree>
         </field>
     </record>
@@ -62,9 +62,9 @@
             <form string="Room">
                 <sheet>
                     <div class="oe_title">
-                        <label for="name" string="Name" class="oe_edit_only"/>
+                        <label for="name" string="Appointment Room" class="oe_edit_only"/>
                         <h1>
-                            <field name="name" placeholder="Room"/>
+                            <field name="name" placeholder="Appointment Room"/>
                         </h1>
                     </div>
                 </sheet>
@@ -284,12 +284,12 @@
                     <group name="group_info"> -->
                         <group>
                             <field name="cabin_id"/>
-                            <field name="medicine_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse"/>
+                            <field name="medicine_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse" invisible="1"/>
                             <field name="diseases_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse" invisible="1"/>
                             <field name="responsible_id" invisible="1"/>
 
-                            <field name="treatment_id" domain="[('patient_id','=', patient_id)]" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}"/>
-                            <field name="urgency"/>
+                            <field name="treatment_id" invisible="1" domain="[('patient_id','=', patient_id)]" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}"/>
+                            <field name="urgency" invisible="1"/>
                             <field name="refer_reason" invisible="1"/>
                             <field name="refered_from_appointment_id" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}" readonly="1" force_save="1"/>
                             <field name="refered_from_physician_id" attrs="{'invisible': [('refered_from_appointment_id','=',False)]}"/>
@@ -302,17 +302,17 @@
                             <field name="pause_duration" widget="float_time" attrs="{'invisible': [('pause_duration','=',0)]}"/>
                         </group>
                         <group>
-                            <field name="purpose_id"/>
+                            <field name="purpose_id" invisible="1"/>
                             <field name="outside_appointment" invisible="1"/>
                             <field name="location" widget="url" invisible="1" attrs="{'invisible': [('outside_appointment','=',False)]}"/>
                             <field name="is_video_call" invisible="1"/>
 
                             <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="1"/>
                             <field name="user_id" widget="many2one_avatar_user" invisible="1"/>
-                            <field name="ref_physician_id"/>
+                            <field name="ref_physician_id" invisible="1"/>
                             <label for="invoice_exempt"/>
                             <div name='invoice_exemption'>
-                                <field name='invoice_exempt' class="oe_inline" nolabel="1"/>
+                                <field string = "No Charge" name='invoice_exempt' class="oe_inline" nolabel="1"/>
                                 <button name="acs_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('invoice_id','!=', False)]}" groups="acs_hms_base.group_acs_invoice_exemption"/>
                             </div>
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
@@ -352,6 +352,20 @@
                                 </tree>
                             </field>
                         </page>
+
+                        <page name="prescription_line_ids" string="Existing Prescription">
+                            <field name="prescription_line_ids" >
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="repeat"/>  
+                                    <field name="scheduled_date"/>  
+                                    <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>         
+                                    <field name="done_at"/>           
+                                </tree>
+                            </field>
+                        </page>
+
+
                         <page name="info" string="General Information" invisible="1">
                             <group>
                                 <group>

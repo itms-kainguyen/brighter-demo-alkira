@@ -303,12 +303,12 @@
                                         <t t-set="acs_record_icon" t-value="'fa-building'"/>
                                         <t t-set="acs_field_name" t-value="record.total_branch.raw_value"/>
                                         <t t-set="acs_record_action" t-value="'open_branch'"/>
-                                        <t t-set="acs_record_lable">Branch</t>
+                                        <t t-set="acs_record_lable">Clinic</t>
                                         <t t-set="acs_field2_name"
                                            t-value="record.total_branch.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_branch'"/>
-                                        <t t-set="acs_record2_lable">Branch</t>
-                                        <t t-set="acs_lable">Branch</t>
+                                        <t t-set="acs_record2_lable">Clinic</t>
+                                        <t t-set="acs_lable">Clinic</t>
                                     </t>
                                 </div>
 
