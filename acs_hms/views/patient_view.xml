@@ -34,13 +34,13 @@
                 <field name="appointment_count"/>
                 <field name="total_invoiced"/>
             </field>
-            <!-- <xpath expr="//div[hasclass('oe_kanban_details')]/div/ul" position="after">
+            <xpath expr="//div[hasclass('oe_kanban_details')]/div/ul" position="after">
                 <div t-if="record.show_cancellation_warning_flag.raw_value" class="badge rounded-pill text-bg-danger">
                     <span class="fa fa-exclamation-triangle" title="Cancellation"/>
                     <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days
                 </div>
-            </xpath> -->
-             <!-- <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+            </xpath>
+             <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
                 <a t-if="record.appointment_count.value" data-type="object" data-name="action_appointment" href="#" class="oe_kanban_action oe_kanban_action_a me-1">
                     <span class="badge rounded-pill">
                         <i class="fa fa-fw fa-stethoscope" role="img" aria-label="Appointment" title="Appointment"/>
@@ -53,7 +53,7 @@
                         </span>
                     </a>
                 </a>
-            </xpath> -->
+            </xpath>
         </field>
     </record>
 
