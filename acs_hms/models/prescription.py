@@ -117,7 +117,12 @@ class ACSPrescriptionOrder(models.Model):
                 raise UserError(_('Prescription Order can be delete only in Draft state.'))
         return super(ACSPrescriptionOrder, self).unlink()
 
+    def button_cancel(self):
+        self.prescription_detail_ids.write({'state': 'cancel'})
+        self.write({'state': 'canceled'})
+    
     def button_reset(self):
+        self.prescription_detail_ids.unlink()
         self.write({'state': 'draft'})
 
     def _prepare_invoice(self):
