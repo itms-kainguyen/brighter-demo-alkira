@@ -205,7 +205,7 @@ class Appointment(models.Model):
     consultation_type = fields.Selection([
         ('consultation', 'Consultation'),
         ('consultation_prescription', 'Consultation and Prescription'),
-        ('followup', 'Follow-Up Appointment')], 'Consultation Type', states=READONLY_STATES, copy=False)
+        ('followup', 'Follow-Up Appointment')], 'Consultation Type', default='consultation_prescription', states=READONLY_STATES, copy=False)
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
                                     'Diseases', states=READONLY_STATES)
@@ -316,7 +316,9 @@ class Appointment(models.Model):
 
     consent_ids = fields.One2many('consent.consent','appointment_id', 'Consent Forms')
     is_prescription_expired = fields.Boolean(compute='_compute_is_prescription_expired')
-    
+    prescription_line_ids = fields.One2many('appointment.prescription.line', 'appointment_id', 'Prescription Line' )
+
+
     @api.depends('prescription_id', 'prescription_id.expire_date')
     def _compute_is_prescription_expired(self):
         for rec in self:
@@ -349,6 +351,21 @@ class Appointment(models.Model):
             for line in self.prescription_id.prescription_line_ids:
                 prescription_repeat = line.repeat
         self.prescription_repeat = prescription_repeat
+    # add function to auto generate lines existing medicine
+        lines = []
+        self.prescription_line_ids = False
+        for line in self.prescription_id.prescription_detail_ids:
+            data = {}
+            data.update({
+                'product_id': line.product_id.id ,
+                #'repeat': , 
+                'scheduled_date': line.scheduled_date ,
+                'is_done': line.is_done, 
+                'done_at': line.done_at,
+                #'state': line.state ,
+            })
+            lines.append((0, 0, data))
+        self.prescription_line_ids = lines
 
     @api.depends('date', 'date_to')
     def _get_planned_duration(self):
@@ -950,9 +967,38 @@ class Appointment(models.Model):
             rec.date = rec.date + timedelta(hours=reschedule_time)
             rec.date_to = rec.date_to + timedelta(hours=reschedule_time)
 
-
+    @api.onchange('consultation_type')
+    def _done_add_prescription(self):
+        for rec in self:
+            if rec.consultation_type == 'followup':
+                Prescription = rec.env['prescription.order']
+                prescription_ids = Prescription.search([('patient_id','=',rec.patient_id.id)])
+                if prescription_ids:
+                    rec.prescription_id = prescription_ids[-1]
+            
 class StockMove(models.Model):
     _inherit = "stock.move"
 
     appointment_id = fields.Many2one('hms.appointment', string="Appointment", ondelete="restrict")
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+class PrescriptionLine(models.Model):
+    _name = 'appointment.prescription.line'
+
+    appointment_id = fields.Many2one('hms.appointment', string='Order')
+    name = fields.Text(string='Description')
+    product_id = fields.Many2one('product.product', string='Medicine')
+    qty = fields.Integer(string='Quantity')
+    repeat = fields.Integer(string='Repeat')
+    scheduled_date = fields.Date(string='Scheduled Date')
+    done_at = fields.Datetime(string='Done At')
+    is_done = fields.Boolean(string='Done')
+    state = fields.Selection(
+        [('done', 'Done'), 
+         ('processing', 'Processing'), 
+         ('waiting', 'Waiting')], string='State', default='waiting')
+
+    @api.depends('is_done')
+    def _done_process(self):
+        for rec in self:
+            rec.done_at = fields.Datetime.now()

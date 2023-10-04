@@ -117,7 +117,12 @@ class ACSPrescriptionOrder(models.Model):
                 raise UserError(_('Prescription Order can be delete only in Draft state.'))
         return super(ACSPrescriptionOrder, self).unlink()
 
+    def button_cancel(self):
+        self.prescription_detail_ids.write({'state': 'cancel'})
+        self.write({'state': 'canceled'})
+    
     def button_reset(self):
+        self.prescription_detail_ids.unlink()
         self.write({'state': 'draft'})
 
     def _prepare_invoice(self):
@@ -414,7 +419,9 @@ class PrescriptionDetail(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled')], store=True, required=True,
         default='schedule', string='Status', tracking=True)
-    
+    is_done = fields.Boolean(string='Done')
+    done_at = fields.Datetime("Done at")
+
     @api.model
     def send_prescription_reminder(self):
         """

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_shipmnet_picking_wizard_update" model="ir.ui.view">
+        <field name="name">stock.picking.wizard.form</field>
+        <field name="model">stock.picking.wizard</field>
+        <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+
+                
+                    <field name="new_location" invisible="0"/>
+                    <field name="location_warehouse" invisible="0"/>
+                    <field name="picking_id" invisible="1"/>
+                    <field name="picking_warehouse_id" invisible="1"/>
+                    <field name="shipment_ids" widget="many2many_tags" 
+
+                   domain="['&amp;',('new_location_1.location_id', '=', location_warehouse), ('transfer_not_allow','!=',1)]"
+                   />
+
+                    
+<!--    domain="[('new_location', '=', 'location_warehouse')]"       -->
+
+                    <field name="container_ids" widget="many2many_tags" 
+                   domain="[('new_current_location.location_id', '=', location_warehouse)]"  
+                    />
+ <field name="related_shipment_ids" widget="many2many_tags" 
+                  
+                    />
+                    
+<!--     attrs="{'invisible': [('container_ids', '!=', False)]}"  domain="[('new_location', '=', picking_warehouse_id)]"                 <field name="shipment_ids" domain="['&amp;',('picking_type_id.warehouse_id', '=', picking_warehouse_id), ('state', 'in', ('partial', 'done')) ]" widget="many2many_tags"/>
+                    <field name="container_ids" domain="['&amp;',('shipment_id.picking_type_id.warehouse_id', '=', picking_warehouse_id), ('shipment_id.state', 'in', ('partial', 'done'))]" widget="many2many_tags"/>
+            --> </group>
+            </sheet>
+            <footer>
+                <button name="button_complete" type="object" string="Import" class="oe_highlight"/>
+                <button special="cancel" string="Cancel"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+    
+
+
+        <record id="open_wizard_import_shipment" model="ir.actions.act_window">
+            <field name="name">Import </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_shipmnet_picking_wizard_update"/>
+             <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="target">new</field>
+        </record>
+</odoo>
+
+
