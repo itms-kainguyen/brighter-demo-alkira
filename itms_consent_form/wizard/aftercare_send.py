@@ -72,6 +72,12 @@ class AftercareSend(models.TransientModel):
         #     self_lang = self.with_context(active_ids=active_records, lang=lang)
         #     self_lang.onchange_template_id()
         self._send_email()
+        for partner in self.composer_id.partner_ids:
+            patient = self.env['hms.patient'].search([('partner_id', '=', partner.id)])
+            if patient:
+                self.env['patient.aftercare.history'].create({'patient_id': patient.id,
+                                                              'aftercare_id': self.aftercare_id.id})
+
         return {'type': 'ir.actions.act_window_close'}
 
     def save_as_template(self):
@@ -81,3 +87,15 @@ class AftercareSend(models.TransientModel):
         action = _reopen(self, self.id, self.model, context=self._context)
         action.update({'name': _('Send Aftercare')})
         return action
+
+
+class AfterCareHistory(models.Model):
+    _name = 'patient.aftercare.history'
+    _description = "Patient Aftercare History"
+
+    name = fields.Char('Title')
+    aftercare_id = fields.Many2one('patient.aftercare', string="AfterCare", ondelete='cascade')
+    patient_id = fields.Many2one('hms.patient', string="Patient", ondelete='cascade')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'patient.aftercare')],
+                                     string='Attachments')
+    state = fields.Selection([('sent', 'Sent'), ('fail', 'Delivery Failed')], string='Email Status')

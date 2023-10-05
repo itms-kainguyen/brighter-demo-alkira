@@ -62,7 +62,7 @@ class AfterCare(models.Model):
 class ACSPatient(models.Model):
     _inherit = 'hms.patient'
 
-    # aftercare_ids = fields.One2many('patient.aftercare.send', 'patient_id', 'Aftercare')
+    aftercare_history_ids = fields.One2many('patient.aftercare.history', 'patient_id', 'Aftercare')
 
     def action_view_aftercare(self):
         ctx = {'partner_id': self.partner_id.id}
@@ -75,3 +75,4 @@ class ACSPatient(models.Model):
             'target': 'new',
             'context': ctx,
         }
+

@@ -5,6 +5,7 @@ access_patient_aftercare,access_patient_aftercare,model_patient_aftercare,base.g
 
 access_patient_aftercare_send,access_patient_aftercare_send,model_patient_aftercare_send,base.group_user,1,1,1,1
 
+access_patient_aftercare_history,patient.aftercare.history.user,model_patient_aftercare_history,base.group_user,1,1,1,1
 
 
 
