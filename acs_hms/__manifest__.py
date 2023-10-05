@@ -99,7 +99,7 @@
         'wizard/cancel_reason_view.xml',
         'wizard/pain_level_view.xml',
         'wizard/reschedule_appointments_view.xml',
-
+        'wizard/picture_before.xml',
         'views/hms_base_views.xml',
         'views/patient_view.xml',
         'views/physician_view.xml',
