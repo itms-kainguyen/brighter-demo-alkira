@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _, Command
 
 
 class AfterCare(models.Model):
@@ -19,28 +19,33 @@ class AfterCare(models.Model):
     def action_aftercare_send(self):
         self.ensure_one()
         lang = self.env.context.get('lang')
-        # mail_template = self.env.ref('itms_consent_form.email_patient_aftercare_form', raise_if_not_found=False)
-        # if mail_template and mail_template.lang:
-        #      lang = mail_template._render_lang(self.ids)[self.id]
+        mail_template = self.env.ref('itms_consent_form.email_patient_aftercare_form', raise_if_not_found=False)
+        if mail_template and mail_template.lang:
+            lang = mail_template._render_lang(self.ids)[self.id]
         email_to = False
-        mail_template = None
+        compose_form = self.env.ref('itms_consent_form.patient_aftercare_send_view_form', raise_if_not_found=False)
+        partner_ids = []
+        if self._context.get('partner_id'):
+            partner_ids = self.env['res.partner'].search([('id', '=', self._context.get('partner_id'))])
         ctx = {
             'default_aftercare_id': self.id,
-            'default_name': self.name,
+            'default_subject': self.name,
             'default_use_template': bool(mail_template),
             'default_template_id': mail_template.id if mail_template else None,
             'default_composition_mode': 'mass_mail',
-            'email_to': email_to or False,
             'force_email': True,
-            'default_attachment_ids': [(6, 0, self.attachment_ids.ids)]
+            'default_attachment_ids': self.attachment_ids.ids,
+            'default_partner_ids': partner_ids.ids if len(partner_ids) > 0 else [],
+            'active_ids': self.ids
         }
         return {
-            'name': 'Send email',
+            'name': _('Send email'),
             'type': 'ir.actions.act_window',
+            'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'patient.aftercare.send',
-            'views': [(False, 'form')],
-            'view_id': self.env.ref('itms_consent_form.patient_aftercare_send_view_form').id,
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
             'target': 'new',
             'context': ctx,
         }
@@ -60,7 +65,7 @@ class ACSPatient(models.Model):
     # aftercare_ids = fields.One2many('patient.aftercare.send', 'patient_id', 'Aftercare')
 
     def action_view_aftercare(self):
-        ctx = {}
+        ctx = {'partner_id': self.partner_id.id}
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
