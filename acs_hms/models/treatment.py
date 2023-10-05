@@ -286,7 +286,7 @@ class TreatmentMedicineLine(models.Model):
         ('peri-orbital', 'Peri-Orbital'),
         ('skinbooster', 'Skinbooster'),
         ('nose', 'Nose'),
-        ('ear-lobe', 'Ear - lobe'),
+        ('ear-lobe', 'Ear-lobe'),
         ('neck', 'Neck'),
         ('hands', 'Hands'),
         ('body', 'Body'),
