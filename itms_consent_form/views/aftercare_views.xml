@@ -77,7 +77,7 @@
                      <field name="aftercare_history_ids" string="Aftercare" readonly="1">
                         <tree string="Aftercare">
                             <field name="aftercare_id"/>
-                            <field name="attachment_ids" invisible=""/>
+                            <field name="attachment_ids" invisible="1"/>
                             <field name="state" invisible="1"/>
                             <field name="patient_id" invisible="1"/>
                         </tree>

@@ -319,8 +319,8 @@ class Appointment(models.Model):
     prescription_line_ids = fields.One2many('appointment.prescription.line', 'appointment_id', 'Prescription Line' )
 
     #attachment_ids = fields.
-    attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel','attachment_id','appointment_id', string='Take photos before')
-    attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel','attachment_id','appointment_id', string='Take photos after')
+    attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel','attachment_id','appointment_id', string='Before Photos')
+    attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel','attachment_id','appointment_id', string='After Photos')
 
     @api.depends('prescription_id', 'prescription_id.expire_date')
     def _compute_is_prescription_expired(self):
@@ -1021,7 +1021,7 @@ class PrescriptionLine(models.Model):
         print("self.is_doneself.is_done",self.is_done)
         if not self.is_done:
             return {
-                'name': f"Take Picture Before",
+                'name': f"Before Photos",
                 'view_mode': 'form',
                 'res_model': 'hms.picture.before.wizard',
                 'view_id': self.env.ref('acs_hms.wz_before_picture').id,

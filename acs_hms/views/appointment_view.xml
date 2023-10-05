@@ -359,7 +359,7 @@
                                     <field name="product_id"/>
                                     <field name="repeat"/>  
                                     <field name="scheduled_date"/>  
-                                    <button name="openWizard" string="Inprocess" type="object" attrs="{'invisible': [('is_done','=', True)]}"/> 
+                                    <button name="openWizard" string="prescription" type="object" attrs="{'invisible': [('is_done','=', True)]}"/>
                                     <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>         
                                     <field name="done_at"/>           
                                 </tree>
