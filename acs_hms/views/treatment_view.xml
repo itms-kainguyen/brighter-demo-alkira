@@ -31,14 +31,14 @@
                     <div class="oe_title">
                         <h1>
                             <field name="name" default_focus="1" placeholder="Name"/>
-                            <field name="subject" class="ml4" placeholder="Treatement Detail"/>
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="patient_id"/>
+                            <field name="date" string="Date"/>
+                            <field name="subject" class="ml4" string="Title"/>
                             <field name="physician_id" string="Nurse"/>
-                            <field name="diagnosis_id"/>
+                            <field name="diagnosis_id" invisible="1"/>
                             <field name="age" invisible="1"/>
                             <field name="registration_product_id" invisible="1" groups="acs_hms.group_treatment_invoicing"/>
                             <field name="invoice_id" invisible="1"/>
@@ -47,24 +47,34 @@
                             
                         </group>
                         <group>
+                            <field name="patient_id"/>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                             <field name="department_id" groups="acs_hms.group_allow_multi_department" invisible="1"/>
                             <field name="department_type" invisible="1"/>
-                            <field name="date"/>
                             <field name="end_date" invisible="1"/>
                             <field name="attending_physician_ids" widget="many2many_tags" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="General Details" name="general_info" groups="acs_hms.group_hms_nurse">
-                            <separator string="Prescription" class="acs_separator"/>
-                            <field name="prescription_line_ids" string="Medicine" readonly='1'>
+                            <separator string="Medicine" class="acs_separator"/>
+                            <field name="prescription_line_ids" string="Medicine" readonly='1' invisible="1">
                                 <tree string="Medicine" create='false'>
                                     <field name="product_id" string="Medicine Name"/>
                                     <field name="quantity" string="Qty"/>
                                     <field name="common_dosage_id"/>
                                     <field name="short_comment"/>
                                     <field name="prescription_id"/>
+                                </tree>
+                            </field>
+                            <field name="medicine_line_ids" string="Medicine">
+                                <tree string="Medicine" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="medicine_area"/>
+                                    <field name="amount"/>
+                                    <field name="medicine_technique"/>
+                                    <field name="medicine_depth"/>
+                                    <field name="medicine_method"/>
                                 </tree>
                             </field>
                             <group colspan="4">

@@ -47,6 +47,8 @@ class ACSTreatment(models.Model):
                                                states=READONLY_STATES)
     prescription_line_ids = fields.One2many('prescription.line', 'treatment_id', 'Prescription',
                                             states=READONLY_STATES)
+    medicine_line_ids = fields.One2many('treatment.medicine.line', 'treatment_id', 'Medicine',
+                                        states=READONLY_STATES)
     template_id = fields.Many2one('treatment.template', 'Template Note')
     finding = fields.Html(string="Findings", states=READONLY_STATES)
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
@@ -259,6 +261,74 @@ class ACSTreatment(models.Model):
             return action
         else:
             raise UserError(_("Something went wrong! Plese Open Appointment and try again"))
+
+
+class TreatmentMedicineLine(models.Model):
+    _name = 'treatment.medicine.line'
+    _description = "Treatment Medicine Line"
+    _order = "sequence"
+
+    name = fields.Char(string='Description')
+    sequence = fields.Integer("Sequence", default=10)
+    product_id = fields.Many2one('product.product', ondelete="cascade", string='Medicine',
+                                 domain=[('hospital_product_type', '=', 'medicament')], required=True)
+    medicine_area = fields.Selection([
+        ('pre-area', 'Pre-AArea'),
+        ('cheek', 'Cheek'),
+        ('lips', 'Lips'),
+        ('chin', 'Chin'),
+        ('alar', 'Alar'),
+        ('marionettes', 'Marionettes'),
+        ('accordion', 'Accordion lines'),
+        ('forehead', 'Forehead'),
+        ('peri-oral', 'Peri-Oral'),
+        ('tear-trough', 'Tear-Trough'),
+        ('peri-orbital', 'Peri-Orbital'),
+        ('skinbooster', 'Skinbooster'),
+        ('nose', 'Nose'),
+        ('ear-lobe', 'Ear - lobe'),
+        ('neck', 'Neck'),
+        ('hands', 'Hands'),
+        ('body', 'Body'),
+        ('glabella', 'Glabella'),
+        ('frontalis', 'Frontalis'),
+        ('LCL', 'LCL'),
+        ('nasalis', 'Nasalis'),
+        ('LLSAN', 'LLSAN'),
+        ('oris', 'O.Oris'),
+        ('DAOs', 'DAOs'),
+        ('mentalis', 'Mentalis'),
+        ('platysma', 'Platysma'),
+        ('masseters', 'Masseters'),
+        ('micro-tox', 'Micro-tox'),
+        ('other', 'Other'),
+    ], default='pre-area', string="Area")
+    amount = fields.Float(string='Amount')
+
+    medicine_technique = fields.Selection([
+        ('bolus', 'Bolus'),
+        ('micro-bolus', 'Micro-Bolus'),
+        ('aliquot', 'Aliquot'),
+        ('retrograde', 'Retrograde thread'),
+        ('anterograde', 'Anterograde thread'),
+        ('julie', 'Julie'),
+        ('russian', 'Russian')], default='bolus', string='Technique')
+    medicine_depth = fields.Selection([
+        ('subdermal', 'Subdermal'),
+        ('subcutaneous', 'Subcutaneous'),
+        ('preperiosteal', 'Preperiosteal'),
+        ('intramus', 'Intramuscular')], default='subdermal', string='Depth')
+
+    medicine_method = fields.Selection([
+        ('sharp', 'Sharp needle'),
+        ('cannula', 'Cannula'),
+        ('slip', 'Slip'),
+        ('micro', 'Micro-needling'),
+        ('dermal', 'Dermal puncture')], default='sharp', string='Method')
+
+    treatment_id = fields.Many2one('hms.treatment', string='Treatment')
+    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
+                                 related='treatment_id.company_id')
 
 
 class TreatmentTemplate(models.Model):
