@@ -303,7 +303,7 @@ class TreatmentMedicineLine(models.Model):
         ('micro-tox', 'Micro-tox'),
         ('other', 'Other'),
     ], default='pre-area', string="Area")
-    amount = fields.Float(string='Amount')
+    amount = fields.Char(string='Amount')
 
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
