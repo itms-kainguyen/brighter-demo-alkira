@@ -74,7 +74,10 @@ class ACSPrescriptionOrder(models.Model):
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
         ('filler', 'Filler'),
-        ('other', 'Other')], string='Procedure', default='other', required=True, tracking=True)
+        ('other', 'Other')], 
+        string='Procedure', default='other',
+        states=READONLY_STATES,
+        required=True, tracking=True)
 
 
     @api.model_create_multi
