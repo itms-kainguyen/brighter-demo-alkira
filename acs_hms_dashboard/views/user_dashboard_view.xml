@@ -54,6 +54,7 @@
                 <field name="appointment_data"/>
                 <field name="total_prescription"/>
                 <field name="total_protocol"/>
+                <field name="total_knowledgebase"/>
                 <field name="total_meeting_now"/>
                 <field name="total_consent"/>
                 <field name="total_emergency"/>
@@ -289,9 +290,9 @@
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_protocol_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-info-circle'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_protocol.raw_value"/>
-                                        <t t-set="acs_record_lable">Clinical Procedures</t>
-                                        <t t-set="acs_record_action" t-value="'open_protocol'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_knowledgebase.raw_value"/>
+                                        <t t-set="acs_record_lable">Knowledge Base</t>
+                                        <t t-set="acs_record_action" t-value="'open_knowledgebase'"/>
                                     </t>
                                 </div>
 
@@ -303,12 +304,12 @@
                                         <t t-set="acs_record_icon" t-value="'fa-building'"/>
                                         <t t-set="acs_field_name" t-value="record.total_branch.raw_value"/>
                                         <t t-set="acs_record_action" t-value="'open_branch'"/>
-                                        <t t-set="acs_record_lable">Branch</t>
+                                        <t t-set="acs_record_lable">Clinic</t>
                                         <t t-set="acs_field2_name"
                                            t-value="record.total_branch.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_branch'"/>
-                                        <t t-set="acs_record2_lable">Branch</t>
-                                        <t t-set="acs_lable">Branch</t>
+                                        <t t-set="acs_record2_lable">Clinic</t>
+                                        <t t-set="acs_lable">Clinic</t>
                                     </t>
                                 </div>
 
@@ -370,10 +371,10 @@
                                         <t t-set="acs_record_icon" t-value="'fa-user-md'"/>
                                         <t t-set="acs_field_name" t-value="record.total_prescriber.raw_value"/>
                                         <t t-set="acs_record_action" t-value="'open_running_prescriber'"/>
-                                        <t t-set="acs_record_lable">Running</t>
+                                        <t t-set="acs_record_lable">Prescriber</t>
                                         <t t-set="acs_field2_name" t-value="record.total_prescriber.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_prescriber'"/>
-                                        <t t-set="acs_record2_lable">Total</t>
+                                        <t t-set="acs_record2_lable">Prescriber</t>
                                         <t t-set="acs_lable">Prescriber</t>
                                     </t>
                                 </div>

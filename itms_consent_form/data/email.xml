@@ -24,5 +24,24 @@
                 </div>
             </field>
         </record>
+
+        <record id="email_patient_aftercare_form" model="mail.template">
+            <field name="name">AfterCare</field>
+            <field name="model_id" ref="itms_consent_form.model_patient_aftercare_send"></field>
+            <field name="auto_delete" eval="False"/>
+            <field name="description">AfterCare</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="subject">{{ object.name }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear <t t-out="object.patient_id.name"></t>,</p>
+                    <p></p>
+                    <p></p>
+                    <br/>
+                    <p>Kind regards,</p>
+                </div>
+            </field>
+        </record>
     </data>
 </odoo>

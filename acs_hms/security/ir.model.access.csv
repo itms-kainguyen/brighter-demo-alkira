@@ -125,5 +125,7 @@ access_hms_prescription_detail,prescription_detail_user,model_prescription_detai
 access_hms_prescription_detail,prescription_detail_manager,model_prescription_detail,acs_hms_base.group_hms_manager,1,1,1,1
 
 access_appointment_detail,Appointment,model_appointment_prescription_line,base.group_user,1,1,1,1
+
 access_hms_wizard,prescription__add_pic,model_hms_picture_before_wizard,base.group_user,1,1,1,1
+access_treatment_medicine_line,treatment.medicine.line.user,acs_hms.model_treatment_medicine_line,base.group_user,1,1,1,1
 

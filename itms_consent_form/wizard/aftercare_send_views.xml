@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="patient_aftercare_send_view_form" model="ir.ui.view">
+        <field name="name">patient.aftercare.send.form</field>
+        <field name="model">patient.aftercare.send</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="1">
+                    <field name="render_model" invisible="1"/>
+                    <field name="aftercare_id" required="1" invisible="1"/>
+                    <field name="template_id" invisible="1"/>
+                    <group col="2">
+                        <field name="recipient_ids"
+                               widget="many2many_tags_email"
+                               context="{'force_email': True,
+                                         'show_email': True,
+                                         'no_create_edit': True}"/>
+                    </group>
+                    <group col="2">
+                        <field name="subject" placeholder="Subject"/>
+                    </group>
+                    <field name="body"
+                           class="oe-bordered-editor"
+                           options="{'style-inline': true}"/>
+                    <group col="2">
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Send"
+                            name="send_action"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Discard"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

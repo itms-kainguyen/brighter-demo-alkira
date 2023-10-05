@@ -50,7 +50,7 @@
         <field name="model">appointment.cabin</field>
         <field name="arch" type="xml">
             <tree string="Room">
-                <field name="name"/>
+                <field name="name" string="Appointment Room"/>
             </tree>
         </field>
     </record>
@@ -62,9 +62,9 @@
             <form string="Room">
                 <sheet>
                     <div class="oe_title">
-                        <label for="name" string="Name" class="oe_edit_only"/>
+                        <label for="name" string="Appointment Room" class="oe_edit_only"/>
                         <h1>
-                            <field name="name" placeholder="Room"/>
+                            <field name="name" placeholder="Appointment Room"/>
                         </h1>
                     </div>
                 </sheet>

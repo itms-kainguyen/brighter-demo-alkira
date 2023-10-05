@@ -7,7 +7,7 @@
             <field name="name">branch.res.branch.view.form</field>
             <field name="model">res.branch</field>
             <field name="arch" type="xml">
-                <form string="Branch">
+                <form string="Clinic">
                     <sheet>
                         <group>
                             <group>
@@ -29,7 +29,7 @@
             <field name="name">branch.res.branch.view.tree</field>
             <field name="model">res.branch</field>
             <field name="arch" type="xml">
-                <tree string="Branch">
+                <tree string="Clinic">
                     <field name="name"/>
                     <field name="company_id"/>
                 </tree>
@@ -38,19 +38,19 @@
 
         <!--View action for branch form view and tree view-->
         <record id="branch_action_res_branch" model="ir.actions.act_window">
-            <field name="name">Branch</field>
+            <field name="name">Clinic</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.branch</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click here to create a new branch.
+                    Click here to create a new Clinic.
                 </p>
             </field>
         </record>
 
         <!-- This Menu Item Must have a parent -->
-        <menuitem id="branch_menu_res_branch" name="Branch"  parent="base.menu_users" action="branch_action_res_branch" />
+        <menuitem id="branch_menu_res_branch" name="Clinic"  parent="base.menu_users" action="branch_action_res_branch" />
 
     </data>
 </odoo>
