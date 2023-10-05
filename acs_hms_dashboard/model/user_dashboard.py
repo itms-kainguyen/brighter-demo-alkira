@@ -195,6 +195,9 @@ class ResUsers(models.Model):
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
 
+        # total knowledge base
+        self.total_knowledgebase = 0
+        
     dashboard_data_filter = fields.Selection([
         ('today', 'Today'),
         ('week', 'This Week'),
@@ -269,6 +272,8 @@ class ResUsers(models.Model):
 
     total_protocol = fields.Integer(compute="_compute_dashboard_data")
     total_protocol_color = fields.Char(string='Total Protocol Color', default="#953e92")
+
+    total_knowledgebase = fields.Integer(compute="_compute_dashboard_data")
 
     total_shop = fields.Integer(compute="_compute_dashboard_data")
     total_shop_color = fields.Char(string='Total Shop Color', default="#56953e")
@@ -442,6 +447,13 @@ class ResUsers(models.Model):
     def open_online_education(self):
 
         action = self.env["ir.actions.actions"]._for_xml_id("website_slides.slide_channel_action_overview")
+        action['domain'] = self.get_filter('create_date')
+        return action
+    
+    # open knowledge base
+    def open_knowledgebase(self):
+
+        action = self.env["ir.actions.actions"]._for_xml_id("kms.km_system_formats")
         action['domain'] = self.get_filter('create_date')
         return action
 
