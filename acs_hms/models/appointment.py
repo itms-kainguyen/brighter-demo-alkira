@@ -318,6 +318,9 @@ class Appointment(models.Model):
     is_prescription_expired = fields.Boolean(compute='_compute_is_prescription_expired')
     prescription_line_ids = fields.One2many('appointment.prescription.line', 'appointment_id', 'Prescription Line' )
 
+    #attachment_ids = fields.
+    attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel','attachment_id','appointment_id', string='Take photos before')
+    attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel','attachment_id','appointment_id', string='Take photos after')
 
     @api.depends('prescription_id', 'prescription_id.expire_date')
     def _compute_is_prescription_expired(self):
@@ -975,7 +978,9 @@ class Appointment(models.Model):
                 prescription_ids = Prescription.search([('patient_id','=',rec.patient_id.id)])
                 if prescription_ids:
                     rec.prescription_id = prescription_ids[-1]
-            
+
+
+
 class StockMove(models.Model):
     _inherit = "stock.move"
 
@@ -1002,3 +1007,36 @@ class PrescriptionLine(models.Model):
     def _done_process(self):
         for rec in self:
             rec.done_at = fields.Datetime.now()
+
+
+    def openWizard(self):
+        # if self.is_done:
+        #     return {'type': 'ir.actions.server', 'id': self.env.ref('acs_hms.server_action_open_wizard').id}
+        # return {}
+        # if self.is_done:
+        #     action = self.env.ref('acs_hms.action_take_picture_wizard').read()[0]
+        #     action['context'] = dict(self._context, default_field_name='default_value')
+        #     return action
+        # return {}
+        print("self.is_doneself.is_done",self.is_done)
+        if not self.is_done:
+            return {
+                'name': f"Take Picture Before",
+                'view_mode': 'form',
+                'res_model': 'hms.picture.before.wizard',
+                'view_id': self.env.ref('acs_hms.wz_before_picture').id,
+                'res_id': False,
+                'target': 'new',
+                'type': 'ir.actions.act_window',
+                'context': {},
+            }
+
+#   return {
+#             'type': 'ir.actions.act_window',
+#             'view_mode': 'form',
+#             'res_model': 'mail.compose.message',
+#             'views': [(False, 'form')],
+#             'view_id': False,
+#             'target': 'new',
+#             'context': ctx,
+#         }
