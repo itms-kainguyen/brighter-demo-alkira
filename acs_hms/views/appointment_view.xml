@@ -359,6 +359,7 @@
                                     <field name="product_id"/>
                                     <field name="repeat"/>  
                                     <field name="scheduled_date"/>  
+                                    <button name="openWizard" string="Inprocess" type="object" attrs="{'invisible': [('is_done','=', True)]}"/> 
                                     <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>         
                                     <field name="done_at"/>           
                                 </tree>
@@ -500,6 +501,20 @@
                                 </tree>
                             </field>
                         </page>
+                        <page name="photos" string="Photos">
+                          <group name="extra_info">
+                                <group>
+                                    <field name="attachment_before_ids" widget="many2many_binary"/>
+                                </group>
+                                <group>
+                                    <field name="attachment_after_ids" widget="many2many_binary"/>
+
+                                </group>
+                            </group>
+                           
+                        </page>
+
+
                         <page name="other_info" string="Other Information" groups="acs_hms.group_hms_receptionist" invisible="1">
                             <group name="extra_info">
                                 <group>
@@ -656,5 +671,8 @@
             </p>
         </field>
     </record>
+
+
+
 
 </odoo>
