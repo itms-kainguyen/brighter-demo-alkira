@@ -198,17 +198,19 @@
                     <button name="action_pause" states="in_consultation" groups="acs_hms.group_allow_consultation_pause" type="object" string="Pause"/>
                     <button name="action_start_paused" states="pause" groups="acs_hms.group_allow_consultation_pause" type="object" string="Start"/>
                     <button name="button_pres_req" string="Create Prescription" groups="acs_hms.group_hms_jr_doctor" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
-                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|',('invoice_id','!=',False),('state','!=','to_invoice')]}" type="object" class="oe_highlight"/>
-                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','anytime'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/>
-                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','advance'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/>
+                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('consumable_line_ids','=',False),('invoice_id','!=',False),('state','=','draft')]}" type="object" class="oe_highlight"/>
+                    <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|',('invoice_id','!=',False),('state','!=','to_invoice')]}" type="object" class="oe_highlight"/> -->
+                    <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','anytime'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/>
+                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','advance'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="action_create_invoice_with_procedure" string="Create Invoice (With Procedure)" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('procedure_to_invoice_ids','=',[]),('invoice_id','!=',False), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
-                    <button name="create_consumed_prod_invoice" string="Create Consumable's Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|','|','|',('invoice_id','=',False),('state','=','done'), ('invoice_exempt','=', True),('consumable_line_count','=',[]),('consumable_invoice_id','!=',False),'&amp;',('appointment_invoice_policy','!=','advance'),('appointment_invoice_policy','!=','anytime')]}" type="object" class="oe_highlight"/>
+                    <!-- <button name="create_consumed_prod_invoice" string="Create Consumable's Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|','|','|',('invoice_id','=',False),('state','=','done'), ('invoice_exempt','=', True),('consumable_line_count','=',[]),('consumable_invoice_id','!=',False),'&amp;',('appointment_invoice_policy','!=','advance'),('appointment_invoice_policy','!=','anytime')]}" type="object" class="oe_highlight"/> -->
                     <button name="consultation_done" states="in_consultation" groups="acs_hms.group_hms_jr_doctor" type="object" string="Consultation Done" class="oe_highlight"/>
                     <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,waiting,in_consultation" type="action"/>
                     <button name="appointment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_invoice,done"/>
                     <field name="appointment_invoice_policy" invisible="1"/>
                     <field name="consumable_invoice_id" invisible="1"/>
+                    <field name="consumable_line_ids" invisible="1"/>
                     <field name="procedure_to_invoice_ids" invisible="1" widget="many2many_tags"/>
                 </header>
                 <div class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
@@ -222,7 +224,7 @@
                         <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
                             <field string="Invoices" name="invoice_count" widget="statinfo"/>
                         </button>
-                        <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object" string="Procedures"/>
+                        <!-- <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object" string="Procedures"/> -->
                         <field name="prescription_ids" invisible="1"/>
                         <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
