@@ -197,6 +197,11 @@ class ResUsers(models.Model):
 
         # total knowledge base
         self.total_knowledgebase = 0
+
+        # total knowledge
+        knowledge_domain = self.get_filter('create_date')
+        Knowledge = self.env['document.page']
+        self.total_knowledge = Knowledge.sudo().search_count(knowledge_domain)
         
     dashboard_data_filter = fields.Selection([
         ('today', 'Today'),
@@ -274,6 +279,8 @@ class ResUsers(models.Model):
     total_protocol_color = fields.Char(string='Total Protocol Color', default="#953e92")
 
     total_knowledgebase = fields.Integer(compute="_compute_dashboard_data")
+
+    total_knowledge = fields.Integer(compute="_compute_dashboard_data")
 
     total_shop = fields.Integer(compute="_compute_dashboard_data")
     total_shop_color = fields.Char(string='Total Shop Color', default="#56953e")
@@ -455,6 +462,12 @@ class ResUsers(models.Model):
 
         action = self.env["ir.actions.actions"]._for_xml_id("kms.km_system_formats")
         action['domain'] = self.get_filter('create_date')
+        return action
+
+    # open knowledge
+    def open_knowledge(self):
+
+        action = self.env["ir.actions.actions"]._for_xml_id("document_page.action_page")
         return action
 
     def open_branch(self):
