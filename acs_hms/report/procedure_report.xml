@@ -6,7 +6,7 @@
             <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
             <div class="page">
                 <div class="oe_structure"/>
-                <div class="row mb32 mt32">
+                <!-- <div class="row mb32 mt32">
                     <div class="col-12 text-center">
                         <h3>
                             <strong>
@@ -15,7 +15,7 @@
                             </strong>
                         </h3>
                     </div>
-                </div>
+                </div> -->
 
                 <div style="border: 1px solid black;"/>
 

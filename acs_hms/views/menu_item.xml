@@ -9,7 +9,7 @@
 
     <menuitem id="action_menu_treatment" name="Treatments" parent="menu_hms" sequence="3" action="acs_action_form_hospital_treatment"/>
 
-    <menuitem id="menu_acs_patient_procedure" name="Patient Procedures" parent="menu_hms" action="action_acs_patient_procedure" sequence="4"/>
+    <!-- <menuitem id="menu_acs_patient_procedure" name="Patient Procedures" parent="menu_hms" action="action_acs_patient_procedure" sequence="4"/> -->
 
     <menuitem id="menu_appointment" name="Appointments" sequence="5" parent="menu_hms" action="action_appointment"/>
  
@@ -50,7 +50,7 @@
     <!-- Main Treatment Menu -->
     <menuitem id="main_menu_treatment" name="Treatments" sequence="25" groups="acs_hms.group_hms_receptionist,acs_hms.group_hms_jr_doctor" web_icon="acs_hms,static/src/img/treatment.png"/>
     <menuitem id="menu_treatment" name="Treatments" parent="main_menu_treatment" action="acs_action_form_hospital_treatment" sequence="10"/>
-    <menuitem id="menu_acs_patient_procedure_treatment" name="Patient Procedures" parent="main_menu_treatment" action="action_acs_patient_procedure" sequence="20"/>
+    <!-- <menuitem id="menu_acs_patient_procedure_treatment" name="Patient Procedures" parent="main_menu_treatment" action="action_acs_patient_procedure" sequence="20"/> -->
     <menuitem id="menu_treatment_cofig" name="Configuration" parent="main_menu_treatment" groups="acs_hms_base.group_hms_manager" sequence="100"/>
     <menuitem id="menu_procedure_group" name="Procedure Groups" parent="menu_treatment_cofig" action="action_procedure_group" sequence="10"/>
     <menuitem id="menu_treatment_template" name="Treatment Note Template" parent="menu_treatment_cofig" action="act_open_treatment_template_view" sequence="11"/>

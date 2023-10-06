@@ -89,9 +89,9 @@
                 <button name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
-                <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object">
+                <!-- <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object">
                     <field string="Procedures" name="patient_procedure_count" widget="statinfo"/>
-                </button>
+                </button> -->
             </div>
 
             <field name="age" position="after">

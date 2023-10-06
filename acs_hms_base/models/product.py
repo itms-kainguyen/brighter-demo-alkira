@@ -66,7 +66,8 @@ class product_template(models.Model):
         ('medicament', 'Medicines'),
         # ('fdrinks', 'Food & Drinks'),
         # ('os', 'Other Service'),
-        ('not_medical', 'Non Medical'), ], string="Hospital Product Type", default='medicament')
+        ('supply','Medical Supplies'),
+        ('not_medical', 'Non Medical') ], string="Clinic Product Type", default='medicament')
     indications = fields.Text(string='Indication')
     therapeutic_effect_ids = fields.Many2many('hms.therapeutic.effect', 'therapeutic_action_rel',
                                               'therapeutic_effect_id', 'effect_id', string='Therapeutic Effect')
