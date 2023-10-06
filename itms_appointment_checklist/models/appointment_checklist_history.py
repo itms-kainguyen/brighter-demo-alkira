@@ -20,7 +20,7 @@ class AppointmentChecklistHistory(models.Model):
         default=lambda self: self.env.user.id,
     )
     done_action = fields.Selection(
-        [("done", "Complete"), ("reset", "Reset")],
+        [("done", "Answered Yes"), ("reset", "Reset")],
         string="Action",
         default="done",
     )
