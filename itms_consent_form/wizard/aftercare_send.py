@@ -12,25 +12,15 @@ class AftercareSend(models.TransientModel):
     _inherits = {'mail.compose.message': 'composer_id'}
     _description = 'Aftercare Send'
 
-    name = fields.Char('Title', required=1)
-    patient_aftercare_ids = fields.Many2many('patient.aftercare', 'patient_aftercare_send_rel', 'patient_id',
-                                             'aftercare_id',
+    patient_aftercare_ids = fields.Many2many('hms.patient', 'patient_aftercare_sendemail_rel', 'patient_id',
+                                             'aftercare_send_id',
                                              string='Patients')
     composer_id = fields.Many2one('mail.compose.message', string='Composer', required=True, ondelete='cascade')
     template_id = fields.Many2one(
         'mail.template', 'Use template',
-        domain="[('model', '=', 'patient.aftercare')]"
+        domain="[('model', '=', 'patient.aftercare.send')]"
     )
     aftercare_id = fields.Many2one('patient.aftercare', string="AfterCare", ondelete='cascade')
-
-    recipient_ids = fields.Many2many(
-        'res.partner',
-        string="Recipients",
-        readonly=False,
-    )
-
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'patient.aftercare.send')],
-                                     string='Attachments')
 
     @api.model
     def default_get(self, fields):
@@ -41,18 +31,23 @@ class AftercareSend(models.TransientModel):
             raise UserError(_("You can only send cares."))
 
         composer = self.env['mail.compose.message'].create({
-            'composition_mode': 'comment'  # if len(res_ids) == 1 else 'mass_mail',
+            'composition_mode': 'mass_mail'  # if len(res_ids) == 1 else 'mass_mail',
         })
         res.update({
-            'patient_aftercare_ids': res_ids,
+            # 'patient_aftercare_ids': res_ids,
             'composer_id': composer.id,
         })
         return res
 
+    # @api.onchange('recipient_ids')
+    # def _onchange_recipient_ids(self):
+    #     for wizard in self:
+    #         wizard.email_to = ','.join(str([partner.email for partner in wizard.recipient_ids]))
+
     @api.onchange('patient_aftercare_ids')
     def _compute_composition_mode(self):
         for wizard in self:
-            wizard.composer_id.composition_mode = 'comment'
+            wizard.composer_id.composition_mode = 'mass_mail'
 
     @api.onchange('template_id')
     def onchange_template_id(self):
@@ -63,8 +58,7 @@ class AftercareSend(models.TransientModel):
                 wizard.composer_id._onchange_template_id_wrapper()
 
     def _send_email(self):
-        self.composer_id.with_context(no_new_invoice=True,
-                                      mail_notify_author=self.env.user.partner_id in self.composer_id.partner_ids,
+        self.composer_id.with_context(mail_notify_author=self.env.user.partner_id in self.composer_id.partner_ids,
                                       mailing_document_based=True
                                       )._action_send_mail()
 
@@ -72,14 +66,18 @@ class AftercareSend(models.TransientModel):
         self.ensure_one()
         # active_ids = self.env.context.get('active_ids', self.res_id)
         # active_records = self.env[self.model].browse(active_ids)
-        # langs = active_records.mapped('partner_id.lang')
+        # # langs = active_records.mapped('partner_id.lang')
         # default_lang = get_lang(self.env)
-        # for lang in (set(langs) or [default_lang]):
-        #     active_ids_lang = active_records.filtered(lambda r: r.partner_id.lang == lang).ids
-        #     self_lang = self.with_context(active_ids=active_ids_lang, lang=lang)
+        # for lang in ([default_lang]):
+        #     self_lang = self.with_context(active_ids=active_records, lang=lang)
         #     self_lang.onchange_template_id()
-        #     self_lang._send_email()
         self._send_email()
+        for partner in self.composer_id.partner_ids:
+            patient = self.env['hms.patient'].search([('partner_id', '=', partner.id)])
+            if patient:
+                self.env['patient.aftercare.history'].create({'patient_id': patient.id,
+                                                              'aftercare_id': self.aftercare_id.id})
+
         return {'type': 'ir.actions.act_window_close'}
 
     def save_as_template(self):
@@ -89,3 +87,15 @@ class AftercareSend(models.TransientModel):
         action = _reopen(self, self.id, self.model, context=self._context)
         action.update({'name': _('Send Aftercare')})
         return action
+
+
+class AfterCareHistory(models.Model):
+    _name = 'patient.aftercare.history'
+    _description = "Patient Aftercare History"
+
+    name = fields.Char('Title')
+    aftercare_id = fields.Many2one('patient.aftercare', string="AfterCare", ondelete='cascade')
+    patient_id = fields.Many2one('hms.patient', string="Patient", ondelete='cascade')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'patient.aftercare')],
+                                     string='Attachments')
+    state = fields.Selection([('sent', 'Sent'), ('fail', 'Delivery Failed')], string='Email Status')

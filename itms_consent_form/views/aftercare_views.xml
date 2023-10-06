@@ -34,11 +34,7 @@
                         <field name="content" widget="html" invisible="1" placeholder="e.g. content..." options="{'safe': True, 'codeview': True, 'collaborative': True}"/>
                         <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>
                     </sheet>
-                     <div class="oe_chatter">
-                        <field name="message_follower_ids" groups="base.group_user"/>
-                        <field name="activity_ids"/>
-                        <field name="message_ids"/>
-                    </div>
+
                 </form>
             </field>
       </record>
@@ -76,6 +72,18 @@
                     icon="fa-files-o">
                 </button>
             </div>
+            <page name="hospital_info" position="after">
+                <page name="aftercare" string="Aftercare">
+                     <field name="aftercare_history_ids" string="Aftercare" readonly="1">
+                        <tree string="Aftercare">
+                            <field name="aftercare_id"/>
+                            <field name="attachment_ids" invisible="1"/>
+                            <field name="state" invisible="1"/>
+                            <field name="patient_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
         </field>
       </record>
 

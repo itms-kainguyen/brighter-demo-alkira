@@ -71,6 +71,14 @@ class ACSPrescriptionOrder(models.Model):
         string='Expire Date', 
         default=lambda x:fields.Date.today()+relativedelta(years=1), 
         states=READONLY_STATES)
+    prescription_type = fields.Selection([
+        ('botox', 'Botox'),
+        ('filler', 'Filler'),
+        ('other', 'Other')], 
+        string='Procedure', default='other',
+        states=READONLY_STATES,
+        required=True, tracking=True)
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -159,7 +167,9 @@ class ACSPrescriptionOrder(models.Model):
 
             app.state = 'prescription'
             if not app.name:
-                app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+                prescription_type_label = app._fields['prescription_type'].selection
+                prescription_type_label = dict(prescription_type_label)
+                app.name = prescription_type_label.get(app.prescription_type)+ ": " + self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
             # create prescription detail based on prescription line
