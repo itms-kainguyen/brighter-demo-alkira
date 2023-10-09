@@ -88,14 +88,3 @@ class AftercareSend(models.TransientModel):
         action.update({'name': _('Send Aftercare')})
         return action
 
-
-class AfterCareHistory(models.Model):
-    _name = 'patient.aftercare.history'
-    _description = "Patient Aftercare History"
-
-    name = fields.Char('Title')
-    aftercare_id = fields.Many2one('patient.aftercare', string="AfterCare", ondelete='cascade')
-    patient_id = fields.Many2one('hms.patient', string="Patient", ondelete='cascade')
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'patient.aftercare')],
-                                     string='Attachments')
-    state = fields.Selection([('sent', 'Sent'), ('fail', 'Delivery Failed')], string='Email Status')
