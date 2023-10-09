@@ -229,6 +229,7 @@
                         <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
                         </button>
+                        <button class="oe_stat_button" type="object" string="Aftercare" name="action_view_aftercare" icon="fa-files-o"></button>
                     </div>
                     <field name="image_128" widget='image' class="oe_avatar"/>
                     <div class="oe_title">
@@ -514,6 +515,18 @@
                                 </group>
                             </group>
                            
+                        </page>
+
+                         <page name="aftercare" string="Aftercare">-->
+                             <field name="aftercare_history_ids" string="Aftercare" readonly="1">
+                                <tree string="Aftercare">
+                                    <field name="aftercare_id"/>
+                                     <field name="appointment_id" invisible="1"/>
+                                    <field name="attachment_ids" invisible="1"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="patient_id" invisible="1"/>
+                                </tree>
+                            </field>
                         </page>
 
 
