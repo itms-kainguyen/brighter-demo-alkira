@@ -27,7 +27,7 @@ class AfterCare(models.Model):
         partner_ids = []
         if self._context.get('partner_id'):
             partner_ids = self.env['res.partner'].search([('id', '=', self._context.get('partner_id'))])
-
+        appointment = False
         if self._context.get('appointment_id'):
             appointment = self.env['hms.appointment'].search([('id', '=', self._context.get('appointment_id'))])
 
