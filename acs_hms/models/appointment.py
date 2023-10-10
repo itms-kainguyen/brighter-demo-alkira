@@ -322,6 +322,21 @@ class Appointment(models.Model):
     attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel','attachment_id','appointment_id', string='Before Photos')
     attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel','attachment_id','appointment_id', string='After Photos')
 
+    aftercare_history_ids = fields.One2many('patient.aftercare.history', 'appointment_id', 'Aftercare')
+
+    def action_view_aftercare(self):
+        ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
+        return {
+                'name': _('Aftercare'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'patient.aftercare',
+                'views': [(False, 'tree'), (False, 'form')],
+                'view_id': self.env.ref('itms_consent_form.view_aftercare_tree').id,
+                'target': 'new',
+                'context': ctx,
+            }
+
     @api.depends('prescription_id', 'prescription_id.expire_date')
     def _compute_is_prescription_expired(self):
         for rec in self:

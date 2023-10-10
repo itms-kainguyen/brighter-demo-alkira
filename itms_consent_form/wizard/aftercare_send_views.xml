@@ -7,6 +7,7 @@
             <form>
                 <div>
                     <field name="aftercare_id" required="1" invisible="1"/>
+                     <field name="appointment_id" required="0" invisible="1"/>
                     <field name="composition_mode" invisible="1"/>
                      <field name="email_from" invisible="1" />
                 </div>

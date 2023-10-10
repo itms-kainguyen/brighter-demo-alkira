@@ -57,7 +57,7 @@
                 </group>
             </xpath>
             <xpath expr="//header" position="inside">
-                <button string="Create Physician" type="object" name="action_create_physician" attrs="{'invisible': ['|', '|', ('id', '=', False), ('share', '=', True), ('physician_count', '>', 0)]}"/>
+                <button string="Create Physician" type="object" name="action_create_physician" invisible="1" attrs="{'invisible': ['|', '|', ('id', '=', False), ('share', '=', True), ('physician_count', '>', 0)]}"/>
                 <button string="Create Patient" type="object" name="action_create_patient" attrs="{'invisible': ['|', ('id', '=', False), ('patient_count', '>', 0)]}"/>
             </xpath>
         </field>

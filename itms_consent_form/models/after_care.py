@@ -19,7 +19,7 @@ class AfterCare(models.Model):
     def action_aftercare_send(self):
         self.ensure_one()
         lang = self.env.context.get('lang')
-        mail_template = self.env.ref('itms_consent_form.email_patient_aftercare_form', raise_if_not_found=False)
+        mail_template = self.env.ref('itms_consent_form.appointment_patient_aftercare_form', raise_if_not_found=False)
         if mail_template and mail_template.lang:
             lang = mail_template._render_lang(self.ids)[self.id]
         email_to = False
@@ -27,8 +27,13 @@ class AfterCare(models.Model):
         partner_ids = []
         if self._context.get('partner_id'):
             partner_ids = self.env['res.partner'].search([('id', '=', self._context.get('partner_id'))])
+        appointment = False
+        if self._context.get('appointment_id'):
+            appointment = self.env['hms.appointment'].search([('id', '=', self._context.get('appointment_id'))])
+
         ctx = {
             'default_aftercare_id': self.id,
+            'default_appointment_id': appointment.id if appointment else False,
             'default_subject': self.name,
             'default_use_template': bool(mail_template),
             'default_template_id': mail_template.id if mail_template else None,
@@ -76,3 +81,17 @@ class ACSPatient(models.Model):
             'context': ctx,
         }
 
+
+class AfterCareHistory(models.Model):
+    _name = 'patient.aftercare.history'
+    _description = "Patient Aftercare History"
+
+    name = fields.Char('Title')
+    aftercare_id = fields.Many2one('patient.aftercare', string="AfterCare", ondelete='cascade')
+    patient_id = fields.Many2one('hms.patient', string="Patient", ondelete='cascade')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'patient.aftercare')],
+                                     string='Attachments')
+    state = fields.Selection([('sent', 'Sent'), ('fail', 'Delivery Failed')], string='Email Status')
+    date = fields.Datetime('Date')
+    user_id = fields.Many2one('res.users', 'By')
+    appointment_id = fields.Many2one("hms.appointment", string="Appointment")
