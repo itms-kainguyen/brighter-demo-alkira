@@ -155,12 +155,10 @@ class ResUsers(models.Model):
         Course = self.env['slide.channel']
         self.total_course = Course.search_count(course_domain)
 
-
         # total branch
         branch_domain = self.get_filter('create_date')
         Branch = self.env['res.branch']
         self.total_branch = Branch.sudo().search_count(branch_domain)
-
 
         # Open Invoices
         Invoice = self.env['account.move'].sudo()
@@ -187,10 +185,13 @@ class ResUsers(models.Model):
         consent_domain = self.get_filter('create_date')
         shop_domain = self.get_filter('create_date')
         shop_domain += [('is_published', '=', True)]
+        checklist_domain = self.get_filter('create_date')
+        checklist_domain += [('state', '!=', 'cancel')]
         self.total_prescription = self.env['prescription.order'].sudo().search_count(prescription_domain)
         self.total_protocol = 0
         self.total_meeting_now = self.env['mail.channel.rtc.session'].sudo().search_count(meet_domain)
         self.total_consent = self.env['consent.consent'].sudo().search_count(consent_domain)
+        self.total_checklist = self.env['hms.appointment'].sudo().search_count(checklist_domain)
         self.total_emergency = 0
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
@@ -202,7 +203,7 @@ class ResUsers(models.Model):
         knowledge_domain = self.get_filter('create_date')
         Knowledge = self.env['document.page']
         self.total_knowledge = Knowledge.sudo().search_count(knowledge_domain)
-        
+
     dashboard_data_filter = fields.Selection([
         ('today', 'Today'),
         ('week', 'This Week'),
@@ -287,6 +288,9 @@ class ResUsers(models.Model):
 
     total_consent = fields.Integer(compute="_compute_dashboard_data")
     total_consent_color = fields.Char(string='Total Consent Color', default="#2db09c")
+
+    total_checklist = fields.Integer(compute="_compute_dashboard_data")
+    total_checklist_color = fields.Char(string='Total Medical Checklist Color', default="#2db09c")
 
     total_support = fields.Integer(compute="_compute_dashboard_data")
     total_support_color = fields.Char(string='Total Support Color', default="#3CB371")
@@ -450,13 +454,13 @@ class ResUsers(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms_base.action_physician")
         action['domain'] = self.get_filter('create_date')
         return action
-    
+
     def open_online_education(self):
 
         action = self.env["ir.actions.actions"]._for_xml_id("website_slides.slide_channel_action_overview")
         action['domain'] = self.get_filter('create_date')
         return action
-    
+
     # open knowledge base
     def open_knowledgebase(self):
 
@@ -487,7 +491,7 @@ class ResUsers(models.Model):
         action['domain'] = self.get_filter('date')
         action['context'] = {}
         return action
-    
+
     def open_prescriber(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms_base.action_physician")
         action['domain'] = self.get_filter('date')
@@ -579,6 +583,10 @@ class ResUsers(models.Model):
 
     def open_emergency(self):
         action = {}
+        return action
+
+    def open_medical_checklist(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_checklist_appointment")
         return action
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -68,7 +68,8 @@
                 <field name="total_emergency_color"/>
                 <field name="total_support_color"/>
                 <field name="total_shop_color"/>
-
+                <field name="total_checklist"/>
+                <field name="total_checklist_color"/>
                 <templates>
                     <t t-name="acs_dashboard_block">
                         <div t-attf-class="card acs-card card-acs" t-attf-style="border-color:#{acs_record_color}">
@@ -264,13 +265,23 @@
                                 </div>
 
                                 <!-- Consent Form -->
-                                <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
+<!--                                <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">-->
+<!--                                    <t t-call="acs_dashboard_block">-->
+<!--                                        <t t-set="acs_record_color" t-value="record.total_consent_color.raw_value"/>-->
+<!--                                        <t t-set="acs_record_icon" t-value="'fa-child'"/>-->
+<!--                                        <t t-set="acs_field_name" t-value="record.total_consent.raw_value"/>-->
+<!--                                        <t t-set="acs_record_lable">Consent Form</t>-->
+<!--                                        <t t-set="acs_record_action" t-value="'open_consent'"/>-->
+<!--                                    </t>-->
+<!--                                </div>-->
+
+                                 <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
-                                        <t t-set="acs_record_color" t-value="record.total_consent_color.raw_value"/>
+                                        <t t-set="acs_record_color" t-value="record.total_checklist_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-child'"/>
-                                        <t t-set="acs_field_name" t-value="record.total_consent.raw_value"/>
-                                        <t t-set="acs_record_lable">Consent Form</t>
-                                        <t t-set="acs_record_action" t-value="'open_consent'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_checklist.raw_value"/>
+                                        <t t-set="acs_record_lable">Medical Checklist</t>
+                                        <t t-set="acs_record_action" t-value="'open_medical_checklist'"/>
                                     </t>
                                 </div>
 

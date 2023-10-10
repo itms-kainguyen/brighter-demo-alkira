@@ -10,6 +10,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class AppointmentPurpose(models.Model):
     _name = 'appointment.purpose'
     _description = "Appointment Purpose"
@@ -97,6 +98,9 @@ class Appointment(models.Model):
         for rec in self:
             procedures = Procedure.search([('appointment_ids', 'in', rec.id), ('invoice_id', '=', False)])
             rec.procedure_to_invoice_ids = [(6, 0, procedures.ids)]
+
+    def _default_survey_id(self):
+        return self.env['survey.survey'].search([('title', '=','Medical Checklist')], limit=1)
 
     def acs_get_department(self):
         for rec in self:
@@ -205,7 +209,8 @@ class Appointment(models.Model):
     consultation_type = fields.Selection([
         ('consultation', 'Consultation'),
         ('consultation_prescription', 'Consultation and Prescription'),
-        ('followup', 'Follow-Up Appointment')], 'Consultation Type', default='consultation_prescription', states=READONLY_STATES, copy=False)
+        ('followup', 'Follow-Up Appointment')], 'Consultation Type', default='consultation_prescription',
+        states=READONLY_STATES, copy=False)
 
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_appointment_rel', 'diseas_id', 'appointment_id',
                                     'Diseases', states=READONLY_STATES)
@@ -314,28 +319,36 @@ class Appointment(models.Model):
     prescription_repeat = fields.Integer(compute='_compute_prescription_id', store=True, string='Prescription Repeat',
                                          readonly=True)
 
-    consent_ids = fields.One2many('consent.consent','appointment_id', 'Consent Forms')
+    consent_ids = fields.One2many('consent.consent', 'appointment_id', 'Consent Forms')
     is_prescription_expired = fields.Boolean(compute='_compute_is_prescription_expired')
-    prescription_line_ids = fields.One2many('appointment.prescription.line', 'appointment_id', 'Prescription Line' )
+    prescription_line_ids = fields.One2many('appointment.prescription.line', 'appointment_id', 'Prescription Line')
 
-    #attachment_ids = fields.
-    attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel','attachment_id','appointment_id', string='Before Photos')
-    attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel','attachment_id','appointment_id', string='After Photos')
+    # attachment_ids = fields.
+    attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel', 'attachment_id',
+                                             'appointment_id', string='Before Photos')
+    attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel', 'attachment_id',
+                                            'appointment_id', string='After Photos')
 
     aftercare_history_ids = fields.One2many('patient.aftercare.history', 'appointment_id', 'Aftercare')
+
+    survey_id = fields.Many2one('survey.survey', string='Medical Checklist', default=_default_survey_id)
+
+    def action_test_survey(self):
+        self.ensure_one()
+        return self.survey_id.action_test_survey()
 
     def action_view_aftercare(self):
         ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
         return {
-                'name': _('Aftercare'),
-                'type': 'ir.actions.act_window',
-                'view_mode': 'form',
-                'res_model': 'patient.aftercare',
-                'views': [(False, 'tree'), (False, 'form')],
-                'view_id': self.env.ref('itms_consent_form.view_aftercare_tree').id,
-                'target': 'new',
-                'context': ctx,
-            }
+            'name': _('Aftercare'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'patient.aftercare',
+            'views': [(False, 'tree'), (False, 'form')],
+            'view_id': self.env.ref('itms_consent_form.view_aftercare_tree').id,
+            'target': 'new',
+            'context': ctx,
+        }
 
     @api.depends('prescription_id', 'prescription_id.expire_date')
     def _compute_is_prescription_expired(self):
@@ -343,15 +356,14 @@ class Appointment(models.Model):
             rec.is_prescription_expired = False
             if rec.prescription_id and rec.prescription_id.expire_date < fields.Date.today():
                 rec.is_prescription_expired = True
-    
+
     @api.onchange('prescription_id')
     def onchange_prescription_id(self):
         self.ensure_one()
         if self.prescription_id and self.is_prescription_expired:
-            return {'warning': 
-                        {'title': _('Warning'), 
+            return {'warning':
+                        {'title': _('Warning'),
                          'message': _('Prescription %s is expired!') % self.prescription_id.name}}
-
 
     @api.depends('consent_id', 'consent_id.patient_signature', 'consent_id.is_agree')
     def _compute_is_confirmed_consent(self):
@@ -369,18 +381,18 @@ class Appointment(models.Model):
             for line in self.prescription_id.prescription_line_ids:
                 prescription_repeat = line.repeat
         self.prescription_repeat = prescription_repeat
-    # add function to auto generate lines existing medicine
+        # add function to auto generate lines existing medicine
         lines = []
         self.prescription_line_ids = False
         for line in self.prescription_id.prescription_detail_ids:
             data = {}
             data.update({
-                'product_id': line.product_id.id ,
-                #'repeat': , 
-                'scheduled_date': line.scheduled_date ,
-                'is_done': line.is_done, 
+                'product_id': line.product_id.id,
+                # 'repeat': ,
+                'scheduled_date': line.scheduled_date,
+                'is_done': line.is_done,
                 'done_at': line.done_at,
-                #'state': line.state ,
+                # 'state': line.state ,
             })
             lines.append((0, 0, data))
         self.prescription_line_ids = lines
@@ -733,7 +745,8 @@ class Appointment(models.Model):
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             template = self.env.ref('acs_hms.acs_appointment_email')
             try:
-                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
+                                                                          force_send=True)
                 if template_appointment_creation:
                     template.reset_template()
                     # Get the mail template for the sale order confirmation.
@@ -752,7 +765,8 @@ class Appointment(models.Model):
                         template_consent.attachment_ids = attachment
                         # Send the email.
                         email_values = {'consent_id': itms_consent_id}
-                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False, force_send=True)
+                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(
+                            self.id, raise_exception=False, force_send=True)
                         if template_consent_creation:
                             template_consent.reset_template()
             except Exception as e:
@@ -990,16 +1004,17 @@ class Appointment(models.Model):
         for rec in self:
             if rec.consultation_type == 'followup':
                 Prescription = rec.env['prescription.order']
-                prescription_ids = Prescription.search([('patient_id','=',rec.patient_id.id)])
+                prescription_ids = Prescription.search([('patient_id', '=', rec.patient_id.id)])
                 if prescription_ids:
                     rec.prescription_id = prescription_ids[-1]
-
 
 
 class StockMove(models.Model):
     _inherit = "stock.move"
 
     appointment_id = fields.Many2one('hms.appointment', string="Appointment", ondelete="restrict")
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 class PrescriptionLine(models.Model):
@@ -1014,15 +1029,14 @@ class PrescriptionLine(models.Model):
     done_at = fields.Datetime(string='Done At')
     is_done = fields.Boolean(string='Done')
     state = fields.Selection(
-        [('done', 'Done'), 
-         ('processing', 'Processing'), 
+        [('done', 'Done'),
+         ('processing', 'Processing'),
          ('waiting', 'Waiting')], string='State', default='waiting')
 
     @api.depends('is_done')
     def _done_process(self):
         for rec in self:
             rec.done_at = fields.Datetime.now()
-
 
     def openWizard(self):
         # if self.is_done:
@@ -1033,7 +1047,7 @@ class PrescriptionLine(models.Model):
         #     action['context'] = dict(self._context, default_field_name='default_value')
         #     return action
         # return {}
-        print("self.is_doneself.is_done",self.is_done)
+        print("self.is_doneself.is_done", self.is_done)
         if not self.is_done:
             return {
                 'name': f"Before Photos",
