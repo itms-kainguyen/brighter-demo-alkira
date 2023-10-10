@@ -27,13 +27,14 @@ class AfterCare(models.Model):
         partner_ids = []
         if self._context.get('partner_id'):
             partner_ids = self.env['res.partner'].search([('id', '=', self._context.get('partner_id'))])
-        appointment = False
+        appointment_id = False
         if self._context.get('appointment_id'):
             appointment = self.env['hms.appointment'].search([('id', '=', self._context.get('appointment_id'))])
-
+            if appointment:
+                appointment_id = appointment.id
         ctx = {
             'default_aftercare_id': self.id,
-            'default_appointment_id': appointment.id if appointment else False,
+            'default_appointment_id': appointment_id,
             'default_subject': self.name,
             'default_use_template': bool(mail_template),
             'default_template_id': mail_template.id if mail_template else None,
