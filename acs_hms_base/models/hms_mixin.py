@@ -219,7 +219,7 @@ class ACSDocumntMixin(models.AbstractModel):
     _description = "Document Mixin"
 
     def _acs_get_attachemnts(self):
-        attachments = self.env['ir.attachment'].search([
+        attachments = self.env['patient.document'].search([
             ('res_model', '=', self._name),
             ('res_id', '=', self.id)])
         return attachments 
@@ -231,16 +231,40 @@ class ACSDocumntMixin(models.AbstractModel):
             rec.attachment_ids = [(6,0,attachments.ids)]
 
     attach_count = fields.Integer(compute="_acs_attachemnt_count", readonly=True, string="Documents")
-    attachment_ids = fields.Many2many('ir.attachment', 'attachment_acs_hms_rel', 'record_id', 'attachment_id', compute="_acs_attachemnt_count", string="Attachments")
+    attachment_ids = fields.Many2many('patient.document', 'attachment_acs_hms_rel', 'record_id', 'ir_attachment_id', compute="_acs_attachemnt_count", string="Attachments")
 
     def action_view_attachments(self):
         self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("base.action_attachment")
-        action['domain'] = [('id', 'in', self.attachment_ids.ids)]
-        action['context'] = {
-                'default_res_model': self._name,
-                'default_res_id': self.id,
-                'default_is_document': True}
+        action = None
+        if self._name != 'hms.patient':
+            action = self.env["ir.actions.actions"]._for_xml_id("base.action_attachment")
+            action['domain'] = [('id', 'in', self.attachment_ids.ids)]
+            action['context'] = {
+                    'default_res_model': self._name,
+                    'default_res_id': self.id,
+                    'default_is_document': True}
+        else:
+            attachment_view = self.env.ref('itms_hms.view_document_file_kanban_hms_patient')
+            action = {
+                'name': _('Attachments'),
+                'domain': [('res_model', '=', 'hms.patient'), ('res_id', '=', self.id)],
+                'res_model': 'patient.document',
+                'type': 'ir.actions.act_window',
+                'view_id': attachment_view.id,
+                'views': [(attachment_view.id, 'kanban'), (False, 'form')],
+                'view_mode': 'kanban,tree,form',
+                'help': _('''<p class="o_view_nocontent_smiling_face">
+                                    Upload files to your product
+                                </p><p>
+                                    Use this feature to store any files, like drawings or specifications.
+                                </p>'''),
+                'limit': 80,
+                'context': {
+                    'default_res_model': self._name,
+                    'default_res_id': self.id,
+                    'default_is_document': True}
+            }
+
         return action
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
