@@ -21,11 +21,13 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
-                <field name="parent_id" />
+                <field name="content_date" />
+                <field name="state" />
+                <field name="description" />
+                <field name="parent_id" invisible="1"/>
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="create_uid" invisible="1" />
-                <field name="content_uid" />
-                <field name="content_date" />
+                <field name="content_uid" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -36,6 +38,10 @@
         <field name="priority">10</field>
         <field name="arch" type="xml">
             <form string="Document Page">
+                  <header>
+                        <button name="approve_action" type="object" states="draft" class="oe_highlight" string="Approve"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                 <sheet>
                     <div name="button_box" id="button_box" class="oe_button_box" />
                     <widget
@@ -47,15 +53,27 @@
                     <field name="active" invisible="1" />
                     <field name="type" invisible="1" />
                     <h1>
-                        <field name="name" placeholder="Name" />
+                        <field name="name" placeholder="Subject of the Knowledge" />
                     </h1>
-                    <field
-                        name="content"
-                        widget="html"
-                        placeholder="e.g. Once upon a time..."
-                        required="1"
-                        options="{'safe': True, 'codeview': True, 'collaborative': True}"
-                    />
+
+                     <group>
+                        <group>
+                            <field name="content_date" invisible="1" />
+                             <field name="date" />
+                            <field name="tags" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                            <field name="content_uid" string="Created By"/>
+                        </group>
+                            <field
+                                name="content"
+                                widget="html"
+                                placeholder="e.g. content..."
+                                required="1"
+                                options="{'safe': True, 'codeview': True, 'collaborative': True}"
+                            />
+                    </group>
                     <notebook>
                         <page name="info" string="Information">
                             <group>
@@ -70,8 +88,7 @@
                                         name="company_id"
                                         groups="base.group_multi_company"
                                     />
-                                    <field name="content_uid" />
-                                    <field name="content_date" />
+
                                     <field
                                         name="menu_id"
                                         readonly="1"

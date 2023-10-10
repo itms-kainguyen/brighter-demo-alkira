@@ -7,3 +7,4 @@ document_page_manager,document.page manager,model_document_page,group_document_m
 document_page_history_manager,document.page.history manager,model_document_page_history,group_document_manager,1,1,1,0
 document_page_create_menu_wizard,document.page.create.menu wizard,model_document_page_create_menu,document_knowledge.group_document_user,1,1,1,0
 document_page_history_show_diff_wizard,document.page.history.show_diff wizard,model_wizard_document_page_history_show_diff,document_knowledge.group_document_user,1,1,1,0
+access_document_letter_tags,document_letter_tags.user,model_document_letter_tags,base.group_user,1,1,1,1

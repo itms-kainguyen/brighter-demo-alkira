@@ -5,6 +5,12 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
+class DocumentLetterTags(models.Model):
+    _name = 'document.letter.tags'
+
+    name = fields.Char('Name')
+
+
 class DocumentPage(models.Model):
     """This class is use to manage Document."""
 
@@ -49,7 +55,7 @@ class DocumentPage(models.Model):
 
     template = fields.Html(
         help="Template that will be used as a content template "
-        "for all new page of this category.",
+             "for all new page of this category.",
     )
     history_head = fields.Many2one(
         "document.page.history",
@@ -93,6 +99,14 @@ class DocumentPage(models.Model):
         help="Use it to link resources univocally",
         compute="_compute_backend_url",
     )
+    description = fields.Text('Reference', states={'draft': [('readonly', False)]})
+    state = fields.Selection([('draft', 'Draft'), ('approved', 'Validated')], string='Status', readonly=True,
+                             default='draft', track_visibility='onchange')
+    tags = fields.Many2many('document.letter.tags', 'document_letter_tag_knowledge_rel', 'knowledge_id', 'tag_id', string='Tags')
+    date = fields.Date('Date', states={'draft': [('readonly', False)]})
+
+    def approve_action(self):
+        self.write({'state':'approved'})
 
     @api.depends("menu_id", "parent_id.menu_id")
     def _compute_backend_url(self):
@@ -170,8 +184,8 @@ class DocumentPage(models.Model):
     def _onchange_parent_id(self):
         """We Set it the right content to the new parent."""
         if (
-            self.content in (False, self._HTML_WIDGET_DEFAULT_VALUE)
-            and self.parent_id.type == "category"
+                self.content in (False, self._HTML_WIDGET_DEFAULT_VALUE)
+                and self.parent_id.type == "category"
         ):
             self.content = self.parent_id.template
 
