@@ -12,8 +12,6 @@
     "data": [
         "security/ir.model.access.csv",
         "views/consent_form_views.xml",
-        "views/aftercare_views.xml",
-        "wizard/aftercare_send_views.xml",
         "views/consent_form_portal_templates.xml",
         "report/ir_actions_report_templates.xml",
         "report/ir_actions_report.xml",

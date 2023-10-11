@@ -19,4 +19,5 @@ from . import digest
 from . import res_users
 from . import consent_consent
 from . import hr_employee
+from . import aftercare
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

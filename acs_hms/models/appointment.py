@@ -100,7 +100,7 @@ class Appointment(models.Model):
             rec.procedure_to_invoice_ids = [(6, 0, procedures.ids)]
 
     def _default_survey_id(self):
-        return self.env['survey.survey'].search([('title', '=','Medical Checklist')], limit=1)
+        return self.env['survey.survey'].search([('title', '=', 'Medical Checklist')], limit=1)
 
     def acs_get_department(self):
         for rec in self:
@@ -329,9 +329,9 @@ class Appointment(models.Model):
     attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel', 'attachment_id',
                                             'appointment_id', string='After Photos')
 
-    aftercare_history_ids = fields.One2many('patient.aftercare.history', 'appointment_id', 'Aftercare')
-
     survey_id = fields.Many2one('survey.survey', string='Medical Checklist', default=_default_survey_id)
+
+    aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
 
     def action_test_survey(self):
         self.ensure_one()

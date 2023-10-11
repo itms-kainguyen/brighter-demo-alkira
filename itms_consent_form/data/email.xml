@@ -24,52 +24,5 @@
                 </div>
             </field>
         </record>
-
-        <record id="email_patient_aftercare_form" model="mail.template">
-            <field name="name">AfterCare</field>
-            <field name="model_id" ref="acs_hms_base.model_hms_patient"></field>
-            <field name="auto_delete" eval="False"/>
-            <field name="description">AfterCare</field>
-            <field name="subject"></field>
-            <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px;">
-                    <p>Dear, </p>
-                    <p>
-                        The following aftercare advice is essential to help reduce the risk of treatment
-                        complications, to improve your comfort/healing and to help achieve the best possible results from treatment.
-                        After treatment the skin may be red, swollen and sometimes bruised at the injection sites.
-                        These after-effects will resolve naturally, usually within a few days however it may take up to 2 weeks for more extensive bruising to resolve.
-                        Occasionally you may experience a headache after treatment which may last 1-2 days. Usually this is controlled by taking simple over the counter pain killers such as paracetamol.
-                        Please follow the aftercare advice.
-                    </p>
-                    <p></p>
-                    <br/>
-                    <p>Kind regards,</p>
-                </div>
-            </field>
-        </record>
-
-        <record id="appointment_patient_aftercare_form" model="mail.template">
-            <field name="name">AfterCare</field>
-            <field name="model_id" ref="acs_hms.model_hms_appointment"></field>
-            <field name="auto_delete" eval="False"/>
-            <field name="description">AfterCare</field>
-            <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px;">
-                    <p>Dear, </p>
-                    <p>
-                        The following aftercare advice is essential to help reduce the risk of treatment
-                        complications, to improve your comfort/healing and to help achieve the best possible results from treatment.
-                        After treatment the skin may be red, swollen and sometimes bruised at the injection sites.
-                        These after-effects will resolve naturally, usually within a few days however it may take up to 2 weeks for more extensive bruising to resolve.
-                        Occasionally you may experience a headache after treatment which may last 1-2 days. Usually this is controlled by taking simple over the counter pain killers such as paracetamol.
-                        Please follow the aftercare advice.
-                    </p>
-                    <p></p>
-                    <br/>
-                    <p>Kind regards,</p>
-                </div>
-            </field>
-        </record>
     </data>
 </odoo>

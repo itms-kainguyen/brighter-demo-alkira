@@ -257,7 +257,6 @@
                         <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
                         </button>
-                        <button class="oe_stat_button" type="object" string="Aftercare" name="action_view_aftercare" icon="fa-files-o"></button>
                     </div>
                     <field name="image_128" widget='image' class="oe_avatar"/>
                     <div class="oe_title">
@@ -557,18 +556,20 @@
                            
                         </page>
 
-                         <page name="aftercare" string="Aftercare">-->
-                             <field name="aftercare_history_ids" string="Aftercare" readonly="1">
-                                <tree string="Aftercare">
-                                    <field name="aftercare_id"/>
-                                     <field name="appointment_id" invisible="1"/>
-                                    <field name="attachment_ids" invisible="1"/>
-                                    <field name="state" invisible="1"/>
-                                    <field name="patient_id" invisible="1"/>
+                        <page name="aftercare" string="Aftercare">
+                            <field name="aftercare_ids" context="{'default_patient_id': patient_id}">
+                                <tree editable="bottom">
+                                    <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
+                                    <field name="name"/>
+                                    <field name="category_id" />
+                                    <button name="action_open_form"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-arrow-right"
+                                            aria-label="Internal link"
+                                            data-tooltip="Internal link"/>
                                 </tree>
                             </field>
                         </page>
-
 
                         <page name="other_info" string="Other Information" groups="acs_hms.group_hms_receptionist" invisible="1">
                             <group name="extra_info">
