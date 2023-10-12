@@ -333,6 +333,14 @@ class Appointment(models.Model):
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
 
+    prescription_type = fields.Selection([
+        ('botox', 'Botox'),
+        ('filler', 'Filler'),
+        ('other', 'Other')],
+        string='Procedure', default='other',
+        states=READONLY_STATES,
+        tracking=True)
+
     def action_test_survey(self):
         self.ensure_one()
         return self.survey_id.action_test_survey()

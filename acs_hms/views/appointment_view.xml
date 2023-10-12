@@ -323,6 +323,7 @@
                             <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
                             <field name="department_type" invisible="1"/>
                             <field name="nurse_id"/>
+                            <field name="prescription_type"/>
                             <field name="physician_id" required="0" invisible="1"/>
                             <field name="follow_date"
                                    attrs="{'invisible': [('state', 'not in', ['in_consultation','done','to_invoice'])]}"/>
