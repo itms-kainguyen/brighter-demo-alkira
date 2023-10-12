@@ -432,11 +432,11 @@
                             <field name="prescription_line_ids" >
                                 <tree editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="repeat"/>  
-                                    <field name="scheduled_date"/>  
+                                    <field name="repeat"/>
+                                    <field name="scheduled_date"/>
                                     <button name="openWizard" string="prescription" type="object" attrs="{'invisible': [('is_done','=', True)]}"/>
-                                    <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>         
-                                    <field name="done_at"/>           
+                                    <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>
+                                    <field name="done_at"/>
                                 </tree>
                             </field>
                         </page>
@@ -471,7 +471,7 @@
                             <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
                         </page>
                         <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse" attrs="{'invisible': [('state','=','draft')]}" invisible="1">
-                            <div>NOTE: Details are shown based on Patient Evaluation. 
+                            <div>NOTE: Details are shown based on Patient Evaluation.
                                 <t attrs="{'invisible': [('evaluation_id','=',False)]}">Last Evaluation: <field name="evaluation_id" nolabel="1" class="oe_link"/></t>
                                 <t attrs="{'invisible': [('evaluation_id','!=',False)]}"><button name="action_create_evaluation" type="object" string="Create Evaluation" class=" oe_link"/></t>
                             </div>
@@ -586,7 +586,7 @@
 
                                 </group>
                             </group>
-                           
+
                         </page>
 
                         <page name="aftercare" string="Aftercare">
@@ -634,7 +634,7 @@
                                     <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="1"/>
                                     <field name="user_id" widget="many2one_avatar_user" invisible="1"/>
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                </group>                           
+                                </group>
                             </group>
                         </page>
                     </notebook>

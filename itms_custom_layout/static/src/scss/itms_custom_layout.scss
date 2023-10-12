@@ -127,3 +127,23 @@ label.o_form_label {
   height: 100% !important;
   width: 36% !important;
 }
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandCamera {
+  font-size: xx-large;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandPhone {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandShowMemberList {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandShowCallSettingsMenu {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandExpand {
+  display: none !important;
+}

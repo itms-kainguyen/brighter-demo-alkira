@@ -341,6 +341,14 @@ class Appointment(models.Model):
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
 
+    prescription_type = fields.Selection([
+        ('botox', 'Botox'),
+        ('filler', 'Filler'),
+        ('other', 'Other')],
+        string='Procedure', default='other',
+        states=READONLY_STATES,
+        tracking=True)
+
     def action_test_survey(self):
         self.ensure_one()
         return self.survey_id.with_context(default_appointment_id=self.id).action_test_survey()
@@ -1060,18 +1068,28 @@ class PrescriptionLine(models.Model):
         #     action['context'] = dict(self._context, default_field_name='default_value')
         #     return action
         # return {}
-        print("self.is_doneself.is_done", self.is_done)
-        if not self.is_done:
-            return {
-                'name': f"Before Photos",
-                'view_mode': 'form',
-                'res_model': 'hms.picture.before.wizard',
-                'view_id': self.env.ref('acs_hms.wz_before_picture').id,
-                'res_id': False,
-                'target': 'new',
-                'type': 'ir.actions.act_window',
-                'context': {},
-            }
+        return {
+                    'name': f"Do Treatment",
+                    'view_mode': 'form',
+                    'res_model': 'hms.treatment',
+                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
+                    'res_id': False,
+                    'type': 'ir.actions.act_window',
+                    'target': 'new',
+                    'context': {},
+                }
+
+        #if not self.is_done:
+            # return {
+            #     'name': f"Before Photos",
+            #     'view_mode': 'form',
+            #     'res_model': 'hms.picture.before.wizard',
+            #     'view_id': self.env.ref('acs_hms.wz_before_picture').id,
+            #     'res_id': False,
+            #     'target': 'new',
+            #     'type': 'ir.actions.act_window',
+            #     'context': {},
+            # }
 
 #   return {
 #             'type': 'ir.actions.act_window',
