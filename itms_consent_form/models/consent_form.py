@@ -12,7 +12,8 @@ class Consent(models.Model):
     name = fields.Char('Title', required=1)
     content = fields.Html('Content')
     patient_id = fields.Many2one('hms.patient', required=1, string='Patient')
-    category_id = fields.Many2one('document.page', domain=[('type', '=', 'category')], string='Template')
+    category_id = fields.Many2one('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Consent')],
+                                  string='Template')
     nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], string='Nurse')
     patient_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
                                              string='Patient Attachments')
@@ -24,7 +25,8 @@ class Consent(models.Model):
     patient_signed_on = fields.Datetime(
         string="Patient Signed On", copy=False)
     is_agree = fields.Boolean('I read and give my consent to this document')
-    nurse_signature = fields.Binary(string="Nurse Signature", compute="_compute_signature", readonly=False, store=True ,copy=False)
+    nurse_signature = fields.Binary(string="Nurse Signature", compute="_compute_signature", readonly=False, store=True,
+                                    copy=False)
     nurse_signed_by = fields.Char(compute='_compute_nurse_signature', string="Nurse Signature", readonly=1, copy=False,
                                   store=True)
     nurse_signed_on = fields.Datetime(compute='_compute_nurse_signature',

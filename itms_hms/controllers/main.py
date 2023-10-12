@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from dateutil.relativedelta import relativedelta
-import pytz
-import uuid
-from babel.dates import format_datetime
-from datetime import  datetime
-from odoo.addons.payment.controllers.portal import PaymentPortal
-from odoo.osv.expression import  OR
-from odoo import http, _
-from odoo.http import request
-from odoo.tools import  DEFAULT_SERVER_DATETIME_FORMAT as dtf
-from odoo.addons.portal.controllers.portal import CustomerPortal
+
 from odoo.addons.website_sale.controllers.main import WebsiteSale
-from odoo.tools.misc import get_lang
-from odoo.exceptions import ValidationError
 from collections import defaultdict
 from itertools import product as cartesian_product
+import base64
+import json
+import logging
+from odoo import http
+from odoo.http import request
+from odoo.tools.translate import _
 
+logger = logging.getLogger(__name__)
 
 
 class WebsiteSale(WebsiteSale):
@@ -83,3 +78,24 @@ class WebsiteSale(WebsiteSale):
         search_result = search_result.filtered(lambda tmpl: tmpl.hospital_product_type == 'shop')
         return fuzzy_search_term, product_count, search_result
 
+class HMSPatientDocumentRoute(http.Controller):
+
+    @http.route('/itms_hms/upload_attachment', type='http', methods=['POST'], auth="user")
+    def upload_document(self, ufile, **kwargs):
+        files = request.httprequest.files.getlist('ufile')
+        result = {'success': _("All files uploaded")}
+        for ufile in files:
+            try:
+                mimetype = ufile.content_type
+                request.env['patient.document'].create({
+                    'name': ufile.filename,
+                    'res_model': kwargs.get('res_model'),
+                    'res_id': int(kwargs.get('res_id')),
+                    'mimetype': mimetype,
+                    'datas': base64.encodebytes(ufile.read()),
+                })
+            except Exception as e:
+                logger.exception("Fail to upload document %s" % ufile.filename)
+                result = {'error': str(e)}
+
+        return json.dumps(result)

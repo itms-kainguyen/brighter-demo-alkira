@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="report_prescription_table">
-        <table class="table table-sm o_main_table mt16">
+        <table class="table table-sm o_main_table mt16 acs_table">
             <thead>
                 <tr>
                     <th>Sr.No</th>
@@ -32,16 +32,16 @@
                                 <span t-if="line.common_dosage_id.name" t-field="line.common_dosage_id.name"/>
                                 <span t-if="not line.common_dosage_id.name" t-field="line.common_dosage_id.abbreviation"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.dose"/> <span style="margin-left:5px;" t-field="line.dosage_uom_id"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.qty_per_day"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.days"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.quantity"/>
                             </td>
                             <td>
@@ -62,6 +62,13 @@
                 </t>
             </tbody>
         </table>
+        <style>
+
+            table.table.table-sm.o_main_table.mt16.acs_table th, td, tbody {
+                      border: 1px solid;
+
+            }
+        </style>
     </template>
 
     <template id="report_acs_medical_advice_document">

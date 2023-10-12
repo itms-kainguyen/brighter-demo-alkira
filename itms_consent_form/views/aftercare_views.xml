@@ -7,8 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Aftercare">
                 <field name="name" />
-                <button name="action_aftercare_download" class="btn btn-secondary" string="Download" type="object"></button>
-                <button name="action_aftercare_send" class="btn btn-secondary" string="Send by Email" type="object"/>
+                 <field name="category_id" />
             </tree>
         </field>
     </record>
@@ -18,9 +17,6 @@
             <field name="model">patient.aftercare</field>
             <field name="arch" type="xml">
                 <form string="Aftercare">
-                    <header>
-                        <button name="action_aftercare_send" string="Send by Email" type="object" data-hotkey="g"/>
-                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                         </div>
@@ -31,8 +27,7 @@
                              <group>
                              </group>
                         </group>
-                        <field name="content" widget="html" invisible="1" placeholder="e.g. content..." options="{'safe': True, 'codeview': True, 'collaborative': True}"/>
-                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>
+                        <field name="category_id" />
                     </sheet>
 
                 </form>
@@ -60,32 +55,6 @@
         name="Aftercare"
         sequence="11" parent="acs_hms_base.main_menu_patient"/>
 
-
-      <record id="hms_patient_view_buttons" model="ir.ui.view">
-        <field name="name">hms.patient.view.buttons</field>
-        <field name="model">hms.patient</field>
-        <field name="inherit_id" ref="acs_hms_base.view_patient_form" />
-        <field name="priority" eval="4"/>
-        <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <button class="oe_stat_button" type="object" string="Aftercare" name="action_view_aftercare"
-                    icon="fa-files-o">
-                </button>
-            </div>
-            <page name="hospital_info" position="after">
-                <page name="aftercare" string="Aftercare">
-                     <field name="aftercare_history_ids" string="Aftercare" readonly="1">
-                        <tree string="Aftercare">
-                            <field name="aftercare_id"/>
-                            <field name="attachment_ids" invisible="1"/>
-                            <field name="state" invisible="1"/>
-                            <field name="patient_id" invisible="1"/>
-                        </tree>
-                    </field>
-                </page>
-            </page>
-        </field>
-      </record>
 
     </data>
 </odoo>
