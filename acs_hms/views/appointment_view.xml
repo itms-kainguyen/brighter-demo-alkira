@@ -423,7 +423,7 @@
                             <field name="cancel_reason" placeholder="Cancellation Reason..."
                                    attrs="{'invisible': [('state','!=','cancel')]}"/>
 
-                            <div name='call_telehealth'>
+                            <div name='call_telehealth' attrs="{'invisible': [('consultation_type','!=','consultation_prescription')]}">
                                     <a name="acs_apply_call_telehealth"
                                             class="btn btn-outline-primary" onclick="call_telehealth();" >Call Telehealth</a>
                             </div>
