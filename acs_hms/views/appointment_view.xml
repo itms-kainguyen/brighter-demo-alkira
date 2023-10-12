@@ -386,14 +386,47 @@
                             <group>
                                 <group>
                                     <label for="survey_id" groups="survey.group_survey_user"/>
-                                <div groups="survey.group_survey_user" class="o_row">
-                                    <field name="survey_id"
-                                        context="{'default_access_mode': 'token'}"/>
-                                    <button string="Display Checklist Form" name="action_test_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
-                                </div>
+                                    <div groups="survey.group_survey_user" class="o_row">
+                                        <field name="survey_id"
+                                            context="{'default_access_mode': 'token'}"/>
+                                        <button string="Display Checklist Form" name="action_test_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
+                                    </div>
+
                                  </group>
                                 <group></group>
                             </group>
+                            <separator string="Individual Checklist"/>
+                            <field name="answer_individual_ids" widget="one2many_list">
+                                <tree string="Individual Checklist">
+                                    <field name="date" string="Created on"/>
+                                    <field name="name"/>
+                                    <field name="answer"/>
+                                </tree>
+                            </field>
+                             <separator string="Relevant Medical history"/>
+                             <field name="answer_relevant_ids" widget="one2many_list">
+                                <tree string="Relevant Medical history">
+                                    <field name="date" string="Created on"/>
+                                    <field name="name"/>
+                                    <field name="answer"/>
+                                </tree>
+                             </field>
+                             <separator string="Medications"/>
+                             <field name="answer_medication_ids" widget="one2many_list">
+                                <tree string="Medications">
+                                    <field name="date" string="Created on"/>
+                                    <field name="name"/>
+                                    <field name="answer"/>
+                                </tree>
+                             </field>
+                             <separator string="Additional"/>
+                            <field name="answer_addition_ids"  widget="one2many_list">
+                                <tree string="Additional">
+                                    <field name="date" string="Created on"/>
+                                    <field name="name"/>
+                                    <field name="answer"/>
+                                </tree>
+                            </field>
                         </page>
                         <page name="prescription_line_ids" string="Existing Prescription">
                             <field name="prescription_line_ids" >

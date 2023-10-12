@@ -329,13 +329,21 @@ class Appointment(models.Model):
     attachment_after_ids = fields.Many2many('ir.attachment', 'appointment_attachment_after_rel', 'attachment_id',
                                             'appointment_id', string='After Photos')
 
-    survey_id = fields.Many2one('survey.survey', string='Medical Checklist', default=_default_survey_id)
+    survey_id = fields.Many2one('survey.survey', string='Medical Checklist', default=_default_survey_id, readonly=True)
+
+    answer_individual_ids = fields.One2many('appointment.individual.survey.answer', 'appointment_id',
+                                            'Individual Checklist', readonly=True)
+    answer_relevant_ids = fields.One2many('appointment.relevant.survey.answer', 'appointment_id',
+                                          'Relevant Medical history', readonly=True)
+    answer_medication_ids = fields.One2many('appointment.medication.survey.answer', 'appointment_id',
+                                            'Medications', readonly=True)
+    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional', readonly=True)
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
 
     def action_test_survey(self):
         self.ensure_one()
-        return self.survey_id.action_test_survey()
+        return self.survey_id.with_context(default_appointment_id=self.id).action_test_survey()
 
     def action_view_aftercare(self):
         ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
@@ -830,6 +838,11 @@ class Appointment(models.Model):
         if self.prescription_id:
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
+
+        template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
+        # Send the email.
+        template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+
         self.appointment_done()
 
     def appointment_done(self):
