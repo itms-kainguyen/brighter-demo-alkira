@@ -410,13 +410,6 @@
                                         attrs="{'invisible': [('invoice_id','!=', False)]}"
                                         groups="acs_hms_base.group_acs_invoice_exemption"/>
                             </div>
-
-                                <div name='call_telehealth'>
-                                        <a name="acs_apply_call_telehealth"
-                                                class="btn btn-outline-primary" onclick="call_telehealth();" >Call Telehealth</a>
-                                </div>
-
-
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                             <field name="appointment_duration_timer" widget="AcsTimer"
                                    attrs="{'invisible': [('state','!=','in_consultation')]}"
@@ -429,6 +422,11 @@
 
                             <field name="cancel_reason" placeholder="Cancellation Reason..."
                                    attrs="{'invisible': [('state','!=','cancel')]}"/>
+
+                            <div name='call_telehealth'>
+                                    <a name="acs_apply_call_telehealth"
+                                            class="btn btn-outline-primary" onclick="call_telehealth();" >Call Telehealth</a>
+                            </div>
                         </group>
 
                         <!--                            <separator string="Chief Complaints"/>-->
