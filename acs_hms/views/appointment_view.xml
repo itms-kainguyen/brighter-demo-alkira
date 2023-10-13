@@ -332,34 +332,59 @@
                             <field name="pause_duration" widget="float_time" attrs="{'invisible': [('pause_duration','=',0)]}"/>
                         </group>
                         <group>
-                            <field name="purpose_id" invisible="1"/>
-                            <field name="outside_appointment" invisible="1"/>
-                            <field name="location" widget="url" invisible="1" attrs="{'invisible': [('outside_appointment','=',False)]}"/>
-                            <field name="is_video_call" invisible="1"/>
+                            <field name="purpose_id" invisible="1" />
+                            <field name="outside_appointment" invisible="1" />
+                            <field name="location" widget="url" invisible="1"
+                                attrs="{'invisible': [('outside_appointment','=',False)]}" />
+                            <field name="is_video_call" invisible="1" />
 
-                            <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="1"/>
-                            <field name="user_id" widget="many2one_avatar_user" invisible="1"/>
-                            <field name="ref_physician_id" invisible="1"/>
-                            <label for="invoice_exempt"/>
+                            <field name="pricelist_id" groups="product.group_product_pricelist"
+                                options="{'no_open':True,'no_create': True}" invisible="1" />
+                            <field name="user_id" widget="many2one_avatar_user" invisible="1" />
+                            <field name="ref_physician_id" invisible="1" />
+                            <label for="invoice_exempt" />
                             <div name='invoice_exemption'>
-                                <field string = "No Charge" name='invoice_exempt' class="oe_inline" nolabel="1"/>
-                                <button name="acs_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('invoice_id','!=', False)]}" groups="acs_hms_base.group_acs_invoice_exemption"/>
+                                <field string="No Charge" name='invoice_exempt' class="oe_inline"
+                                    nolabel="1" />
+                                <button name="acs_apply_invoice_exemption" string="Apply/Remove"
+                                    type="object" class="oe_inline fa fa-arrow-right oe_link"
+                                    attrs="{'invisible': [('invoice_id','!=', False)]}"
+                                    groups="acs_hms_base.group_acs_invoice_exemption" />
                             </div>
-                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                <field name="appointment_duration_timer" widget="AcsTimer" attrs="{'invisible': [('state','!=','in_consultation')]}" options="{'widget_start_field': 'date_start', 'widget_stop_field': 'date_end', 'duration_field': 'appointment_duration_timer'}"/>
-                                <field name="appointment_duration" widget="float_time" attrs="{'invisible': [('state','=','in_consultation')]}" invisible="1"/>
-                            <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
-                            <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                options="{'no_create': True}" />
+                            <field name="appointment_duration_timer" widget="AcsTimer"
+                                attrs="{'invisible': [('state','!=','in_consultation')]}"
+                                options="{'widget_start_field': 'date_start', 'widget_stop_field': 'date_end', 'duration_field': 'appointment_duration_timer'}" />
+                            <field name="appointment_duration" widget="float_time"
+                                attrs="{'invisible': [('state','=','in_consultation')]}"
+                                invisible="1" />
+                            <separator string="Cancel Reason" name="acs_cancel_reason"
+                                attrs="{'invisible': [('state','!=','cancel')]}" />
+                            <field name="cancel_reason_id"
+                                attrs="{'invisible': [('state','!=','cancel')]}" />
 
-                            <field name="cancel_reason" placeholder="Cancellation Reason..." attrs="{'invisible': [('state','!=','cancel')]}"/>
+                            <field name="cancel_reason" placeholder="Cancellation Reason..."
+                                attrs="{'invisible': [('state','!=','cancel')]}" />
+
+
+                            <div name='call_telehealth'
+                                attrs="{'invisible': [('consultation_type','!=','consultation_prescription')]}">
+                                <a name="acs_apply_call_telehealth"
+                                    class="btn btn-outline-primary" onclick="call_telehealth();">Call
+                                    Telehealth</a>
+                            </div>
+
+
+
                         </group>
 
-<!--                            <separator string="Chief Complaints"/>-->
-<!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
-<!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms.group_hms_nurse"/>-->
-<!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms.group_hms_nurse"/>-->
-<!--                            <separator name="past_history" string="Past History" groups="acs_hms.group_hms_nurse"/>-->
-<!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms.group_hms_nurse"/>-->
+                        <!--                            <separator string="Chief Complaints"/>-->
+                        <!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
+                        <!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms.group_hms_nurse"/>-->
+                        <!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms.group_hms_nurse"/>-->
+                        <!--                            <separator name="past_history" string="Past History" groups="acs_hms.group_hms_nurse"/>-->
+                        <!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms.group_hms_nurse"/>-->
 
                     </group>
 
