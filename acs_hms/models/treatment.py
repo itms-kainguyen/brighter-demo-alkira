@@ -54,6 +54,8 @@ class ACSTreatment(models.Model):
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
+    appointment_id = fields.Many2one("hms.appointment", string="Appointment")
+    appointment_prescription_line_id = fields.Many2one('appointment.prescription.line', string="Appointment line")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('running', 'Running'),
@@ -190,6 +192,10 @@ class ACSTreatment(models.Model):
 
     def treatment_done(self):
         self.state = 'done'
+        self.appointment_prescription_line_id.is_done = True
+        self.appointment_prescription_line_id.done_at = datetime.now()
+        self.appointment_prescription_line_id.prescription_line_id.is_done = True
+        self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
 
     def treatment_cancel(self):
         self.state = 'cancel'

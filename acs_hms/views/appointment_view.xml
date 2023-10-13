@@ -435,8 +435,14 @@
                                     <field name="repeat"/>
                                     <field name="scheduled_date"/>
                                     <button name="openWizard" string="prescription" type="object" attrs="{'invisible': [('is_done','=', True)]}"/>
-                                    <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>
-                                    <field name="done_at"/>
+                                    <field name="treatment_id" readonly="1"/>
+                                    <field name="is_done" readonly="1" attrs="{'readonly': [('is_done','=', '1')]}"/>
+                                    <field name="done_at" readonly="1"/>
+                                    <!-- for invoice part to link appointment treatment invoice -->
+                                    <field name="prescription_line_id" invisible="1"/>
+                                    <field name="is_invoiced" invisible="1"/>
+                                    <field name="done_in_appointment_id" invisible="1"/>
+                                    
                                 </tree>
                             </field>
                         </page>
