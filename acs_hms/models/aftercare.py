@@ -20,8 +20,8 @@ class AfterCare(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "res_model": "patient.aftercare",
-            "res_id": self.id,
+            "res_model": "document.page",
+            "res_id": self.category_id.id,
             "view_mode": "form",
             "view_type": "form",
             "views": [(False, "form")],
