@@ -175,7 +175,7 @@
                         <table class="table table-sm o_main_table mt16 acs_table">
                         <thead>
                             <tr>
-                                <th>Sr.No</th>
+<!--                                <th>Sr.No</th>-->
                                 <th>Medicine</th>
                                 <th>Area</th>
                                 <th>Amount</th>
@@ -188,9 +188,9 @@
                             <t t-if="object.treatment_id.medicine_line_ids">
                                 <t t-foreach="object.treatment_id.medicine_line_ids" t-as="line">
                                     <tr>
-                                        <td>
-                                            <span t-esc="line_index + 1"/>
-                                        </td>
+<!--                                        <td>-->
+<!--                                            <span t-esc="line_index + 1"/>-->
+<!--                                        </td>-->
                                         <td>
                                             <span t-field="line.sudo().product_id.name"/>
                                         </td>
