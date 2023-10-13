@@ -337,7 +337,8 @@ class Appointment(models.Model):
                                           'Relevant Medical history', readonly=True)
     answer_medication_ids = fields.One2many('appointment.medication.survey.answer', 'appointment_id',
                                             'Medications', readonly=True)
-    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional', readonly=True)
+    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional',
+                                          readonly=True)
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
 
@@ -349,9 +350,20 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         tracking=True)
 
-    def action_test_survey(self):
+    survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
+                                        copy=False, readonly=True)
+
+    is_done_survey = fields.Boolean('Is done survey', default=False)
+
+
+    def action_start_survey(self):
         self.ensure_one()
-        return self.survey_id.with_context(default_appointment_id=self.id).action_test_survey()
+        if self.survey_id.appointment_id:
+            self.survey_id.appointment_id = False
+        action = self.survey_id.action_start_survey()
+        action['context'] = {'default_appointment_id': self.id}
+        self.survey_id.appointment_id = self.id
+        return action
 
     def action_view_aftercare(self):
         ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
@@ -1106,3 +1118,4 @@ class PrescriptionLine(models.Model):
                 rec.treatment_id = treatment[0].id
             else:
                 rec.treatment_id = False
+
