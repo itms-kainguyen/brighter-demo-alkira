@@ -414,7 +414,7 @@ class AdviceTemplate(models.Model):
 class PrescriptionDetail(models.Model):
     _name = "prescription.detail"
     _description = "Prescription Details"
-    _order = "sequence"
+    _order = "scheduled_date"
 
     name = fields.Char(string='Title', required=True)
     description = fields.Html(string='Advice', required=True)
