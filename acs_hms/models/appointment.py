@@ -337,7 +337,8 @@ class Appointment(models.Model):
                                           'Relevant Medical history', readonly=True)
     answer_medication_ids = fields.One2many('appointment.medication.survey.answer', 'appointment_id',
                                             'Medications', readonly=True)
-    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional', readonly=True)
+    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional',
+                                          readonly=True)
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
 
@@ -349,9 +350,17 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         tracking=True)
 
-    def action_test_survey(self):
+    survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
+                                        copy=False)
+
+    def action_start_survey(self):
         self.ensure_one()
-        return self.survey_id.with_context(default_appointment_id=self.id).action_test_survey()
+        if self.survey_id.appointment_id:
+            self.survey_id.appointment_id = False
+        action = self.survey_id.action_start_survey()
+        action['context'] = {'default_appointment_id': self.id}
+        self.survey_id.appointment_id = self.id
+        return action
 
     def action_view_aftercare(self):
         ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
@@ -1069,27 +1078,27 @@ class PrescriptionLine(models.Model):
         #     return action
         # return {}
         return {
-                    'name': f"Do Treatment",
-                    'view_mode': 'form',
-                    'res_model': 'hms.treatment',
-                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
-                    'res_id': False,
-                    'type': 'ir.actions.act_window',
-                    'target': 'new',
-                    'context': {},
-                }
+            'name': f"Do Treatment",
+            'view_mode': 'form',
+            'res_model': 'hms.treatment',
+            'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
+            'res_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': {},
+        }
 
-        #if not self.is_done:
-            # return {
-            #     'name': f"Before Photos",
-            #     'view_mode': 'form',
-            #     'res_model': 'hms.picture.before.wizard',
-            #     'view_id': self.env.ref('acs_hms.wz_before_picture').id,
-            #     'res_id': False,
-            #     'target': 'new',
-            #     'type': 'ir.actions.act_window',
-            #     'context': {},
-            # }
+        # if not self.is_done:
+        # return {
+        #     'name': f"Before Photos",
+        #     'view_mode': 'form',
+        #     'res_model': 'hms.picture.before.wizard',
+        #     'view_id': self.env.ref('acs_hms.wz_before_picture').id,
+        #     'res_id': False,
+        #     'target': 'new',
+        #     'type': 'ir.actions.act_window',
+        #     'context': {},
+        # }
 
 #   return {
 #             'type': 'ir.actions.act_window',
