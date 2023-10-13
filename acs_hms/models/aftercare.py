@@ -13,7 +13,7 @@ class AfterCare(models.Model):
     def onchange_category_id(self):
         self.ensure_one()
         if self.category_id:
-            self.name = self.category_id.title
+            self.name = self.category_id.name
 
     def action_open_form(self):
         # return the form view of this partner
