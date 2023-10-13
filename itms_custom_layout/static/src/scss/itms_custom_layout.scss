@@ -132,11 +132,17 @@ label.o_form_label {
   font-size: xx-large;
 }
 
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandClose {
+  font-size: xx-large;
+}
+
+
 .o_ChatWindowHeader_command.o_ChatWindowHeader_commandPhone {
   display: none !important;
 }
 
 .o_ChatWindowHeader_command.o_ChatWindowHeader_commandShowMemberList {
+  display: none !important;
 }
 
 .o_ChatWindowHeader_command.o_ChatWindowHeader_commandShowCallSettingsMenu {
@@ -145,6 +151,11 @@ label.o_form_label {
 
 .o_ChatWindowHeader_command.o_ChatWindowHeader_commandExpand {
   display: none !important;
+}
+
+.o_ChatWindowHeader{
+  height: 50px;
+  font-size: large;
 }
 
 .o_ChannelMemberList.d-flex.flex-column.overflow-auto.bg-light.itms_custom.bg-view {
