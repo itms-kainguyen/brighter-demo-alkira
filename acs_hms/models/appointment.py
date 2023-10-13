@@ -353,6 +353,9 @@ class Appointment(models.Model):
     survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
                                         copy=False)
 
+    is_done_survey = fields.Boolean('Is done survey', default=False)
+
+
     def action_start_survey(self):
         self.ensure_one()
         if self.survey_id.appointment_id:
