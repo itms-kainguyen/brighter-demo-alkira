@@ -420,6 +420,8 @@ class Appointment(models.Model):
                 'scheduled_date': line.scheduled_date,
                 'is_done': line.is_done,
                 'done_at': line.done_at,
+                # link in future done time and 
+                'prescription_line_id': line.id,
                 # 'state': line.state ,
             })
             lines.append((0, 0, data))
@@ -1052,8 +1054,13 @@ class StockMove(models.Model):
 
 class PrescriptionLine(models.Model):
     _name = 'appointment.prescription.line'
+    _rec_name = "product_id"
+    _order = "scheduled_date"
 
     appointment_id = fields.Many2one('hms.appointment', string='Order')
+    done_in_appointment_id = fields.Many2one('hms.appointment', string='Done in Order')
+    is_invoiced = fields.Boolean()
+
     name = fields.Text(string='Description')
     product_id = fields.Many2one('product.product', string='Medicine')
     qty = fields.Integer(string='Quantity')
@@ -1065,6 +1072,8 @@ class PrescriptionLine(models.Model):
         [('done', 'Done'),
          ('processing', 'Processing'),
          ('waiting', 'Waiting')], string='State', default='waiting')
+    treatment_id = fields.Many2one("hms.treatment", string='Treatment', compute='get_treatment')
+    prescription_line_id = fields.Many2one("prescription.detail", string="Prescription Detail")
 
     @api.depends('is_done')
     def _done_process(self):
@@ -1072,43 +1081,41 @@ class PrescriptionLine(models.Model):
             rec.done_at = fields.Datetime.now()
 
     def openWizard(self):
-        # if self.is_done:
-        #     return {'type': 'ir.actions.server', 'id': self.env.ref('acs_hms.server_action_open_wizard').id}
-        # return {}
-        # if self.is_done:
-        #     action = self.env.ref('acs_hms.action_take_picture_wizard').read()[0]
-        #     action['context'] = dict(self._context, default_field_name='default_value')
-        #     return action
-        # return {}
-        return {
-            'name': f"Do Treatment",
-            'view_mode': 'form',
-            'res_model': 'hms.treatment',
-            'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
-            'res_id': False,
-            'type': 'ir.actions.act_window',
-            'target': 'new',
-            'context': {},
-        }
+        print("self.product_id.id,",self.product_id.id, self.id)
+        if self.treatment_id:
+            return     {'name': f"Do Treatment",
+                    'view_mode': 'form',
+                    'res_model': 'hms.treatment',
+                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
+                    'res_id': self.treatment_id.id,
+                    'target': 'new',
+                    'type': 'ir.actions.act_window',
+                    'context': {} ,
+                    }
+        else:
+            return {
+                    'name': f"Do Treatment",
+                    'view_mode': 'form',
+                    'res_model': 'hms.treatment',
+                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
+                    'res_id': False,
+                    'type': 'ir.actions.act_window',
+                    'target': 'new',
+                    'context': {'default_patient_id': self.appointment_id.patient_id.id,
+                                'default_appointment_id': self.appointment_id.id,
+                                'default_appointment_prescription_line_id': self.id,
+                                'default_medicine_line_ids': [(0, 0, {
+                                                            'product_id': self.product_id.id,
+                                                            #'field2': 'value2',
+                                        })],
+                                       }
+                }
 
-        # if not self.is_done:
-        # return {
-        #     'name': f"Before Photos",
-        #     'view_mode': 'form',
-        #     'res_model': 'hms.picture.before.wizard',
-        #     'view_id': self.env.ref('acs_hms.wz_before_picture').id,
-        #     'res_id': False,
-        #     'target': 'new',
-        #     'type': 'ir.actions.act_window',
-        #     'context': {},
-        # }
+    def get_treatment(self):
+        for rec in self:
+            treatment = self.env['hms.treatment'].search([('appointment_prescription_line_id', '=', rec.id)], limit=1)
+            if len(treatment) > 0:
+                rec.treatment_id = treatment[0].id
+            else:
+                rec.treatment_id = False
 
-#   return {
-#             'type': 'ir.actions.act_window',
-#             'view_mode': 'form',
-#             'res_model': 'mail.compose.message',
-#             'views': [(False, 'form')],
-#             'view_id': False,
-#             'target': 'new',
-#             'context': ctx,
-#         }
