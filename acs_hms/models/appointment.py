@@ -351,7 +351,7 @@ class Appointment(models.Model):
         tracking=True)
 
     survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
-                                        copy=False)
+                                        copy=False, readonly=True)
 
     is_done_survey = fields.Boolean('Is done survey', default=False)
 
