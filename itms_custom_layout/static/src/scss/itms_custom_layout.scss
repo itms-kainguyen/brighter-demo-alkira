@@ -136,6 +136,9 @@ label.o_form_label {
   font-size: xx-large;
 }
 
+.o_ChatWindowHeader_commandHideMemberList {
+  display: none !important;
+}
 
 .o_ChatWindowHeader_command.o_ChatWindowHeader_commandPhone {
   display: none !important;
