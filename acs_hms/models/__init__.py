@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from . import hms_base
 from . import company
 from . import patient
@@ -20,4 +19,6 @@ from . import res_users
 from . import consent_consent
 from . import hr_employee
 from . import aftercare
+from . import survey_user_input
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

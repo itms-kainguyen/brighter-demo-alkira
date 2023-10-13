@@ -129,3 +129,7 @@ access_appointment_detail,Appointment,model_appointment_prescription_line,base.g
 access_hms_wizard,prescription__add_pic,model_hms_picture_before_wizard,base.group_user,1,1,1,1
 access_treatment_medicine_line,treatment.medicine.line.user,acs_hms.model_treatment_medicine_line,base.group_user,1,1,1,1
 
+access_appointment_individual_survey_answer,appointment.individual.survey.answer,model_appointment_individual_survey_answer,base.group_user,1,1,1,1
+access_appointment_relevant_survey_answer,appointment.relevant.survey.answer,model_appointment_relevant_survey_answer,base.group_user,1,1,1,1
+access_appointment_medication_survey_answer,appointment.medication.survey.answer,model_appointment_medication_survey_answer,base.group_user,1,1,1,1
+access_appointment_addition_survey_answer,appointment.addition.survey.answer,model_appointment_addition_survey_answer,base.group_user,1,1,1,1
