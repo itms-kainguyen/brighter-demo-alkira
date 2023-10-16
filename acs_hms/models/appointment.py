@@ -773,8 +773,8 @@ class Appointment(models.Model):
 
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
-            template = self.env.ref('acs_hms.acs_appointment_email')
             try:
+                template = self.env.ref('acs_hms.acs_appointment_email')
                 template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
                                                                           force_send=True)
                 if template_appointment_creation:
@@ -792,13 +792,13 @@ class Appointment(models.Model):
                             'res_model': itms_consent_id._name,
                             'res_id': itms_consent_id.id
                         })
-                        template_consent.attachment_ids = attachment
-                        # Send the email.
-                        email_values = {'consent_id': itms_consent_id}
-                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(
-                            self.id, raise_exception=False, force_send=True)
-                        if template_consent_creation:
-                            template_consent.reset_template()
+                        # Add the attachment to the mail template.
+                        template_consent.attachment_ids += attachment
+                    # Send the email.
+                    template_consent_creation = template_consent.sudo().send_mail(
+                        self.id, raise_exception=False, force_send=True)
+                    if template_consent_creation:
+                        template_consent.reset_template()
             except Exception as e:
                 _logger.warning('Failed to send appointment confirmation email: %s', e)
 
