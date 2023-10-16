@@ -50,6 +50,23 @@ class Consent(models.Model):
                 rec.nurse_signed_by = rec.nurse_id.name
                 rec.nurse_signed_on = datetime.datetime.now()
 
+    @api.onchange('nurse_signed_on','patient_signed_on')
+    def onchange_nurse_signed_on(self):
+        for rec in self:
+            if rec.appointment_id:
+                objConsentForms = self.env['consent.consent'].search([('patient_id', '=', rec.patient_id.id), ('appointment_id', '=', rec.appointment_id.id)])
+                total_need_signs = len(objConsentForms)
+                total_nurse_signed = 0
+                total_patient_signed = 0
+
+                for consent in objConsentForms:
+                    total_nurse_signed += 1 if consent.nurse_signed_on else 0
+                    total_patient_signed += 1 if consent.patient_signed_on else 0
+
+                if total_need_signs == total_nurse_signed and total_need_signs == total_patient_signed:
+                    objectAppointment = self.env['hms.appointment'].browse(rec.appointment_id.id)
+                    objectAppointment.write({'state': 'confirm_consent'})
+
     def _get_portal_return_action(self):
         self.ensure_one()
         return self.env.ref('itms_consent_form.action_consent_form')
