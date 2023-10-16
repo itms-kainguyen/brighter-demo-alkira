@@ -354,7 +354,7 @@ class Appointment(models.Model):
                                         copy=False, readonly=True)
 
     is_done_survey = fields.Boolean('Is done survey', default=False)
-
+    treatment_ids = fields.One2many('hms.treatment', 'appointment_id', string="Treatments")
 
     def action_start_survey(self):
         self.ensure_one()
