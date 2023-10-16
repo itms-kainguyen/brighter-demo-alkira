@@ -23,7 +23,7 @@ class Consent(models.Model):
     patient_signed_by = fields.Char(
         string="Patient Signed By", copy=False)
     patient_signed_on = fields.Datetime(
-        string="Patient Signed On", copy=False)
+        string="Patient Signed On", copy=False, compute='_compute_patient_signature')
     is_agree = fields.Boolean('I read and give my consent to this document')
     nurse_signature = fields.Binary(string="Nurse Signature", compute="_compute_signature", readonly=False, store=True,
                                     copy=False)
@@ -40,6 +40,15 @@ class Consent(models.Model):
             rec.nurse_signature = None
             if rec.nurse_id and rec.nurse_id.employee_ids:
                 rec.nurse_signature = rec.nurse_id.employee_ids[0].signature
+
+    @api.depends('patient_id', 'patient_signature')
+    def _compute_patient_signature(self):
+        for rec in self:
+            rec.patient_signed_by = None
+            rec.patient_signed_on = None
+            if rec.patient_signature and rec.patient_id:
+                rec.patient_signed_by = rec.patient_id.name
+                rec.patient_signed_on = datetime.datetime.now()
 
     @api.depends('nurse_id', 'nurse_signature')
     def _compute_nurse_signature(self):
