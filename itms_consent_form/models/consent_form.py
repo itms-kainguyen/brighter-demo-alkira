@@ -60,8 +60,8 @@ class Consent(models.Model):
                 total_patient_signed = 0
 
                 for consent in objConsentForms:
-                    total_nurse_signed += 1 if consent.nurse_signed_on else 0
-                    total_patient_signed += 1 if consent.patient_signed_on else 0
+                    total_nurse_signed += 1 if consent.nurse_signed_on else total_nurse_signed
+                    total_patient_signed += 1 if consent.patient_signed_on else total_patient_signed
 
                 if total_need_signs == total_nurse_signed and total_need_signs == total_patient_signed:
                     objectAppointment = self.env['hms.appointment'].browse(rec.appointment_id.id)
