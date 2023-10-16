@@ -643,12 +643,17 @@
 
                         <page name="treatment_ids" string="Treatments" invisible="0">
                             <field name="treatment_ids" >
-                                <tree editable="bottom">
+                                <tree>
+                                <!-- <tree editable="bottom"> -->
+
                                     <field name="name"/>
+                                    <field name="template_id"/>
+                                    <field name="finding"/>
+
                                 </tree>
                             </field>
                         </page>
-                        
+
                         <page name="aftercare" string="Aftercare">
                             <field name="aftercare_ids" context="{'default_patient_id': patient_id}">
                                 <tree editable="bottom">
