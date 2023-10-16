@@ -354,6 +354,7 @@ class Appointment(models.Model):
                                         copy=False, readonly=True)
 
     is_done_survey = fields.Boolean('Is done survey', default=False)
+    treatment_ids = fields.One2many('hms.treatment', 'appointment_id', string="Treatments")
 
 
     def action_start_survey(self):
@@ -1115,10 +1116,11 @@ class PrescriptionLine(models.Model):
                     'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
                     'res_id': False,
                     'type': 'ir.actions.act_window',
-                    'target': 'new',
+                    #'target': 'new',
                     'context': {'default_patient_id': self.appointment_id.patient_id.id,
                                 'default_appointment_id': self.appointment_id.id,
                                 'default_appointment_prescription_line_id': self.id,
+                                'default_nurse_id': self.appointment_id.nurse_id.id,
                                 'default_medicine_line_ids': [(0, 0, {
                                                             'product_id': self.product_id.id,
                                                             #'field2': 'value2',
