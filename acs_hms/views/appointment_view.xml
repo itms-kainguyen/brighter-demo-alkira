@@ -639,7 +639,7 @@
 
                                 </group>
                             </group>
-
+                        </page>
                         <page name="treatment_ids" string="Treatments" invisible="0">
                             <field name="treatment_ids" >
                                 <tree>
