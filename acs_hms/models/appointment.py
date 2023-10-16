@@ -861,9 +861,25 @@ class Appointment(models.Model):
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
 
-        template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
-        # Send the email.
-        template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+        try:
+            template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
+            attachments = []
+            for aftercare in self.aftercare_ids:
+                pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                    'itms_consent_form.action_report_aftercare', res_ids=[aftercare.id])
+                aftercare_attachment_id = self.env['ir.attachment'].create({
+                    'name': aftercare.name,
+                    'type': 'binary',
+                    'raw': pdf_content,
+                    'res_model': aftercare._name,
+                    'res_id': aftercare.id
+                })
+                attachments.append(aftercare_attachment_id.id)
+            template_aftercare.attachment_ids = attachments
+            # Send the email.
+            template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+        except Exception as e:
+            _logger.warning('Failed to send appointment Aftercare email: %s', e)
 
         self.appointment_done()
 
