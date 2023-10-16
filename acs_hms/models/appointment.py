@@ -186,7 +186,7 @@ class Appointment(models.Model):
         ('confirm', 'Consent Emailed'),
         ('confirm_consent', 'Consent Confirmed'),
         ('waiting', 'Waiting'),
-        ('in_consultation', 'Consultation'),
+        ('in_consultation', 'Consultation & Treatment'),
         ('pause', 'Pause'),
         ('to_invoice', 'To Invoice'),
         ('done', 'Done'),
