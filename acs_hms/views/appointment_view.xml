@@ -643,7 +643,6 @@
                         <page name="treatment_ids" string="Treatments" invisible="0">
                             <field name="treatment_ids" >
                                 <tree>
-                                <!-- <tree editable="bottom"> -->
                                     <field name="name"/>
                                     <field name="template_id"/>
                                     <field name="finding"/>
