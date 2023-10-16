@@ -881,7 +881,9 @@ class Appointment(models.Model):
                 attachments.append(aftercare_attachment_id.id)
             template_aftercare.attachment_ids = attachments
             # Send the email.
-            template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+            is_sent = template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+            if is_sent:
+                template_aftercare.reset_template()
         except Exception as e:
             _logger.warning('Failed to send appointment Aftercare email: %s', e)
         if self.company_id.sudo().auto_followup_days:

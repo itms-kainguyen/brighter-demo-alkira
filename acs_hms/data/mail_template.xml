@@ -148,13 +148,12 @@
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
                     <p>Dear <t t-out="object.patient_id.name"></t>,</p>
-                    <p>Thank you for choosing <t t-out="object.department_id.name"></t> for your recent cosmetic treatment.</p>
+                    <p>Thank you for choosing <strong><t t-out="object.department_id.name"></t></strong> for your recent cosmetic treatment.</p>
                     <t t-if="object.treatment_id">
                         <p>Your treatment included:</p>
                         <table class="table table-sm o_main_table mt16 acs_table">
                         <thead>
                             <tr>
-<!--                                <th>Sr.No</th>-->
                                 <th>Medicine</th>
                                 <th>Area</th>
                                 <th>Amount</th>
@@ -167,9 +166,6 @@
                             <t t-if="object.treatment_id.medicine_line_ids">
                                 <t t-foreach="object.treatment_id.medicine_line_ids" t-as="line">
                                     <tr>
-<!--                                        <td>-->
-<!--                                            <span t-esc="line_index + 1"/>-->
-<!--                                        </td>-->
                                         <td>
                                             <span t-field="line.sudo().product_id.name"/>
                                         </td>
@@ -203,7 +199,7 @@
                     </style>
                     <p>
                         We hope you had a pleasant experience. Please find attached important post-treatment instructions to ensure optimal results.
-                        Should you have any questions or concerns, feel free to reach out to us at <t t-out="object.department_id.name"></t>.
+                        Should you have any questions or concerns, feel free to reach out to us at <strong><t t-out="object.department_id.name"></t></strong>.
                         We look forward to assisting you in your aesthetic journey.
                     </p>
                     <br/>
