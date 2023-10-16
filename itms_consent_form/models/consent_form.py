@@ -50,11 +50,11 @@ class Consent(models.Model):
                 rec.nurse_signed_by = rec.nurse_id.name
                 rec.nurse_signed_on = datetime.datetime.now()
 
-    @api.onchange('nurse_signed_on','patient_signed_on')
+    @api.onchange('nurse_signed_on', 'patient_signed_on')
     def onchange_nurse_signed_on(self):
         for rec in self:
             if rec.appointment_id:
-                objConsentForms = self.env['consent.consent'].search([('patient_id', '=', rec.patient_id.id), ('appointment_id', '=', rec.appointment_id.id)])
+                objConsentForms = self.env['consent.consent'].search([('patient_id', '=', rec.patient_id.id), ('nurse_id', '=', rec.nurse_id.id), ('appointment_id', '=', rec.appointment_id.id)])
                 total_need_signs = len(objConsentForms)
                 total_nurse_signed = 0
                 total_patient_signed = 0
