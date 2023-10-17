@@ -465,7 +465,7 @@
                             </div>
 
                             <div class="row" id="appointment_list" groups="acs_hms.group_hms_receptionist">
-                                <div class="col-12 mb32">
+                                <div class="col-6 mb32">
                                     <t t-value="JSON.parse(record.appointment_data.raw_value)"
                                        t-set="appointment_data"/>
                                     <div class="card">
@@ -482,9 +482,9 @@
                                                             <th class="border-0">Appointment</th>
                                                             <th class="border-0">Patient</th>
                                                             <th class="border-0">Date</th>
-                                                            <th class="border-0">Prescriber</th>
+                                                            <!-- <th class="border-0">Prescriber</th> -->
                                                             <!-- <th class="border-0">Wait Time</th> -->
-                                                            <th class="border-0">Consultation Time</th>
+                                                            <!-- <th class="border-0">Consultation Time</th> -->
                                                             <th class="border-0">State</th>
                                                         </tr>
                                                     </thead>
@@ -506,15 +506,15 @@
                                                                 <td>
                                                                     <span t-esc="line.date"/>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <span t-esc="line.physician"/>
-                                                                </td>
+                                                                </td> -->
                                                                 <!-- <td>
                                                                     <span t-esc="line.waiting_duration"/>
                                                                 </td> -->
-                                                                <td>
+                                                                <!-- <td>
                                                                     <span t-esc="line.appointment_duration"/>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <span t-esc="line.state"/>
                                                                 </td>
@@ -523,6 +523,20 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 mb32">
+                                    <div class="card">
+                                        <h5 class="card-header">
+                                            <a type="object" name="open_appointments">Online Prescriber</a>
+                                            <a href="#" title="This will show max 20 records only" class="o_doc_link"/>
+                                        </h5>
+                                        <div class="card-body p-0">
+                                            <div id="dashboard_prescribers">
+
                                             </div>
                                         </div>
                                     </div>
@@ -562,6 +576,40 @@
                                 </div>
                             </div>
                         </div>
+
+                        <script type="text/javascript">
+                            call_telehealth_dashboard();
+                            clone_telehealth_dashboard();
+                            close_telehealth();
+
+                            
+                            setTimeout(() => {
+                                $('#dashboard_prescribers .o_ChannelMember').on('click', function() {
+                                    var self = $(this);
+                                    var prescriber_id = self.data('partner-id');
+                                    call_telehealth();
+                                
+                                    setTimeout(() => {
+                                        $('.o_ChatWindow div[data-partner-id="'+prescriber_id+'"]').click()
+                                
+                                    }, 1500);
+                                })
+                        
+                            }, 1500);
+
+                            
+        
+                            
+                        
+                        </script>
+
+                        <style type="text/css">
+                            .position-absolute {
+                                position: absolute !important;
+                                height: 100% !important;
+                                width: 50% !important;
+                            }
+                        </style>
                     </t>
                 </templates>
             </kanban>

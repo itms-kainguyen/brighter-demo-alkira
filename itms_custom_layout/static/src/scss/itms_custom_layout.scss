@@ -156,39 +156,68 @@ label.o_form_label {
   display: none !important;
 }
 
-.o_ChatWindowHeader{
+.o_ChatWindowHeader {
   height: 50px;
   font-size: large;
 }
 
 .o_ChannelMemberList.d-flex.flex-column.overflow-auto.bg-light.itms_custom.bg-view {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: space-around;
-    align-items: center;
-    padding: 20px;
-    gap: 20px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: space-around;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
 }
 
 .o_ChannelMemberList h6.m-2 {
-    display: block !important;
-    width: 100%;
+  display: block !important;
+  width: 100%;
 }
 
 
-.o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer {
-    border: 1px solid #f96c31;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-radius: 30px;
+.o_ChatWindow .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer {
+  border: 1px solid #f96c31;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 30px;
 }
 
-.o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer:hover {
-    background: #f96c31;
-    color: white;
+.o_ChatWindow .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer:hover {
+  background: #f96c31;
+  color: white;
+}
+
+
+#dashboard_prescribers .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer {
+  border: 1px solid #f96c31;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 30px;
+}
+
+#dashboard_prescribers h6 {
+  text-align: left;
+}
+
+#dashboard_prescribers .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer:hover {
+  background: #f96c31;
+  color: white;
 }
 
 .o_ChatWindow {
   right: 20px !important;
+}
+
+div[name='call_telehealth'] .btn {
+  background: #f96c31 !important;
+  color: white;
+  border-color: #d35c2b;
+}
+
+div[name='call_telehealth'] .btn:hover {
+  background: #d24b13 !important;
+  color: white;
+  border-color: #d35c2b;
+  box-shadow: 0px 25px 20px -20px rgba(0, 0, 0, 0.45);
 }
