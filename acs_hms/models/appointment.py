@@ -782,69 +782,72 @@ class Appointment(models.Model):
                     self.waiting_date_start = datetime.now()
                     self.waiting_duration = 0.1
                     self.state = 'confirm'
-                    # # Get the mail template for the sale order confirmation.
-                    # template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-                    # for itms_consent_id in self.consent_ids:
-                    #     # Generate the PDF attachment.
-                    #     pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
-                    #         'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
-                    #     attachment = self.env['ir.attachment'].create({
-                    #         'name': itms_consent_id.name,
-                    #         'type': 'binary',
-                    #         'raw': pdf_content,
-                    #         'res_model': itms_consent_id._name,
-                    #         'res_id': itms_consent_id.id
-                    #     })
-                    #     # Add the attachment to the mail template.
-                    #     template_consent.attachment_ids += attachment
-                    # # Send the email.
-                    # template_consent_creation = template_consent.sudo().send_mail(
-                    #     self.id, raise_exception=False, force_send=True)
-                    # if template_consent_creation:
-                    #     template_consent.reset_template()
+                    # Get the mail template for the sale order confirmation.
+                    template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                    for itms_consent_id in self.consent_ids:
+                        # Generate the PDF attachment.
+                        pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                            'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+                        attachment = self.env['ir.attachment'].create({
+                            'name': itms_consent_id.name,
+                            'type': 'binary',
+                            'raw': pdf_content,
+                            'res_model': itms_consent_id._name,
+                            'res_id': itms_consent_id.id
+                        })
+                        # Add the attachment to the mail template.
+                        template_consent.attachment_ids += attachment
+                    # Send the email.
+                    template_consent_creation = template_consent.sudo().send_mail(
+                        self.id, raise_exception=False, force_send=True)
+                    if template_consent_creation:
+                        template_consent.reset_template()
+                        self.waiting_date_start = datetime.now()
+                        self.waiting_duration = 0.1
+                        self.state = 'confirm'
             except Exception as e:
                 _logger.warning('Failed to send appointment confirmation email: %s', e)
-    def consent_forms_confirm(self):
-        if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
-            if self.appointment_invoice_policy == 'advance' and not self.invoice_id:
-                raise UserError(_('Invoice is not created yet'))
-
-            elif self.invoice_id and self.company_id.acs_check_appo_payment and self.payment_state not in ['in_payment',
-                                                                                                           'paid']:
-                raise UserError(_('Invoice is not Paid yet.'))
-
-        if not self.user_id:
-            self.user_id = self.env.user.id
-
-        if self.patient_id.email and (
-                self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
-            try:
-                template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-                for itms_consent_id in self.consent_ids:
-                    # Generate the PDF attachment.
-                    pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
-                        'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
-                    attachment = self.env['ir.attachment'].create({
-                        'name': itms_consent_id.name,
-                        'type': 'binary',
-                        'raw': pdf_content,
-                        'res_model': itms_consent_id._name,
-                        'res_id': itms_consent_id.id
-                    })
-                    # Add the attachment to the mail template.
-                    template_consent.attachment_ids += attachment
-                # Send the email.
-                template_consent_creation = template_consent.sudo().send_mail(
-                    self.id, raise_exception=False, force_send=True)
-                if template_consent_creation:
-                    template_consent.reset_template()
-
-            except Exception as e:
-                _logger.warning('Failed to send appointment confirmation email: %s', e)
-
-        self.waiting_date_start = datetime.now()
-        self.waiting_duration = 0.1
-        self.state = 'confirm'
+    # def consent_forms_confirm(self):
+    #     if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
+    #         if self.appointment_invoice_policy == 'advance' and not self.invoice_id:
+    #             raise UserError(_('Invoice is not created yet'))
+    #
+    #         elif self.invoice_id and self.company_id.acs_check_appo_payment and self.payment_state not in ['in_payment',
+    #                                                                                                        'paid']:
+    #             raise UserError(_('Invoice is not Paid yet.'))
+    #
+    #     if not self.user_id:
+    #         self.user_id = self.env.user.id
+    #
+    #     if self.patient_id.email and (
+    #             self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
+    #         try:
+    #             template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+    #             for itms_consent_id in self.consent_ids:
+    #                 # Generate the PDF attachment.
+    #                 pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+    #                     'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+    #                 attachment = self.env['ir.attachment'].create({
+    #                     'name': itms_consent_id.name,
+    #                     'type': 'binary',
+    #                     'raw': pdf_content,
+    #                     'res_model': itms_consent_id._name,
+    #                     'res_id': itms_consent_id.id
+    #                 })
+    #                 # Add the attachment to the mail template.
+    #                 template_consent.attachment_ids += attachment
+    #             # Send the email.
+    #             template_consent_creation = template_consent.sudo().send_mail(
+    #                 self.id, raise_exception=False, force_send=True)
+    #             if template_consent_creation:
+    #                 template_consent.reset_template()
+    #
+    #         except Exception as e:
+    #             _logger.warning('Failed to send appointment confirmation email: %s', e)
+    #
+    #     self.waiting_date_start = datetime.now()
+    #     self.waiting_duration = 0.1
+    #     self.state = 'confirm'
     def appointment_waiting(self):
         self.state = 'waiting'
         self.waiting_date_start = datetime.now()
