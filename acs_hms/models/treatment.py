@@ -226,11 +226,24 @@ class ACSTreatment(models.Model):
     def create_invoice(self):
         product_id = self.registration_product_id or self.env.user.company_id.treatment_registration_product_id
         acs_context = {'commission_partner_ids': self.physician_id.partner_id.id}
-        if not product_id:
-            raise UserError(_("Please Configure Registration Product in Configuration first."))
+        product_data = []
+        if self.medicine_line_ids:
+            for line in self.medicine_line_ids:
+                product_data.append({
+                                'product_id': line.product_id
+                            })
+        if self.consumable_line_ids:
+            for consumable in self.consumable_line_ids:
+                product_data.append({
+                    'product_id': consumable.product_id,
+                    'quantity': consumable.qty,
+                    'lot_id': consumable.lot_id and consumable.lot_id.id or False,
+                })
+        # if not product_id:
+        #     raise UserError(_("Please Configure Registration Product in Configuration first."))
         invoice = self.with_context(acs_context).acs_create_invoice(partner=self.patient_id.partner_id,
                                                                     patient=self.patient_id,
-                                                                    product_data=[{'product_id': product_id}],
+                                                                    product_data=product_data,
                                                                     inv_data={'hospital_invoice_type': 'treatment'})
         self.invoice_id = invoice.id
 
