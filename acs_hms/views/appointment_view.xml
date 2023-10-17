@@ -409,7 +409,7 @@
                                             class="btn btn-secondary fa fa-envelope-o"
                                             aria-label="Send Consent Form"
                                             data-tooltip="Send Consent Form"/>
-                                    <separator/>
+
                                     <button name="action_open_form"
                                             type="object"
                                             class="btn btn-secondary fa fa-arrow-right"
