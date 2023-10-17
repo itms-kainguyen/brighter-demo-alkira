@@ -165,7 +165,7 @@
                 <field name="date" invisible="1"/>
                 <field name="survey_id" invisible="1"/>
                 <field name="state" invisible="1" optional="show" decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" decoration-success="state=='done'" decoration-primary="state=='in_consultation'" decoration-warning="state=='to_invoice'" decoration-it="state=='pause'" widget="badge"/>
-                <button string="Start Medical Checklist" name="action_test_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
+                <button string="Start Medical Checklist" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
             </tree>
         </field>
     </record>
@@ -174,8 +174,10 @@
         <field name="name">Medical Checklist</field>
         <field name="res_model">hms.appointment</field>
         <field name="view_id" ref="view_checklist_hms_appointment_tree"/>
+         <field name="search_view_id" ref="view_hms_appointment_search"/>
         <field name="view_mode">tree</field>
-        <field name="context">{}</field>
+          <field name="domain">[('is_done_survey','=',False),('state', '!=', 'cancel')]</field>
+         <field name="context">{'search_default_today': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No Record Found
@@ -219,14 +221,17 @@
             <form>
                 <header>
                     <button name="appointment_confirm" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/>
+<!--                    <button name="consent_forms_confirm" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Send Consent Email" class="oe_highlight"/>-->
                     <button name="appointment_waiting" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Waiting" class="oe_highlight" invisible="1"/>
+                    <button name="appointment_waiting_manual" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Consent Forms Confirmed" class="oe_highlight"/>
                     <button name="print_report" string="Print" type="object" states="draft,confirm" invisible="1"/>
                     <button name="action_appointment_send" string="Send by Email" type="object" states="draft,confirm"/>
                     <button name="appointment_consultation" states="confirm_consent" groups="acs_hms.group_hms_jr_doctor" type="object" string="In Consultation" class="oe_highlight"/>
                     <button name="action_pause" states="in_consultation" groups="acs_hms.group_allow_consultation_pause" type="object" string="Pause"/>
                     <button name="action_start_paused" states="pause" groups="acs_hms.group_allow_consultation_pause" type="object" string="Start"/>
                     <button name="button_pres_req" string="Create Prescription" groups="acs_hms.group_hms_jr_doctor" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
-                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('consumable_line_ids','=',False),('invoice_id','!=',False),('state','=','draft')]}" type="object" class="oe_highlight"/>
+                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': [('state','!=','to_invoice')]}" type="object" class="oe_highlight"/>
+                    <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('consumable_line_ids','=',False),('invoice_id','!=',False),('state','=','draft')]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|',('invoice_id','!=',False),('state','!=','to_invoice')]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','anytime'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/>
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','advance'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
@@ -399,6 +404,12 @@
                                     <field name="patient_id" />
                                     <field name="nurse_id"/>
                                     <field name="nurse_signed_on"/>
+                                    <button name="consent_forms_confirm"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-envelope-o"
+                                            aria-label="Send Consent Form"
+                                            data-tooltip="Send Consent Form"/>
+
                                     <button name="action_open_form"
                                             type="object"
                                             class="btn btn-secondary fa fa-arrow-right"
@@ -414,44 +425,62 @@
                                     <div groups="survey.group_survey_user" class="o_row">
                                         <field name="survey_id"
                                             context="{'default_access_mode': 'token'}"/>
-                                        <button string="Display Checklist Form" name="action_test_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
+                                        <button string="Display Checklist Form" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
                                     </div>
-
                                  </group>
                                 <group></group>
                             </group>
-                            <separator string="Individual Checklist"/>
-                            <field name="answer_individual_ids" widget="one2many_list">
-                                <tree string="Individual Checklist">
-                                    <field name="date" string="Created on"/>
-                                    <field name="name"/>
-                                    <field name="answer"/>
+                            <field name="survey_answer_ids" widget="one2many_list">
+                                  <tree decoration-muted="skipped == True">
+                                    <field name="question_sequence" invisible="1"/>
+                                    <field name="create_date" optional="hidden"/>
+                                    <field name="page_id" optional="hidden"/>
+                                    <field name="question_id"/>
+                                    <field name="answer_type" optional="hidden"/>
+                                    <field name="skipped" optional="hidden"/>
+                                    <field name="matrix_row_id" string="Row answer"/>
+                                      <field name="suggested_answer_yes"/>
+                                      <field name="suggested_answer_no"/>
+                                    <field name="answer_is_correct" optional="hidden"/>
+                                    <field name="answer_score" sum="Score" optional="hidden"/>
                                 </tree>
                             </field>
-                             <separator string="Relevant Medical history"/>
-                             <field name="answer_relevant_ids" widget="one2many_list">
-                                <tree string="Relevant Medical history">
-                                    <field name="date" string="Created on"/>
-                                    <field name="name"/>
-                                    <field name="answer"/>
-                                </tree>
-                             </field>
-                             <separator string="Medications"/>
-                             <field name="answer_medication_ids" widget="one2many_list">
-                                <tree string="Medications">
-                                    <field name="date" string="Created on"/>
-                                    <field name="name"/>
-                                    <field name="answer"/>
-                                </tree>
-                             </field>
-                             <separator string="Additional"/>
-                            <field name="answer_addition_ids"  widget="one2many_list">
-                                <tree string="Additional">
-                                    <field name="date" string="Created on"/>
-                                    <field name="name"/>
-                                    <field name="answer"/>
-                                </tree>
-                            </field>
+<!--                            <separator string="Individual Checklist"/>-->
+<!--                            <field name="answer_individual_ids" widget="one2many_list">-->
+<!--                                <tree string="Individual Checklist">-->
+<!--                                    <field name="date" string="Created on"/>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="yes"/>-->
+<!--                                    <field name="no"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                             <separator string="Relevant Medical history"/>-->
+<!--                             <field name="answer_relevant_ids" widget="one2many_list">-->
+<!--                                <tree string="Relevant Medical history">-->
+<!--                                    <field name="date" string="Created on"/>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="yes"/>-->
+<!--                                    <field name="no"/>-->
+<!--                                </tree>-->
+<!--                             </field>-->
+<!--                             <separator string="Medications"/>-->
+<!--                             <field name="answer_medication_ids" widget="one2many_list">-->
+<!--                                <tree string="Medications">-->
+<!--                                    <field name="date" string="Created on"/>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="yes"/>-->
+<!--                                    <field name="no"/>-->
+<!--                                </tree>-->
+<!--                             </field>-->
+<!--                             <separator string="Additional"/>-->
+<!--                            <field name="answer_addition_ids"  widget="one2many_list">-->
+<!--                                <tree string="Additional">-->
+<!--                                    <field name="date" string="Created on"/>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="yes"/>-->
+<!--                                    <field name="no"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
                         </page>
                         <page name="prescription_line_ids" string="Existing Prescription">
                             <field name="prescription_line_ids" >
@@ -460,8 +489,14 @@
                                     <field name="repeat"/>
                                     <field name="scheduled_date"/>
                                     <button name="openWizard" string="prescription" type="object" attrs="{'invisible': [('is_done','=', True)]}"/>
-                                    <field name="is_done" attrs="{'readonly': [('is_done','=', '1')]}"/>
-                                    <field name="done_at"/>
+                                    <field name="treatment_id" readonly="1"/>
+                                    <field name="is_done" readonly="1" attrs="{'readonly': [('is_done','=', '1')]}"/>
+                                    <field name="done_at" readonly="1"/>
+                                    <!-- for invoice part to link appointment treatment invoice -->
+                                    <field name="prescription_line_id" invisible="1"/>
+                                    <field name="is_invoiced" invisible="1"/>
+                                    <field name="done_in_appointment_id" invisible="1"/>
+                                    
                                 </tree>
                             </field>
                         </page>
@@ -573,7 +608,7 @@
                             <separator string="Diseases History"/>
                             <field name="patient_diseases_ids"/>
                         </page>
-                        <page name="consumed_products" string="Consumed Products/Services" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" attrs="{'invisible': [('state','=','draft')]}">
+                        <!-- <page name="consumed_products" string="Consumed Products/Services" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" attrs="{'invisible': [('state','=','draft')]}">
                             <label for="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}"/>
                             <div name="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}">
                                 <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
@@ -600,7 +635,7 @@
                                     <field name="patient_id" invisible="1"/>
                                 </tree>
                             </field>
-                        </page>
+                        </page> -->
                         <page name="photos" string="Photos">
                           <group name="extra_info">
                                 <group>
@@ -611,15 +646,25 @@
 
                                 </group>
                             </group>
-
                         </page>
 
+                        <page name="treatment_ids" string="Treatments" invisible="0">
+                            <field name="treatment_ids" >
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="template_id"/>
+                                    <field name="finding"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                          
                         <page name="aftercare" string="Aftercare">
                             <field name="aftercare_ids" context="{'default_patient_id': patient_id}">
                                 <tree editable="bottom">
                                     <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
-                                    <field name="name"/>
                                     <field name="category_id" />
+                                    <field name="name"/>
                                     <button name="action_open_form"
                                             type="object"
                                             class="btn btn-secondary fa fa-arrow-right"

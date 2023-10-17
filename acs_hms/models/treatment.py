@@ -40,6 +40,7 @@ class ACSTreatment(models.Model):
     healed_date = fields.Date(string='Healed Date', states=READONLY_STATES)
     end_date = fields.Date(string='End Date', help='End of treatment date', states=READONLY_STATES)
     diagnosis_id = fields.Many2one('hms.diseases', string='Medicine', states=READONLY_STATES)
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Prescriber', states=READONLY_STATES,
                                    tracking=True)
     attending_physician_ids = fields.Many2many('hms.physician', 'hosp_treat_doc_rel', 'treat_id', 'doc_id',
@@ -54,6 +55,8 @@ class ACSTreatment(models.Model):
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
+    appointment_id = fields.Many2one("hms.appointment", string="Appointment")
+    appointment_prescription_line_id = fields.Many2one('appointment.prescription.line', string="Appointment line")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('running', 'Running'),
@@ -101,6 +104,9 @@ class ACSTreatment(models.Model):
     patient_procedure_count = fields.Integer(compute='_rec_count', string='# Patient Procedures')
     procedure_group_id = fields.Many2one('procedure.group', ondelete="set null", string='Procedure Group',
                                          states=READONLY_STATES)
+    
+    consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
+                                          string='Consumable Line', states=READONLY_STATES, copy=False)
 
     @api.model
     def default_get(self, fields):
@@ -190,20 +196,33 @@ class ACSTreatment(models.Model):
 
     def treatment_done(self):
         self.state = 'done'
+        self.appointment_prescription_line_id.is_done = True
+        self.appointment_prescription_line_id.done_at = datetime.now()
+        self.appointment_prescription_line_id.prescription_line_id.is_done = True
+        self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
 
     def treatment_cancel(self):
         self.state = 'cancel'
 
-    def action_appointment(self):
-        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
-        action['domain'] = [('treatment_id', '=', self.id)]
-        action['context'] = {
-            'default_treatment_id': self.id,
-            'default_patient_id': self.patient_id.id,
-            'default_physician_id': self.physician_id.id,
-            'default_department_id': self.department_id and self.department_id.id or False}
-        return action
+    # def action_appointment(self):
+    #     action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
+    #     action['domain'] = [('treatment_id', '=', self.id)]
+    #     action['context'] = {
+    #         'default_treatment_id': self.id,
+    #         'default_patient_id': self.patient_id.id,
+    #         'default_physician_id': self.physician_id.id,
+    #         'default_department_id': self.department_id and self.department_id.id or False}
+    #     return action
 
+    def action_appointment(self):
+        return     {'name': f"Appointment",
+                    'view_mode': 'form',
+                    'res_model': 'hms.appointment',
+                    'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,        
+                    'res_id': self.appointment_id.id,
+                    'type': 'ir.actions.act_window',
+                    }
+   
     def create_invoice(self):
         product_id = self.registration_product_id or self.env.user.company_id.treatment_registration_product_id
         acs_context = {'commission_partner_ids': self.physician_id.partner_id.id}

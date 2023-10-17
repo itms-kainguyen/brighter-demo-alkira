@@ -12,4 +12,15 @@
         <field name="binding_type">report</field>
     </record>
 
+    <record id="action_report_aftercare" model="ir.actions.report">
+        <field name="name">Aftercare</field>
+        <field name="model">patient.aftercare</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">itms_consent_form.report_aftercare</field>
+        <field name="report_file">itms_consent_form.report_aftercare</field>
+        <field name="print_report_name">'Aftercare - %s' % (object.category_id.name)</field>
+        <field name="binding_model_id" ref="model_patient_aftercare"/>
+        <field name="binding_type">report</field>
+    </record>
+
 </odoo>

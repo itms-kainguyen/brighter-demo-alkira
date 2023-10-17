@@ -186,7 +186,7 @@ class Appointment(models.Model):
         ('confirm', 'Consent Emailed'),
         ('confirm_consent', 'Consent Confirmed'),
         ('waiting', 'Waiting'),
-        ('in_consultation', 'Consultation'),
+        ('in_consultation', 'Consultation & Treatment'),
         ('pause', 'Pause'),
         ('to_invoice', 'To Invoice'),
         ('done', 'Done'),
@@ -337,9 +337,11 @@ class Appointment(models.Model):
                                           'Relevant Medical history', readonly=True)
     answer_medication_ids = fields.One2many('appointment.medication.survey.answer', 'appointment_id',
                                             'Medications', readonly=True)
-    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional', readonly=True)
+    answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional',
+                                          readonly=True)
 
-    aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
+    aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare',
+                                    states={'done': [('readonly', True)]})
 
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
@@ -349,9 +351,21 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         tracking=True)
 
-    def action_test_survey(self):
+    survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
+                                        copy=False, readonly=True)
+
+    is_done_survey = fields.Boolean('Is done survey', default=False)
+    treatment_ids = fields.One2many('hms.treatment', 'appointment_id', string="Treatments")
+
+    def action_start_survey(self):
         self.ensure_one()
-        return self.survey_id.with_context(default_appointment_id=self.id).action_test_survey()
+        if self.survey_id.appointment_id:
+            self.survey_id.appointment_id = False
+        action = self.survey_id.action_start_survey()
+        action['context'] = {'default_appointment_id': self.id}
+        action['target'] = 'new'
+        self.survey_id.appointment_id = self.id
+        return action
 
     def action_view_aftercare(self):
         ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
@@ -408,6 +422,8 @@ class Appointment(models.Model):
                 'scheduled_date': line.scheduled_date,
                 'is_done': line.is_done,
                 'done_at': line.done_at,
+                # link in future done time and 
+                'prescription_line_id': line.id,
                 # 'state': line.state ,
             })
             lines.append((0, 0, data))
@@ -574,6 +590,15 @@ class Appointment(models.Model):
                 raise UserError(_("Please Set Consultation Service first."))
 
             product_data = [{'product_id': product_id}]
+
+        if self.prescription_line_ids:
+            for prescription in self.prescription_line_ids:
+                if prescription.treatment_id and prescription.is_done:
+                    if prescription.treatment_id.medicine_line_ids:
+                        for line in prescription.treatment_id.medicine_line_ids:
+                            product_data.append({
+                                'product_id': line.product_id
+                            })
 
         if self.consumable_line_ids:
             product_data.append({
@@ -759,8 +784,8 @@ class Appointment(models.Model):
 
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
-            template = self.env.ref('acs_hms.acs_appointment_email')
             try:
+                template = self.env.ref('acs_hms.acs_appointment_email')
                 template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
                                                                           force_send=True)
                 if template_appointment_creation:
@@ -778,24 +803,68 @@ class Appointment(models.Model):
                             'res_model': itms_consent_id._name,
                             'res_id': itms_consent_id.id
                         })
-                        template_consent.attachment_ids = attachment
-                        # Send the email.
-                        email_values = {'consent_id': itms_consent_id}
-                        template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(
-                            self.id, raise_exception=False, force_send=True)
-                        if template_consent_creation:
-                            template_consent.reset_template()
+                        # Add the attachment to the mail template.
+                        template_consent.attachment_ids += attachment
+                    # Send the email.
+                    template_consent_creation = template_consent.sudo().send_mail(
+                        self.id, raise_exception=False, force_send=True)
+                    if template_consent_creation:
+                        template_consent.reset_template()
+                        self.waiting_date_start = datetime.now()
+                        self.waiting_duration = 0.1
+                        self.state = 'confirm'
             except Exception as e:
                 _logger.warning('Failed to send appointment confirmation email: %s', e)
-
-        self.waiting_date_start = datetime.now()
-        self.waiting_duration = 0.1
-        self.state = 'confirm'
-
+    # def consent_forms_confirm(self):
+    #     if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
+    #         if self.appointment_invoice_policy == 'advance' and not self.invoice_id:
+    #             raise UserError(_('Invoice is not created yet'))
+    #
+    #         elif self.invoice_id and self.company_id.acs_check_appo_payment and self.payment_state not in ['in_payment',
+    #                                                                                                        'paid']:
+    #             raise UserError(_('Invoice is not Paid yet.'))
+    #
+    #     if not self.user_id:
+    #         self.user_id = self.env.user.id
+    #
+    #     if self.patient_id.email and (
+    #             self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
+    #         try:
+    #             template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+    #             for itms_consent_id in self.consent_ids:
+    #                 # Generate the PDF attachment.
+    #                 pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+    #                     'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+    #                 attachment = self.env['ir.attachment'].create({
+    #                     'name': itms_consent_id.name,
+    #                     'type': 'binary',
+    #                     'raw': pdf_content,
+    #                     'res_model': itms_consent_id._name,
+    #                     'res_id': itms_consent_id.id
+    #                 })
+    #                 # Add the attachment to the mail template.
+    #                 template_consent.attachment_ids += attachment
+    #             # Send the email.
+    #             template_consent_creation = template_consent.sudo().send_mail(
+    #                 self.id, raise_exception=False, force_send=True)
+    #             if template_consent_creation:
+    #                 template_consent.reset_template()
+    #
+    #         except Exception as e:
+    #             _logger.warning('Failed to send appointment confirmation email: %s', e)
+    #
+    #     self.waiting_date_start = datetime.now()
+    #     self.waiting_duration = 0.1
+    #     self.state = 'confirm'
     def appointment_waiting(self):
         self.state = 'waiting'
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
+    def appointment_waiting_manual(self):
+        try:
+            self.state = self.state = 'confirm_consent'
+        except Exception as e:
+            _logger.warning('Failed to update appointment confirmation email: %s', e)
 
     def appointment_consultation(self):
         if not self.waiting_date_start:
@@ -837,24 +906,64 @@ class Appointment(models.Model):
             self.appointment_duration = float(
                 ('%0*d') % (2, h) + '.' + ('%0*d') % (2, m * 1.677966102)) - self.pause_duration
         self.date_end = datetime.now()
-        # if (self.invoice_exempt or self.invoice_id) and not (
-        #         self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
-        # else:
-        #     self.state = 'to_invoice'
+        if (self.invoice_exempt or self.invoice_id) and not (
+                self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
+            self.appointment_done()
+        else:
+            self.state = 'to_invoice'
         if self.consumable_line_ids:
             self.consume_appointment_material()
         if self.prescription_id:
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
-
-        template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
-        # Send the email.
-        template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
-
-        self.appointment_done()
+        # self.appointment_done()
 
     def appointment_done(self):
         self.state = 'done'
+        try:
+            template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
+            attachments = []
+            for aftercare in self.aftercare_ids:
+                pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                    'itms_consent_form.action_report_aftercare', res_ids=[aftercare.id])
+                aftercare_attachment_id = self.env['ir.attachment'].create({
+                    'name': aftercare.name,
+                    'type': 'binary',
+                    'raw': pdf_content,
+                    'res_model': aftercare._name,
+                    'res_id': aftercare.id
+                })
+                attachments.append(aftercare_attachment_id.id)
+            template_aftercare.attachment_ids = attachments
+            medicine_line_ids = []
+            treatment_notes = []
+            if self.prescription_line_ids:
+                for prescription in self.prescription_line_ids:
+                    if prescription.treatment_id and prescription.is_done:
+                        if prescription.treatment_id.medicine_line_ids:
+                            for line in prescription.treatment_id.medicine_line_ids:
+                                if line.product_id:
+                                    medicine_area = line.medicine_area or ''
+                                    amount = line.amount or ''
+                                    medicine_technique = line.medicine_technique or ''
+                                    medicine_depth = line.medicine_depth or ''
+                                    medicine_method = line.medicine_method or ''
+                                    product_name = line.sudo().product_id.name
+                                    medicine_line_ids.append(
+                                        {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
+                                         'medicine_technique': medicine_technique,
+                                         'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
+                        if prescription.treatment_id.template_id:
+                            finding = prescription.treatment_id.finding or ''
+                            template = prescription.treatment_id.template_id.name
+                            treatment_notes.append({'template': template, 'finding': finding})
+            email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
+            is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
+                                                                                       force_send=True)
+            if is_sent:
+                template_aftercare.reset_template()
+        except Exception as e:
+            _logger.warning('Failed to send appointment Aftercare email: %s', e)
         if self.company_id.sudo().auto_followup_days:
             self.follow_date = self.date + timedelta(days=self.company_id.sudo().auto_followup_days)
 
@@ -1029,7 +1138,6 @@ class Appointment(models.Model):
                 if prescription_ids:
                     rec.prescription_id = prescription_ids[-1]
 
-
 class StockMove(models.Model):
     _inherit = "stock.move"
 
@@ -1040,8 +1148,13 @@ class StockMove(models.Model):
 
 class PrescriptionLine(models.Model):
     _name = 'appointment.prescription.line'
+    _rec_name = "product_id"
+    _order = "scheduled_date"
 
     appointment_id = fields.Many2one('hms.appointment', string='Order')
+    done_in_appointment_id = fields.Many2one('hms.appointment', string='Done in Order')
+    is_invoiced = fields.Boolean()
+
     name = fields.Text(string='Description')
     product_id = fields.Many2one('product.product', string='Medicine')
     qty = fields.Integer(string='Quantity')
@@ -1053,6 +1166,8 @@ class PrescriptionLine(models.Model):
         [('done', 'Done'),
          ('processing', 'Processing'),
          ('waiting', 'Waiting')], string='State', default='waiting')
+    treatment_id = fields.Many2one("hms.treatment", string='Treatment', compute='get_treatment')
+    prescription_line_id = fields.Many2one("prescription.detail", string="Prescription Detail")
 
     @api.depends('is_done')
     def _done_process(self):
@@ -1060,43 +1175,42 @@ class PrescriptionLine(models.Model):
             rec.done_at = fields.Datetime.now()
 
     def openWizard(self):
-        # if self.is_done:
-        #     return {'type': 'ir.actions.server', 'id': self.env.ref('acs_hms.server_action_open_wizard').id}
-        # return {}
-        # if self.is_done:
-        #     action = self.env.ref('acs_hms.action_take_picture_wizard').read()[0]
-        #     action['context'] = dict(self._context, default_field_name='default_value')
-        #     return action
-        # return {}
-        return {
-                    'name': f"Do Treatment",
+        print("self.product_id.id,", self.product_id.id, self.id)
+        if self.treatment_id:
+            return {'name': f"Do Treatment",
                     'view_mode': 'form',
                     'res_model': 'hms.treatment',
-                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
-                    'res_id': False,
-                    'type': 'ir.actions.act_window',
+                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
+                    'res_id': self.treatment_id.id,
                     'target': 'new',
+                    'type': 'ir.actions.act_window',
                     'context': {},
-                }
+                    }
+        else:
+            return {
+                'name': f"Do Treatment",
+                'view_mode': 'form',
+                'res_model': 'hms.treatment',
+                'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
+                'res_id': False,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'context': {'default_patient_id': self.appointment_id.patient_id.id,
+                            'default_appointment_id': self.appointment_id.id,
+                            'default_appointment_prescription_line_id': self.id,
+                            'default_medicine_line_ids': [(0, 0, {
+                                'product_id': self.product_id.id,
+                                # 'field2': 'value2',
+                            })],
+                            }
+            }
 
-        #if not self.is_done:
-            # return {
-            #     'name': f"Before Photos",
-            #     'view_mode': 'form',
-            #     'res_model': 'hms.picture.before.wizard',
-            #     'view_id': self.env.ref('acs_hms.wz_before_picture').id,
-            #     'res_id': False,
-            #     'target': 'new',
-            #     'type': 'ir.actions.act_window',
-            #     'context': {},
-            # }
 
-#   return {
-#             'type': 'ir.actions.act_window',
-#             'view_mode': 'form',
-#             'res_model': 'mail.compose.message',
-#             'views': [(False, 'form')],
-#             'view_id': False,
-#             'target': 'new',
-#             'context': ctx,
-#         }
+
+    def get_treatment(self):
+        for rec in self:
+            treatment = self.env['hms.treatment'].search([('appointment_prescription_line_id', '=', rec.id)], limit=1)
+            if len(treatment) > 0:
+                rec.treatment_id = treatment[0].id
+            else:
+                rec.treatment_id = False
