@@ -665,6 +665,11 @@
                                     <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
                                     <field name="category_id" />
                                     <field name="name"/>
+                                    <button name="button_send_email"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-envelope-o"
+                                            aria-label="Send Aftercare"
+                                            data-tooltip="Send Aftercare"/>
                                     <button name="action_open_form"
                                             type="object"
                                             class="btn btn-secondary fa fa-arrow-right"
