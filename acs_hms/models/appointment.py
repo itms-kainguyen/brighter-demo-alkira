@@ -779,9 +779,6 @@ class Appointment(models.Model):
                                                                           force_send=True)
                 if template_appointment_creation:
                     template.reset_template()
-                    self.waiting_date_start = datetime.now()
-                    self.waiting_duration = 0.1
-                    self.state = 'confirm'
                     # Get the mail template for the sale order confirmation.
                     template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
                     for itms_consent_id in self.consent_ids:

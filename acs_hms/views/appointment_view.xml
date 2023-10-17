@@ -404,6 +404,12 @@
                                     <field name="patient_id" />
                                     <field name="nurse_id"/>
                                     <field name="nurse_signed_on"/>
+                                    <button name="consent_forms_confirm"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-envelope-o"
+                                            aria-label="Send Consent Form"
+                                            data-tooltip="Send Consent Form"/>
+                                    <separator/>
                                     <button name="action_open_form"
                                             type="object"
                                             class="btn btn-secondary fa fa-arrow-right"

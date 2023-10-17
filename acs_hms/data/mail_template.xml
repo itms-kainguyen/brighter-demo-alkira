@@ -103,6 +103,31 @@
             </field>
         </record>
 
+        <record id="consent_appointment_form_email" model="mail.template">
+            <field name="name">Consent Form ITMS</field>
+            <field name="model_id" ref="acs_hms.model_hms_appointment"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="description">Consent Form</field>
+            <field name="lang">{{ object.patient_id.lang }}</field>
+           <field name="email_from">{{ (object.nurse_id.email or user.email_formatted or object.user_id.login) }}</field>
+            <field name="email_to">{{ (object.patient_id.email) }}</field>
+            <field name="subject">Accept and Sign for {{ object.name }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear <t t-out="object.patient_id.name"></t>,</p>
+                    <p></p>
+                    <p>In preparation for your upcoming appointment, we kindly request that you click on the following link to access and electronically sign our consent form</p>
+                        <div style="padding: 16px 0px 16px 0px;">
+                              <a t-att-href="ctx.get('itms_consent_id').get_portal_url()"
+                                    target="_blank"
+                                    style="background-color: #875a7b; text-decoration: none; color: #fff; padding: 8px 16px 8px 16px; border-radius: 5px;"><t t-out="ctx.get('itms_consent_id').name"></t></a>
+                        </div>
+                    <br/>
+                    <p>Kind regards,</p>
+                </div>
+            </field>
+        </record>
+
         <record id="email_template_prescription_reminder" model="mail.template">
             <field name="name">Prescription Reminder</field>
             <field name="model_id" ref="acs_hms.model_prescription_detail"/>
