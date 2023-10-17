@@ -298,6 +298,21 @@ class ACSPrescriptionOrder(models.Model):
             'target': 'new',
             'context': ctx,
         }
+    
+    def make_appointment(self):
+        return {
+            'name': f"Appointment",
+            'view_mode': 'form',
+            'res_model': 'hms.appointment',
+            'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,        
+            'res_id': False,
+            'type': 'ir.actions.act_window',
+            #'target': 'new',
+            'context': {'default_patient_id': self.patient_id.id,
+                        'default_consutation_type': 'followup',
+                        'default_prescription_id': self.id,
+                                }
+                }
 
 
 class ACSPrescriptionLine(models.Model):

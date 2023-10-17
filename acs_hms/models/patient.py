@@ -179,14 +179,25 @@ class ACSPatient(models.Model):
     acs_flag_days = fields.Integer(compute='acs_check_cancellation_flag', string='Flag Days')
     acs_cancelled_appointments = fields.Integer(compute='acs_check_cancellation_flag', string='Cancelled Appointments')
 
-    is_patient_valid_prescription = fields.Boolean("Valid", computed='_check_valid')
+    is_patient_valid_prescription = fields.Boolean("Valid", compute='_check_valid')
 
     def _check_valid(self):
         Prescription = self.env['prescription.order']
+        # condition: 1 search all prescription, 2: 
         for rec in self:
-            rec.is_patient_valid_prescription = True
-            
-            #rec = Prescription.search([('patient_id','=',rec.id)])
+            prescriptions = Prescription.search([('patient_id','=',rec.id)])
+            print("prescriptions",prescriptions)
+            if prescriptions:
+                valid = []
+                for prescription in prescriptions:
+                    if prescription.expire_date > fields.Date.today():
+                        valid.append(prescription)
+                if len(valid) > 0:
+                    rec.is_patient_valid_prescription = True
+                else:
+                    rec.is_patient_valid_prescription = False
+            else:
+                rec.is_patient_valid_prescription = False
 
 
     def action_view_patient_procedures(self):

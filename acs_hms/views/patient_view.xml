@@ -67,7 +67,6 @@
                 <button name="create_appointment" string="Create Appointment" type="object" class="oe_highlight" />
                 <field name="invoice_id" invisible="1"/>
                 <field name="is_patient_valid_prescription" invisible="1"/>
-
             </header>
 
             <widget name="web_ribbon" position="after">
@@ -88,10 +87,10 @@
                 <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope" invisible="1">
                     <field string="Evaluations" name="evaluation_count" widget="statinfo"/>
                 </button>
-                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
+                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
-                <button attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
+                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
 

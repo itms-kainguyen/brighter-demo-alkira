@@ -1102,8 +1102,8 @@ class Appointment(models.Model):
             if rec.consultation_type == 'followup':
                 Prescription = rec.env['prescription.order']
                 prescription_ids = Prescription.search([('patient_id', '=', rec.patient_id.id)])
-                if prescription_ids:
-                    rec.prescription_id = prescription_ids[-1]
+                # if prescription_ids:
+                #     rec.prescription_id = prescription_ids[-1]
 
 class StockMove(models.Model):
     _inherit = "stock.move"
