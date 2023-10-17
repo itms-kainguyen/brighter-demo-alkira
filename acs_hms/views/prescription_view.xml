@@ -93,6 +93,11 @@
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+
+                <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                </button>
+
+
                     </div>
                     <div class="oe_title">
                         <h1>
