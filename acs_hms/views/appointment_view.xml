@@ -602,7 +602,7 @@
                             <separator string="Diseases History"/>
                             <field name="patient_diseases_ids"/>
                         </page>
-                        <page name="consumed_products" string="Consumed Products/Services" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" attrs="{'invisible': [('state','=','draft')]}">
+                        <!-- <page name="consumed_products" string="Consumed Products/Services" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_acs_hms_appointment_user" attrs="{'invisible': [('state','=','draft')]}">
                             <label for="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}"/>
                             <div name="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}">
                                 <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
@@ -629,7 +629,7 @@
                                     <field name="patient_id" invisible="1"/>
                                 </tree>
                             </field>
-                        </page>
+                        </page> -->
                         <page name="photos" string="Photos">
                           <group name="extra_info">
                                 <group>

@@ -182,6 +182,7 @@ class ProductProduct(models.Model):
 class ACSConsumableLine(models.Model):
     _inherit = "hms.consumable.line"
 
+    treatment_id = fields.Many2one('hms.treatment', ondelete="cascade", string='Treatment')
     appointment_id = fields.Many2one('hms.appointment', ondelete="cascade", string='Appointment')
     procedure_id = fields.Many2one('acs.patient.procedure', ondelete="cascade", string="Procedure")
     move_ids = fields.Many2many('stock.move', 'consumable_line_stock_move_rel', 'move_id', 'consumable_id',
