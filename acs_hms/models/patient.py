@@ -179,6 +179,16 @@ class ACSPatient(models.Model):
     acs_flag_days = fields.Integer(compute='acs_check_cancellation_flag', string='Flag Days')
     acs_cancelled_appointments = fields.Integer(compute='acs_check_cancellation_flag', string='Cancelled Appointments')
 
+    is_patient_valid_prescription = fields.Boolean("Valid", computed='_check_valid')
+
+    def _check_valid(self):
+        Prescription = self.env['prescription.order']
+        for rec in self:
+            rec.is_patient_valid_prescription = True
+            
+            #rec = Prescription.search([('patient_id','=',rec.id)])
+
+
     def action_view_patient_procedures(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_acs_patient_procedure")
         action['domain'] = [('id', 'in', self.patient_procedure_ids.ids)]

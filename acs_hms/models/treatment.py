@@ -104,6 +104,9 @@ class ACSTreatment(models.Model):
     patient_procedure_count = fields.Integer(compute='_rec_count', string='# Patient Procedures')
     procedure_group_id = fields.Many2one('procedure.group', ondelete="set null", string='Procedure Group',
                                          states=READONLY_STATES)
+    
+    consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
+                                          string='Consumable Line', states=READONLY_STATES, copy=False)
 
     @api.model
     def default_get(self, fields):
