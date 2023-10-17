@@ -174,55 +174,53 @@
                 <div style="margin: 0px; padding: 0px;">
                     <p>Dear <t t-out="object.patient_id.name"></t>,</p>
                     <p>Thank you for choosing <strong><t t-out="object.department_id.name"></t></strong> for your recent cosmetic treatment.</p>
-                    <t t-if="object.treatment_id">
-                        <p>Your treatment included:</p>
-                        <table class="table table-sm o_main_table mt16 acs_table">
-                        <thead>
-                            <tr>
-                                <th>Medicine</th>
-                                <th>Area</th>
-                                <th>Amount</th>
-                                <th>Technique</th>
-                                <th>Depth</th>
-                                <th>Method</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-if="ctx.get('medicine_line_ids')">
-                                <t t-foreach="ctx.get('medicine_line_ids')" t-as="line">
-                                    <tr>
-                                        <td>
-                                            <span t-out="line.get('product_name')"/>
-                                        </td>
-                                        <td>
-                                            <span t-out="line.get('medicine_area')"/>
-                                        </td>
-                                        <td>
-                                            <span t-out="line.get('amount')"/>
-                                        </td>
-                                        <td>
-                                            <span t-out="line.get('medicine_technique')"/>
-                                        </td>
-                                        <td>
-                                            <span t-out="line.get('medicine_depth')"/>
-                                        </td>
-                                        <td>
-                                            <span t-out="line.get('medicine_method')"/>
-                                        </td>
-                                    </tr>
-                                </t>
+                    <p>Your treatment included:</p>
+                    <table class="table table-sm o_main_table mt16 acs_table">
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Area</th>
+                            <th>Amount</th>
+                            <th>Technique</th>
+                            <th>Depth</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="ctx.get('medicine_line_ids')">
+                            <t t-foreach="ctx.get('medicine_line_ids')" t-as="line">
+                                <tr>
+                                    <td>
+                                        <span t-out="line.get('product_name')"/>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.get('medicine_area')"/>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.get('amount')"/>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.get('medicine_technique')"/>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.get('medicine_depth')"/>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.get('medicine_method')"/>
+                                    </td>
+                                </tr>
                             </t>
-                        </tbody>
-                    </table>
-                         <t t-if="ctx.get('treatment_notes')">
-                            <t t-foreach="ctx.get('treatment_notes')" t-as="note">
-                                <p>
-                                    Treatment Notes: <strong><t t-out="note.get('template')"></t></strong>
-                                    <p><t t-out="note.get('finding')"></t></p>
-                                </p>
-                            </t>
-                         </t>
-                    </t>
+                        </t>
+                    </tbody>
+                </table>
+                     <t t-if="ctx.get('treatment_notes')">
+                        <t t-foreach="ctx.get('treatment_notes')" t-as="note">
+                            <p>
+                                Treatment Notes: <strong><t t-out="note.get('template')"></t></strong>
+                                <p><t t-out="note.get('finding')"></t></p>
+                            </p>
+                        </t>
+                     </t>
                     <style>
                         table.table.table-sm.o_main_table.mt16.acs_table th, td, tbody { border: 1px solid black !important; }
                     </style>
