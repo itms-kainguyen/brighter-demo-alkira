@@ -163,36 +163,40 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-if="object.treatment_id.medicine_line_ids">
-                                <t t-foreach="object.treatment_id.medicine_line_ids" t-as="line">
+                            <t t-if="ctx.get('medicine_line_ids')">
+                                <t t-foreach="ctx.get('medicine_line_ids')" t-as="line">
                                     <tr>
                                         <td>
-                                            <span t-field="line.sudo().product_id.name"/>
+                                            <span t-out="line.get('product_name')"/>
                                         </td>
                                         <td>
-                                            <span t-field="line.medicine_area"/>
+                                            <span t-out="line.get('medicine_area')"/>
                                         </td>
                                         <td>
-                                            <span t-field="line.amount"/>
+                                            <span t-out="line.get('amount')"/>
                                         </td>
                                         <td>
-                                            <span t-field="line.medicine_technique"/>
+                                            <span t-out="line.get('medicine_technique')"/>
                                         </td>
                                         <td>
-                                            <span t-field="line.medicine_depth"/>
+                                            <span t-out="line.get('medicine_depth')"/>
                                         </td>
                                         <td>
-                                            <span t-field="line.medicine_method"/>
+                                            <span t-out="line.get('medicine_method')"/>
                                         </td>
                                     </tr>
                                 </t>
                             </t>
                         </tbody>
                     </table>
-                        <p>
-                            Treatment Notes: <strong><t t-if="object.treatment_id" t-out="object.treatment_id.template_id.name"></t></strong>
-                            <p><t t-if="object.treatment_id" t-out="object.treatment_id.finding"></t></p>
-                        </p>
+                         <t t-if="ctx.get('treatment_notes')">
+                            <t t-foreach="ctx.get('treatment_notes')" t-as="note">
+                                <p>
+                                    Treatment Notes: <strong><t t-out="note.get('template')"></t></strong>
+                                    <p><t t-out="note.get('finding')"></t></p>
+                                </p>
+                            </t>
+                         </t>
                     </t>
                     <style>
                         table.table.table-sm.o_main_table.mt16.acs_table th, td, tbody { border: 1px solid black !important; }

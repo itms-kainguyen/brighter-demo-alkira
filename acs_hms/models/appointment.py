@@ -340,7 +340,8 @@ class Appointment(models.Model):
     answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional',
                                           readonly=True)
 
-    aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare')
+    aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare',
+                                    states={'done': [('readonly', True)]})
 
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
@@ -355,7 +356,6 @@ class Appointment(models.Model):
 
     is_done_survey = fields.Boolean('Is done survey', default=False)
     treatment_ids = fields.One2many('hms.treatment', 'appointment_id', string="Treatments")
-
 
     def action_start_survey(self):
         self.ensure_one()
@@ -589,6 +589,15 @@ class Appointment(models.Model):
                 raise UserError(_("Please Set Consultation Service first."))
 
             product_data = [{'product_id': product_id}]
+
+        if self.prescription_line_ids:
+            for prescription in self.prescription_line_ids:
+                if prescription.treatment_id and prescription.is_done:
+                    if prescription.treatment_id.medicine_line_ids:
+                        for line in prescription.treatment_id.medicine_line_ids:
+                            product_data.append({
+                                'product_id': line.product_id
+                            })
 
         if self.consumable_line_ids:
             product_data.append({
@@ -862,7 +871,7 @@ class Appointment(models.Model):
         if self.prescription_id:
             for line in self.prescription_id.prescription_line_ids:
                 line.repeat -= 1
-        #self.appointment_done()
+        # self.appointment_done()
 
     def appointment_done(self):
         self.state = 'done'
@@ -881,8 +890,31 @@ class Appointment(models.Model):
                 })
                 attachments.append(aftercare_attachment_id.id)
             template_aftercare.attachment_ids = attachments
-            # Send the email.
-            is_sent = template_aftercare.sudo().send_mail(self.id, raise_exception=False, force_send=True)
+            medicine_line_ids = []
+            treatment_notes = []
+            if self.prescription_line_ids:
+                for prescription in self.prescription_line_ids:
+                    if prescription.treatment_id and prescription.is_done:
+                        if prescription.treatment_id.medicine_line_ids:
+                            for line in prescription.treatment_id.medicine_line_ids:
+                                if line.product_id:
+                                    medicine_area = line.medicine_area or ''
+                                    amount = line.amount or ''
+                                    medicine_technique = line.medicine_technique or ''
+                                    medicine_depth = line.medicine_depth or ''
+                                    medicine_method = line.medicine_method or ''
+                                    product_name = line.sudo().product_id.name
+                                    medicine_line_ids.append(
+                                        {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
+                                         'medicine_technique': medicine_technique,
+                                         'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
+                        if prescription.treatment_id.template_id:
+                            finding = prescription.treatment_id.finding or ''
+                            template = prescription.treatment_id.template_id.name
+                            treatment_notes.append({'template': template, 'finding': finding})
+            email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
+            is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
+                                                                                       force_send=True)
             if is_sent:
                 template_aftercare.reset_template()
         except Exception as e:
@@ -1099,36 +1131,36 @@ class PrescriptionLine(models.Model):
             rec.done_at = fields.Datetime.now()
 
     def openWizard(self):
-        print("self.product_id.id,",self.product_id.id, self.id)
+        print("self.product_id.id,", self.product_id.id, self.id)
         if self.treatment_id:
-            return     {'name': f"Do Treatment",
+            return {'name': f"Do Treatment",
                     'view_mode': 'form',
                     'res_model': 'hms.treatment',
-                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
+                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                     'res_id': self.treatment_id.id,
                     'target': 'new',
                     'type': 'ir.actions.act_window',
-                    'context': {} ,
+                    'context': {},
                     }
         else:
             return {
-                    'name': f"Do Treatment",
-                    'view_mode': 'form',
-                    'res_model': 'hms.treatment',
-                    'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,        
-                    'res_id': False,
-                    'type': 'ir.actions.act_window',
-                    #'target': 'new',
-                    'context': {'default_patient_id': self.appointment_id.patient_id.id,
-                                'default_appointment_id': self.appointment_id.id,
-                                'default_appointment_prescription_line_id': self.id,
-                                'default_nurse_id': self.appointment_id.nurse_id.id,
-                                'default_medicine_line_ids': [(0, 0, {
-                                                            'product_id': self.product_id.id,
-                                                            #'field2': 'value2',
-                                        })],
-                                       }
-                }
+                'name': f"Do Treatment",
+                'view_mode': 'form',
+                'res_model': 'hms.treatment',
+                'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
+                'res_id': False,
+                'type': 'ir.actions.act_window',
+                # 'target': 'new',
+                'context': {'default_patient_id': self.appointment_id.patient_id.id,
+                            'default_appointment_id': self.appointment_id.id,
+                            'default_appointment_prescription_line_id': self.id,
+                            'default_nurse_id': self.appointment_id.nurse_id.id,
+                            'default_medicine_line_ids': [(0, 0, {
+                                'product_id': self.product_id.id,
+                                # 'field2': 'value2',
+                            })],
+                            }
+            }
 
     def get_treatment(self):
         for rec in self:
@@ -1137,4 +1169,3 @@ class PrescriptionLine(models.Model):
                 rec.treatment_id = treatment[0].id
             else:
                 rec.treatment_id = False
-
