@@ -176,17 +176,17 @@
                     <p>Thank you for choosing <strong><t t-out="object.department_id.name"></t></strong> for your recent cosmetic treatment.</p>
                     <p>Your treatment included:</p>
                     <table class="table table-sm o_main_table mt16 acs_table">
-                    <thead>
-                        <tr>
-                            <th>Medicine</th>
-                            <th>Area</th>
-                            <th>Amount</th>
-                            <th>Technique</th>
-                            <th>Depth</th>
-                            <th>Method</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Area</th>
+                                <th>Amount</th>
+                                <th>Technique</th>
+                                <th>Depth</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         <t t-if="ctx.get('medicine_line_ids')">
                             <t t-foreach="ctx.get('medicine_line_ids')" t-as="line">
                                 <tr>
@@ -212,7 +212,7 @@
                             </t>
                         </t>
                     </tbody>
-                </table>
+                    </table>
                      <t t-if="ctx.get('treatment_notes')">
                         <t t-foreach="ctx.get('treatment_notes')" t-as="note">
                             <p>
