@@ -363,6 +363,7 @@ class Appointment(models.Model):
             self.survey_id.appointment_id = False
         action = self.survey_id.action_start_survey()
         action['context'] = {'default_appointment_id': self.id}
+        action['target'] = 'new'
         self.survey_id.appointment_id = self.id
         return action
 
