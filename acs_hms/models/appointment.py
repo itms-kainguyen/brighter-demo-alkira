@@ -809,17 +809,61 @@ class Appointment(models.Model):
                         self.id, raise_exception=False, force_send=True)
                     if template_consent_creation:
                         template_consent.reset_template()
+                        self.waiting_date_start = datetime.now()
+                        self.waiting_duration = 0.1
+                        self.state = 'confirm'
             except Exception as e:
                 _logger.warning('Failed to send appointment confirmation email: %s', e)
-
-        self.waiting_date_start = datetime.now()
-        self.waiting_duration = 0.1
-        self.state = 'confirm'
-
+    # def consent_forms_confirm(self):
+    #     if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
+    #         if self.appointment_invoice_policy == 'advance' and not self.invoice_id:
+    #             raise UserError(_('Invoice is not created yet'))
+    #
+    #         elif self.invoice_id and self.company_id.acs_check_appo_payment and self.payment_state not in ['in_payment',
+    #                                                                                                        'paid']:
+    #             raise UserError(_('Invoice is not Paid yet.'))
+    #
+    #     if not self.user_id:
+    #         self.user_id = self.env.user.id
+    #
+    #     if self.patient_id.email and (
+    #             self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
+    #         try:
+    #             template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+    #             for itms_consent_id in self.consent_ids:
+    #                 # Generate the PDF attachment.
+    #                 pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+    #                     'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+    #                 attachment = self.env['ir.attachment'].create({
+    #                     'name': itms_consent_id.name,
+    #                     'type': 'binary',
+    #                     'raw': pdf_content,
+    #                     'res_model': itms_consent_id._name,
+    #                     'res_id': itms_consent_id.id
+    #                 })
+    #                 # Add the attachment to the mail template.
+    #                 template_consent.attachment_ids += attachment
+    #             # Send the email.
+    #             template_consent_creation = template_consent.sudo().send_mail(
+    #                 self.id, raise_exception=False, force_send=True)
+    #             if template_consent_creation:
+    #                 template_consent.reset_template()
+    #
+    #         except Exception as e:
+    #             _logger.warning('Failed to send appointment confirmation email: %s', e)
+    #
+    #     self.waiting_date_start = datetime.now()
+    #     self.waiting_duration = 0.1
+    #     self.state = 'confirm'
     def appointment_waiting(self):
         self.state = 'waiting'
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
+    def appointment_waiting_manual(self):
+        try:
+            self.state = self.state = 'confirm_consent'
+        except Exception as e:
+            _logger.warning('Failed to update appointment confirmation email: %s', e)
 
     def appointment_consultation(self):
         if not self.waiting_date_start:
@@ -1093,7 +1137,6 @@ class Appointment(models.Model):
                 if prescription_ids:
                     rec.prescription_id = prescription_ids[-1]
 
-
 class StockMove(models.Model):
     _inherit = "stock.move"
 
@@ -1150,17 +1193,18 @@ class PrescriptionLine(models.Model):
                 'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                 'res_id': False,
                 'type': 'ir.actions.act_window',
-                # 'target': 'new',
+                'target': 'new',
                 'context': {'default_patient_id': self.appointment_id.patient_id.id,
                             'default_appointment_id': self.appointment_id.id,
                             'default_appointment_prescription_line_id': self.id,
-                            'default_nurse_id': self.appointment_id.nurse_id.id,
                             'default_medicine_line_ids': [(0, 0, {
                                 'product_id': self.product_id.id,
                                 # 'field2': 'value2',
                             })],
                             }
             }
+
+
 
     def get_treatment(self):
         for rec in self:

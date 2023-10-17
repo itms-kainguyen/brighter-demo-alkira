@@ -221,7 +221,9 @@
             <form>
                 <header>
                     <button name="appointment_confirm" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/>
+<!--                    <button name="consent_forms_confirm" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Send Consent Email" class="oe_highlight"/>-->
                     <button name="appointment_waiting" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Waiting" class="oe_highlight" invisible="1"/>
+                    <button name="appointment_waiting_manual" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Consent Forms Confirmed" class="oe_highlight"/>
                     <button name="print_report" string="Print" type="object" states="draft,confirm" invisible="1"/>
                     <button name="action_appointment_send" string="Send by Email" type="object" states="draft,confirm"/>
                     <button name="appointment_consultation" states="confirm_consent" groups="acs_hms.group_hms_jr_doctor" type="object" string="In Consultation" class="oe_highlight"/>
@@ -229,7 +231,6 @@
                     <button name="action_start_paused" states="pause" groups="acs_hms.group_allow_consultation_pause" type="object" string="Start"/>
                     <button name="button_pres_req" string="Create Prescription" groups="acs_hms.group_hms_jr_doctor" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': [('state','!=','to_invoice')]}" type="object" class="oe_highlight"/>
-
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('consumable_line_ids','=',False),('invoice_id','!=',False),('state','=','draft')]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|',('invoice_id','!=',False),('state','!=','to_invoice')]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','anytime'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/>
@@ -403,6 +404,12 @@
                                     <field name="patient_id" />
                                     <field name="nurse_id"/>
                                     <field name="nurse_signed_on"/>
+                                    <button name="consent_forms_confirm"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-envelope-o"
+                                            aria-label="Send Consent Form"
+                                            data-tooltip="Send Consent Form"/>
+
                                     <button name="action_open_form"
                                             type="object"
                                             class="btn btn-secondary fa fa-arrow-right"
@@ -643,12 +650,15 @@
 
                         <page name="treatment_ids" string="Treatments" invisible="0">
                             <field name="treatment_ids" >
-                                <tree editable="bottom">
+                                <tree>
                                     <field name="name"/>
+                                    <field name="template_id"/>
+                                    <field name="finding"/>
                                 </tree>
                             </field>
                         </page>
-                        
+
+                          
                         <page name="aftercare" string="Aftercare">
                             <field name="aftercare_ids" context="{'default_patient_id': patient_id}">
                                 <tree editable="bottom">
