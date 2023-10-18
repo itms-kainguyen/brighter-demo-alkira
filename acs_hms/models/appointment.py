@@ -994,7 +994,8 @@ class Appointment(models.Model):
             'default_diseases_ids': [(6, 0, self.diseases_ids.ids)],
             'default_treatment_id': self.treatment_id and self.treatment_id.id or False,
             'default_appointment_id': self.id}
-        action['views'] = [(self.env.ref('acs_hms.view_hms_prescription_order_select_tree').id, 'tree')]
+        action['views'] = [(self.env.ref('acs_hms.view_hms_prescription_order_select_tree').id, 'tree'),
+                           (self.env.ref('acs_hms.view_hms_prescription_order_form').id, 'form')]
         return action
 
     def button_pres_req(self):
