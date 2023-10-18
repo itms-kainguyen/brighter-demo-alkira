@@ -109,6 +109,17 @@
                             </field>
                         </page>
 
+                        <page name="photos" string="Photos">
+                          <group name="extra_info">
+                                <group>
+                                    <field name="attachment_before_ids" widget="many2many_binary"/>
+                                </group>
+                                <group>
+                                    <field name="attachment_after_ids" widget="many2many_binary"/>
+
+                                </group>
+                            </group>
+                        </page>
                         <!-- <page name="patient_procedures" string="Patient Procedures">
                             <group>
                                 <group>

@@ -66,6 +66,8 @@
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
                 <field name="name"/>
                 <field name="prescription_date"/>
+                <field name="first_product_id"/>
+                <field name="prescription_type"/>
                 <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
@@ -338,6 +340,8 @@
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
                 <field name="name"/>
                 <field name="prescription_date"/>
+                <field name="first_product_id"/>
+                <field name="prescription_type"/>
                 <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
