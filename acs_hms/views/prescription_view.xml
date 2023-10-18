@@ -82,7 +82,7 @@
             <form string="ACS Prescription Order" >
                 <header>
                     <button name="button_confirm" states="draft" string="Confirm" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
-                    <button name="button_done" states="prescription" string="Finish" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription"/>
                     <button name="button_reset" states="prescription" string="Reset to Draft" type="object" groups="acs_hms.group_hms_jr_doctor"/>
