@@ -286,7 +286,7 @@ class ACSTreatment(models.Model):
             # Check if we can get back to appointment in breadcrumb.
             appointment = self.env['hms.appointment'].search(
                 [('id', '=', self._context.get('acs_current_appointment'))])
-            appointment.treatment_id = self.id
+            appointment.treatment_ids = [(6, 0, [self.id])]
             action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
             action['res_id'] = appointment.id
             action['views'] = [(self.env.ref('acs_hms.view_hms_appointment_form').id, 'form')]

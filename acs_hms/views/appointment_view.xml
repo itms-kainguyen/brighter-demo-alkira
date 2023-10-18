@@ -252,7 +252,9 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box" groups="acs_hms.group_hms_receptionist">
                         <button name="action_refer_doctor" string="Refer. To" type="object" states="in_consultation,invoiced" class="oe_stat_button" icon="fa-pencil-square-o"/>
-                        <button name="action_view_treatment" string="Treatment" type="object" class="oe_stat_button" icon="fa-pencil-square-o"  attrs="{'invisible': [('state','=','done'),('treatment_id', '=', False)]}"/>
+                        <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-user-md">
+                            <field string="Treatments" name="treatment_count" widget="statinfo"/>
+                        </button>
                         <button name="action_prescription" string="Prescription" type="object" class="oe_stat_button" icon="fa-pencil-square-o"  attrs="{'invisible': [('state','=','done'),('prescription_ids', '=', False)]}"/>
                         <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
                             <field string="Invoices" name="invoice_count" widget="statinfo"/>

@@ -1000,21 +1000,30 @@ class Appointment(models.Model):
             'default_appointment_id': self.id}
         return action
 
+    treatment_count = fields.Integer(compute='_rec_count', string='# Treatments')
+    def _rec_count(self):
+        for rec in self:
+            rec.treatment_count = len(self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running']))
     def action_view_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
         action['context'] = {
             'default_appointment_ids': [(6, 0, self.ids)],
             'default_patient_id': self.patient_id.id,
-            'acs_current_appointment': self.id,
+            'acs_current_appointment': self.id
         }
-        action['views'] = [(self.env.ref('acs_hms.view_hospital_hms_treatment_form').id, 'form')]
-        if self.treatment_id:
-            action['domain'] = [('id', '=', self.treatment_id.id)]
-            action['res_id'] = self.treatment_id.id
-        elif self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'runnig']):
-            running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'runnig'])
-            action['domain'] = [('id', 'in', running_treatment_ids.ids)]
-            action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
+        running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running'])
+        action['domain'] = [('id', 'in', running_treatment_ids.ids)]
+        action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
+
+        # action['views'] = [(self.env.ref('acs_hms.view_hospital_hms_treatment_form').id, 'form')]
+        #
+        # if self.treatment_id:
+        #     action['domain'] = [('id', '=', self.treatment_id.id)]
+        #     action['res_id'] = self.treatment_id.id
+        # elif self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'running']):
+        #     running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'running'])
+        #     action['domain'] = [('id', 'in', running_treatment_ids.ids)]
+        #     action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
         return action
 
     def acs_get_consume_locations(self):

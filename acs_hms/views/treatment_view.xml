@@ -268,7 +268,7 @@
                 <field name="activity_ids" widget="list_activity" optional="show"/>
                 <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='done'" decoration-warning="state=='running'" widget="badge"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-                <button name="acs_select_treatement_for_appointment" type="object" string="Select Treatment"  icon="fa-plus" class="oe_highlight"/>
+                <button name="acs_select_treatement_for_appointment" type="object" string="Select"  icon="fa-plus" class="oe_highlight"/>
             </tree>
         </field>
     </record>
