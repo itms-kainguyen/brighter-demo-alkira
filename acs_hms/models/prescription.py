@@ -26,7 +26,7 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)]}
+    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],'finished': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -56,7 +56,8 @@ class ACSPrescriptionOrder(models.Model):
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('prescription', 'Finished'),
+        ('prescription', 'Prescribed'),
+        ('finished', 'Finished'),
         ('canceled', 'Cancelled')], string='Status', default='draft', tracking=True)
     appointment_ids = fields.One2many('hms.appointment', 'prescription_id', string='Appointments',
                                       states=READONLY_STATES)
@@ -194,6 +195,10 @@ class ACSPrescriptionOrder(models.Model):
                         vals_list.append(vals)
         if vals_list:
             self.env['prescription.detail'].create(vals_list)
+
+    def button_done(self):
+        for app in self:
+            app.state = 'finished'
 
     def print_report(self):
         return self.env.ref('acs_hms.report_hms_prescription_id').report_action(self)
