@@ -528,7 +528,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 mb32">
+                                <div class="col-6 mb32 online-prescriber">
                                     <div class="card">
                                         <h5 class="card-header">
                                             <a type="object" name="open_appointments">Online Prescriber</a>
