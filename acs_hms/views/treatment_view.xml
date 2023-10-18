@@ -97,7 +97,7 @@
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty" required="1"/>
                                     <field name="tracking" invisible="1"/>
-                                    <field name="lot_id" context="{'acs_product_id': product_id}" options="{'no_create': True}" attrs="{'readonly': [('tracking','=','none')], 'required': [('tracking','!=','none')]}"/>
+                                    <field name="lot_id" string="Batch Number" context="{'acs_product_id': product_id}" options="{'no_create': True}" attrs="{'readonly': [('tracking','=','none')], 'required': [('tracking','!=','none')]}"/>
                                     <field name="price_unit" readonly="1" force_save="1"/>
                                     <field name="subtotal" readonly="1" sum="Total" optional="show"/>
                                     <field name="date" required="1"/>
