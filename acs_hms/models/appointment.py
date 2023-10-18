@@ -182,14 +182,14 @@ class Appointment(models.Model):
         ('medical_emergency', 'Medical Emergency'),
     ], string='Urgency Level', default='normal', states=READONLY_STATES)
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirm', 'Consent Emailed'),
-        ('confirm_consent', 'Consent Confirmed'),
+        ('draft', 'Scheduled'),
+        ('confirm', 'Consent'),
+        ('confirm_consent', 'Consent'),
         ('waiting', 'Waiting'),
         ('in_consultation', 'Consultation & Treatment'),
         ('pause', 'Pause'),
-        ('to_invoice', 'To Invoice'),
-        ('done', 'Done'),
+        ('to_invoice', 'Invoice'),
+        ('done', 'Finished'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', required=True, copy=False, tracking=True,
         states=READONLY_STATES)
@@ -1202,24 +1202,24 @@ class PrescriptionLine(models.Model):
     def openWizard(self):
         print("self.product_id.id,", self.product_id.id, self.id)
         if self.treatment_id:
-            return {'name': f"Do Treatment",
+            return {'name': f"Treatment Notes",
                     'view_mode': 'form',
                     'res_model': 'hms.treatment',
                     'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                     'res_id': self.treatment_id.id,
-                    'target': 'new',
+                    #'target': 'new',
                     'type': 'ir.actions.act_window',
                     'context': {},
                     }
         else:
             return {
-                'name': f"Do Treatment",
+                'name': f"Treatment Notes",
                 'view_mode': 'form',
                 'res_model': 'hms.treatment',
                 'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                 'res_id': False,
                 'type': 'ir.actions.act_window',
-                'target': 'new',
+                #'target': 'new',
                 'context': {'default_patient_id': self.appointment_id.patient_id.id,
                             'default_appointment_id': self.appointment_id.id,
                             'default_appointment_prescription_line_id': self.id,

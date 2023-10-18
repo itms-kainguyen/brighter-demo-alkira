@@ -10,7 +10,7 @@
                     <button name="treatment_running" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/>
                     <button name="treatment_done" states="running" groups="acs_hms.group_hms_jr_doctor" type="object" string="Done" class="oe_highlight"/>
                     <!-- as Mark confirmed that treatment is only for note, not invoice them Khang Monday noted -->
-                     <button name="create_invoice" string="Create Invoice" attrs="{'invisible': ['|',('invoice_id', '!=', False),('state','=','cancel')]}" type="object" groups="acs_hms.group_treatment_invoicing" class="oe_stat_button" icon="fa-pencil-square-o"/>
+                     <!-- <button name="create_invoice" string="Create Invoice" attrs="{'invisible': ['|',('invoice_id', '!=', False),('state','=','cancel')]}" type="object" groups="acs_hms.group_treatment_invoicing" class="oe_stat_button" icon="fa-pencil-square-o"/> -->
                     <button name="treatment_cancel" string="Cancel" states="draft,running,done" type="object" class="oe_highlight"/>
                     <button name="treatment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,running,done"/>
@@ -20,7 +20,7 @@
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="view_invoice" string="View Invoice" type="object" groups="account.group_account_invoice" class="oe_stat_button" icon="fa-pencil-square-o"/>
+                        <!-- <button name="view_invoice" string="View Invoice" type="object" groups="account.group_account_invoice" class="oe_stat_button" icon="fa-pencil-square-o"/> -->
                         <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
                             <field string="Appointments" name="appointment_count" widget="statinfo"/>
                         </button>
@@ -109,6 +109,17 @@
                             </field>
                         </page>
 
+                        <page name="photos" string="Photos">
+                          <group name="extra_info">
+                                <group>
+                                    <field name="attachment_before_ids" widget="many2many_binary"/>
+                                </group>
+                                <group>
+                                    <field name="attachment_after_ids" widget="many2many_binary"/>
+
+                                </group>
+                            </group>
+                        </page>
                         <!-- <page name="patient_procedures" string="Patient Procedures">
                             <group>
                                 <group>
