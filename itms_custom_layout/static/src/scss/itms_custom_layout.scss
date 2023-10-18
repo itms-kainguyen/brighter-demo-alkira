@@ -256,3 +256,59 @@ div[name='call_telehealth'] .btn:hover {
 .online-prescriber .card-header a {
   color: white;
 }
+
+
+.o_PersonaImStatusIcon_icon::before {
+  color: green;
+}
+
+
+#loading {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(13, 12, 12, 0.5);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.loading-container {
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.loader {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: loader 1.2s linear infinite;
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
