@@ -357,6 +357,8 @@ class Appointment(models.Model):
     is_done_survey = fields.Boolean('Is done survey', default=False)
     treatment_ids = fields.One2many('hms.treatment', 'appointment_id', string="Treatments")
 
+    prescription_count = fields.Integer(compute='_rec_count', string='Prescriptions')
+
     def action_start_survey(self):
         self.ensure_one()
         if self.survey_id.appointment_id:
@@ -815,6 +817,7 @@ class Appointment(models.Model):
                         self.state = 'confirm'
             except Exception as e:
                 _logger.warning('Failed to send appointment confirmation email: %s', e)
+
     # def consent_forms_confirm(self):
     #     if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
     #         if self.appointment_invoice_policy == 'advance' and not self.invoice_id:
@@ -860,6 +863,7 @@ class Appointment(models.Model):
         self.state = 'waiting'
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
+
     def appointment_waiting_manual(self):
         try:
             self.state = self.state = 'confirm_consent'
@@ -979,13 +983,18 @@ class Appointment(models.Model):
 
     def action_prescription(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
-        action['domain'] = [('appointment_id', '=', self.id)]
+        prescription_ids = self.env['prescription.order'].search(
+            [('state', '=', 'prescription'), ('patient_id', '=', self.patient_id.id),
+             ('expire_date', '>=', fields.Date.today())])
+        action['domain'] = [('id', 'in', prescription_ids.ids)]
+        # action['domain'] = [('appointment_id', '=', self.id)]
         action['context'] = {
             'default_patient_id': self.patient_id.id,
             'default_physician_id': self.physician_id.id,
             'default_diseases_ids': [(6, 0, self.diseases_ids.ids)],
             'default_treatment_id': self.treatment_id and self.treatment_id.id or False,
             'default_appointment_id': self.id}
+        action['views'] = [(self.env.ref('acs_hms.view_hms_prescription_order_select_tree').id, 'tree')]
         return action
 
     def button_pres_req(self):
@@ -1001,9 +1010,14 @@ class Appointment(models.Model):
         return action
 
     treatment_count = fields.Integer(compute='_rec_count', string='# Treatments')
+
     def _rec_count(self):
         for rec in self:
             rec.treatment_count = len(self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running']))
+            rec.prescription_count = len(self.env['prescription.order'].search(
+                [('state', '=', 'prescription'), ('patient_id', '=', self.patient_id.id),
+                 ('expire_date', '>=', fields.Date.today())]))
+
     def action_view_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
         action['context'] = {
@@ -1147,6 +1161,7 @@ class Appointment(models.Model):
                 # if prescription_ids:
                 #     rec.prescription_id = prescription_ids[-1]
 
+
 class StockMove(models.Model):
     _inherit = "stock.move"
 
@@ -1213,8 +1228,6 @@ class PrescriptionLine(models.Model):
                             })],
                             }
             }
-
-
 
     def get_treatment(self):
         for rec in self:

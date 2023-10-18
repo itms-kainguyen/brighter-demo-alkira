@@ -329,6 +329,24 @@
         </field>
     </record>
 
+     <!-- Prescription -->
+    <record id="view_hms_prescription_order_select_tree" model="ir.ui.view">
+        <field name="name">prescription.order.select.tree</field>
+        <field name="model">prescription.order</field>
+        <field name="arch" type="xml">
+            <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
+                <field name="name"/>
+                <field name="prescription_date"/>
+                <field name="expire_date"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <button name="acs_select_prescription_for_appointment" type="object" string="Select" icon="fa-plus" class="oe_highlight"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="view_advice_template_tree" model="ir.ui.view">
         <field name="name">advice.template.tree</field>
         <field name="model">advice.template</field>
