@@ -15,6 +15,8 @@
         'views/calendar_views.xml',
         'views/mail_channel_view.xml',
         'views/ir_attachment_view.xml',
+        'views/product_views.xml',
+        'views/prescription_view.xml'
     ],
     'assets': {
         'web.assets_backend': [
