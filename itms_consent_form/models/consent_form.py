@@ -84,7 +84,7 @@ class Consent(models.Model):
     def onchange_category_id(self):
         self.content = None
         if self.category_id:
-            self.content = self.category_id.template
+            self.content = self.category_id.content
             self.patient_signature = None
             self.patient_signed_by = None
             # self.nurse_signature = None
