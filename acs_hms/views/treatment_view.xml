@@ -10,7 +10,7 @@
                     <button name="treatment_running" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/>
                     <button name="treatment_done" states="running" groups="acs_hms.group_hms_jr_doctor" type="object" string="Done" class="oe_highlight"/>
                     <!-- as Mark confirmed that treatment is only for note, not invoice them Khang Monday noted -->
-                     <button name="create_invoice" string="Create Invoice" attrs="{'invisible': ['|',('invoice_id', '!=', False),('state','=','cancel')]}" type="object" groups="acs_hms.group_treatment_invoicing" class="oe_stat_button" icon="fa-pencil-square-o"/>
+                     <!-- <button name="create_invoice" string="Create Invoice" attrs="{'invisible': ['|',('invoice_id', '!=', False),('state','=','cancel')]}" type="object" groups="acs_hms.group_treatment_invoicing" class="oe_stat_button" icon="fa-pencil-square-o"/> -->
                     <button name="treatment_cancel" string="Cancel" states="draft,running,done" type="object" class="oe_highlight"/>
                     <button name="treatment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,running,done"/>
@@ -20,7 +20,7 @@
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="view_invoice" string="View Invoice" type="object" groups="account.group_account_invoice" class="oe_stat_button" icon="fa-pencil-square-o"/>
+                        <!-- <button name="view_invoice" string="View Invoice" type="object" groups="account.group_account_invoice" class="oe_stat_button" icon="fa-pencil-square-o"/> -->
                         <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
                             <field string="Appointments" name="appointment_count" widget="statinfo"/>
                         </button>
@@ -91,13 +91,13 @@
                         
                         <page name="consumable_lines" string="Consumed Products/Services" groups="acs_hms.group_hms_medical_officer,acs_hms.group_hms_nurse,acs_hms_hospitalization.group_acs_hms_hospitalization_user">
                             <field name="consumable_line_ids" nolabel="1" colspan="2" context="{'default_patient_id': patient_id }">
-                                <tree string="Line" editable="top">
+                                <tree string="Line" editable="bottom">
                                     <field name="product_id" expand="1" required="1"/>
                                     <field name="product_uom_id" required="1" groups="uom.group_uom"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty" required="1"/>
                                     <field name="tracking" invisible="1"/>
-                                    <field name="lot_id" context="{'acs_product_id': product_id}" options="{'no_create': True}" attrs="{'readonly': [('tracking','=','none')], 'required': [('tracking','!=','none')]}"/>
+                                    <field name="lot_id" string="Batch Number" context="{'acs_product_id': product_id}" options="{'no_create': True}" attrs="{'readonly': [('tracking','=','none')], 'required': [('tracking','!=','none')]}"/>
                                     <field name="price_unit" readonly="1" force_save="1"/>
                                     <field name="subtotal" readonly="1" sum="Total" optional="show"/>
                                     <field name="date" required="1"/>
@@ -109,6 +109,17 @@
                             </field>
                         </page>
 
+                        <page name="photos" string="Photos">
+                          <group name="extra_info">
+                                <group>
+                                    <field name="attachment_before_ids" widget="many2many_binary"/>
+                                </group>
+                                <group>
+                                    <field name="attachment_after_ids" widget="many2many_binary"/>
+
+                                </group>
+                            </group>
+                        </page>
                         <!-- <page name="patient_procedures" string="Patient Procedures">
                             <group>
                                 <group>

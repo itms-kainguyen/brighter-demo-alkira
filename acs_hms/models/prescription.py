@@ -70,7 +70,7 @@ class ACSPrescriptionOrder(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
-        ('draft', 'Draft'),
+        ('draft', 'Awaiting Confirmation'),
         ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
         ('canceled', 'Cancelled')], string='Status', default='draft', tracking=True)
@@ -99,7 +99,19 @@ class ACSPrescriptionOrder(models.Model):
         string='Procedure', default='other',
         states=READONLY_STATES,
         required=True, tracking=True)
+    
+    first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
 
+    def get_1st_product(self):
+        for rec in self:
+            if rec.prescription_line_ids:
+                if rec.prescription_line_ids[0].product_id:
+                    rec.first_product_id = rec.prescription_line_ids[0].product_id
+                else:
+                    rec.first_product_id = False
+            else:
+                rec.first_product_id = False
+                    
     @api.model_create_multi
     def create(self, vals_list):
         res = super().create(vals_list)

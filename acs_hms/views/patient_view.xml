@@ -176,7 +176,7 @@
                     </group>
                 </page>
 
-                <page name='diseases' string="Treatment Notes" groups="acs_hms.group_hms_jr_doctor">
+                <page name='diseases' string="Treatment Notes" groups="acs_hms.group_hms_jr_doctor" invisible="1">
                     <separator string="Medical Alert" colspan="4" invisible="1"/>
                     <group invisible="1">
                         <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/>
