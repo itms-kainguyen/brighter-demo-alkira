@@ -176,7 +176,7 @@
         <field name="view_id" ref="view_checklist_hms_appointment_tree"/>
          <field name="search_view_id" ref="view_hms_appointment_search"/>
         <field name="view_mode">tree</field>
-          <field name="domain">[('is_done_survey','=',False),('state', '=', 'confirm')]</field>
+          <field name="domain">[('is_done_survey','=',False),('state', '=', 'confirm_consent')]</field>
          <field name="context">{'search_default_today': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -186,7 +186,7 @@ class ResUsers(models.Model):
         shop_domain = self.get_filter('create_date')
         shop_domain += [('is_published', '=', True)]
         checklist_domain = self.get_filter('create_date')
-        checklist_domain += [('state', '=', 'confirm')]
+        checklist_domain += [('state', '=', 'confirm_consent')]
         checklist_domain += [('is_done_survey', '=', False)]
         self.total_prescription = self.env['prescription.order'].sudo().search_count(prescription_domain)
         self.total_protocol = 0
