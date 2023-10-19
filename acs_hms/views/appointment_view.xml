@@ -387,6 +387,8 @@
 
 
 
+
+
                         </group>
 
                         <!--                            <separator string="Chief Complaints"/>-->
@@ -505,6 +507,7 @@
                                 </tree>
                             </field>
                         </page>
+
 
 
                         <page name="info" string="General Information" invisible="1">

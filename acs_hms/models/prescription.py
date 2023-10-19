@@ -5,6 +5,20 @@ from odoo.exceptions import UserError
 
 from dateutil.relativedelta import relativedelta
 import uuid
+from lxml import etree
+from odoo.addons.base.models.ir_ui_view import (
+    transfer_field_to_modifiers, transfer_node_to_modifiers, transfer_modifiers_to_node,
+)
+
+
+def setup_modifiers(node, field=None, context=None, in_tree_view=False):
+    modifiers = {}
+    if field is not None:
+        transfer_field_to_modifiers(field, modifiers)
+    transfer_node_to_modifiers(
+        node, modifiers, context=context)
+    transfer_modifiers_to_node(modifiers, node)
+
 
 
 class ACSPrescriptionOrder(models.Model):
@@ -26,7 +40,8 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],'finished': [('readonly', True)]}
+    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
+                       'finished': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -328,12 +343,19 @@ class ACSPrescriptionOrder(models.Model):
     def acs_select_prescription_for_appointment(self):
         if self._context.get('default_appointment_id'):
             # Check if we can get back to appointment in breadcrumb.
+            view_id = self.env.ref('acs_hms.view_hms_appointment_form')
+            # result = self.fields_view_get(view_id.id, 'form', toolbar=False, submenu=False)
+            # doc = etree.XML(result['arch'])
+            # node = doc.xpath("//page[@name='prescription_line_ids']")[0]
+            # node.set('autofocus', 'autofocus')
+            # setup_modifiers(node, result['page']['prescription_line_ids'])
             appointment = self.env['hms.appointment'].search(
                 [('id', '=', self._context.get('default_appointment_id'))])
             appointment.prescription_id = self.id
             action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
             action['res_id'] = appointment.id
-            action['views'] = [(self.env.ref('acs_hms.view_hms_appointment_form').id, 'form')]
+            # view_id['arch'] = etree.tostring(doc, encoding='unicode')
+            action['views'] = [(view_id.id, 'form')]
             return action
         else:
             raise UserError(_("Something went wrong! Plese Open Appointment and try again"))
