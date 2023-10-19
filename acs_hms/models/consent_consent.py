@@ -11,7 +11,7 @@ class Consent(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "res_model": "consent.consent",
+            "res_model": "document.page",
             "res_id": self.category_id.id,
             "view_mode": "form",
             "view_type": "form",
