@@ -17,11 +17,13 @@ class ACSDocumntViewerMixin(models.AbstractModel):
 
     def acs_action_attachments_preview(self):
         ''' Open the website page with the preview results view '''
-        attachments = self.env['ir.attachment'].search([
-            ('id', 'in', self.attachment_ids.ids),
-            ('mimetype', 'in', ['image/jpeg','image/jpg','image/png','image/gif']),
+        attachments = self.env['patient.document'].search([
+            ('res_model', '=', self._name),
+            ('res_id', '=', self.id),
+            ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
         ])
-        if len(attachments)==0:
+
+        if len(attachments) == 0:
             raise ValidationError(_("There are no documents to Preview. Please Add it in chatter."))
 
         self.ensure_one()
