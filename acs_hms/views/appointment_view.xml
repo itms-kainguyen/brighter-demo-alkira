@@ -164,6 +164,7 @@
                 <field name="patient_id"/>
                 <field name="date" invisible="1"/>
                 <field name="survey_id" invisible="1"/>
+                <field name="is_done_survey" invisible="1"/>
                 <field name="state" invisible="0" optional="hide" decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" decoration-success="state=='done'" decoration-primary="state=='in_consultation'" decoration-warning="state=='to_invoice'" decoration-it="state=='pause'" widget="badge"/>
                 <button string="Start Medical Checklist" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False),('is_done_survey','=',True)]}" class="oe_link pb-1"/>
             </tree>

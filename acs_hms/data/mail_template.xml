@@ -217,7 +217,7 @@
                         <t t-foreach="ctx.get('treatment_notes')" t-as="note">
                             <p>
                                 Treatment Notes: <strong><t t-out="note.get('template')"></t></strong>
-                                <p><t t-out="note.get('finding')"></t></p>
+<!--                                <p><t t-out="note.get('finding')"></t></p>-->
                             </p>
                         </t>
                      </t>
