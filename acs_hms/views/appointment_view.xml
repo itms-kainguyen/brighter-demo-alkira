@@ -668,7 +668,7 @@
                             <field name="aftercare_ids" context="{'default_patient_id': patient_id}">
                                 <tree editable="bottom">
                                     <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
-                                    <field name="category_id" />
+                                    <field name="category_id" required="1"/>
                                     <field name="name"/>
                                     <button name="button_send_email"
                                             type="object"
