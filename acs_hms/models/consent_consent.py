@@ -12,7 +12,7 @@ class Consent(models.Model):
         return {
             "type": "ir.actions.act_window",
             "res_model": "consent.consent",
-            "res_id": self.id,
+            "res_id": self.category_id.id,
             "view_mode": "form",
             "view_type": "form",
             "views": [(False, "form")],
