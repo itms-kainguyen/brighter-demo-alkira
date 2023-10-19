@@ -184,7 +184,7 @@ class Appointment(models.Model):
     state = fields.Selection([
         ('draft', 'Scheduled'),
         ('confirm', 'Consent'),
-        ('confirm_consent', 'Consent'),
+        ('confirm_consent', 'Medical Checklist'),
         ('waiting', 'Waiting'),
         ('in_consultation', 'Consultation & Treatment'),
         ('pause', 'Pause'),
