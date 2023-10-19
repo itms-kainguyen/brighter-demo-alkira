@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="survey_selection_key_inherited" inherit_id="survey.survey_selection_key" name="Survey Selection Key">
+        <xpath expr="//div[contains(@t-att-class,'o_survey_choice_key')]" position="replace">
+        </xpath>
+    </template>
+</odoo>
