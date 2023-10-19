@@ -194,7 +194,7 @@ class Appointment(models.Model):
     ], string='Status', default='draft', required=True, copy=False, tracking=True,
         states=READONLY_STATES)
     product_id = fields.Many2one('product.product', ondelete='restrict',
-                                 string='Consultation Service', help="Consultation Services",
+                                 string='Service Charge',
                                  domain=[('hospital_product_type', '=', "consultation")], required=True,
                                  default=_get_service_id, states=READONLY_STATES)
     age = fields.Char(compute="get_patient_age", string='Age', store=True,
@@ -589,7 +589,7 @@ class Appointment(models.Model):
         if with_product:
             product_id = self.product_id
             if not product_id:
-                raise UserError(_("Please Set Consultation Service first."))
+                raise UserError(_("Please Set Service Charge first."))
 
             product_data = [{'product_id': product_id}]
 
