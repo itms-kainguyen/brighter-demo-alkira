@@ -30,7 +30,6 @@ class ACSPrescriptionOrder(models.Model):
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
-    display_name = fields.Char(compute='_compute_display_name', string='Display Name', readonly=True)
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_prescription_rel', 'diseas_id', 'prescription_id',
                                     string='Diseases', states=READONLY_STATES, tracking=True)
     group_id = fields.Many2one('medicament.group', ondelete="set null", string='Medicaments Group',
@@ -177,14 +176,6 @@ class ACSPrescriptionOrder(models.Model):
 
                 })
         return vals
-
-    @api.depends('name')
-    def _compute_display_name(self):
-        for app in self:
-            name = app.name
-            if name.find(':') > 0:
-                display_name = app.name.split(':')[1]
-                app.display_name = display_name
 
     def button_confirm(self):
         for app in self:
