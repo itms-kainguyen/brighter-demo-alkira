@@ -30,6 +30,7 @@ class ACSPrescriptionOrder(models.Model):
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
+    display_name = fields.Char(string='Display Name', readonly=True)
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_prescription_rel', 'diseas_id', 'prescription_id',
                                     string='Diseases', states=READONLY_STATES, tracking=True)
     group_id = fields.Many2one('medicament.group', ondelete="set null", string='Medicaments Group',
@@ -186,8 +187,8 @@ class ACSPrescriptionOrder(models.Model):
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
-                app.name = prescription_type_label.get(app.prescription_type) + ": " + self.env[
-                    'ir.sequence'].next_by_code('prescription.order') or '/'
+                app.display_name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+                app.name = prescription_type_label.get(app.prescription_type) + ": " + app.display_name
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
             # create prescription detail based on prescription line

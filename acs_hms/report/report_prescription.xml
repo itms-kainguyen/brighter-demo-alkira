@@ -39,7 +39,7 @@
                      <p t-field="doc.physician_id.user_id.signature"/>
                  </div>
                 <center>
-                    <h3>Medical Prescription: <span t-field="doc.name"/></h3>
+                    <h4>Medical Prescription: <span t-field="doc.display_name"/></h4>
                 </center>
 
                 <div class="row mt32 mb16" id="informations">
