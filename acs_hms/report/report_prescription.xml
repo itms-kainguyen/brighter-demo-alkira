@@ -39,8 +39,15 @@
                      <p t-field="doc.physician_id.user_id.signature"/>
                  </div>
                 <center>
-                    <h4>Medical Prescription: <span t-field="doc.display_name"/></h4>
+                    <h4>Medical Prescription: <span t-field="doc.name"/></h4>
                 </center>
+
+                 <div class="row mt32 mb16" id="informations">
+                    <div t-if="doc.prescription_date" class="col-3 mb-2">
+                        <strong>Date</strong>
+                        <p class="m-0" t-field="doc.prescription_date"/>
+                    </div>
+                 </div>
 
                 <div class="row mt32 mb16" id="informations">
                     <div t-if="doc.patient_id" class="col-3 mb-2">
@@ -57,10 +64,7 @@
                         <p class="m-0" t-field="doc.patient_id.birthday"/>
                     </div>
 
-                    <div t-if="doc.prescription_date" class="col-3 mb-2">
-                        <strong>Date</strong>
-                        <p class="m-0" t-field="doc.prescription_date"/>
-                    </div>
+
                      <div t-if="doc.patient_id" class="col-3 mb-2">
                         <strong>Address</strong>
                         <p class="m-0" t-field="doc.patient_id.street"/>
