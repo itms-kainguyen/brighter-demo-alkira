@@ -17,11 +17,34 @@ class ACSDocumntViewerMixin(models.AbstractModel):
 
     def acs_action_attachments_preview(self):
         ''' Open the website page with the preview results view '''
-        attachments = self.env['patient.document'].search([
+
+        attachments = self.env['ir.attachment'].search([
             ('res_model', '=', self._name),
             ('res_id', '=', self.id),
             ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
         ])
+
+        attachments_patient_document = self.env['patient.document'].search([
+            ('res_model', '=', self._name),
+            ('res_id', '=', self.id),
+            ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
+        ])
+
+        attachments_treatment = None
+        if self._name == 'hms.treatment':
+            attachments_treatment = self.env['ir.attachment'].search([
+                '&', '|',
+                ('id', 'in', self.attachment_before_ids.ids),
+                ('id', 'in', self.attachment_after_ids.ids),
+                ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
+            ])
+            for attachment_treat in attachments_treatment:
+                ir_att = self.env['ir.attachment'].browse(attachment_treat.id)
+                attachments += ir_att
+
+        for attachment in attachments_patient_document:
+            ir_att = self.env['ir.attachment'].browse(attachment.ir_attachment_id.id)
+            attachments += ir_att
 
         if len(attachments) == 0:
             raise ValidationError(_("There are no documents to Preview. Please Add it in chatter."))

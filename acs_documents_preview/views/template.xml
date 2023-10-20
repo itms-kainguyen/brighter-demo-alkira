@@ -49,9 +49,9 @@
                         <div class="col-12">
                             <div id="gallery" class="mt64">
                                 <t t-as="im" t-foreach="attachments">
-                                    <img t-attf-src="/web/content/#{im.ir_attachment_id.id}"
+                                    <img t-attf-src="/web/content/#{im.id}"
                                         t-att-alt="im.name"
-                                        t-attf-data-image="/web/content/#{im.ir_attachment_id.id}"
+                                        t-attf-data-image="/web/content/#{im.id}"
                                         t-att-title="im.name"/>
                                 </t>
                             </div>
