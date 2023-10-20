@@ -26,7 +26,8 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],'finished': [('readonly', True)]}
+    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
+                       'finished': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -84,7 +85,7 @@ class ACSPrescriptionOrder(models.Model):
         string='Procedure', default='other',
         states=READONLY_STATES,
         required=True, tracking=True)
-    
+
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
 
     def get_1st_product(self):
@@ -96,7 +97,7 @@ class ACSPrescriptionOrder(models.Model):
                     rec.first_product_id = False
             else:
                 rec.first_product_id = False
-                    
+
     @api.model_create_multi
     def create(self, vals_list):
         res = super().create(vals_list)
@@ -186,7 +187,8 @@ class ACSPrescriptionOrder(models.Model):
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
-                app.name = prescription_type_label.get(app.prescription_type) + ": " + self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+                app.name = prescription_type_label.get(app.prescription_type) + ": " + self.env[
+                    'ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
             # create prescription detail based on prescription line
@@ -344,10 +346,12 @@ class ACSPrescriptionOrder(models.Model):
             appointment.prescription_id = self.id
             action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
             action['res_id'] = appointment.id
+            action['context'] = {'autofocus': 'autofocus'}
             action['views'] = [(self.env.ref('acs_hms.view_hms_appointment_form').id, 'form')]
+
             return action
         else:
-            raise UserError(_("Something went wrong! Plese Open Appointment and try again"))
+            raise UserError(_("Something went wrong! Please Open Appointment and try again"))
 
 
 class ACSPrescriptionLine(models.Model):

@@ -998,6 +998,15 @@ class Appointment(models.Model):
                            (self.env.ref('acs_hms.view_hms_prescription_order_form').id, 'form')]
         return action
 
+    @api.model
+    def _get_view(self, view_id=None, view_type='form', **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        ctx = self._context
+        if self._context.get('autofocus', '') == 'autofocus' and view_type == 'form':
+            for node in arch.xpath("//page[@name='prescription_line_ids']"):
+                node.set('autofocus', 'autofocus')
+        return arch, view
+
     def button_pres_req(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
         action['domain'] = [('appointment_id', '=', self.id)]
