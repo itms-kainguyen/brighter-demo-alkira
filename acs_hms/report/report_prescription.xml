@@ -54,12 +54,12 @@
                         <strong>Patient</strong>
                         <p class="m-0" t-field="doc.patient_id"/>
                     </div>
-                    <div t-if="doc.patient_age" class="col-2 mb-2">
+                    <div t-if="doc.patient_age" class="col-3 mb-2">
                         <strong>Age</strong>
                         <p class="m-0" t-field="doc.patient_age"/>
                     </div>
 
-                     <div t-if="doc.patient_age" class="col-2 mb-2">
+                     <div t-if="doc.patient_age" class="col-3 mb-2">
                         <strong>BOD</strong>
                         <p class="m-0" t-field="doc.patient_id.birthday"/>
                     </div>
