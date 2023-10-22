@@ -188,7 +188,8 @@ class Appointment(models.Model):
         ('waiting', 'Waiting'),
         ('in_consultation', 'Consultation & Treatment'),
         ('pause', 'Pause'),
-        ('to_invoice', 'Invoice'),
+        ('to_after_care', 'AfterCare'),
+        # ('to_invoice', 'Invoice'),
         ('done', 'Finished'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', required=True, copy=False, tracking=True,
@@ -914,7 +915,8 @@ class Appointment(models.Model):
                 self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
             self.appointment_done()
         else:
-            self.state = 'to_invoice'
+            # self.state = 'to_invoice'
+            self.state = 'to_after_care'
         if self.consumable_line_ids:
             self.consume_appointment_material()
         if self.prescription_id:

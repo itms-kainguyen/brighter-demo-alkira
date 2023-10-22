@@ -229,7 +229,7 @@
                     <button name="action_pause" states="in_consultation" groups="acs_hms.group_allow_consultation_pause" type="object" string="Pause"/>
                     <button name="action_start_paused" states="pause" groups="acs_hms.group_allow_consultation_pause" type="object" string="Start"/>
                     <button name="button_pres_req" string="Create Prescription" groups="acs_hms.group_hms_jr_doctor" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
-                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': [('state','!=','to_invoice')]}" type="object" class="oe_highlight"/>
+<!--                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': [('state','!=','to_invoice')]}" type="object" class="oe_highlight"/>-->
  <!--                    <button name="consent_forms_confirm" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Send Consent Email" class="oe_highlight"/>-->
 <!--                    <button name="action_appointment_send" string="Send by Email" type="object" states="draft,confirm"/>-->
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('consumable_line_ids','=',False),('invoice_id','!=',False),('state','=','draft')]}" type="object" class="oe_highlight"/> -->
@@ -239,9 +239,10 @@
                     <!-- <button name="action_create_invoice_with_procedure" string="Create Invoice (With Procedure)" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('procedure_to_invoice_ids','=',[]),('invoice_id','!=',False), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="create_consumed_prod_invoice" string="Create Consumable's Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|','|','|',('invoice_id','=',False),('state','=','done'), ('invoice_exempt','=', True),('consumable_line_count','=',[]),('consumable_invoice_id','!=',False),'&amp;',('appointment_invoice_policy','!=','advance'),('appointment_invoice_policy','!=','anytime')]}" type="object" class="oe_highlight"/> -->
                     <button name="consultation_done" states="in_consultation" groups="acs_hms.group_hms_jr_doctor" type="object" string="Finish Treatment" class="oe_highlight"/>
+                    <button name="appointment_done" states="to_after_care" groups="acs_hms.group_hms_jr_doctor" type="object" string="Finish AfterCare" class="oe_highlight"/>
                     <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,waiting,in_consultation" type="action"/>
                     <button name="appointment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_invoice,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_after_care,done"/>
                     <field name="appointment_invoice_policy" invisible="1"/>
                     <field name="consumable_invoice_id" invisible="1"/>
                     <field name="consumable_line_ids" invisible="1"/>
