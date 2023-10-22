@@ -44,19 +44,19 @@
              <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
                 <a t-if="record.appointment_count.value" data-type="object" data-name="action_appointment" href="#" class="oe_kanban_action oe_kanban_action_a me-1">
                     <span class="badge rounded-pill" style="font-size: small !important;">
-                        <i class="fa fa-fw fa-stethoscope" role="img" aria-label="Appointment" title="Appointment"/>
+                        <i class="fa fa-fw fa-stethoscope" role="img" aria-label="Appointments" title="Appointments"/>
                         <t t-out="record.appointment_count.value"/>
                     </span>
                      <span class="badge rounded-pill" style="font-size: small !important;">
-                        <i class="fa fa-fw fa-wpforms" role="img" aria-label="Prescription" title="Prescription"/>
+                        <i class="fa fa-fw fa-wpforms" role="img" aria-label="Prescriptions" title="Prescriptions"/>
                         <t t-out="record.prescription_count.value"/>
                     </span>
-                    <a t-if="record.total_invoiced.value" data-type="object" data-name="view_invoices" href="#" class="oe_kanban_action oe_kanban_action_a me-1">
-                        <span class="badge rounded-pill" style="font-size: small !important;">
-                            <i class="fa fa-money" role="img" aria-label="Invoiced" title="Invoiced"/>
-                            <t t-out="record.total_invoiced.value"/>
-                        </span>
-                    </a>
+<!--                    <a t-if="record.total_invoiced.value" data-type="object" data-name="view_invoices" href="#" class="oe_kanban_action oe_kanban_action_a me-1">-->
+<!--                        <span class="badge rounded-pill" style="font-size: small !important;">-->
+<!--                            <i class="fa fa-money" role="img" aria-label="Invoiced" title="Invoiced"/>-->
+<!--                            <t t-out="record.total_invoiced.value"/>-->
+<!--                        </span>-->
+<!--                    </a>-->
                 </a>
             </xpath>
         </field>
