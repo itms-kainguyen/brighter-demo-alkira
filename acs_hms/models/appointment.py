@@ -115,6 +115,8 @@ class Appointment(models.Model):
                                  'waiting': [('readonly', True)], 'cancel': [('readonly', True)],
                                  'done': [('readonly', True)]}
 
+    REQUIRED_STATES = {'to_after_care': [('required', True)], 'done': [('readonly', True)]}
+
     name = fields.Char(string='Number', readonly=True, copy=False, tracking=True, states=READONLY_STATES)
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
@@ -342,7 +344,7 @@ class Appointment(models.Model):
                                           readonly=True)
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare',
-                                    states={'done': [('readonly', True)]})
+                                    states=REQUIRED_STATES)
 
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
@@ -1218,7 +1220,7 @@ class PrescriptionLine(models.Model):
                     'res_model': 'hms.treatment',
                     'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                     'res_id': self.treatment_id.id,
-                    #'target': 'new',
+                    # 'target': 'new',
                     'type': 'ir.actions.act_window',
                     'context': {},
                     }
@@ -1230,7 +1232,7 @@ class PrescriptionLine(models.Model):
                 'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                 'res_id': False,
                 'type': 'ir.actions.act_window',
-                #'target': 'new',
+                # 'target': 'new',
                 'context': {'default_patient_id': self.appointment_id.patient_id.id,
                             'default_appointment_id': self.appointment_id.id,
                             'default_appointment_prescription_line_id': self.id,
