@@ -129,6 +129,16 @@ label.o_form_label {
 }
 
 
+@media only screen and (max-width: 768px) {
+  .position-absolute {
+    position: absolute !important;
+    height: 100% !important;
+    width: 70% !important;
+  }
+}
+
+
+
 .o_Message_bubble .position-absolute {
   width: 100% !important;
 }

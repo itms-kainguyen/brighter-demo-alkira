@@ -2,6 +2,9 @@
 <odoo>
 
 
+
+
+    
     <record id="user_dashboard_kanban_view" model="ir.ui.view">
         <field name="name">Dashboard</field>
         <field name="model">res.users</field>
@@ -71,6 +74,12 @@
                 <field name="total_checklist"/>
                 <field name="total_checklist_color"/>
                 <templates>
+
+
+
+                    
+
+
                     <t t-name="acs_dashboard_block">
                         <div t-attf-class="card acs-card card-acs" t-attf-style="border-color:#{acs_record_color}">
                             <a type="object" name="acs_open_dashboard_action"
@@ -579,20 +588,31 @@
 
                         <div id="loading"><div class="loading-container"><span class="loader"></span></div></div>
 
+                        
                         <script type="text/javascript">
-                            call_telehealth_dashboard();
+                    
+
+                            <!-- check is device small null true => windows -->
+                            if (Object.is(document.querySelector("div.MessagingMenuContainer > .o-isDeviceSmall"), null)) {
+                                call_telehealth_dashboard();
+                            } else {
+                                <!-- mobile -->
+                                call_telehealth_dashboard_mobile();
+                            }
+ 
                             clone_telehealth_dashboard();
                             close_telehealth();
                             
                             setTimeout(() => {
                                 $('#dashboard_prescribers .o_ChannelMember').on('click', function() {
+                                    console.log("imhere============ if ok");
                                     var self = $(this);
                                     var prescriber_id = self.data('partner-id');
                                     call_telehealth_dashboard();
                                 
                                     setTimeout(() => {
                                         $('.o_ChatWindow div[data-partner-id="'+prescriber_id+'"]').click();
-
+                    
                                         var style = document.createElement('style');
                                         style.innerHTML = `
                                         .o_ChatWindow {
@@ -601,41 +621,57 @@
                                         }
                                         `;
                                         document.head.appendChild(style);
-
+                    
                                         call_close_chatbox();
-
+                    
                                 
                                     }, 1500);
                                 })
                         
                             }, 1500);
-
+                    
                             
-        
+                    
                             
                         
                         </script>
-
+                    
                         <style type="text/css">
                             .position-absolute {
                                 position: absolute !important;
                                 height: 100% !important;
                                 width: 50% !important;
                             }
-
+                    
+                            @media only screen and (max-width: 768px) {
+                                .position-absolute {
+                                    position: absolute !important;
+                                    height: 100% !important;
+                                    width: 70% !important;
+                                }
+                            }
+                    
+                    
                             .o_MessagingMenu_dropdownMenu {
+                                z-index: -1;
                                 opacity: 0;
-                              }
-
-                              .o_ChatWindow {
+                            }
+                    
+                            .o_ChatWindow {
                                 opacity: 0;
                                 z-index: -1;
-                              }
+                            }
                         </style>
+                        
+
 
                         
 
                     </t>
+
+                    
+
+
                 </templates>
             </kanban>
         </field>
@@ -654,5 +690,9 @@
               web_icon="acs_hms_dashboard,static/description/icon.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
     <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"
               action="action_my_dashboard" sequence="1"/>
+
+
+
+
 
 </odoo>
