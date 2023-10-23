@@ -75,7 +75,7 @@
                             </field>
                             <field name="medicine_line_ids" string="Medicine">
                                 <tree string="Medicine" editable="bottom">
-                                    <field name="product_id"/>
+                                    <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"/>
                                     <field name="medicine_technique"/>
@@ -92,7 +92,7 @@
                         <page name="consumable_lines" string="Consumed Products/Services" groups="acs_hms.group_hms_medical_officer,acs_hms.group_hms_nurse,acs_hms_hospitalization.group_acs_hms_hospitalization_user">
                             <field name="consumable_line_ids" nolabel="1" colspan="2" context="{'default_patient_id': patient_id }">
                                 <tree string="Line" editable="bottom">
-                                    <field name="product_id" expand="1" required="1"/>
+                                    <field name="product_id" expand="1" required="1" domain="[('hospital_product_type','=','supply')]"/>
                                     <field name="product_uom_id" required="1" groups="uom.group_uom"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="qty" required="1"/>

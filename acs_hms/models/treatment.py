@@ -378,10 +378,11 @@ class TreatmentMedicineLine(models.Model):
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        result = {}
+        result = {'domain': {'product_id': [('hospital_product_type', '=', 'medicament')]}}
         if self.appointment_id:
             if len(self.appointment_id.prescription_line_ids) <= 0:
-                result = {'domain': {'product_id': [('is_required_prescription', '=', False)]}}
+                result = {'domain': {
+                    'product_id': [('is_required_prescription', '=', False), ('hospital_product_type', '=', 'medicament')]}}
         return result
 
 
