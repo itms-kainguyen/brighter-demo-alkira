@@ -926,50 +926,50 @@ class Appointment(models.Model):
 
     def appointment_done(self):
         self.state = 'done'
-        # try:
-        #     template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
-        #     attachments = []
-        #     for aftercare in self.aftercare_ids:
-        #         pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
-        #             'itms_consent_form.action_report_aftercare', res_ids=[aftercare.id])
-        #         aftercare_attachment_id = self.env['ir.attachment'].create({
-        #             'name': aftercare.name,
-        #             'type': 'binary',
-        #             'raw': pdf_content,
-        #             'res_model': aftercare._name,
-        #             'res_id': aftercare.id
-        #         })
-        #         attachments.append(aftercare_attachment_id.id)
-        #     template_aftercare.attachment_ids = attachments
-        #     medicine_line_ids = []
-        #     treatment_notes = []
-        #     if self.prescription_line_ids:
-        #         for prescription in self.prescription_line_ids:
-        #             if prescription.treatment_id and prescription.is_done:
-        #                 if prescription.treatment_id.medicine_line_ids:
-        #                     for line in prescription.treatment_id.medicine_line_ids:
-        #                         if line.product_id:
-        #                             medicine_area = line.medicine_area or ''
-        #                             amount = line.amount or ''
-        #                             medicine_technique = line.medicine_technique or ''
-        #                             medicine_depth = line.medicine_depth or ''
-        #                             medicine_method = line.medicine_method or ''
-        #                             product_name = line.sudo().product_id.name
-        #                             medicine_line_ids.append(
-        #                                 {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
-        #                                  'medicine_technique': medicine_technique,
-        #                                  'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
-        #                 if prescription.treatment_id.template_id:
-        #                     finding = prescription.treatment_id.finding or ''
-        #                     template = prescription.treatment_id.template_id.name
-        #                     treatment_notes.append({'template': template, 'finding': finding})
-        #     email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
-        #     is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
-        #                                                                                force_send=True)
-        #     if is_sent:
-        #         template_aftercare.reset_template()
-        # except Exception as e:
-        #     _logger.warning('Failed to send appointment Aftercare email: %s', e)
+        try:
+            template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
+            attachments = []
+            for aftercare in self.aftercare_ids:
+                pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                    'itms_consent_form.action_report_aftercare', res_ids=[aftercare.id])
+                aftercare_attachment_id = self.env['ir.attachment'].create({
+                    'name': aftercare.name,
+                    'type': 'binary',
+                    'raw': pdf_content,
+                    'res_model': aftercare._name,
+                    'res_id': aftercare.id
+                })
+                attachments.append(aftercare_attachment_id.id)
+            template_aftercare.attachment_ids = attachments
+            medicine_line_ids = []
+            treatment_notes = []
+            if self.prescription_line_ids:
+                for prescription in self.prescription_line_ids:
+                    if prescription.treatment_id and prescription.is_done:
+                        if prescription.treatment_id.medicine_line_ids:
+                            for line in prescription.treatment_id.medicine_line_ids:
+                                if line.product_id:
+                                    medicine_area = line.medicine_area or ''
+                                    amount = line.amount or ''
+                                    medicine_technique = line.medicine_technique or ''
+                                    medicine_depth = line.medicine_depth or ''
+                                    medicine_method = line.medicine_method or ''
+                                    product_name = line.sudo().product_id.name
+                                    medicine_line_ids.append(
+                                        {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
+                                         'medicine_technique': medicine_technique,
+                                         'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
+                        if prescription.treatment_id.template_id:
+                            finding = prescription.treatment_id.finding or ''
+                            template = prescription.treatment_id.template_id.name
+                            treatment_notes.append({'template': template, 'finding': finding})
+            email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
+            is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
+                                                                                       force_send=True)
+            if is_sent:
+                template_aftercare.reset_template()
+        except Exception as e:
+            _logger.warning('Failed to send appointment Aftercare email: %s', e)
         if self.company_id.sudo().auto_followup_days:
             self.follow_date = self.date + timedelta(days=self.company_id.sudo().auto_followup_days)
 
