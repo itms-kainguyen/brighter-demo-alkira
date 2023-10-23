@@ -374,12 +374,14 @@ class TreatmentMedicineLine(models.Model):
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='treatment_id.company_id')
 
+    appointment_id = fields.Many2one('hms.appointment', related='treatment_id.appointment_id', string='Appointment')
+
     @api.onchange('product_id')
-    def onchange_appointment_prescription_line_id(self):
+    def onchange_product_id(self):
         result = {}
-        if self.treatment_id.appointment_prescription_line_id:
-            is_required_prescription = self.treatment_id.appointment_prescription_line_id.product_id.is_required_prescription
-            result = {'domain': {'product_id': [('is_required_prescription', '=', is_required_prescription)]}}
+        if self.appointment_id:
+            if len(self.appointment_id.prescription_line_ids) <= 0:
+                result = {'domain': {'product_id': [('is_required_prescription', '=', False)]}}
         return result
 
 
