@@ -25,6 +25,7 @@
                                 <field name="dosage"/>
                                 <span><field name="dosage_uom_id"/></span>
                             </div>
+                            <field name="is_required_prescription"/>
                             <field name="therapeutic_effect_ids" widget="many2many_tags" invisible="1"/>
                             <field name="adverse_reaction" invisible="1"/>
                         </group>

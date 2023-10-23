@@ -104,7 +104,7 @@ class ACSTreatment(models.Model):
     patient_procedure_count = fields.Integer(compute='_rec_count', string='# Patient Procedures')
     procedure_group_id = fields.Many2one('procedure.group', ondelete="set null", string='Procedure Group',
                                          states=READONLY_STATES)
-    
+
     consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
                                           string='Consumable Line', states=READONLY_STATES, copy=False)
     # photos
@@ -112,7 +112,6 @@ class ACSTreatment(models.Model):
                                              'treatment_id', string='Before Photos')
     attachment_after_ids = fields.Many2many('ir.attachment', 'treatment_attachment_after_rel', 'attachment_id',
                                             'treatment_id', string='After Photos')
-
 
     @api.model
     def default_get(self, fields):
@@ -206,15 +205,14 @@ class ACSTreatment(models.Model):
         self.appointment_prescription_line_id.done_at = datetime.now()
         self.appointment_prescription_line_id.prescription_line_id.is_done = True
         self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
-        return     {'name': f"Appointment",
-                    'view_mode': 'form',
-                    'res_model': 'hms.appointment',
-                    'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,        
-                    'res_id': self.appointment_id.id,
-                    'type': 'ir.actions.act_window',
-                    }
- 
-    
+        return {'name': f"Appointment",
+                'view_mode': 'form',
+                'res_model': 'hms.appointment',
+                'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                'res_id': self.appointment_id.id,
+                'type': 'ir.actions.act_window',
+                }
+
     def treatment_cancel(self):
         self.state = 'cancel'
 
@@ -229,14 +227,14 @@ class ACSTreatment(models.Model):
     #     return action
 
     def action_appointment(self):
-        return     {'name': f"Appointment",
-                    'view_mode': 'form',
-                    'res_model': 'hms.appointment',
-                    'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,        
-                    'res_id': self.appointment_id.id,
-                    'type': 'ir.actions.act_window',
-                    }
-   
+        return {'name': f"Appointment",
+                'view_mode': 'form',
+                'res_model': 'hms.appointment',
+                'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                'res_id': self.appointment_id.id,
+                'type': 'ir.actions.act_window',
+                }
+
     def create_invoice(self):
         product_id = self.registration_product_id or self.env.user.company_id.treatment_registration_product_id
         acs_context = {'commission_partner_ids': self.physician_id.partner_id.id}
@@ -244,8 +242,8 @@ class ACSTreatment(models.Model):
         if self.medicine_line_ids:
             for line in self.medicine_line_ids:
                 product_data.append({
-                                'product_id': line.product_id
-                            })
+                    'product_id': line.product_id
+                })
         if self.consumable_line_ids:
             for consumable in self.consumable_line_ids:
                 product_data.append({
@@ -375,6 +373,14 @@ class TreatmentMedicineLine(models.Model):
     treatment_id = fields.Many2one('hms.treatment', string='Treatment')
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='treatment_id.company_id')
+
+    @api.onchange('product_id')
+    def onchange_appointment_prescription_line_id(self):
+        result = {}
+        if self.treatment_id.appointment_prescription_line_id:
+            is_required_prescription = self.treatment_id.appointment_prescription_line_id.product_id.is_required_prescription
+            result = {'domain': {'product_id': [('is_required_prescription', '=', is_required_prescription)]}}
+        return result
 
 
 class TreatmentTemplate(models.Model):
