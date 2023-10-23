@@ -187,7 +187,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <t t-if="ctx.get('medicine_line_ids')">
+                        <t t-if="len(ctx.get('medicine_line_ids')) > 0">
                             <t t-foreach="ctx.get('medicine_line_ids')" t-as="line">
                                 <tr>
                                     <td>
@@ -213,7 +213,7 @@
                         </t>
                     </tbody>
                     </table>
-                     <t t-if="ctx.get('treatment_notes')">
+                     <t t-if="len(ctx.get('treatment_notes')) > 0">
                         <t t-foreach="ctx.get('treatment_notes')" t-as="note">
                             <p>
                                 Treatment Notes: <strong><t t-out="note.get('template')"></t></strong>
