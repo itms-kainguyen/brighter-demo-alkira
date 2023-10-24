@@ -27,7 +27,7 @@ class ACSPrescriptionOrder(models.Model):
             rec.alert_count = len(rec.medical_alert_ids)
 
     READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
-                       'finished': [('readonly', True)]}
+                       'finished': [('readonly', True)],'expired': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -59,7 +59,8 @@ class ACSPrescriptionOrder(models.Model):
         ('draft', 'Awaiting Confirmation'),
         ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
-        ('canceled', 'Cancelled')], string='Status', default='draft', tracking=True)
+        ('canceled', 'Cancelled'),
+        ('expired', 'Expired')], string='Status', default='draft', tracking=True)
     appointment_ids = fields.One2many('hms.appointment', 'prescription_id', string='Appointments',
                                       states=READONLY_STATES)
 

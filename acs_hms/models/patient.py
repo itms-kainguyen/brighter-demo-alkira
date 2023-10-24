@@ -240,10 +240,14 @@ class ACSPatient(models.Model):
 
         # Get the patient ID
         patient_id = self.id
+        print("self.env.user", self.env.user)
+        print("self.env.user", self.env.user.branch_id)
 
         # Create a new appointment record
         appointment = self.env['hms.appointment'].create({
             'patient_id': patient_id,
+            'department_id': self.env.user.department_ids[0].id if self.env.user.department_ids else False,
+            'nurse_id': self.env.user.id,
         })
 
         # Return the form view of the new appointment record
@@ -255,7 +259,7 @@ class ACSPatient(models.Model):
             "view_type": "form",
             "views": [(False, "form")],
             "view_id": False,
-            "target": "new",
+            #"target": "new",
         }
 
     def action_appointment(self):
