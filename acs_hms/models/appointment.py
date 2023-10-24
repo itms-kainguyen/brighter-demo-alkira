@@ -990,8 +990,11 @@ class Appointment(models.Model):
     def action_prescription(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
         prescription_ids = self.env['prescription.order'].search(
-            [('state', '=', 'prescription'), ('patient_id', '=', self.patient_id.id),
-             ('expire_date', '>=', fields.Date.today())])
+            [
+            #('state', '=', 'prescription'),
+            ('patient_id', '=', self.patient_id.id),
+            #('expire_date', '>=', fields.Date.today())
+            ])
         action['domain'] = [('id', 'in', prescription_ids.ids)]
         # action['domain'] = [('appointment_id', '=', self.id)]
         action['context'] = {
@@ -1031,8 +1034,11 @@ class Appointment(models.Model):
         for rec in self:
             rec.treatment_count = len(self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running']))
             rec.prescription_count = len(self.env['prescription.order'].search(
-                [('state', '=', 'prescription'), ('patient_id', '=', self.patient_id.id),
-                 ('expire_date', '>=', fields.Date.today())]))
+                [
+                #('state', '=', 'prescription'),
+                ('patient_id', '=', self.patient_id.id),
+                #('expire_date', '>=', fields.Date.today())
+                ]))
 
     def action_view_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
