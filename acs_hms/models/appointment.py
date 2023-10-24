@@ -124,10 +124,15 @@ class Appointment(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
                                    index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True,
                                    default=_get_default_physician)
+    def get_clinic(self):
+        clinic = self.env.user.department_ids[0].id if self.env.user.department_ids else False
+        return clinic
     department_id = fields.Many2one('hr.department', ondelete='restrict',
                                     domain=[('patient_department', '=', True)], string='Clinic', tracking=True,
+                                    default=get_clinic,
                                     states=READONLY_STATES)
 
+    
     # ACS: Added department field agian here to avoid portal error. Insted of reading department_id used acs_department_idfield so error vanbe avoided.
     acs_department_id = fields.Many2one('hr.department', compute="acs_get_department")
     invoice_exempt = fields.Boolean(string='Invoice Exempt', states=READONLY_STATES)
@@ -315,7 +320,12 @@ class Appointment(models.Model):
 
     # Just to make object selectable in selction field this is required: Waiting Screen
     acs_show_in_wc = fields.Boolean(default=True)
-    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
+    def get_current_user(self):
+        return self.env.user.id or False
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=get_current_user)
+
+
+    
     prescription_id = fields.Many2one('prescription.order', 'Prescription Order')
     consent_id = fields.Many2one('consent.consent', 'Consent Form')
     is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
