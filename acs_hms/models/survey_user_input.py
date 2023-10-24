@@ -18,15 +18,17 @@ class SurveyUserInput(models.Model):
 
     @api.model_create_multi
     def create(self, values_list):
-        print('ok')
         res = super().create(values_list)
         res.appointment_id = res.survey_id.appointment_id.id
         return res
 
     def _mark_done(self):
+        res = super()._mark_done()
         for user_input in self:
             user_input.appointment_id.is_done_survey = True
-        return super()._mark_done()
+            if user_input.appointment_id.state == 'confirm_consent':
+                user_input.appointment_id.state = 'in_consultation'
+        return res
 
 
 class SurveyUserInputLine(models.Model):

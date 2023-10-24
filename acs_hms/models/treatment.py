@@ -104,9 +104,14 @@ class ACSTreatment(models.Model):
     patient_procedure_count = fields.Integer(compute='_rec_count', string='# Patient Procedures')
     procedure_group_id = fields.Many2one('procedure.group', ondelete="set null", string='Procedure Group',
                                          states=READONLY_STATES)
-    
+
     consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
                                           string='Consumable Line', states=READONLY_STATES, copy=False)
+    # photos
+    attachment_before_ids = fields.Many2many('ir.attachment', 'treatment_attachment_before_rel', 'attachment_id',
+                                             'treatment_id', string='Before Photos')
+    attachment_after_ids = fields.Many2many('ir.attachment', 'treatment_attachment_after_rel', 'attachment_id',
+                                            'treatment_id', string='After Photos')
 
     @api.model
     def default_get(self, fields):
@@ -200,6 +205,13 @@ class ACSTreatment(models.Model):
         self.appointment_prescription_line_id.done_at = datetime.now()
         self.appointment_prescription_line_id.prescription_line_id.is_done = True
         self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
+        return {'name': f"Appointment",
+                'view_mode': 'form',
+                'res_model': 'hms.appointment',
+                'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                'res_id': self.appointment_id.id,
+                'type': 'ir.actions.act_window',
+                }
 
     def treatment_cancel(self):
         self.state = 'cancel'
@@ -215,22 +227,35 @@ class ACSTreatment(models.Model):
     #     return action
 
     def action_appointment(self):
-        return     {'name': f"Appointment",
-                    'view_mode': 'form',
-                    'res_model': 'hms.appointment',
-                    'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,        
-                    'res_id': self.appointment_id.id,
-                    'type': 'ir.actions.act_window',
-                    }
-   
+        return {'name': f"Appointment",
+                'view_mode': 'form',
+                'res_model': 'hms.appointment',
+                'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                'res_id': self.appointment_id.id,
+                'type': 'ir.actions.act_window',
+                }
+
     def create_invoice(self):
         product_id = self.registration_product_id or self.env.user.company_id.treatment_registration_product_id
         acs_context = {'commission_partner_ids': self.physician_id.partner_id.id}
-        if not product_id:
-            raise UserError(_("Please Configure Registration Product in Configuration first."))
+        product_data = []
+        if self.medicine_line_ids:
+            for line in self.medicine_line_ids:
+                product_data.append({
+                    'product_id': line.product_id
+                })
+        if self.consumable_line_ids:
+            for consumable in self.consumable_line_ids:
+                product_data.append({
+                    'product_id': consumable.product_id,
+                    'quantity': consumable.qty,
+                    'lot_id': consumable.lot_id and consumable.lot_id.id or False,
+                })
+        # if not product_id:
+        #     raise UserError(_("Please Configure Registration Product in Configuration first."))
         invoice = self.with_context(acs_context).acs_create_invoice(partner=self.patient_id.partner_id,
                                                                     patient=self.patient_id,
-                                                                    product_data=[{'product_id': product_id}],
+                                                                    product_data=product_data,
                                                                     inv_data={'hospital_invoice_type': 'treatment'})
         self.invoice_id = invoice.id
 
@@ -273,7 +298,7 @@ class ACSTreatment(models.Model):
             # Check if we can get back to appointment in breadcrumb.
             appointment = self.env['hms.appointment'].search(
                 [('id', '=', self._context.get('acs_current_appointment'))])
-            appointment.treatment_id = self.id
+            appointment.treatment_ids = [(6, 0, [self.id])]
             action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
             action['res_id'] = appointment.id
             action['views'] = [(self.env.ref('acs_hms.view_hms_appointment_form').id, 'form')]
@@ -348,6 +373,17 @@ class TreatmentMedicineLine(models.Model):
     treatment_id = fields.Many2one('hms.treatment', string='Treatment')
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='treatment_id.company_id')
+
+    appointment_id = fields.Many2one('hms.appointment', related='treatment_id.appointment_id', string='Appointment')
+
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        result = {'domain': {'product_id': [('hospital_product_type', '=', 'medicament')]}}
+        if self.appointment_id:
+            if len(self.appointment_id.prescription_line_ids) <= 0:
+                result = {'domain': {
+                    'product_id': [('is_required_prescription', '=', False), ('hospital_product_type', '=', 'medicament')]}}
+        return result
 
 
 class TreatmentTemplate(models.Model):

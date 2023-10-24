@@ -85,6 +85,13 @@ class product_template(models.Model):
     route_id = fields.Many2one('drug.route', ondelete='cascade',
                                string='Route')
     form_id = fields.Many2one('drug.form', ondelete='cascade', string='Form')
+    is_required_prescription = fields.Boolean('Requires Prescription', default=False)
+
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    is_required_prescription = fields.Boolean(related='product_tmpl_id.is_required_prescription', string='Requires Prescription', store=True)
 
 
 class StockProductionLot(models.Model):

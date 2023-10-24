@@ -59,22 +59,28 @@ class Consent(models.Model):
                 rec.nurse_signed_by = rec.nurse_id.name
                 rec.nurse_signed_on = datetime.datetime.now()
 
-    @api.onchange('nurse_signed_on', 'patient_signed_on')
-    def onchange_nurse_signed_on(self):
+    def write(self, vals):
+        result = super(Consent, self).write(vals)
         for rec in self:
             if rec.appointment_id:
-                objConsentForms = self.env['consent.consent'].search([('patient_id', '=', rec.patient_id.id), ('nurse_id', '=', rec.nurse_id.id), ('appointment_id', '=', rec.appointment_id.id)])
+                objConsentForms = self.env['consent.consent'].search(
+                    [('patient_id', '=', rec.patient_id.id), ('nurse_id', '=', rec.nurse_id.id),
+                     ('appointment_id', '=', rec.appointment_id.id)])
                 total_need_signs = len(objConsentForms)
                 total_nurse_signed = 0
                 total_patient_signed = 0
 
                 for consent in objConsentForms:
-                    total_nurse_signed += 1 if consent.nurse_signed_on else total_nurse_signed
-                    total_patient_signed += 1 if consent.patient_signed_on else total_patient_signed
+                    total_nurse_signed += 1 if consent.nurse_signed_on else 0
+                    total_patient_signed += 1 if consent.patient_signed_on else 0
 
                 if total_need_signs == total_nurse_signed and total_need_signs == total_patient_signed:
                     objectAppointment = self.env['hms.appointment'].browse(rec.appointment_id.id)
                     objectAppointment.write({'state': 'confirm_consent'})
+        return result
+
+
+
 
     def _get_portal_return_action(self):
         self.ensure_one()
@@ -84,7 +90,7 @@ class Consent(models.Model):
     def onchange_category_id(self):
         self.content = None
         if self.category_id:
-            self.content = self.category_id.template
+            self.content = self.category_id.content
             self.patient_signature = None
             self.patient_signed_by = None
             # self.nurse_signature = None

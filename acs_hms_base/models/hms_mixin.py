@@ -236,34 +236,26 @@ class ACSDocumntMixin(models.AbstractModel):
     def action_view_attachments(self):
         self.ensure_one()
         action = None
-        if self._name != 'hms.patient':
-            action = self.env["ir.actions.actions"]._for_xml_id("base.action_attachment")
-            action['domain'] = [('id', 'in', self.attachment_ids.ids)]
-            action['context'] = {
-                    'default_res_model': self._name,
-                    'default_res_id': self.id,
-                    'default_is_document': True}
-        else:
-            attachment_view = self.env.ref('itms_hms.view_document_file_kanban_hms_patient')
-            action = {
-                'name': _('Attachments'),
-                'domain': [('res_model', '=', 'hms.patient'), ('res_id', '=', self.id)],
-                'res_model': 'patient.document',
-                'type': 'ir.actions.act_window',
-                'view_id': attachment_view.id,
-                'views': [(attachment_view.id, 'kanban'), (False, 'form')],
-                'view_mode': 'kanban,tree,form',
-                'help': _('''<p class="o_view_nocontent_smiling_face">
-                                    Upload files to your product
-                                </p><p>
-                                    Use this feature to store any files, like drawings or specifications.
-                                </p>'''),
-                'limit': 80,
-                'context': {
-                    'default_res_model': self._name,
-                    'default_res_id': self.id,
-                    'default_is_document': True}
-            }
+        attachment_view = self.env.ref('itms_hms.view_document_file_kanban_hms_patient')
+        action = {
+            'name': _('Attachments'),
+            'domain': [('res_model', '=', 'hms.patient'), ('res_id', '=', self.id)],
+            'res_model': 'patient.document',
+            'type': 'ir.actions.act_window',
+            'view_id': attachment_view.id,
+            'views': [(attachment_view.id, 'kanban'), (False, 'form')],
+            'view_mode': 'kanban,tree,form',
+            'help': _('''<p class="o_view_nocontent_smiling_face">
+                                            Upload files to your product
+                                        </p><p>
+                                            Use this feature to store any files, like drawings or specifications.
+                                        </p>'''),
+            'limit': 80,
+            'context': {
+                'default_res_model': self._name,
+                'default_res_id': self.id,
+                'default_is_document': True}
+        }
 
         return action
 

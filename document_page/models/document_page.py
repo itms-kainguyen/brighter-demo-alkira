@@ -100,7 +100,7 @@ class DocumentPage(models.Model):
         compute="_compute_backend_url",
     )
     description = fields.Text('Reference', states={'draft': [('readonly', False)]})
-    state = fields.Selection([('draft', 'Draft'), ('approved', 'Validated')], string='Status', readonly=True,
+    state = fields.Selection([('draft', 'Draft'), ('approved', 'Approved')], string='Status', readonly=True,
                              default='draft', track_visibility='onchange')
     tags = fields.Many2many('document.letter.tags', 'document_letter_tag_knowledge_rel', 'knowledge_id', 'tag_id', string='Tags')
     date = fields.Date('Date', states={'draft': [('readonly', False)]})

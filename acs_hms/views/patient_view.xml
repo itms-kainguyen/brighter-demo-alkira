@@ -32,26 +32,31 @@
                 <field name="acs_cancelled_appointments"/>
                 <field name="acs_flag_days"/>
                 <field name="appointment_count"/>
+                <field name="prescription_count"/>
                 <field name="total_invoiced"/>
             </field>
             <xpath expr="//div[hasclass('oe_kanban_details')]/div/ul" position="after">
-                <div t-if="record.show_cancellation_warning_flag.raw_value" class="badge rounded-pill text-bg-danger">
-                    <span class="fa fa-exclamation-triangle" title="Cancellation"/>
-                    <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days
-                </div>
+<!--                <div t-if="record.show_cancellation_warning_flag.raw_value" class="badge rounded-pill text-bg-danger">-->
+<!--                    <span class="fa fa-exclamation-triangle" title="Cancellation"/>-->
+<!--                    <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days-->
+<!--                </div>-->
             </xpath>
              <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
                 <a t-if="record.appointment_count.value" data-type="object" data-name="action_appointment" href="#" class="oe_kanban_action oe_kanban_action_a me-1">
-                    <span class="badge rounded-pill">
-                        <i class="fa fa-fw fa-stethoscope" role="img" aria-label="Appointment" title="Appointment"/>
+                    <span class="badge rounded-pill" style="font-size: small !important;">
+                        <i class="fa fa-fw fa-stethoscope" role="img" aria-label="Appointments" title="Appointments"/>
                         <t t-out="record.appointment_count.value"/>
                     </span>
-                    <a t-if="record.total_invoiced.value" data-type="object" data-name="view_invoices" href="#" class="oe_kanban_action oe_kanban_action_a me-1">
-                        <span class="badge rounded-pill">
-                            <i class="fa fa-money" role="img" aria-label="Invoiced" title="Invoiced"/>
-                            <t t-out="record.total_invoiced.value"/>
-                        </span>
-                    </a>
+                     <span class="badge rounded-pill" style="font-size: small !important;">
+                        <i class="fa fa-fw fa-wpforms" role="img" aria-label="Prescriptions" title="Prescriptions"/>
+                        <t t-out="record.prescription_count.value"/>
+                    </span>
+<!--                    <a t-if="record.total_invoiced.value" data-type="object" data-name="view_invoices" href="#" class="oe_kanban_action oe_kanban_action_a me-1">-->
+<!--                        <span class="badge rounded-pill" style="font-size: small !important;">-->
+<!--                            <i class="fa fa-money" role="img" aria-label="Invoiced" title="Invoiced"/>-->
+<!--                            <t t-out="record.total_invoiced.value"/>-->
+<!--                        </span>-->
+<!--                    </a>-->
                 </a>
             </xpath>
         </field>
@@ -67,7 +72,6 @@
                 <button name="create_appointment" string="Create Appointment" type="object" class="oe_highlight" />
                 <field name="invoice_id" invisible="1"/>
                 <field name="is_patient_valid_prescription" invisible="1"/>
-
             </header>
 
             <widget name="web_ribbon" position="after">
@@ -88,10 +92,10 @@
                 <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope" invisible="1">
                     <field string="Evaluations" name="evaluation_count" widget="statinfo"/>
                 </button>
-                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
+                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
-                <button attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
+                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
 
@@ -177,7 +181,7 @@
                     </group>
                 </page>
 
-                <page name='diseases' string="Treatment Notes" groups="acs_hms.group_hms_jr_doctor">
+                <page name='diseases' string="Treatment Notes" groups="acs_hms.group_hms_jr_doctor" invisible="1">
                     <separator string="Medical Alert" colspan="4" invisible="1"/>
                     <group invisible="1">
                         <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/>

@@ -66,6 +66,8 @@
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
                 <field name="name"/>
                 <field name="prescription_date"/>
+                <field name="first_product_id"/>
+                <field name="prescription_type"/>
                 <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
@@ -82,17 +84,23 @@
             <form string="ACS Prescription Order" >
                 <header>
                     <button name="button_confirm" states="draft" string="Confirm" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription"/>
                     <button name="button_reset" states="prescription" string="Reset to Draft" type="object" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms.group_hms_jr_doctor"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,prescription"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,prescription,finished"/>
                 </header>
                 <div class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
                     <field name="medical_alert_ids" nolabel="1" widget="many2many_tags"/>
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+
+                <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                </button>
+
+
                     </div>
                     <div class="oe_title">
                         <h1>
@@ -321,6 +329,26 @@
             <p>
                 Click to add Prescrition.
             </p>
+        </field>
+    </record>
+
+     <!-- Prescription -->
+    <record id="view_hms_prescription_order_select_tree" model="ir.ui.view">
+        <field name="name">prescription.order.select.tree</field>
+        <field name="model">prescription.order</field>
+        <field name="arch" type="xml">
+            <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
+                <field name="name"/>
+                <field name="prescription_date"/>
+                <field name="first_product_id"/>
+                <field name="prescription_type"/>
+                <field name="expire_date"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <button name="acs_select_prescription_for_appointment" type="object" string="Select" icon="fa-plus" class="oe_highlight"/>
+            </tree>
         </field>
     </record>
 

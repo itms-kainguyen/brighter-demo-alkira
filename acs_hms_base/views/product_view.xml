@@ -10,7 +10,7 @@
                 <field name="hospital_product_type" required="1"/>
             </field>
             <xpath expr="//notebook/page[@name='general_information']" position="before">
-                <page string="Details" name="acs_medicament_data" attrs="{'invisible': [('hospital_product_type', '!=', 'medicament')]}">
+                <page string="Details" name="acs_medicament_data">
                     <group name="acs_medicament_info">
                         <group>
                             <field name="drug_company_id"/>
@@ -25,6 +25,7 @@
                                 <field name="dosage"/>
                                 <span><field name="dosage_uom_id"/></span>
                             </div>
+                            <field name="is_required_prescription"/>
                             <field name="therapeutic_effect_ids" widget="many2many_tags" invisible="1"/>
                             <field name="adverse_reaction" invisible="1"/>
                         </group>

@@ -23,7 +23,7 @@
                 <field name="name" />
                 <field name="content_date" />
                 <field name="state" />
-                <field name="description" />
+                <field string="URL" name="description" widget="url"/>
                 <field name="parent_id" invisible="1"/>
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="create_uid" invisible="1" />
@@ -194,7 +194,7 @@
     </record>
     <!-- page action -->
     <record id="action_page" model="ir.actions.act_window">
-        <field name="name">Pages</field>
+        <field name="name">Documents</field>
         <field name="res_model">document.page</field>
         <field name="domain">[('type','=','content')]</field>
         <field name="context">{'default_type': 'content'}</field>
@@ -221,13 +221,13 @@
     </record>
     <menuitem
         id="menu_wiki"
-        name="Pages"
+        name="Documents"
         parent="document_knowledge.menu_document_root"
         sequence="10"
     />
     <menuitem
         id="menu_page"
-        name="Pages"
+        name="Documents"
         parent="menu_wiki"
         action="action_page"
         sequence="20"

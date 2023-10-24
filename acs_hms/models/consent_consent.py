@@ -26,7 +26,7 @@ class Consent(models.Model):
             vals['content'] = None
             if vals.get('category_id'):
                 category_consent = self.env['document.page'].browse(vals['category_id'])
-                vals['content'] = category_consent.template
+                vals['content'] = category_consent.content
                 vals['patient_signature'] = None
                 vals['patient_signed_by'] = None
 
@@ -35,7 +35,7 @@ class Consent(models.Model):
     def write(self, vals):
         if vals.get('category_id'):
             category_consent = self.env['document.page'].browse(vals['category_id'])
-            vals['content'] = category_consent.template
+            vals['content'] = category_consent.content
             vals['patient_signature'] = None
             vals['patient_signed_by'] = None
 

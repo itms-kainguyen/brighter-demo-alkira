@@ -26,7 +26,8 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)]}
+    READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
+                       'finished': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -42,10 +43,12 @@ class ACSPrescriptionOrder(models.Model):
                                  states=READONLY_STATES, tracking=True)
     pregnancy_warning = fields.Boolean(string='Pregnancy Warning', states=READONLY_STATES)
     notes = fields.Html(string='Notes', states=READONLY_STATES)
-    prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id', string='Prescription line',
+    prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id',
+                                            string='Prescription line',
                                             states=READONLY_STATES, copy=True, auto_join=True)
-    prescription_detail_ids = fields.One2many(comodel_name='prescription.detail', inverse_name='prescription_id', string='Prescription detail',
-                                            copy=False, auto_join=True)
+    prescription_detail_ids = fields.One2many(comodel_name='prescription.detail', inverse_name='prescription_id',
+                                              string='Prescription detail',
+                                              copy=False, auto_join=True)
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
@@ -53,9 +56,13 @@ class ACSPrescriptionOrder(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
-        ('draft', 'Draft'),
+        ('draft', 'Awaiting Confirmation'),
         ('prescription', 'Prescribed'),
+        ('finished', 'Finished'),
         ('canceled', 'Cancelled')], string='Status', default='draft', tracking=True)
+    appointment_ids = fields.One2many('hms.appointment', 'prescription_id', string='Appointments',
+                                      states=READONLY_STATES)
+
     appointment_id = fields.Many2one('hms.appointment', ondelete="restrict",
                                      string='Appointment', states=READONLY_STATES)
     patient_age = fields.Char(related='patient_id.age', string='Age', store=True, readonly=True)
@@ -68,17 +75,28 @@ class ACSPrescriptionOrder(models.Model):
     acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=READONLY_STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=READONLY_STATES, default=1)
     expire_date = fields.Date(
-        string='Expire Date', 
-        default=lambda x:fields.Date.today()+relativedelta(years=1), 
+        string='Expire Date',
+        default=lambda x: fields.Date.today() + relativedelta(years=1),
         states=READONLY_STATES)
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
         ('filler', 'Filler'),
-        ('other', 'Other')], 
+        ('other', 'Other')],
         string='Procedure', default='other',
         states=READONLY_STATES,
         required=True, tracking=True)
 
+    first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
+
+    def get_1st_product(self):
+        for rec in self:
+            if rec.prescription_line_ids:
+                if rec.prescription_line_ids[0].product_id:
+                    rec.first_product_id = rec.prescription_line_ids[0].product_id
+                else:
+                    rec.first_product_id = False
+            else:
+                rec.first_product_id = False
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -128,7 +146,7 @@ class ACSPrescriptionOrder(models.Model):
     def button_cancel(self):
         self.prescription_detail_ids.write({'state': 'cancel'})
         self.write({'state': 'canceled'})
-    
+
     def button_reset(self):
         self.prescription_detail_ids.unlink()
         self.write({'state': 'draft'})
@@ -169,7 +187,8 @@ class ACSPrescriptionOrder(models.Model):
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
-                app.name = prescription_type_label.get(app.prescription_type)+ ": " + self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+                app.name = prescription_type_label.get(app.prescription_type) + ": " + self.env[
+                    'ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
             # create prescription detail based on prescription line
@@ -183,12 +202,16 @@ class ACSPrescriptionOrder(models.Model):
                             'prescription_id': app.id,
                             'line_id': line.id,
                             'product_id': line.product_id.id,
-                            'scheduled_date': 
-                                app.prescription_date.date() + relativedelta(months=i*line.use_every),
+                            'scheduled_date':
+                                app.prescription_date.date() + relativedelta(months=i * line.use_every),
                         }
                         vals_list.append(vals)
         if vals_list:
             self.env['prescription.detail'].create(vals_list)
+
+    def button_done(self):
+        for app in self:
+            app.state = 'finished'
 
     def print_report(self):
         return self.env.ref('acs_hms.report_hms_prescription_id').report_action(self)
@@ -254,6 +277,7 @@ class ACSPrescriptionOrder(models.Model):
     Raises:
         UserError: If the ACS kit ID is not set.
     """
+
     @api.onchange('acs_kit_id')
     def get_acs_kit_lines(self):
         # self.notes = self.acs_kit_id.description
@@ -298,6 +322,36 @@ class ACSPrescriptionOrder(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    def make_appointment(self):
+        return {
+            'name': f"Appointment",
+            'view_mode': 'form',
+            'res_model': 'hms.appointment',
+            'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+            'res_id': False,
+            'type': 'ir.actions.act_window',
+            # 'target': 'new',
+            'context': {'default_patient_id': self.patient_id.id,
+                        'default_consutation_type': 'followup',
+                        'default_prescription_id': self.id,
+                        }
+        }
+
+    def acs_select_prescription_for_appointment(self):
+        if self._context.get('default_appointment_id'):
+            # Check if we can get back to appointment in breadcrumb.
+            appointment = self.env['hms.appointment'].search(
+                [('id', '=', self._context.get('default_appointment_id'))])
+            appointment.prescription_id = self.id
+            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
+            action['res_id'] = appointment.id
+            action['context'] = {'autofocus': 'autofocus'}
+            action['views'] = [(self.env.ref('acs_hms.view_hms_appointment_form').id, 'form')]
+
+            return action
+        else:
+            raise UserError(_("Something went wrong! Please Open Appointment and try again"))
 
 
 class ACSPrescriptionLine(models.Model):
@@ -354,7 +408,7 @@ class ACSPrescriptionLine(models.Model):
         ('line_note', "Note")], help="Technical field for UX purpose.")
     repeat = fields.Integer(string='Repeat', default=5)
     use_every = fields.Integer(
-        "Use Every (months)", default=1, 
+        "Use Every (months)", default=1,
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
@@ -411,6 +465,7 @@ class AdviceTemplate(models.Model):
     name = fields.Char(string='Title', required=True)
     description = fields.Html(string='Advice', required=True)
 
+
 class PrescriptionDetail(models.Model):
     _name = "prescription.detail"
     _description = "Prescription Details"
@@ -438,7 +493,8 @@ class PrescriptionDetail(models.Model):
         This function is used to send the prescription reminder
         """
         today = fields.Date.today()
-        prescription_ids = self.search([('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])
+        prescription_ids = self.search(
+            [('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])
         # use a hack here to avoid sending multiple email to the same patient
         patient_ids = {}
         for rec in prescription_ids:
@@ -456,7 +512,7 @@ class PrescriptionDetail(models.Model):
         This function is used to send the prescription reminder mail
         """
         template_id = self.env.ref('acs_hms.email_template_prescription_reminder')
-        template_id.with_context(lines=ids).send_mail(res_id = self.id, email_values={
+        template_id.with_context(lines=ids).send_mail(res_id=self.id, email_values={
             'email_from': self.env.user.with_user(SUPERUSER_ID).email_formatted})
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

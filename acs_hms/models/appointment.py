@@ -115,6 +115,8 @@ class Appointment(models.Model):
                                  'waiting': [('readonly', True)], 'cancel': [('readonly', True)],
                                  'done': [('readonly', True)]}
 
+    REQUIRED_STATES = {'to_after_care': [('required', True)], 'done': [('readonly', True)]}
+
     name = fields.Char(string='Number', readonly=True, copy=False, tracking=True, states=READONLY_STATES)
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
@@ -182,19 +184,20 @@ class Appointment(models.Model):
         ('medical_emergency', 'Medical Emergency'),
     ], string='Urgency Level', default='normal', states=READONLY_STATES)
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirm', 'Consent Emailed'),
-        ('confirm_consent', 'Consent Confirmed'),
+        ('draft', 'Scheduled'),
+        ('confirm', 'Consent'),
+        ('confirm_consent', 'Medical Checklist'),
         ('waiting', 'Waiting'),
         ('in_consultation', 'Consultation & Treatment'),
         ('pause', 'Pause'),
-        ('to_invoice', 'To Invoice'),
-        ('done', 'Done'),
+        ('to_after_care', 'AfterCare'),
+        # ('to_invoice', 'Invoice'),
+        ('done', 'Finished'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', required=True, copy=False, tracking=True,
         states=READONLY_STATES)
     product_id = fields.Many2one('product.product', ondelete='restrict',
-                                 string='Consultation Service', help="Consultation Services",
+                                 string='Service Charge',
                                  domain=[('hospital_product_type', '=', "consultation")], required=True,
                                  default=_get_service_id, states=READONLY_STATES)
     age = fields.Char(compute="get_patient_age", string='Age', store=True,
@@ -341,7 +344,7 @@ class Appointment(models.Model):
                                           readonly=True)
 
     aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare',
-                                    states={'done': [('readonly', True)]})
+                                    states=REQUIRED_STATES)
 
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
@@ -356,6 +359,8 @@ class Appointment(models.Model):
 
     is_done_survey = fields.Boolean('Is done survey', default=False)
     treatment_ids = fields.One2many('hms.treatment', 'appointment_id', string="Treatments")
+
+    prescription_count = fields.Integer(compute='_rec_count', string='Prescriptions')
 
     def action_start_survey(self):
         self.ensure_one()
@@ -587,7 +592,7 @@ class Appointment(models.Model):
         if with_product:
             product_id = self.product_id
             if not product_id:
-                raise UserError(_("Please Set Consultation Service first."))
+                raise UserError(_("Please Set Service Charge first."))
 
             product_data = [{'product_id': product_id}]
 
@@ -815,6 +820,7 @@ class Appointment(models.Model):
                         self.state = 'confirm'
             except Exception as e:
                 _logger.warning('Failed to send appointment confirmation email: %s', e)
+
     # def consent_forms_confirm(self):
     #     if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
     #         if self.appointment_invoice_policy == 'advance' and not self.invoice_id:
@@ -860,6 +866,7 @@ class Appointment(models.Model):
         self.state = 'waiting'
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
+
     def appointment_waiting_manual(self):
         try:
             self.state = self.state = 'confirm_consent'
@@ -910,7 +917,8 @@ class Appointment(models.Model):
                 self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
             self.appointment_done()
         else:
-            self.state = 'to_invoice'
+            # self.state = 'to_invoice'
+            self.state = 'to_after_care'
         if self.consumable_line_ids:
             self.consume_appointment_material()
         if self.prescription_id:
@@ -920,10 +928,13 @@ class Appointment(models.Model):
 
     def appointment_done(self):
         self.state = 'done'
-        try:
-            template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
-            attachments = []
-            for aftercare in self.aftercare_ids:
+        template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
+        if len(self.aftercare_ids) <= 0:
+            raise UserError(_('Please define a aftercare to finished Appointment.'))
+
+        attachments = []
+        for aftercare in self.aftercare_ids:
+            if aftercare:
                 pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                     'itms_consent_form.action_report_aftercare', res_ids=[aftercare.id])
                 aftercare_attachment_id = self.env['ir.attachment'].create({
@@ -934,36 +945,33 @@ class Appointment(models.Model):
                     'res_id': aftercare.id
                 })
                 attachments.append(aftercare_attachment_id.id)
-            template_aftercare.attachment_ids = attachments
-            medicine_line_ids = []
-            treatment_notes = []
-            if self.prescription_line_ids:
-                for prescription in self.prescription_line_ids:
-                    if prescription.treatment_id and prescription.is_done:
-                        if prescription.treatment_id.medicine_line_ids:
-                            for line in prescription.treatment_id.medicine_line_ids:
-                                if line.product_id:
-                                    medicine_area = line.medicine_area or ''
-                                    amount = line.amount or ''
-                                    medicine_technique = line.medicine_technique or ''
-                                    medicine_depth = line.medicine_depth or ''
-                                    medicine_method = line.medicine_method or ''
-                                    product_name = line.sudo().product_id.name
-                                    medicine_line_ids.append(
-                                        {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
-                                         'medicine_technique': medicine_technique,
-                                         'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
-                        if prescription.treatment_id.template_id:
-                            finding = prescription.treatment_id.finding or ''
-                            template = prescription.treatment_id.template_id.name
-                            treatment_notes.append({'template': template, 'finding': finding})
-            email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
-            is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
-                                                                                       force_send=True)
-            if is_sent:
-                template_aftercare.reset_template()
-        except Exception as e:
-            _logger.warning('Failed to send appointment Aftercare email: %s', e)
+        template_aftercare.attachment_ids = attachments
+        medicine_line_ids = []
+        treatment_notes = []
+        if self.prescription_line_ids:
+            for prescription in self.prescription_line_ids:
+                if prescription.treatment_id and prescription.is_done:
+                    if prescription.treatment_id.medicine_line_ids:
+                        for line in prescription.treatment_id.medicine_line_ids:
+                            if line.product_id:
+                                medicine_area = line.medicine_area or ''
+                                amount = line.amount or ''
+                                medicine_technique = line.medicine_technique or ''
+                                medicine_depth = line.medicine_depth or ''
+                                medicine_method = line.medicine_method or ''
+                                product_name = line.sudo().product_id.name
+                                medicine_line_ids.append(
+                                    {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
+                                     'medicine_technique': medicine_technique,
+                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
+                    if prescription.treatment_id.template_id:
+                        finding = prescription.treatment_id.finding or ''
+                        template = prescription.treatment_id.template_id.name
+                        treatment_notes.append({'template': template, 'finding': finding})
+        email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
+        is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False, force_send=True)
+        if is_sent:
+            template_aftercare.reset_template()
         if self.company_id.sudo().auto_followup_days:
             self.follow_date = self.date + timedelta(days=self.company_id.sudo().auto_followup_days)
 
@@ -979,14 +987,29 @@ class Appointment(models.Model):
 
     def action_prescription(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
-        action['domain'] = [('appointment_id', '=', self.id)]
+        prescription_ids = self.env['prescription.order'].search(
+            [('state', '=', 'prescription'), ('patient_id', '=', self.patient_id.id),
+             ('expire_date', '>=', fields.Date.today())])
+        action['domain'] = [('id', 'in', prescription_ids.ids)]
+        # action['domain'] = [('appointment_id', '=', self.id)]
         action['context'] = {
             'default_patient_id': self.patient_id.id,
             'default_physician_id': self.physician_id.id,
             'default_diseases_ids': [(6, 0, self.diseases_ids.ids)],
             'default_treatment_id': self.treatment_id and self.treatment_id.id or False,
             'default_appointment_id': self.id}
+        action['views'] = [(self.env.ref('acs_hms.view_hms_prescription_order_select_tree').id, 'tree'),
+                           (self.env.ref('acs_hms.view_hms_prescription_order_form').id, 'form')]
         return action
+
+    @api.model
+    def _get_view(self, view_id=None, view_type='form', **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        ctx = self._context
+        if self._context.get('autofocus', '') == 'autofocus' and view_type == 'form':
+            for node in arch.xpath("//page[@name='prescription_line_ids']"):
+                node.set('autofocus', 'autofocus')
+        return arch, view
 
     def button_pres_req(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
@@ -1000,21 +1023,35 @@ class Appointment(models.Model):
             'default_appointment_id': self.id}
         return action
 
+    treatment_count = fields.Integer(compute='_rec_count', string='# Treatments')
+
+    def _rec_count(self):
+        for rec in self:
+            rec.treatment_count = len(self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running']))
+            rec.prescription_count = len(self.env['prescription.order'].search(
+                [('state', '=', 'prescription'), ('patient_id', '=', self.patient_id.id),
+                 ('expire_date', '>=', fields.Date.today())]))
+
     def action_view_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
         action['context'] = {
             'default_appointment_ids': [(6, 0, self.ids)],
             'default_patient_id': self.patient_id.id,
-            'acs_current_appointment': self.id,
+            'acs_current_appointment': self.id
         }
-        action['views'] = [(self.env.ref('acs_hms.view_hospital_hms_treatment_form').id, 'form')]
-        if self.treatment_id:
-            action['domain'] = [('id', '=', self.treatment_id.id)]
-            action['res_id'] = self.treatment_id.id
-        elif self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'runnig']):
-            running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'runnig'])
-            action['domain'] = [('id', 'in', running_treatment_ids.ids)]
-            action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
+        running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running'])
+        action['domain'] = [('id', 'in', running_treatment_ids.ids)]
+        action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
+
+        # action['views'] = [(self.env.ref('acs_hms.view_hospital_hms_treatment_form').id, 'form')]
+        #
+        # if self.treatment_id:
+        #     action['domain'] = [('id', '=', self.treatment_id.id)]
+        #     action['res_id'] = self.treatment_id.id
+        # elif self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'running']):
+        #     running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['draft', 'running'])
+        #     action['domain'] = [('id', 'in', running_treatment_ids.ids)]
+        #     action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
         return action
 
     def acs_get_consume_locations(self):
@@ -1135,8 +1172,9 @@ class Appointment(models.Model):
             if rec.consultation_type == 'followup':
                 Prescription = rec.env['prescription.order']
                 prescription_ids = Prescription.search([('patient_id', '=', rec.patient_id.id)])
-                if prescription_ids:
-                    rec.prescription_id = prescription_ids[-1]
+                # if prescription_ids:
+                #     rec.prescription_id = prescription_ids[-1]
+
 
 class StockMove(models.Model):
     _inherit = "stock.move"
@@ -1177,24 +1215,24 @@ class PrescriptionLine(models.Model):
     def openWizard(self):
         print("self.product_id.id,", self.product_id.id, self.id)
         if self.treatment_id:
-            return {'name': f"Do Treatment",
+            return {'name': f"Treatment Notes",
                     'view_mode': 'form',
                     'res_model': 'hms.treatment',
                     'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                     'res_id': self.treatment_id.id,
-                    'target': 'new',
+                    # 'target': 'new',
                     'type': 'ir.actions.act_window',
                     'context': {},
                     }
         else:
             return {
-                'name': f"Do Treatment",
+                'name': f"Treatment Notes",
                 'view_mode': 'form',
                 'res_model': 'hms.treatment',
                 'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
                 'res_id': False,
                 'type': 'ir.actions.act_window',
-                'target': 'new',
+                # 'target': 'new',
                 'context': {'default_patient_id': self.appointment_id.patient_id.id,
                             'default_appointment_id': self.appointment_id.id,
                             'default_appointment_prescription_line_id': self.id,
@@ -1204,8 +1242,6 @@ class PrescriptionLine(models.Model):
                             })],
                             }
             }
-
-
 
     def get_treatment(self):
         for rec in self:
