@@ -22,6 +22,7 @@
             'itms_custom_layout/static/src/views/mail/static/src/components/thread_view_topbar/thread_view_topbar.xml',
         ],
         'web.assets_frontend': [
+            'itms_custom_layout/static/src/scss/itms_custom_layout_frontend.scss',
         ],
     },
     'installable': True,

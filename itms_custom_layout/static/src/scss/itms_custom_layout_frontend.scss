@@ -1,0 +1,12 @@
+/**
+hide all course
+*/
+.o_wslides_home_content_section {
+  display: none;
+}
+
+/* show only my course */
+.o_wslides_home_content_section:has(a[href="/slides/all?my=1"])
+{
+    display: block;
+}
