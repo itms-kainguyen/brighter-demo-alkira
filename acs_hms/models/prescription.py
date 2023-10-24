@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.exceptions import UserError
+import logging
 
 from dateutil.relativedelta import relativedelta
 import uuid
@@ -509,6 +510,21 @@ class PrescriptionDetail(models.Model):
         This function is used to send the prescription reminder
         """
         today = fields.Date.today()
+
+        # update status if prescription is expired
+        _logger = logging.getLogger(__name__)
+        expired_prescription_ids = self.env['prescription.order'].search(
+            [('expire_date', '<=', today),
+             ('state', '!=', 'expired')])
+        if expired_prescription_ids:
+            for pre in expired_prescription_ids:
+                print("pre", pre.name)
+                pre.write({'state':'expired'})
+                logging.info(f"Updated {pre.name} expired prescription")
+        else:
+            logging.info(f"There is not any expired prescription")
+
+
         prescription_ids = self.search(
             [('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])
         # use a hack here to avoid sending multiple email to the same patient
