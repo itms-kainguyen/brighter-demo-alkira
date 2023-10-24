@@ -201,7 +201,7 @@
                                         <span t-out="line.get('amount')"/>
                                     </td>
                                      <td>
-                                        <span t-out="line.get('bath_number')"/>
+                                        <span t-out="line.get('batch_number')"/>
                                     </td>
                                     <td>
                                         <span t-out="line.get('medicine_technique')"/>
