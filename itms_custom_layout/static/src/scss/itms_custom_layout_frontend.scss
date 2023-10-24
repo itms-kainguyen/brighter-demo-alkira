@@ -10,3 +10,32 @@ hide all course
 {
     display: block;
 }
+
+
+/**
+products list view
+***/
+
+.o_wsale_product_information.position-relative.d-flex.flex-column.flex-grow-1.flex-shrink-1 {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    background: #f7f7f7;
+    padding: 10px 10px 0px 10px;
+    min-width: 600px;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+}
+
+
+form.oe_product_cart.h-100.d-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
