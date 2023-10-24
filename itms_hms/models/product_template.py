@@ -8,7 +8,7 @@ class ProductTemplate(models.Model):
 
     retail_price = fields.Float(string='RRP Price', digits='Product Unit of Measure')
     hospital_product_type = fields.Selection(
-        selection_add=[('shop', 'Shop'), ('pos', 'POS'), ('course', 'eLearning'), ('services', 'Services')])
+        selection_add=[('pos', 'POS'), ('course', 'eLearning'), ('services', 'Services')])
     medicine_area = fields.Selection([
         ('pre-area', 'Pre-AArea'),
         ('cheek', 'Cheek'),
