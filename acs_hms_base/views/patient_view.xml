@@ -221,7 +221,7 @@
                 <field name="active" invisible="1"/>
                 <separator/>
                 <filter string="Is Male" name="gender" domain="[('gender','=','male')]"/>
-                <filter string="Is Famale" name="gender" domain="[('gender','=','female')]"/>
+                <filter string="Is Female" name="gender" domain="[('gender','=','female')]"/>
                 <separator/>
                 <filter string="All" name="all" domain="['|', ('active', '=', False), ('active', '=', True)]"/>
                 <separator/>

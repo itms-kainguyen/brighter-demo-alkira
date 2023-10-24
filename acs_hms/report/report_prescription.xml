@@ -60,7 +60,7 @@
                     </div>
 
                      <div t-if="doc.patient_age" class="col-3 mb-2">
-                        <strong>BOD</strong>
+                        <strong>B.O.D</strong>
                         <p class="m-0" t-field="doc.patient_id.birthday"/>
                     </div>
 

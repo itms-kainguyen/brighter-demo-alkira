@@ -188,7 +188,7 @@ class Appointment(models.Model):
         ('confirm', 'Consent'),
         ('confirm_consent', 'Medical Checklist'),
         ('waiting', 'Waiting'),
-        ('in_consultation', 'Consultation & Treatment'),
+        ('in_consultation', 'Treatment'),
         ('pause', 'Pause'),
         ('to_after_care', 'AfterCare'),
         # ('to_invoice', 'Invoice'),
@@ -210,6 +210,7 @@ class Appointment(models.Model):
                                                   string="Appointment Invoicing Policy")
     invoice_exempt = fields.Boolean('Invoice Exempt', states=READONLY_STATES)
     consultation_type = fields.Selection([
+        ('adverse', 'Adverse Event'),
         ('consultation', 'Consultation'),
         ('consultation_prescription', 'Consultation and Prescription'),
         ('followup', 'Follow-Up Appointment')], 'Consultation Type', default='consultation_prescription',
@@ -969,7 +970,8 @@ class Appointment(models.Model):
                         template = prescription.treatment_id.template_id.name
                         treatment_notes.append({'template': template, 'finding': finding})
         email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
-        is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False, force_send=True)
+        is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
+                                                                                   force_send=True)
         if is_sent:
             template_aftercare.reset_template()
         if self.company_id.sudo().auto_followup_days:
