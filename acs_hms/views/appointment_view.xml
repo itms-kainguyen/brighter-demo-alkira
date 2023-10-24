@@ -322,7 +322,7 @@
                             </div>
                             <field name="planned_duration" widget="float_time"/>
                             <field name="consultation_type"/>
-                            <field name="product_id" required="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
+                            <field name="product_id" invisible="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
                             <field name="is_prescription_expired" invisible="1"/>
                             <label for="prescription_id" string="Prescription Order"/>
                             <div class="o_row">

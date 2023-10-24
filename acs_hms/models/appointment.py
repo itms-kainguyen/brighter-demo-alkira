@@ -198,8 +198,7 @@ class Appointment(models.Model):
         states=READONLY_STATES)
     product_id = fields.Many2one('product.product', ondelete='restrict',
                                  string='Service Charge',
-                                 domain=[('hospital_product_type', '=', "consultation")], required=True,
-                                 default=_get_service_id, states=READONLY_STATES)
+                                 domain=[('hospital_product_type', '=', "consultation")], required=False, states=READONLY_STATES)
     age = fields.Char(compute="get_patient_age", string='Age', store=True,
                       help="Computed patient age at the moment of the evaluation")
     company_id = fields.Many2one('res.company', ondelete='restrict', states=READONLY_STATES,
