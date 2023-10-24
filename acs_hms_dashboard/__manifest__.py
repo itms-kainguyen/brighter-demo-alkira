@@ -27,9 +27,10 @@
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',
-    "depends": ["acs_hms"],
+    "depends": ["acs_hms","multi_sms_gateway"],
     "data": [
-        "security/security.xml",
+        'security/security.xml',
+        'security/ir.model.access.csv',
         "views/user_dashboard_view.xml",
         "views/user_view.xml",
     ],
@@ -41,7 +42,7 @@
     'images': [
         'static/description/acs_hms_dashboard_almightycs_odoo_cover.gif',
     ],
-    'application': False,
+    'application': True,
     'sequence': 2,
     'price': 75,
     'currency': 'USD',
