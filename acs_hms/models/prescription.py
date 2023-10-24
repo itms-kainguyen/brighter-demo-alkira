@@ -87,6 +87,7 @@ class ACSPrescriptionOrder(models.Model):
         required=True, tracking=True)
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
 
     def get_1st_product(self):
         for rec in self:
@@ -177,6 +178,20 @@ class ACSPrescriptionOrder(models.Model):
 
                 })
         return vals
+    def pay_confirm(self):
+        for app in self:
+            if not app.prescription_line_ids:
+                raise UserError(_('You cannot confirm a prescription order without any order line.'))
+
+            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_hms_prescription_order_popup")
+            # action['domain'] = [('patient_id', '=', self.id)]
+            action['context'] = {'show_pop_up': False}
+            action['res_model'] = self._name
+            action['res_id'] = self.id
+            return action
+
+    def pay_prescription(self):
+        self.button_confirm()
 
     def button_confirm(self):
         for app in self:
