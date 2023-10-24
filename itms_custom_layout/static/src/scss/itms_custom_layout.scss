@@ -343,3 +343,10 @@ div[name='call_telehealth'] .btn:hover {
 .o_ChatterTopbar_buttonToggleAttachments .fa-paperclip:before {
   content: "\f030";
 }
+
+/*
+hide button invoice
+*/
+.container-buttonbox button[name="view_invoices"] {
+  display: none;
+}
