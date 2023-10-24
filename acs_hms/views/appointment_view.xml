@@ -257,9 +257,20 @@
                         <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-user-md">
                             <field string="Treatments" name="treatment_count" widget="statinfo"/>
                         </button>
-                        <button name="action_prescription" string="Prescription" type="object" class="oe_stat_button" icon="fa-pencil-square-o"  attrs="{'invisible': [('state','=','done'),('prescription_ids', '=', False)]}">
+                        <button class="oe_stat_button btn-green" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': [('prescription_count', '=', '0')]}">
                             <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                         </button>
+                        <button class="oe_stat_button" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': [('prescription_count', '>', '0')]}">
+                            <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                        </button>
+                <!-- <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
+                    <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                </button>
+                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
+                    <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                </button> -->
+
+
 
                         <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
                             <field string="Invoices" name="invoice_count" widget="statinfo"/>
