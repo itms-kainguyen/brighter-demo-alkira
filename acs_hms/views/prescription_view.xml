@@ -84,7 +84,7 @@
         <field name="arch" type="xml">
             <form string="ACS Prescription Order" >
                 <header>
-                    <button name="pay_confirm" states="draft" string="Confirm and Pay" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="pay_confirm" states="draft" string="Confirm and Send" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription"/>
@@ -244,7 +244,7 @@
     </record>
 
     <record id="action_hms_prescription_order_popup" model="ir.actions.act_window">
-        <field name="name">Confirm and Pay</field>
+        <field name="name">Confirm and Send</field>
         <field name="res_model">prescription.order</field>
         <field name="view_id" ref="acs_hms.view_hms_prescription_order_popup_form"/>
         <field name="view_mode">form</field>
