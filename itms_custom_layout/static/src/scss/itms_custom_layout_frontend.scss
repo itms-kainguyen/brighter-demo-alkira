@@ -39,3 +39,11 @@ form.oe_product_cart.h-100.d-flex {
     align-content: center;
     align-items: center;
 }
+
+
+/*
+hide button invoice
+*/
+.container-buttonbox button[name="view_invoices"] {
+    display: none;
+}
