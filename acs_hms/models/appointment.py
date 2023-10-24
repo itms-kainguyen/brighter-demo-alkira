@@ -124,15 +124,16 @@ class Appointment(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
                                    index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True,
                                    default=_get_default_physician)
+
     def get_clinic(self):
         clinic = self.env.user.department_ids[0].id if self.env.user.department_ids else False
         return clinic
+
     department_id = fields.Many2one('hr.department', ondelete='restrict',
                                     domain=[('patient_department', '=', True)], string='Clinic', tracking=True,
                                     default=get_clinic,
                                     states=READONLY_STATES)
 
-    
     # ACS: Added department field agian here to avoid portal error. Insted of reading department_id used acs_department_idfield so error vanbe avoided.
     acs_department_id = fields.Many2one('hr.department', compute="acs_get_department")
     invoice_exempt = fields.Boolean(string='Invoice Exempt', states=READONLY_STATES)
@@ -203,7 +204,8 @@ class Appointment(models.Model):
         states=READONLY_STATES)
     product_id = fields.Many2one('product.product', ondelete='restrict',
                                  string='Service Charge',
-                                 domain=[('hospital_product_type', '=', "consultation")], required=False, states=READONLY_STATES)
+                                 domain=[('hospital_product_type', '=', "consultation")], required=False,
+                                 states=READONLY_STATES)
     age = fields.Char(compute="get_patient_age", string='Age', store=True,
                       help="Computed patient age at the moment of the evaluation")
     company_id = fields.Many2one('res.company', ondelete='restrict', states=READONLY_STATES,
@@ -320,12 +322,13 @@ class Appointment(models.Model):
 
     # Just to make object selectable in selction field this is required: Waiting Screen
     acs_show_in_wc = fields.Boolean(default=True)
+
     def get_current_user(self):
         return self.env.user.id or False
-    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=get_current_user)
 
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True,
+                               default=get_current_user)
 
-    
     prescription_id = fields.Many2one('prescription.order', 'Prescription Order')
     consent_id = fields.Many2one('consent.consent', 'Consent Form')
     is_confirmed_consent = fields.Boolean(compute='_compute_is_confirmed_consent', default=False)
@@ -966,13 +969,14 @@ class Appointment(models.Model):
                             if line.product_id:
                                 medicine_area = line.medicine_area or ''
                                 amount = line.amount or ''
+                                batch_number = line.batch_number or ''
                                 medicine_technique = line.medicine_technique or ''
                                 medicine_depth = line.medicine_depth or ''
                                 medicine_method = line.medicine_method or ''
                                 product_name = line.sudo().product_id.name
                                 medicine_line_ids.append(
                                     {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
-                                     'medicine_technique': medicine_technique,
+                                     'batch_number': batch_number, 'medicine_technique': medicine_technique,
                                      'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
                     if prescription.treatment_id.template_id:
                         finding = prescription.treatment_id.finding or ''
@@ -1000,9 +1004,9 @@ class Appointment(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
         prescription_ids = self.env['prescription.order'].search(
             [
-            #('state', '=', 'prescription'),
-            ('patient_id', '=', self.patient_id.id),
-            #('expire_date', '>=', fields.Date.today())
+                # ('state', '=', 'prescription'),
+                ('patient_id', '=', self.patient_id.id),
+                # ('expire_date', '>=', fields.Date.today())
             ])
         action['domain'] = [('id', 'in', prescription_ids.ids)]
         # action['domain'] = [('appointment_id', '=', self.id)]
@@ -1044,9 +1048,9 @@ class Appointment(models.Model):
             rec.treatment_count = len(self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running']))
             rec.prescription_count = len(self.env['prescription.order'].search(
                 [
-                #('state', '=', 'prescription'),
-                ('patient_id', '=', self.patient_id.id),
-                #('expire_date', '>=', fields.Date.today())
+                    # ('state', '=', 'prescription'),
+                    ('patient_id', '=', self.patient_id.id),
+                    # ('expire_date', '>=', fields.Date.today())
                 ]))
 
     def action_view_treatment(self):

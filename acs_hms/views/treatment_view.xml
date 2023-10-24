@@ -78,6 +78,7 @@
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"/>
+                                     <field name="batch_number"/>
                                     <field name="medicine_technique"/>
                                     <field name="medicine_depth"/>
                                     <field name="medicine_method"/>
