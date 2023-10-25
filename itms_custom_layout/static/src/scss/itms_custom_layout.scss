@@ -132,22 +132,6 @@ label.o_form_label {
 
 // video call
 
-.position-absolute {
-  position: absolute !important;
-  height: 100% !important;
-  width: 36% !important;
-}
-
-
-@media only screen and (max-width: 768px) {
-  .position-absolute {
-    position: absolute !important;
-    height: 100% !important;
-    width: 70% !important;
-  }
-}
-
-
 
 .o_Message_bubble .position-absolute {
   width: 100% !important;
@@ -303,8 +287,8 @@ div[name='call_telehealth'] .btn:hover {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
-  background-color: rgba(13, 12, 12, 0.5);
+  z-index: 99999;
+  background-color: rgba(13, 12, 12, 0.9);
   background-repeat: no-repeat;
   background-position: center;
   width: 100vw;
