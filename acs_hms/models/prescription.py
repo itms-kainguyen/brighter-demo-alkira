@@ -201,6 +201,8 @@ class ACSPrescriptionOrder(models.Model):
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
 
             app.state = 'prescription'
+            template_id = self.env.ref('acs_hms.acs_prescription_email')
+            template_id.sudo().send_mail(self.id, raise_exception=False, force_send=True)
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
