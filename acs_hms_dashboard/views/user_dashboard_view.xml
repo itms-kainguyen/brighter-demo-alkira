@@ -588,6 +588,7 @@
                         <script type="text/javascript">
                     
 
+                            close_telehealth();
                             <!-- check is device small null true => windows -->
                             if (Object.is(document.querySelector("div.MessagingMenuContainer > .o-isDeviceSmall"), null)) {
                                 call_telehealth_dashboard();
@@ -598,10 +599,10 @@
  
                             clone_telehealth_dashboard();
                             close_telehealth();
+                            setOpacityMessageDropdown();
                             
                             setTimeout(() => {
                                 $('#dashboard_prescribers .o_ChannelMember').on('click', function() {
-                                    console.log("imhere============ if ok");
                                     var self = $(this);
                                     var prescriber_id = self.data('partner-id');
                                     call_telehealth_dashboard();
@@ -617,13 +618,12 @@
                                         }
                                         `;
                                         document.head.appendChild(style);
+
+                                        
                     
                                         call_close_chatbox();
-                    
-                                
                                     }, 1500);
                                 })
-                        
                             }, 1500);
                     
                             
@@ -633,6 +633,9 @@
                         </script>
                     
                         <style type="text/css">
+
+
+                      
                             .position-absolute {
                                 position: absolute !important;
                                 height: 100% !important;
@@ -651,11 +654,13 @@
                             .o_MessagingMenu_dropdownMenu {
                                 z-index: -1;
                                 opacity: 0;
+                                transition: opacity .5s ease-out;
                             }
                     
                             .o_ChatWindow {
                                 opacity: 0;
                                 z-index: -1;
+                                transition: opacity .5s ease-out;
                             }
                         </style>
                         
