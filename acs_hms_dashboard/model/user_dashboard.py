@@ -602,44 +602,55 @@ class Adverse_Event(models.Model):
     category_id = fields.Many2one('document.page',
                                   domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Adverse Event')],
                                   string='Adverse Event')
-    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
-                                 default=lambda self: self.env.user.company_id, readonly=True)
+    branch_id = fields.Many2one('res.branch', ondelete="cascade", string='Clinic',
+                                 default=lambda self: self.env.user.branch_id, readonly=True)
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
     patient_id = fields.Many2one('hms.patient', string='Patient')
     nurse_phone = fields.Char(string='Nurse Phone')
-    content = fields.Text('Content')
+    content = fields.Char('Content')
+    chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
+    medication_error_event_boolean = fields.Boolean(string='Medication Errors', default=False)
+    blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
+    infections_event_boolean = fields.Boolean(string='Infections', default=False)
+    allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
     is_sent = fields.Boolean(string='Sent', default=False)
 
-    @api.onchange('nurse_id')
-    def onchange_nurse_id(self):
+    @api.onchange('nurse_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean', 'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
+    def onchange_adverse_event_boolean(self):
         for rec in self:
+            rec.content = ''
             if rec.nurse_id:
                 rec.nurse_phone = rec.nurse_id.phone
 
-    @api.onchange('category_id')
-    def onchange_category_id(self):
-        for rec in self:
-            rec.content = None
-            if rec.category_id:
-                # Convert the HTML content to text
-                text_content = re.sub(r'<[^>]+>', '', rec.category_id.content)
+            if rec.chemical_burns_event_boolean == True:
+                rec.content += 'Chemical Burns,'
 
-                # Remove the `<data>` tags
-                text_content = re.sub(r'<data>(.*?)</data>', '', text_content)
-                rec.content = '''
-                {}:Urgent - Adverse Event \n
-                Nurse: {}\n
-                Patient: {}\n
-                Contact: {}\n
-                {}\n
-                Please respond urgently.\n
-                '''.format(
-                    rec.company_id.name,
-                    rec.nurse_id.name,
-                    rec.patient_id.name,
-                    rec.nurse_phone,
-                    text_content,
-                )
+            if rec.medication_error_event_boolean == True:
+                rec.content += 'Medication Errors,'
+
+            if rec.blindness_event_boolean == True:
+                rec.content += 'Blindness,'
+
+            if rec.infections_event_boolean == True:
+                rec.content += 'Infections,'
+
+            if rec.allergic_event_boolean == True:
+                rec.content += 'Allergic Reactions'
+
+            rec.content = '''
+            {}: Urgent - Adverse Event
+            Nurse: {}
+            Patient: {}
+            Contact: {}
+            Adverse Event: {}
+            Please respond urgently.
+            '''.format(
+                rec.branch_id.name,
+                rec.nurse_id.name,
+                rec.patient_id.name,
+                rec.nurse_phone,
+                rec.content,
+            )
                 # for number in self.sms_to.split(','):
                 #     if number:
                 #         client.messages.create(
@@ -647,6 +658,31 @@ class Adverse_Event(models.Model):
                 #             from_=self.sms_id.twilio_phone_number,
                 #             to=number
                 #         )
+
+    # @api.onchange('category_id')
+    # def onchange_category_id(self):
+    #     for rec in self:
+    #         rec.content = None
+    #         if rec.category_id:
+    #             # Convert the HTML content to text
+    #             text_content = re.sub(r'<[^>]+>', '', rec.category_id.content)
+    #
+    #             # Remove the `<data>` tags
+    #             text_content = re.sub(r'<data>(.*?)</data>', '', text_content)
+    #             rec.content = '''
+    #                 {}:Urgent - Adverse Event \n
+    #                 Nurse: {}\n
+    #                 Patient: {}\n
+    #                 Contact: {}\n
+    #                 {}\n
+    #                 Please respond urgently.\n
+    #                 '''.format(
+    #                 rec.company_id.name,
+    #                 rec.nurse_id.name,
+    #                 rec.patient_id.name,
+    #                 rec.nurse_phone,
+    #                 text_content,
+    #             )
     def send_sms(self):
         for rec in self:
             rec.is_sent = False
@@ -665,4 +701,5 @@ class Adverse_Event(models.Model):
                     'sms_mobile': '+61 0402851235',
                     'sms_text': rec.content
                 })
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
