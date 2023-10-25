@@ -237,12 +237,8 @@ class ACSPatient(models.Model):
     def create_appointment(self):
         # return the form view of this partner
         self.ensure_one()
-
         # Get the patient ID
         patient_id = self.id
-        print("self.env.user", self.env.user)
-        print("self.env.user", self.env.user.branch_id)
-
         # Create a new appointment record
         appointment = self.env['hms.appointment'].create({
             'patient_id': patient_id,
@@ -262,6 +258,30 @@ class ACSPatient(models.Model):
             #"target": "new",
         }
 
+    def create_prescription(self):
+        # return the form view of this partner
+        self.ensure_one()
+        # Get the patient ID
+        patient_id = self.id
+        # Create a new appointment record
+        prescription = self.env['prescription.order'].create({
+            'patient_id': patient_id,
+            'nurse_id': self.env.user.id,
+        })
+
+        # Return the form view of the new appointment record
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "prescription.order",
+            "res_id": prescription.id,
+            "view_mode": "form",
+            "view_type": "form",
+            "views": [(False, "form")],
+            "view_id": False,
+            #"target": "new",
+        }
+    
+    
     def action_appointment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
         action['domain'] = [('patient_id','=',self.id)]
