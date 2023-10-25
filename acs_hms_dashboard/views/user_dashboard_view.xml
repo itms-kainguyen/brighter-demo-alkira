@@ -1,10 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-
-
-
-    
     <record id="user_dashboard_kanban_view" model="ir.ui.view">
         <field name="name">Dashboard</field>
         <field name="model">res.users</field>
@@ -373,12 +368,12 @@
 
                                 <!-- Emergency -->
                                 <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
-                                     class="col-3 acs_block">
+                                     class="col-3 acs_block emergency">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_emergency_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-ambulance'"/>
                                         <t t-set="acs_field_name" t-value="record.total_emergency.raw_value"/>
-                                        <t t-set="acs_record_lable">Emergency</t>
+                                        <t t-set="acs_record_lable">Adverse Event</t>
                                         <t t-set="acs_record_action" t-value="'open_emergency'"/>
                                     </t>
                                 </div>
@@ -676,7 +671,6 @@
             </kanban>
         </field>
     </record>
-
     <record id="action_my_dashboard" model="ir.actions.act_window">
         <field name="name">My Dashboard</field>
         <field name="res_model">res.users</field>
@@ -685,14 +679,41 @@
         <field name="usage">menu</field>
         <field name="domain">[('id','=',uid)]</field>
     </record>
-
     <menuitem id="main_dashboard" name="My Dashboard" sequence="0"
               web_icon="acs_hms_dashboard,static/description/icon.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
     <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"
               action="action_my_dashboard" sequence="1"/>
 
-
-
-
+    <!-- POPUP -->
+    <record id="view_hms_adverse_event_popup_form" model="ir.ui.view">
+        <field name="name">hms.adverse.event.popup.form</field>
+        <field name="model">hms.adverse.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="patient_id" string="Patient" />
+                        <field name="category_id" string="Adverse Event" />
+                        <field name="company_id" string="Clinic" />
+                        <field name="nurse_id" string="Nurse" />
+                        <field name="nurse_phone" string="Contact" />
+                        <field name="content" string="Message" widget="text" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="send_sms" string="Send" type="object" class="btn btn-primary" />
+                    <button special="cancel" string="Cancel" type="object" class="btn btn-link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_hms_adverse_event_popup" model="ir.actions.act_window">
+        <field name="name">Adverse Event SMS</field>
+        <field name="res_model">hms.adverse.event</field>
+        <field name="view_id" ref="acs_hms_dashboard.view_hms_adverse_event_popup_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <!-- END POPUP -->
 
 </odoo>

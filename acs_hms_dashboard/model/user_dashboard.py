@@ -12,7 +12,8 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF, DEFAULT_SERVER_DATETIME
     format_datetime as tool_format_datetime
 from odoo.tools.misc import formatLang
 from odoo.release import version
-
+from twilio.rest import Client
+import re
 DASHBOARD_FIELDS = ['is_physician', 'is_manager', 'identification_id', 'birthday', 'birthday_color',
                     'total_patients_color', 'total_treatments_color', 'total_appointments_color',
                     'total_open_invoice_color', 'total_shedules_color', 'appointment_bar_graph_color',
@@ -581,13 +582,87 @@ class ResUsers(models.Model):
     def open_support(self):
         action = {}
         return action
-
-    def open_emergency(self):
-        action = {}
-        return action
-
     def open_medical_checklist(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_checklist_appointment")
         return action
 
+    def open_emergency(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms_dashboard.action_hms_adverse_event_popup")
+        # action['domain'] = [('patient_id', '=', self.id)]
+        # action['context'] = {'show_pop_up': False}
+        # action['res_model'] = self._name
+        # action['res_id'] = self.id
+        return action
+
+class Adverse_Event(models.Model):
+    _name = 'hms.adverse.event'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
+    _description = "Adverse Event SMS"
+
+    category_id = fields.Many2one('document.page',
+                                  domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Adverse Event')],
+                                  string='Adverse Event')
+    company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
+                                 default=lambda self: self.env.user.company_id, readonly=True)
+    nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
+    patient_id = fields.Many2one('hms.patient', string='Patient')
+    nurse_phone = fields.Char(string='Nurse Phone')
+    content = fields.Text('Content')
+    is_sent = fields.Boolean(string='Sent', default=False)
+
+    @api.onchange('nurse_id')
+    def onchange_nurse_id(self):
+        for rec in self:
+            if rec.nurse_id:
+                rec.nurse_phone = rec.nurse_id.phone
+
+    @api.onchange('category_id')
+    def onchange_category_id(self):
+        for rec in self:
+            rec.content = None
+            if rec.category_id:
+                # Convert the HTML content to text
+                text_content = re.sub(r'<[^>]+>', '', rec.category_id.content)
+
+                # Remove the `<data>` tags
+                text_content = re.sub(r'<data>(.*?)</data>', '', text_content)
+                rec.content = '''
+                {}:Urgent - Adverse Event \n
+                Nurse: {}\n
+                Patient: {}\n
+                Contact: {}\n
+                {}\n
+                Please respond urgently.\n
+                '''.format(
+                    rec.company_id.name,
+                    rec.nurse_id.name,
+                    rec.patient_id.name,
+                    rec.nurse_phone,
+                    text_content,
+                )
+                # for number in self.sms_to.split(','):
+                #     if number:
+                #         client.messages.create(
+                #             body=self.text,
+                #             from_=self.sms_id.twilio_phone_number,
+                #             to=number
+                #         )
+    def send_sms(self):
+        for rec in self:
+            rec.is_sent = False
+            if rec.content:
+                twilio_client = self.env['sms.gateway.config'].sudo().search([('gateway_name', '=', 'twilio')])
+                client = Client(twilio_client.twilio_account_sid,
+                                twilio_client.twilio_auth_token)
+
+                rec.is_sent = client.messages.create(
+                    body=rec.content,
+                    from_=twilio_client.twilio_phone_number,
+                    to='+61 0402851235'
+                )
+                self.env['sms.history'].sudo().create({
+                    'sms_gateway_id': twilio_client.sms_gateway_id.id,
+                    'sms_mobile': '+61 0402851235',
+                    'sms_text': rec.content
+                })
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
