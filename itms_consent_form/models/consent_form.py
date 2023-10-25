@@ -9,6 +9,10 @@ class Consent(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = "Patient Consent Form"
 
+    def get_clinic(self):
+        clinic = self.env.user.department_ids[0].id if self.env.user.department_ids else False
+        return clinic
+
     name = fields.Char('Title', required=1)
     content = fields.Html('Content')
     patient_id = fields.Many2one('hms.patient', required=1, string='Patient')
@@ -31,6 +35,9 @@ class Consent(models.Model):
                                   store=True)
     nurse_signed_on = fields.Datetime(compute='_compute_nurse_signature',
                                       string="Nurse Signed On", readonly=1, copy=False)
+
+    department_id = fields.Many2one('hr.department', ondelete='restrict', string='Clinic', default=get_clinic)
+
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
                                  default=lambda self: self.env.company, store=True)
 

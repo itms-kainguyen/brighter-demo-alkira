@@ -71,7 +71,8 @@
                 <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
-                <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
+                <field name="nurse_id"/>
+                <field name="state" decoration-info="state=='draft'" decoration-danger="state=='expired'" decoration-success="state=='prescription'" widget="badge"/>
                 <field name="company_id" groups="base.group_multi_company"/>
             </tree>
         </field>
@@ -82,137 +83,136 @@
         <field name="model">prescription.order</field>
         <field name="arch" type="xml">
             <form string="ACS Prescription Order" >
-                <header>
-                    <button name="button_confirm" states="draft" string="Confirm" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                 <header invisible="not context.get('show_pop_up',True)">
+                    <button name="pay_confirm" states="draft" string="Confirm and Send" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
-                    <button name="action_prescription_send" string="Send by Email" type="object" states="prescription"/>
-                    <button name="button_reset" states="prescription" string="Reset to Draft" type="object" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
+                    <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms.group_hms_jr_doctor"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,prescription,finished"/>
                 </header>
-                <div class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
+                <div invisible="not context.get('show_pop_up',True)" class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
                     <field name="medical_alert_ids" nolabel="1" widget="many2many_tags"/>
                 </div>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <div invisible="not context.get('show_pop_up',True)">
+                            <div class="oe_button_box" name="button_box">
+                                <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                                </button> -->
+                            </div>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" class="oe_inline"/>
+                                </h1>
+                            </div>
 
-                <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
-                </button>
-
-
-                    </div>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" class="oe_inline"/>
-                        </h1>
-                    </div>
-                        
-                    <group>
-                        <group>
-                            <field name="patient_id"/>
-                            <field name="patient_age" invisible="1"/>
-                            <field name="physician_id"/>
-                            <field name="prescription_type"/>
-                            <field name="group_id" invisible="1" string="Prescription Template"/>
-<!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
-                        </group>
-                        <group>
-                            <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
-                            <field name="expire_date"/>
-                            <field name="prescription_date"/>
-                            <field name="alert_count" invisible="1"/>
-                            <field name="pregnancy_warning" invisible="1"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="prescription_lines" string="Prescription Lines">
                             <group>
                                 <group>
-                                    <label for="acs_kit_id" attrs="{'invisible': [('state','!=', 'draft')]}"/>
-                                    <div name="acs_kit_id" attrs="{'invisible': [('state','!=', 'draft')]}">
-                                        <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
-                                        <!-- <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/> -->
-<!--                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>-->
-                                    </div>
-                                </group>
-<!--                                <group>-->
-<!--                                    <label for="old_prescription_id"/>-->
-<!--                                    <div name='old_prescription_id'>-->
-<!--                                        <field name="old_prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription')]" nolabel="1" options="{'no_create': True}"/>-->
-<!--                                        <button name="get_prescription_lines" string="Get Lines" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': ['|',('old_prescription_id','=', False), ('state','!=', 'draft')]}"/>-->
-<!--                                    </div>-->
-<!--                                </group>-->
-                            </group>
-                            <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="section_and_note_one2many">
-                                <tree string="Prescription Line" editable="bottom">
-                                    <control>
-                                        <create name="add_line_control" string="Add a line"/>
-                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
-                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
-                                    </control>
-                                    <field name="id" invisible="1"/>
-                                    <field name="display_type" invisible="1"/>
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="product_id" string="Medicine Name"/>
-                                    <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
-                                    <field name="allow_substitution" optional="hide"/>
-                                    <field name="common_dosage_id" invisible="1"/>
-                                    <field name="common_dosage_group"/>
-                                    <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
-                                    <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
-                                    <field name="repeat"/>
-                                    <field name="use_every" optional="show"/>
-                                    <field name="product_uom_category_id" invisible="1"/>
-                                    <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
-                                    <!-- <field name="days" attrs="{'required': [('display_type', '=', False)]}"/> -->
-                                    <field name="manual_prescription_qty" invisible="1"/>
-                                    <field name="manual_quantity" invisible="1"/>
-                                    <field name="quantity" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
-                                    <field name="qty_available" readonly="1" optional="hide"/>
-                                    <field name="prnt" invisible="1"/>
-                                    <field name="short_comment" invisible="1"/>
-                                    <field name="treatment_id" invisible="1"/>
-                                    <field name="name" string="Comment" widget="section_and_note_text" optional="show"/>
-                                </tree>
-                            </field>
-                            <group colspan="4">
-                                <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="notes" string="Advice" colspan="2"/>
-                            </group>
-                        </page>
-                        <page name="prescription_details" string="Prescription Details">
-                            <field name="prescription_detail_ids" nolabel="1" colspan="4">
-                                <tree string="Prescription Detail" editable="bottom">
-                                    <control>
-                                        <create name="add_line_control" string="Add a line"/>
-                                    </control>
-                                    <field name="id" invisible="1"/>
-                                    <field name="prescription_id" invisible="1"/>
-                                    <field name="line_id" invisible="1"/>
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="product_id" attrs="{'readonly':[('parent.state', '!=', 'draft')] }" string="Medicine Name"/>
-                                    <field name="description" />
-                                    <field name="scheduled_date" />
-                                    <field name="state" />
-                                    <field name="is_done" readonly="1" />
-                                    <field name="done_at" readonly="1" />
-                                </tree>
-                            </field>
-                        </page>
-                        <page name="info" string="General Information">
-                            <group>
-                                <group>
-                                    <field name="appointment_id" domain="[('patient_id','=',patient_id)]"/>
+                                    <field name="patient_id"/>
+                                    <field name="patient_age" invisible="1"/>
+                                    <field name="physician_id"/>
+                                    <field name="nurse_id"/>
+                                    <field name="prescription_type"/>
+                                    <field name="group_id" invisible="1" string="Prescription Template"/>
+        <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
                                 </group>
                                 <group>
-                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                    <field name="treatment_id" domain="[('patient_id','=',patient_id)]"/>
+                                    <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
+                                    <field name="expire_date"/>
+                                    <field name="prescription_date"/>
+                                    <field name="alert_count" invisible="1"/>
+                                    <field name="pregnancy_warning" invisible="1"/>
                                 </group>
                             </group>
-                        </page>
-                    </notebook>
-
+                            <notebook>
+                                <page name="prescription_lines" string="Prescription Lines">
+                                    <group>
+                                        <group>
+                                            <label for="acs_kit_id" attrs="{'invisible': [('state','!=', 'draft')]}"/>
+                                            <div name="acs_kit_id" attrs="{'invisible': [('state','!=', 'draft')]}">
+                                                <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
+                                                <!-- <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/> -->
+        <!--                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>-->
+                                            </div>
+                                        </group>
+        <!--                                <group>-->
+        <!--                                    <label for="old_prescription_id"/>-->
+        <!--                                    <div name='old_prescription_id'>-->
+        <!--                                        <field name="old_prescription_id" domain="[('patient_id','=',patient_id),('state','=','prescription')]" nolabel="1" options="{'no_create': True}"/>-->
+        <!--                                        <button name="get_prescription_lines" string="Get Lines" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': ['|',('old_prescription_id','=', False), ('state','!=', 'draft')]}"/>-->
+        <!--                                    </div>-->
+        <!--                                </group>-->
+                                    </group>
+                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="section_and_note_one2many">
+                                        <tree string="Prescription Line" editable="bottom">
+                                            <control>
+                                                <create name="add_line_control" string="Add a line"/>
+                                                <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                                <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                            </control>
+                                            <field name="id" invisible="1"/>
+                                            <field name="display_type" invisible="1"/>
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="product_id" string="Medicine Name"/>
+                                            <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
+                                            <field name="allow_substitution" optional="hide"/>
+                                            <field name="common_dosage_id" invisible="1"/>
+                                            <field name="common_dosage_group"/>
+                                            <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
+                                            <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
+                                            <field name="repeat"/>
+                                            <field name="use_every" optional="show"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                            <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
+                                            <!-- <field name="days" attrs="{'required': [('display_type', '=', False)]}"/> -->
+                                            <field name="manual_prescription_qty" invisible="1"/>
+                                            <field name="manual_quantity" invisible="1"/>
+                                            <field name="quantity" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
+                                            <field name="qty_available" readonly="1" optional="hide"/>
+                                            <field name="prnt" invisible="1"/>
+                                            <field name="short_comment" invisible="1"/>
+                                            <field name="treatment_id" invisible="1"/>
+                                            <field name="name" string="Comment" widget="section_and_note_text" optional="show"/>
+                                        </tree>
+                                    </field>
+                                    <group colspan="4">
+                                        <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="notes" string="Advice" colspan="2"/>
+                                    </group>
+                                </page>
+                                <page name="prescription_details" string="Prescription Details">
+                                    <field name="prescription_detail_ids" nolabel="1" colspan="4">
+                                        <tree string="Prescription Detail" editable="bottom">
+                                            <control>
+                                                <create name="add_line_control" string="Add a line"/>
+                                            </control>
+                                            <field name="id" invisible="1"/>
+                                            <field name="prescription_id" invisible="1"/>
+                                            <field name="line_id" invisible="1"/>
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="product_id" attrs="{'readonly':[('parent.state', '!=', 'draft')] }" string="Medicine Name"/>
+                                            <field name="description" />
+                                            <field name="scheduled_date" />
+                                            <field name="state" />
+                                            <field name="is_done" readonly="1" />
+                                            <field name="done_at" readonly="1" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page name="info" string="General Information" invisible="1">
+                                    <group>
+                                        <group>
+                                            <field name="appointment_id" domain="[('patient_id','=',patient_id)]"/>
+                                        </group>
+                                        <group>
+                                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                            <field name="treatment_id" domain="[('patient_id','=',patient_id)]"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                    </div>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
@@ -222,6 +222,33 @@
             </form>
         </field>
     </record>
+
+    <!-- POPUP -->
+    <record id="view_hms_prescription_order_popup_form" model="ir.ui.view">
+        <field name="name">prescription.popup.form</field>
+        <field name="model">prescription.order</field>
+        <field name="inherit_id" ref="acs_hms.view_hms_prescription_order_form"/>
+        <field name="arch" type="xml">
+            <sheet position="inside">
+                <div invisible="context.get('show_pop_up',True)">
+                    <p>Are you sure you want to charge $28 to your credit card?</p>
+                    <footer>
+                        <button name="pay_prescription" type="object" string="Yes" class="oe_highlight"/>
+                        <button string="No" class="oe_link" special="cancel" />
+                    </footer>
+                </div>
+            </sheet>
+        </field>
+    </record>
+
+    <record id="action_hms_prescription_order_popup" model="ir.actions.act_window">
+        <field name="name">Confirm and Send</field>
+        <field name="res_model">prescription.order</field>
+        <field name="view_id" ref="acs_hms.view_hms_prescription_order_popup_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <!-- END POPUP -->
 
     <record id="view_hms_prescription_order_search" model="ir.ui.view">
         <field name="name">prescription.order.search</field>
@@ -233,6 +260,7 @@
                 <field name="patient_id"/>
                 <field name="prescription_line_ids" string="Medicine" filter_domain="[('prescription_line_ids.product_id', 'ilike', self)]"/>
                 <field name="physician_id"/>
+                <field name="nurse_id"/>
                 <field name="treatment_id"/>
                 <field name="company_id"/>
                 <!--<filter name="Pregancy Warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>-->
@@ -241,6 +269,7 @@
                     <filter string="Patient" name="patient_id_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter string="Prescription Date" name="prescription_date_groupby" domain="[]" context="{'group_by':'prescription_date'}"/>
                     <filter string="Prescriber" name="physician_id_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
+                    <filter string="Nurse" name="nurse_id_groupby" domain="[]" context="{'group_by':'nurse_id'}"/>
                     <filter name="today" string="Today's Prescription" domain="[('prescription_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('prescription_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
                     <filter string="Company" name="company_group" domain="[]" context="{'group_by':'company_id'}"/>
                     <filter string="Appointment" name="appointment_id_groupby" domain="[]" context="{'group_by':'appointment_id'}"/>
@@ -280,6 +309,10 @@
                                             <b>Physician:</b>
                                             <field name="physician_id"/>
                                         </li>
+                                         <li t-if="record.physician_id.raw_value">
+                                            <b>Nurse:</b>
+                                            <field name="nurse_id"/>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -297,6 +330,7 @@
         <field name="arch" type="xml">
             <calendar string="Prescriptions" color="patient_id" date_start="prescription_date">
                 <field name="physician_id"/>
+                <field name="nurse_id"/>
                 <field name="patient_id"/>
                 <field name="state"/>
             </calendar>
@@ -310,6 +344,7 @@
             <pivot string="Prescription Orders">
                 <field name="prescription_date" type="row"/>
                 <field name="physician_id" type="row"/>
+                <field name="nurse_id" type="row"/>
             </pivot>
         </field>
     </record>
@@ -337,7 +372,7 @@
         <field name="name">prescription.order.select.tree</field>
         <field name="model">prescription.order</field>
         <field name="arch" type="xml">
-            <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
+            <tree string="ACS Prescription Order" expand="1" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
                 <field name="name"/>
                 <field name="prescription_date"/>
                 <field name="first_product_id"/>
@@ -345,6 +380,7 @@
                 <field name="expire_date"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
+                <field name="nurse_id"/>
                 <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <button name="acs_select_prescription_for_appointment" type="object" string="Select" icon="fa-plus" class="oe_highlight"/>

@@ -76,7 +76,7 @@
 
             <widget name="web_ribbon" position="after">
                 <field name="show_cancellation_warning_flag" invisible="1"/>
-                <div attrs="{'invisible': [('show_cancellation_warning_flag', '=', False)]}" class="badge rounded-pill text-bg-danger">
+                <div attrs="{'invisible': [('show_cancellation_warning_flag', '=', False)]}" class="badge rounded-pill text-bg-danger" invisible="1">
                     <span class="fa fa-exclamation-triangle" title="Cancellation"/>
                     <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days
                 </div>

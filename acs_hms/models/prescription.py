@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.exceptions import UserError
+import logging
 
 from dateutil.relativedelta import relativedelta
 import uuid
@@ -27,7 +28,7 @@ class ACSPrescriptionOrder(models.Model):
             rec.alert_count = len(rec.medical_alert_ids)
 
     READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
-                       'finished': [('readonly', True)]}
+                       'finished': [('readonly', True)],'expired': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -59,7 +60,8 @@ class ACSPrescriptionOrder(models.Model):
         ('draft', 'Awaiting Confirmation'),
         ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
-        ('canceled', 'Cancelled')], string='Status', default='draft', tracking=True)
+        ('canceled', 'Cancelled'),
+        ('expired', 'Expired')], string='Status', default='draft', tracking=True)
     appointment_ids = fields.One2many('hms.appointment', 'prescription_id', string='Appointments',
                                       states=READONLY_STATES)
 
@@ -87,6 +89,7 @@ class ACSPrescriptionOrder(models.Model):
         required=True, tracking=True)
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
 
     def get_1st_product(self):
         for rec in self:
@@ -177,6 +180,20 @@ class ACSPrescriptionOrder(models.Model):
 
                 })
         return vals
+    def pay_confirm(self):
+        for app in self:
+            if not app.prescription_line_ids:
+                raise UserError(_('You cannot confirm a prescription order without any order line.'))
+
+            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_hms_prescription_order_popup")
+            # action['domain'] = [('patient_id', '=', self.id)]
+            action['context'] = {'show_pop_up': False}
+            action['res_model'] = self._name
+            action['res_id'] = self.id
+            return action
+
+    def pay_prescription(self):
+        self.button_confirm()
 
     def button_confirm(self):
         for app in self:
@@ -184,6 +201,8 @@ class ACSPrescriptionOrder(models.Model):
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
 
             app.state = 'prescription'
+            template_id = self.env.ref('acs_hms.acs_prescription_email')
+            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
@@ -493,6 +512,21 @@ class PrescriptionDetail(models.Model):
         This function is used to send the prescription reminder
         """
         today = fields.Date.today()
+
+        # update status if prescription is expired
+        _logger = logging.getLogger(__name__)
+        expired_prescription_ids = self.env['prescription.order'].search(
+            [('expire_date', '<=', today),
+             ('state', '!=', 'expired')])
+        if expired_prescription_ids:
+            for pre in expired_prescription_ids:
+                print("pre", pre.name)
+                pre.write({'state':'expired'})
+                logging.info(f"Updated {pre.name} expired prescription")
+        else:
+            logging.info(f"There is not any expired prescription")
+
+
         prescription_ids = self.search(
             [('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])
         # use a hack here to avoid sending multiple email to the same patient

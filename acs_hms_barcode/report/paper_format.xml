@@ -15,7 +15,7 @@
         <field name="header_line" eval="False" />
         <field name="header_spacing">0</field>
         <field name="dpi">90</field>
-        <field name="report_ids" eval="[(6,0, [ref('acs_hms_barcode.action_patient_barcode')])]"/>
+<!--        <field name="report_ids" eval="[(6,0, [ref('acs_hms_barcode.action_patient_barcode')])]"/>-->
     </record>
 
     <record id="paperformat_acs_barcode" model="report.paperformat">

@@ -14,7 +14,7 @@
         <record id="seq_hms_patient_treaatment" model="ir.sequence">
             <field name="name">ACS Patient Treatment</field>
             <field name="code">hms.treatment</field>
-            <field name="prefix">CASE</field>
+            <field name="prefix">TN</field>
             <field name="padding">3</field>
             <field name="acs_auto_create" eval="True"/>
             <field name="company_id" eval="False"/>

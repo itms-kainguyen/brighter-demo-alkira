@@ -348,7 +348,7 @@ class TreatmentMedicineLine(models.Model):
         ('other', 'Other'),
     ], default='pre-area', string="Area")
     amount = fields.Char(string='Amount')
-
+    batch_number = fields.Char(string='Batch Number')
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
         ('micro-bolus', 'Micro-Bolus'),

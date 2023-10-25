@@ -257,9 +257,21 @@
                         <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-user-md">
                             <field string="Treatments" name="treatment_count" widget="statinfo"/>
                         </button>
-                        <button name="action_prescription" string="Prescription" type="object" class="oe_stat_button" icon="fa-pencil-square-o"  attrs="{'invisible': [('state','=','done'),('prescription_ids', '=', False)]}">
+                        <!-- hide 2 button if not save when create it -->
+                        <button class="oe_stat_button btn-green" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '=', '0')]}">
                             <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                         </button>
+                        <button class="oe_stat_button" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '>', '0')]}">
+                            <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                        </button>
+                <!-- <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
+                    <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                </button>
+                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
+                    <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                </button> -->
+
+
 
                         <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
                             <field string="Invoices" name="invoice_count" widget="statinfo"/>
@@ -309,9 +321,9 @@
                                 <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
                                 <field name="date_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
                             </div>
-                            <field name="planned_duration" widget="float_time"/>
+                            <field name="planned_duration" widget="float_time" invisible="1"/>
                             <field name="consultation_type"/>
-                            <field name="product_id" required="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
+                            <field name="product_id" invisible="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
                             <field name="is_prescription_expired" invisible="1"/>
                             <label for="prescription_id" string="Prescription Order"/>
                             <div class="o_row">
