@@ -3,13 +3,13 @@
     <data noupdate="0">
 
         <record id="module_category_pharmacy_hms" model="ir.module.category">
-            <field name="name">Parmacy</field>
+            <field name="name">Pharmacy</field>
             <field name="description">Hospital Management System</field>
             <field name="sequence">9</field>
         </record>
 
         <record id="acs_hms_pharmacy_category" model="ir.module.category">
-            <field name="name">Parmacy</field>
+            <field name="name">Pharmacy</field>
             <field name="description">Manage your Company Documents.</field>
             <field name="sequence">11</field>
             <field name="parent_id" ref="module_category_pharmacy_hms"/>
