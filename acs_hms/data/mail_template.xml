@@ -48,7 +48,7 @@
             <field name="report_template" ref="acs_hms.report_hms_prescription_id"/>
             <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
             <field name="lang">{{ object.patient_id.lang }}</field>
-            <field name="auto_delete" eval="True"/>
+            <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
 <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
     <p>Hello <t t-out="object.patient_id.name"/>,</p>
