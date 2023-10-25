@@ -615,7 +615,7 @@ class Adverse_Event(models.Model):
     allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
     is_sent = fields.Boolean(string='Sent', default=False)
 
-    @api.onchange('nurse_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean', 'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
+    @api.onchange('nurse_id', 'patient_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean', 'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
     def onchange_adverse_event_boolean(self):
         for rec in self:
             rec.content = ''
