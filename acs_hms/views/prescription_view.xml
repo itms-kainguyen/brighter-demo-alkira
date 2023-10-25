@@ -72,7 +72,7 @@
                 <field name="patient_id"/>
                 <field name="physician_id"/>
                 <field name="nurse_id"/>
-                <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
+                <field name="state" decoration-danger="state == 'expired'" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='prescription'" widget="badge"/>
                 <field name="company_id" groups="base.group_multi_company"/>
             </tree>
         </field>
