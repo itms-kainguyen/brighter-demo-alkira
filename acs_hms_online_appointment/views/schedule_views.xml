@@ -11,8 +11,8 @@
                         <group>
                             <field name="name"/>
                             <field name="appointment_tz"/>
-                            <field name="show_fee_on_booking"/>
-                            <field name="appointment_price"/>
+                            <field name="show_fee_on_booking" invisible="1"/>
+                            <field name="appointment_price" invisible="1"/>
                         </group>
                         <group>
                             <field name="department_id" groups="acs_hms.group_allow_multi_department" attrs="{'invisible': [('acs_own_schedule','=',True)]}"/>
