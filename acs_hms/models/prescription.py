@@ -63,6 +63,7 @@ class ACSPrescriptionOrder(models.Model):
         ('finished', 'Finished'),
         ('canceled', 'Cancelled'),
         ('expired', 'Expired')], string='Status', default='draft', tracking=True)
+
     appointment_ids = fields.One2many('hms.appointment', 'prescription_id', string='Appointments',
                                       states=READONLY_STATES)
 
@@ -82,13 +83,18 @@ class ACSPrescriptionOrder(models.Model):
         default=lambda x: fields.Date.today() + relativedelta(years=1),
         states=READONLY_STATES)
     prescription_type = fields.Selection([
-        ('botox', 'Botox'),
-        ('filler', 'Filler'),
-        ('other', 'Other')],
+            ("botox", "Botox Injections"),
+            ("filler", "Dermal Fillers"),
+            ("laser_hair_removal", "Laser Hair Removal"),
+            ("chemical_peels", "Chemical Peels"),
+            ("microdermabrasion", "Microdermabrasion"),
+            ("lip_fillers", "Lip Fillers"),
+            ("other", "Other"),
+        ],
         string='Procedure', default='other',
         states=READONLY_STATES,
         required=True, tracking=True)
-
+    
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=lambda self: self.env.user)
 
