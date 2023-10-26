@@ -58,8 +58,8 @@ access_hms_active_comp_nurse,ACS Active Comp,acs_hms_base.model_active_comp,acs_
 access_hms_drug_company_nurse,ACS Drug Company,acs_hms_base.model_drug_company,acs_hms.group_hms_nurse,1,1,1,0
 access_hms_drug_route_nurse,ACS Drug Route,acs_hms_base.model_drug_route,acs_hms.group_hms_nurse,1,1,1,0
 access_hms_medicament_dosage_nurse,ACS Medication Dosage,model_medicament_dosage,acs_hms.group_hms_nurse,1,1,1,0
-access_hms_hms_prescription_line_nurse,Prescription Line,model_prescription_line,acs_hms.group_hms_nurse,1,1,1,0
-access_hms_hms_prescription_order_nurse,Prescription Order,model_prescription_order,acs_hms.group_hms_nurse,1,1,0,0
+access_hms_hms_prescription_line_nurse,Prescription Line,model_prescription_line,acs_hms.group_hms_nurse,1,1,1,1
+access_hms_hms_prescription_order_nurse,Prescription Order,model_prescription_order,acs_hms.group_hms_nurse,1,1,1,1
 access_hms_hms_patient_medication_nurse,ACS Patient Medication,model_hms_patient_medication,acs_hms.group_hms_nurse,1,1,0,0
 access_hms_acs_ethnicity_nurse,ACS Ethnicity,model_acs_ethnicity,acs_hms.group_hms_nurse,1,1,0,0
 access_hms_medicament_group_line_nurse,Medicament Group Line ,model_medicament_group_line,acs_hms.group_hms_nurse,1,1,1,0
@@ -121,7 +121,8 @@ access_hms_treatment_template,treatment_template_manager,model_treatment_templat
 
 access_hms_prescription_detail,prescription_detail_nurse,model_prescription_detail,acs_hms.group_hms_nurse,1,1,1,1
 access_hms_prescription_detail,prescription_detail_doctor,model_prescription_detail,acs_hms.group_hms_doctor,1,1,1,1
-access_hms_prescription_detail,prescription_detail_user,model_prescription_detail,acs_hms_base.group_hms_user,1,0,0,0
+access_hms_prescription_detail,prescription_detail_jr_doctor,model_prescription_detail,acs_hms.group_hms_jr_doctor,1,1,1,1
+access_hms_prescription_detail,prescription_detail_user,model_prescription_detail,acs_hms_base.group_hms_user,1,1,1,1
 access_hms_prescription_detail,prescription_detail_manager,model_prescription_detail,acs_hms_base.group_hms_manager,1,1,1,1
 
 access_appointment_detail,Appointment,model_appointment_prescription_line,base.group_user,1,1,1,1

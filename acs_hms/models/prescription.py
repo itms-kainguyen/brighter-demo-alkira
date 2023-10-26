@@ -58,7 +58,8 @@ class ACSPrescriptionOrder(models.Model):
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
         ('draft', 'Prescription Order'),
-        ('prescription', 'Waiting Prescription'),
+        ('confirmed', 'Waiting Prescription'),
+        ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
         ('canceled', 'Cancelled'),
         ('expired', 'Expired')], string='Status', default='draft', tracking=True)
@@ -95,7 +96,10 @@ class ACSPrescriptionOrder(models.Model):
         required=True, tracking=True)
     
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
-    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True)
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=lambda self: self.env.user)
+
+    # survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
+    #                                     copy=False, readonly=True)
 
     def get_1st_product(self):
         for rec in self:
@@ -206,7 +210,9 @@ class ACSPrescriptionOrder(models.Model):
             if not app.prescription_line_ids:
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
 
-            app.state = 'prescription'
+            app.state = 'confirmed'
+            template_id = self.env.ref('acs_hms.acs_prescription_email')
+            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
@@ -231,6 +237,10 @@ class ACSPrescriptionOrder(models.Model):
                         vals_list.append(vals)
         if vals_list:
             self.env['prescription.detail'].create(vals_list)
+
+    def button_prescribe_confirm(self):
+        for app in self:
+            app.state = 'prescription'
 
     def button_done(self):
         for app in self:

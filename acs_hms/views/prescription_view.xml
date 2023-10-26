@@ -84,13 +84,14 @@
         <field name="arch" type="xml">
             <form string="ACS Prescription Order" >
                  <header invisible="not context.get('show_pop_up',True)">
-                    <button name="pay_confirm" states="draft" string="Confirm and Send" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="pay_confirm" states="draft" string="Confirm and Send" type="object" class="oe_highlight" groups="acs_hms.group_hms_nurse"/>
                     <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
-                    <button name="action_prescription_send" string="Send by Email" type="object" states="prescription"/>
-                    <button name="button_reset" states="prescription" string="Reset to Draft" type="object" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
+                    <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms.group_hms_jr_doctor"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,prescription,finished"/>
+                     <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_jr_doctor"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,prescription,finished"/>
                 </header>
                 <div invisible="not context.get('show_pop_up',True)" class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
                     <field name="medical_alert_ids" nolabel="1" widget="many2many_tags"/>

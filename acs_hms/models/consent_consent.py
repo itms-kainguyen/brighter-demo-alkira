@@ -6,6 +6,7 @@ class Consent(models.Model):
 
     appointment_id = fields.Many2one('hms.appointment', string='Appointment', required=1)
 
+
     def action_open_form(self):
         # return the form view of this partner
         self.ensure_one()

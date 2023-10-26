@@ -6,7 +6,7 @@
     'category': 'ITMS/ITMS',
     'version': '16.0.2',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'mail','product','acs_hms','acs_hms_online_appointment'],
+    'depends': ['base', 'web', 'mail','product','acs_hms','acs_hms_online_appointment','auth_signup'],
     # always loaded
     'data': [
         'security/security.xml',
@@ -16,7 +16,8 @@
         'views/mail_channel_view.xml',
         'views/ir_attachment_view.xml',
         'views/product_views.xml',
-        'views/prescription_view.xml'
+        'views/prescription_view.xml',
+        'data/email.xml'
     ],
     'assets': {
         'web.assets_backend': [

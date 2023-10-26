@@ -85,10 +85,10 @@ class Prescription(models.Model):
                                   required=True)
 
     amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all',
-                                     tracking=True, currency_field="currency_id")
+                                     currency_field="currency_id")
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all',
                                  currency_field="currency_id")
-    amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=True,
+    amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all',
                                    currency_field="currency_id")
     is_prescriber_fee = fields.Boolean('Is Prescriber fee', default=True)
     prescriber_fee = fields.Float('Prescriber fee', default=28.0)

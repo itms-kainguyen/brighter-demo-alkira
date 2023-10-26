@@ -57,13 +57,14 @@ class AfterCare(models.Model):
                                     if line.product_id:
                                         medicine_area = line.medicine_area or ''
                                         amount = line.amount or ''
+                                        batch_number = line.batch_number or ''
                                         medicine_technique = line.medicine_technique or ''
                                         medicine_depth = line.medicine_depth or ''
                                         medicine_method = line.medicine_method or ''
                                         product_name = line.sudo().product_id.name
                                         medicine_line_ids.append(
                                             {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
-                                             'medicine_technique': medicine_technique,
+                                             'batch_number': batch_number, 'medicine_technique': medicine_technique,
                                              'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
                             if prescription.treatment_id.template_id:
                                 finding = prescription.treatment_id.finding or ''

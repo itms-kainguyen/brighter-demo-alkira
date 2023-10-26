@@ -13,7 +13,7 @@ class SurveyUserInput(models.Model):
     _inherit = "survey.user_input"
 
     appointment_id = fields.Many2one('hms.appointment', string='Appointment')
-
+    prescription_id = fields.Many2one('prescription.order', string='Prescription')
     # appointment_id = fields.One2many('hms.appointment', 'survey_response_id', string='Appointment')
 
     @api.model_create_multi
