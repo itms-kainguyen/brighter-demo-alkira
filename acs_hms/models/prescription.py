@@ -57,8 +57,8 @@ class ACSPrescriptionOrder(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
-        ('draft', 'Waiting Prescription'),
-        ('confirmed', 'Prescription Order'),
+        ('draft', 'Prescription Order'),
+        ('confirmed', 'Waiting Prescription'),
         ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
         ('canceled', 'Cancelled'),
@@ -91,6 +91,9 @@ class ACSPrescriptionOrder(models.Model):
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=lambda self: self.env.user)
+
+    survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
+                                        copy=False, readonly=True)
 
     def get_1st_product(self):
         for rec in self:
