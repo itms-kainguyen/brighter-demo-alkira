@@ -182,6 +182,23 @@
                                         <field name="notes" string="Advice" colspan="2"/>
                                     </group>
                                 </page>
+                                <page name="medical_checklist" string="Medical Checklist">
+                                    <field name="survey_answer_ids" widget="one2many_list">
+                                  <tree decoration-muted="skipped == True">
+                                    <field name="question_sequence" invisible="1"/>
+                                    <field name="create_date" optional="hidden"/>
+                                    <field name="page_id" optional="hidden"/>
+                                    <field name="question_id"/>
+                                    <field name="answer_type" optional="hidden"/>
+                                    <field name="skipped" optional="hidden"/>
+                                    <field name="matrix_row_id" string="Row answer"/>
+                                      <field name="suggested_answer_yes"/>
+                                      <field name="suggested_answer_no"/>
+                                    <field name="answer_is_correct" optional="hidden"/>
+                                    <field name="answer_score" sum="Score" optional="hidden"/>
+                                </tree>
+                            </field>
+                                </page>
                                 <page name="prescription_details" string="Prescription Details">
                                     <field name="prescription_detail_ids" nolabel="1" colspan="4">
                                         <tree string="Prescription Detail" editable="bottom">

@@ -92,8 +92,8 @@ class ACSPrescriptionOrder(models.Model):
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=lambda self: self.env.user)
 
-    # survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
-    #                                     copy=False, readonly=True)
+    survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
+                                        copy=False, readonly=True)
 
     def get_1st_product(self):
         for rec in self:
