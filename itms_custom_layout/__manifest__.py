@@ -14,6 +14,11 @@
     'data': [
     ],
     'assets': {
+        'web._assets_primary_variables': [
+            (
+                'itms_custom_layout/static/src/scss/colors.scss'
+            ),
+        ],
         'web.assets_backend': [
             'itms_custom_layout/static/src/scss/itms_custom_layout.scss',
             'itms_custom_layout/static/src/js/itms_custom_layout.js',
@@ -24,6 +29,7 @@
         'web.assets_frontend': [
             'itms_custom_layout/static/src/scss/itms_custom_layout_frontend.scss',
         ],
+
     },
     'installable': True,
     'application': True,
