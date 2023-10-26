@@ -57,8 +57,8 @@ class ACSPrescriptionOrder(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirmed', 'Waiting Prescribe'),
+        ('draft', 'Waiting Prescription'),
+        ('confirmed', 'Prescription Order'),
         ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
         ('canceled', 'Cancelled'),
