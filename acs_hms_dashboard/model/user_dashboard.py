@@ -194,7 +194,15 @@ class ResUsers(models.Model):
         self.total_meeting_now = self.env['mail.channel.rtc.session'].sudo().search_count(meet_domain)
         self.total_consent = self.env['consent.consent'].sudo().search_count(consent_domain)
         self.total_checklist = self.env['hms.appointment'].sudo().search_count(checklist_domain)
+
+        # Emergency
         self.total_emergency = 0
+        Emergency = self.env['hms.adverse.event']
+        emergency_domain = self.get_filter('create_date')
+        emergency_domain += [('is_sent', '=', 'True')]
+        self.total_emergency = Emergency.sudo().search_count(emergency_domain)
+
+        self.total_patients = Patient.search_count(patient_domain)
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
 
@@ -701,5 +709,4 @@ class Adverse_Event(models.Model):
                     'sms_mobile': '+61 0402851235',
                     'sms_text': rec.content
                 })
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

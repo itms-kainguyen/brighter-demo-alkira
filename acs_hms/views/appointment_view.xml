@@ -325,10 +325,10 @@
                             <field name="consultation_type"/>
                             <field name="product_id" invisible="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
                             <field name="is_prescription_expired" invisible="1"/>
-                            <label for="prescription_id" string="Prescription Order"/>
+                            <label for="prescription_id" string="Prescription Order" invisible="1" />
                             <div class="o_row">
-                                <field name="prescription_id" decoration-danger="is_prescription_expired==True" class="oe_inline" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id}"/>
-                                <field name="prescription_repeat" decoration-danger="is_prescription_expired==True" class="oe_inline"/>
+                                <field name="prescription_id" invisible="1" decoration-danger="is_prescription_expired==True" class="oe_inline" domain="[('patient_id','=',patient_id),('state','=','prescription'),('prescription_line_ids.repeat','&gt;','0')]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id}"/>
+                                <field name="prescription_repeat" invisible="1" decoration-danger="is_prescription_expired==True" class="oe_inline"/>
                             </div>
                             <field name="consent_id" invisible="1" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                             <field name="is_confirmed_consent" invisible="1"/>

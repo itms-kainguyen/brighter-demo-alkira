@@ -87,7 +87,7 @@
                     <page name="info" string="Clinic Information" attrs="{'invisible': [('patient_department','=',False)]}">
                         <group>
                             <group name="left_data">
-                                <field name='department_type'/>
+                                <field name='department_type' invisible="1"/>
                                 <field name='followup_service_id'/>
                                 <field name='consultaion_service_id'/>
                             </group>

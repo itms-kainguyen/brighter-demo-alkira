@@ -76,7 +76,7 @@ class HospitalDepartment(models.Model):
     note = fields.Text('Note')
     patient_department = fields.Boolean("Patient Department", default=True)
     appointment_ids = fields.One2many("hms.appointment", "department_id", "Appointments")
-    department_type = fields.Selection([('general', 'General')], string="Hospital Department")
+    department_type = fields.Selection([('general', 'General')], string="Clinic Type")
     consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Consultation Service')
     followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service')
     image = fields.Binary(string='Image')
