@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _, SUPERUSER_ID
+from odoo import api, fields, models, _, SUPERUSER_ID, Command
 from odoo.exceptions import UserError
 import logging
 
@@ -241,6 +241,62 @@ class ACSPrescriptionOrder(models.Model):
     def button_prescribe_confirm(self):
         for app in self:
             app.state = 'prescription'
+            MailMessage = self.env['mail.message']
+            appointment = False
+            physician = False
+            if app.appointment_id:
+                appointment = app.appointment_id.name
+            if app.physician_id:
+                physician = app.physician_id.name
+            body_html = '''
+                       <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+                       <p>Hello {nurse},</p>
+                       <p>Your Prescription details. For more details please refer attached PDF report.</p>
+                       <ul>
+                           <li>
+                               <p>Reference Number: {number}</p>
+                           </li>
+                           <li>
+                               <p>Appointment ID: {appointment}</p>
+                           </li>
+                           <li>
+                               <p>Physician Name: {physician}</p>
+                           </li>
+                           <li>
+                               <p>Prescription Date: {prescription_date}</p>
+                           </li>
+                       </ul>
+                       <p>Please feel free to call anytime for further information or any query.</p>
+                       <p>Best regards.</p><br/>
+                   </div>
+                   '''.format(nurse=app.nurse_id.name, number=app.name, appointment=appointment,
+                              physician=physician, prescription_date=app.prescription_date)
+            message_vals = {
+                'res_id': app.id,
+                'model': app._name,
+                'message_type': 'notification',
+                'subtype_id': self.env.ref('mail.mt_comment').id,
+                'body': body_html
+            }
+            # MailMessage.create(message_vals)
+            channel = self.env['mail.channel'].channel_get([app.nurse_id.partner_id.id])
+            channel_id = self.env['mail.channel'].browse(channel["id"])
+            pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                'acs_hms.report_hms_prescription_id', res_ids=[app.id])
+            attachment = self.env['ir.attachment'].create({
+                'name': app.name,
+                'type': 'binary',
+                'raw': pdf_content,
+                'res_model': app._name,
+                'res_id': app.id
+            })
+            channel_id.message_post(
+                body=(body_html),
+                message_type='comment',
+                subtype_xmlid='mail.mt_comment',
+                attachment_ids=[attachment.id]
+            )
+            # channel = self.env['mail.channel'].create(message_vals)
 
     def button_done(self):
         for app in self:
