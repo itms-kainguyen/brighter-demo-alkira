@@ -220,6 +220,10 @@ class ACSPrescriptionOrder(models.Model):
                     'ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
+
+    def button_prescribe_confirm(self):
+        for app in self:
+            app.state = 'prescription'
             # create prescription detail based on prescription line
             vals_list = []
             for line in app.prescription_line_ids:
@@ -235,12 +239,9 @@ class ACSPrescriptionOrder(models.Model):
                                 app.prescription_date.date() + relativedelta(months=i * line.use_every),
                         }
                         vals_list.append(vals)
-        if vals_list:
-            self.env['prescription.detail'].create(vals_list)
+            if len(vals_list) > 0:
+                self.env['prescription.detail'].create(vals_list)
 
-    def button_prescribe_confirm(self):
-        for app in self:
-            app.state = 'prescription'
             MailMessage = self.env['mail.message']
             appointment = False
             physician = False
