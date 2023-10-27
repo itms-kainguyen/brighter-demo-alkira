@@ -198,7 +198,7 @@ class Appointment(models.Model):
         ('pause', 'Pause'),
         ('to_after_care', 'AfterCare'),
         # ('to_invoice', 'Invoice'),
-        ('done', 'Finished'),
+        ('done', 'Completed'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', required=True, copy=False, tracking=True,
         states=READONLY_STATES)
@@ -947,7 +947,7 @@ class Appointment(models.Model):
         self.state = 'done'
         template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
         if len(self.aftercare_ids) <= 0:
-            raise UserError(_('Please define a aftercare to finished Appointment.'))
+            raise UserError(_('Please select Aftercare form to complete the appointment'))
 
         attachments = []
         for aftercare in self.aftercare_ids:

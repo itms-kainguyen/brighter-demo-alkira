@@ -60,7 +60,7 @@ class ACSPrescriptionOrder(models.Model):
         ('draft', 'Prescription Order'),
         ('confirmed', 'Pending Review'),
         ('prescription', 'Prescribed'),
-        ('finished', 'Finished'),
+        ('finished', 'Completed'),
         ('canceled', 'Cancelled'),
         ('expired', 'Expired')], string='Status', default='draft', tracking=True)
 
