@@ -39,3 +39,15 @@ form.oe_product_cart.h-100.d-flex {
     align-content: center;
     align-items: center;
 }
+
+
+/*
+    style for sidebars
+*/
+.o_wsale_products_grid_before_rail.vh-100 {
+    height: auto !important;
+}
+
+.oe_product_cart .oe_product_image .oe_product_image_link {
+    padding-top: calc(50% / (var(--o-wsale-card-thumb-aspect-ratio, 1)));
+}
