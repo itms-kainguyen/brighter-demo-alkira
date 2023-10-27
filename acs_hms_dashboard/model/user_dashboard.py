@@ -587,9 +587,18 @@ class ResUsers(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
         return action
 
+    # def open_support(self):
+    #     action = {}
+    #     return action
+
     def open_support(self):
-        action = {}
+        action = {
+            "url": '/forum',
+            "type": "ir.actions.act_url",
+            "target": self,
+        }
         return action
+
     def open_medical_checklist(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_checklist_appointment")
         return action
