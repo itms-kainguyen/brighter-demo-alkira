@@ -211,8 +211,6 @@ class ACSPrescriptionOrder(models.Model):
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
 
             app.state = 'confirmed'
-            template_id = self.env.ref('acs_hms.acs_prescription_email')
-            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
@@ -256,13 +254,7 @@ class ACSPrescriptionOrder(models.Model):
                        <ul>
                            <li>
                                <p>Reference Number: {number}</p>
-                           </li>
-                           <li>
-                               <p>Appointment ID: {appointment}</p>
-                           </li>
-                           <li>
-                               <p>Physician Name: {physician}</p>
-                           </li>
+                           </li>                         
                            <li>
                                <p>Prescription Date: {prescription_date}</p>
                            </li>
@@ -270,8 +262,7 @@ class ACSPrescriptionOrder(models.Model):
                        <p>Please feel free to call anytime for further information or any query.</p>
                        <p>Best regards.</p><br/>
                    </div>
-                   '''.format(nurse=app.nurse_id.name, number=app.name, appointment=appointment,
-                              physician=physician, prescription_date=app.prescription_date)
+                   '''.format(nurse=app.nurse_id.name, number=app.name, prescription_date=app.prescription_date)
             message_vals = {
                 'res_id': app.id,
                 'model': app._name,
@@ -297,6 +288,8 @@ class ACSPrescriptionOrder(models.Model):
                 subtype_xmlid='mail.mt_comment',
                 attachment_ids=[attachment.id]
             )
+            template_id = self.env.ref('acs_hms.acs_prescription_email')
+            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
             # channel = self.env['mail.channel'].create(message_vals)
 
     def button_done(self):
