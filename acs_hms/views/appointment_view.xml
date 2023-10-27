@@ -430,7 +430,7 @@
                                         <field name="survey_id"
                                             context="{'default_access_mode': 'token'}"/>
                                         <button string="Display Checklist Form" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
-                                        <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="1"/>
+                                        <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="0"/>
                                     </div>
                                  </group>
                                 <group></group>
