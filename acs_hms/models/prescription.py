@@ -58,7 +58,7 @@ class ACSPrescriptionOrder(models.Model):
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
         ('draft', 'Prescription Order'),
-        ('confirmed', 'Waiting Prescription'),
+        ('confirmed', 'Pending Review'),
         ('prescription', 'Prescribed'),
         ('finished', 'Finished'),
         ('canceled', 'Cancelled'),
@@ -276,7 +276,7 @@ class ACSPrescriptionOrder(models.Model):
             pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                 'acs_hms.report_hms_prescription_id', res_ids=[app.id])
             attachment = self.env['ir.attachment'].create({
-                'name': app.name,
+                'name': 'prescription_'+app.name,
                 'type': 'binary',
                 'raw': pdf_content,
                 'res_model': app._name,
