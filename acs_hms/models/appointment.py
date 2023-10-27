@@ -422,6 +422,9 @@ class Appointment(models.Model):
                     rec.state = 'confirm_consent'
                     rec.is_confirmed_consent = True
 
+    def update_checklist(self):
+        return {"type": "ir.actions.client", "tag": "reload"}
+
     @api.depends('prescription_id')
     def _compute_prescription_id(self):
         prescription_repeat = 0

@@ -313,7 +313,6 @@
                             <field name="nurse_id"/>
                             <field name="cabin_id"/>
                             <field name="physician_id" required="0" invisible="1"/>
-                            <field name="follow_date" attrs="{'invisible': [('state', 'not in', ['in_consultation','done','to_invoice'])]}"/>
                              <field name="medicine_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse" invisible="1"/>
                             <field name="diseases_ids" widget="many2many_tags" groups="acs_hms.group_hms_nurse" invisible="1"/>
                             <field name="responsible_id" invisible="1"/>
@@ -338,6 +337,7 @@
                             </div>
                             <field name="planned_duration" widget="float_time" invisible="1"/>
                             <field name="consultation_type"/>
+                            <field name="follow_date" invisible="1" attrs="{'invisible': [('state', 'not in', ['in_consultation','done','to_invoice'])]}"/>
                             <field name="product_id" invisible="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
                             <field name="is_prescription_expired" invisible="1"/>
                             <label for="prescription_id" string="Prescription Order" invisible="1" />
@@ -371,9 +371,9 @@
                                 options="{'no_open':True,'no_create': True}" invisible="1" />
                             <field name="user_id" widget="many2one_avatar_user" invisible="1" />
                             <field name="ref_physician_id" invisible="1" />
-                            <field name="company_id" groups="base.group_multi_company"
+                            <field name="company_id" invisible="1" groups="base.group_multi_company"
                                 options="{'no_create': True}" />
-                            <field name="appointment_duration_timer" widget="AcsTimer"
+                            <field name="appointment_duration_timer" widget="AcsTimer" invisible="1"
                                 attrs="{'invisible': [('state','!=','in_consultation')]}"
                                 options="{'widget_start_field': 'date_start', 'widget_stop_field': 'date_end', 'duration_field': 'appointment_duration_timer'}" />
                             <field name="appointment_duration" widget="float_time"
@@ -429,11 +429,12 @@
                                         <field name="survey_id"
                                             context="{'default_access_mode': 'token'}"/>
                                         <button string="Display Checklist Form" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
+                                        <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="1"/>
                                     </div>
                                  </group>
                                 <group></group>
                             </group>
-                            <field name="survey_answer_ids" widget="one2many_list">
+                            <field name="survey_answer_ids" widget="one2many_list" options="{'always_reload': True}">
                                   <tree decoration-muted="skipped == True">
                                     <field name="question_sequence" invisible="1"/>
                                     <field name="create_date" optional="hidden"/>
