@@ -800,6 +800,10 @@ class Appointment(models.Model):
         if not self.user_id:
             self.user_id = self.env.user.id
 
+        if not self.consent_ids:
+            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_schedule_consent_wiz")
+            return action
+
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             try:

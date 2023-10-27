@@ -95,7 +95,7 @@
         'data/mail_template.xml',
         'data/hms_data.xml',
         'data/digest_data.xml',
-        
+        'wizard/schedule_consent_view.xml',
         'wizard/cancel_reason_view.xml',
         'wizard/pain_level_view.xml',
         'wizard/reschedule_appointments_view.xml',
