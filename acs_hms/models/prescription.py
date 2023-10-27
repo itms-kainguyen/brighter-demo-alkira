@@ -214,8 +214,8 @@ class ACSPrescriptionOrder(models.Model):
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
-                app.name = prescription_type_label.get(app.prescription_type) + ": " + self.env[
-                    'ir.sequence'].next_by_code('prescription.order') or '/'
+                # prescription_type_label.get(app.prescription_type) + ": " +
+                app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
 

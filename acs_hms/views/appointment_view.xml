@@ -347,6 +347,7 @@
                             </div>
                             <field name="consent_id" invisible="1" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                             <field name="is_confirmed_consent" invisible="1"/>
+                            <field name="procedure"/>
                             <label for="invoice_exempt" string="No Charge"/>
                             <div name='invoice_exemption' class="o_row">
                                 <field name='invoice_exempt' class="oe_inline"/>

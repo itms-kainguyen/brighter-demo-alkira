@@ -367,6 +367,19 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         tracking=True)
 
+    procedure = fields.Selection([
+        ("botox", "Botox Injections"),
+        ("filler", "Dermal Fillers"),
+        ("laser_hair_removal", "Laser Hair Removal"),
+        ("chemical_peels", "Chemical Peels"),
+        ("microdermabrasion", "Microdermabrasion"),
+        ("lip_fillers", "Lip Fillers"),
+        ("other", "Other"),
+    ],
+        string='Procedure', default='other',
+        states=READONLY_STATES,
+        required=True, tracking=True)
+
     survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
                                         copy=False, readonly=True)
 
