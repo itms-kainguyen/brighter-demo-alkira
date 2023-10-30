@@ -97,7 +97,7 @@
 
     <menuitem id="menu_consent_form"
         name="Consent Forms"
-        sequence="3"/>
+        sequence="3" web_icon="itms_consent_form,static/src/img/consent.png"/>
 <!--      parent="contacts.menu_contacts"-->
 
       <menuitem id="menu_consent_form_form"
