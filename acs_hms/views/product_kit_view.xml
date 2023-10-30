@@ -54,7 +54,7 @@
         <field name="name">acs.product.kit.tree</field>
         <field name="model">acs.product.kit</field>
         <field name="arch" type="xml">
-            <tree string="Product Kits">
+            <tree string="Templates">
                 <field name="sequence" widget="handle"/>
                 <field name="name" string="Name"/>
                 <field name="description"/>
@@ -66,7 +66,7 @@
         <field name="name">acs.product.kit.form</field>
         <field name="model">acs.product.kit</field>
         <field name="arch" type="xml">
-            <form string="Product Kit">
+            <form string="Template">
                 <sheet>
                     <div class="oe_title">
                         <label for="name" string="Name" class="oe_edit_only"/>
@@ -88,7 +88,7 @@
     </record>
 
     <record id="action_acs_product_kit" model="ir.actions.act_window">
-        <field name="name">Product Kits</field>
+        <field name="name">Templates</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">acs.product.kit</field>
         <field name="view_mode">tree,form</field>
@@ -97,7 +97,7 @@
                 No Record Found
             </p>
             <p>
-                Click to add Product Kit.
+                Click to add Template.
             </p>
         </field>
     </record>

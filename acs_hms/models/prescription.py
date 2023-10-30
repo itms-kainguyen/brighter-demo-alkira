@@ -101,6 +101,15 @@ class ACSPrescriptionOrder(models.Model):
     survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
                                         copy=False, readonly=True)
 
+    is_editable = fields.Boolean("Is Editable", compute='_compute_is_editable')
+
+    def _compute_is_editable(self):
+        is_nurse = self.env.user.has_group('acs_hms.group_hms_nurse')
+        for record in self:
+            record.is_editable = True
+            if is_nurse and not self.env.is_admin():
+                record.is_editable = False
+
     def get_1st_product(self):
         for rec in self:
             if rec.prescription_line_ids:
