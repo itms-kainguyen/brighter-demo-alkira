@@ -619,8 +619,7 @@ class Adverse_Event(models.Model):
     category_id = fields.Many2one('document.page',
                                   domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Adverse Event')],
                                   string='Adverse Event')
-    branch_id = fields.Many2one('res.branch', ondelete="cascade", string='Clinic',
-                                 default=lambda self: self.env.user.branch_id, readonly=True)
+    branch_id = fields.Many2one('res.branch', ondelete="cascade", string='Clinic', readonly=True)
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
     patient_id = fields.Many2one('hms.patient', string='Patient')
     nurse_phone = fields.Char(string='Nurse Phone')
