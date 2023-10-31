@@ -400,7 +400,7 @@
                     <notebook>
                         <page name="consent_form" string="Consent Form">
                             <button name="%(acs_hms.multiple_consent_action)d"
-                             class="oe_highlight" string="Select Multiple Consent" type="action"/>
+                             class="oe_highlight" string="Select Multiple Forms" type="action"/>
                             <field name="consent_ids" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id, 'default_name':'consent'}">
                                 <tree editable="bottom">
                                     <field name="nurse_signature" invisible="1"/>
