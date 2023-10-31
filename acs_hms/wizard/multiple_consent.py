@@ -28,7 +28,7 @@ class MultipleConsent(models.TransientModel):
     _description = 'Multiple Selection'
 
     document_list_ids = fields.Many2many('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Consent')],
-                                         string='Consent List',
+                                         string='Consent Form List',
                                          help="")
 
     def action_add_line(self):
