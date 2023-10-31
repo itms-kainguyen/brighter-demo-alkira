@@ -136,3 +136,6 @@ access_appointment_medication_survey_answer,appointment.medication.survey.answer
 access_appointment_addition_survey_answer,appointment.addition.survey.answer,model_appointment_addition_survey_answer,base.group_user,1,1,1,1
 
 access_schedule_consent_wiz,access_schedule_consent_wiz,acs_hms.model_schedule_consent_wiz,base.group_user,1,1,1,1
+access_multiple_consent_wiz,access_multiple_consent_wiz,acs_hms.model_multiple_consent,base.group_user,1,1,1,1
+access_multiple_aftercare_wiz,access_multiple_aftercare_wiz,acs_hms.model_multiple_aftercare,base.group_user,1,1,1,1
+

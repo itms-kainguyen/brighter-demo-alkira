@@ -1040,6 +1040,14 @@ class Appointment(models.Model):
                            (self.env.ref('acs_hms.view_hms_prescription_order_form').id, 'form')]
         return action
 
+    def multiple_consent_action(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("document_page.action_page")
+        action['domain'] = []
+        action['views'] = [(self.env.ref('document_page.view_wiki_tree').id, 'tree'),
+                           (self.env.ref('document_page.view_wiki_form').id, 'form')]
+        action['target'] = 'new'
+        return action
+
     @api.model
     def _get_view(self, view_id=None, view_type='form', **options):
         arch, view = super()._get_view(view_id, view_type, **options)
