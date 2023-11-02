@@ -16,7 +16,7 @@ class PayPrescriberWiz(models.TransientModel):
     payment_method_line_id = fields.Many2one('account.payment.method.line', string='Payment Method',
                                              readonly=False, store=True, copy=False, required=True,
                                              compute='_compute_payment_method_line_id',
-                                             domain="[('id', 'in', available_payment_method_line_ids)]",
+                                             domain="[('payment_provider_id.code', '=', 'stripe')]",
                                              help="")
     available_payment_method_line_ids = fields.Many2many('account.payment.method.line',
                                                          compute='_compute_payment_method_line_fields')

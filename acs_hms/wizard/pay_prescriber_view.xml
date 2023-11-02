@@ -10,7 +10,7 @@
                     <group>
                         <field name="payment_type" invisible="1"/>
                         <field name="available_payment_method_line_ids" invisible="1"/>
-                        <field name="payment_method_line_id"/>
+                        <field name="payment_method_line_id" options="{'always_reload': True, 'no_create': True, 'no_edit': True,'no_open': True}"/>
                         <field name="payment_icon_ids" widget="many2many_tags" />
                         <field name="partner_id" invisible="1"/>
                         <field name="suitable_payment_token_ids" options="{'always_reload': True}" invisible="1"  widget="many2many_tags"/>
