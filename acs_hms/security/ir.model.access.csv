@@ -140,3 +140,8 @@ access_multiple_consent_wiz,access_multiple_consent_wiz,acs_hms.model_multiple_c
 access_multiple_aftercare_wiz,access_multiple_aftercare_wiz,acs_hms.model_multiple_aftercare,base.group_user,1,1,1,1
 access_pay_prescriber_wiz_user,access.pay.prescriber.wiz.user,acs_hms.model_pay_prescriber_wiz,base.group_user,1,1,1,1
 
+access_account_payment_method_line_user,account.payment.method.line.user,account.model_account_payment_method_line,base.group_user,1,1,1,1
+access_payment_token_user,payment.token.user,payment.model_payment_token,base.group_user,1,1,1,1
+access_payment_transaction_user,payment.transaction.user,payment.model_payment_transaction,base.group_user,1,1,1,1
+access_payment_provider_user,access.payment.provider.user,payment.model_payment_provider,base.group_user,1,1,1,1
+
