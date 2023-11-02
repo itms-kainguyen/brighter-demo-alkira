@@ -195,7 +195,7 @@
                     <button name="appointment_waiting" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Waiting" class="oe_highlight" invisible="1"/>
                     <button name="appointment_waiting_manual" states="confirm" type="object" groups="acs_hms.group_hms_receptionist" string="Sign Consent Form(s)" class="oe_highlight"/>
                     <button name="print_report" string="Print" type="object" states="draft,confirm" invisible="1"/>
-                    <button name="appointment_consultation" states="confirm_consent" groups="acs_hms.group_hms_jr_doctor" type="object" string="Andrew Medical Checklist" class="oe_highlight"/>
+                    <button name="appointment_consultation" states="confirm_consent" groups="acs_hms.group_hms_jr_doctor" type="object" string="Complete Medical Checklist" class="oe_highlight"/>
                     <button name="action_pause" states="in_consultation" groups="acs_hms.group_allow_consultation_pause" type="object" string="Pause"/>
                     <button name="action_start_paused" states="pause" groups="acs_hms.group_allow_consultation_pause" type="object" string="Start"/>
                     <button name="button_pres_req" string="Create Prescription" groups="acs_hms.group_hms_jr_doctor" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
@@ -228,12 +228,12 @@
                             <field string="Treatments" name="treatment_count" widget="statinfo"/>
                         </button>
                         <!-- hide 2 button if not save when create it -->
-                        <button class="oe_stat_button btn-green" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '=', '0')]}">
+                        <button class="oe_stat_button btn-green" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '=', 0)]}">
                             <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                         </button>
-<!--                        <button class="oe_stat_button" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '>', '0')]}">-->
-<!--                            <field string="Prescriptions" name="prescription_count" widget="statinfo"/>-->
-<!--                        </button>-->
+                        <button class="oe_stat_button" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '&gt;', 0)]}">
+                            <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                        </button>
                 <!-- <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
