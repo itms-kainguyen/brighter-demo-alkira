@@ -211,7 +211,7 @@
                             <th class="table_head_">Assigned to</th>
                             <th class="table_head_">Dead Line Date</th>
 <!--                            <th class="table_head_">View</th>-->
-                            <th class="table_head_">Origin</th>
+                            <th class="table_head_">Appointment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -239,7 +239,7 @@
                             <td class="click-origin-view">
                                 <button t-att-value="line['id']"
                                         style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    Origin
+                                    Appointment
                                 </button>
                             </td>
                         </tr>
@@ -268,7 +268,7 @@
                             <th class="table_head_">Assigned to</th>
                             <th class="table_head_">Dead Line Date</th>
 <!--                            <th class="table_head_">View</th>-->
-                            <th class="table_head_">Origin</th>
+                            <th class="table_head_">Appointment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -295,7 +295,7 @@
                             <td class="click-origin-view">
                                 <button t-att-value="line['id']"
                                         style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    Origin
+                                    Appointment
                                 </button>
                             </td>
 
@@ -326,7 +326,7 @@
                             <th class="table_head_">Assigned to</th>
                             <th class="table_head_">Dead Line Date</th>
 <!--                            <th class="table_head_">View</th>-->
-                            <th class="table_head_">Origin</th>
+                            <th class="table_head_">Appointment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -353,7 +353,7 @@
                             <td class="click-origin-view">
                                 <button t-att-value="line['id']"
                                         style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    Origin
+                                    Appointment
                                 </button>
                             </td>
 
