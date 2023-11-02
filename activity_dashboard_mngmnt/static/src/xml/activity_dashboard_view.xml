@@ -121,71 +121,71 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-3">
-                    <div class="activity-dashboard-card overdue_activity">
-                        <div class="activity-dashboard-card__icon-container bg-mauve-light d-flex">
-                            <i class="fa fa-clock-o text-mauve" style="padding-right: 80px; color: #3c3939;font-size: 30px;
-                            padding-left: 0px;padding-bottom: 5px;padding-top: 13px;"/>
-                        </div>
-                        <div style="font-size: 30px;color: #3c3939;padding-left: 0px;padding-bottom: 17px;padding-top: 11px;">
-                            <t t-esc="len_overdue"/>
-                        </div>
-                        <div class="dashboard-card__details"
-                             style="padding-left: 26px;padding-bottom: 03px;padding-top: 11px;">
-                            <h3>
-                                <span>
-                                    <div id="leads_this_year"/>
-                                    <div id="leads_this_quarter"/>
-                                    <div id="leads_this_month"/>
-                                    <div id="leads_this_week"/>
-                                </span>
-                            </h3>
-                            <p>
-                                <h4>Overdue Activities</h4>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="col-sm-12 col-md-3">-->
+<!--                    <div class="activity-dashboard-card overdue_activity">-->
+<!--                        <div class="activity-dashboard-card__icon-container bg-mauve-light d-flex">-->
+<!--                            <i class="fa fa-clock-o text-mauve" style="padding-right: 80px; color: #3c3939;font-size: 30px;-->
+<!--                            padding-left: 0px;padding-bottom: 5px;padding-top: 13px;"/>-->
+<!--                        </div>-->
+<!--                        <div style="font-size: 30px;color: #3c3939;padding-left: 0px;padding-bottom: 17px;padding-top: 11px;">-->
+<!--                            <t t-esc="len_overdue"/>-->
+<!--                        </div>-->
+<!--                        <div class="dashboard-card__details"-->
+<!--                             style="padding-left: 26px;padding-bottom: 03px;padding-top: 11px;">-->
+<!--                            <h3>-->
+<!--                                <span>-->
+<!--                                    <div id="leads_this_year"/>-->
+<!--                                    <div id="leads_this_quarter"/>-->
+<!--                                    <div id="leads_this_month"/>-->
+<!--                                    <div id="leads_this_week"/>-->
+<!--                                </span>-->
+<!--                            </h3>-->
+<!--                            <p>-->
+<!--                                <h4>Overdue Activities</h4>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="col-sm-12 col-md-3">
-                    <div class="activity-dashboard-card cancelled_activity">
-                        <div class="activity-dashboard-card__icon-container bg-mauve-light d-flex">
-                            <i class="fa fa-clock-o text-mauve" style="padding-right: 80px; color: #3c3939;font-size: 30px;
-                            padding-left: 0px;padding-bottom: 5px;padding-top: 13px;"/>
-                        </div>
-                        <div style="font-size: 30px;color: #3c3939;padding-left: 0px;padding-bottom: 17px;padding-top: 11px;">
-                            <t t-esc="len_cancel"/>
-                        </div>
-                        <div class="dashboard-card__details"
-                             style="padding-left: 26px;padding-bottom: 03px;padding-top: 11px;">
-                            <h3>
-                                <span>
-                                    <div id="leads_this_year"/>
-                                    <div id="leads_this_quarter"/>
-                                    <div id="leads_this_month"/>
-                                    <div id="leads_this_week"/>
-                                </span>
-                            </h3>
-                            <p>
-                                <h4>Cancelled Activities</h4>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="col-sm-12 col-md-3">-->
+<!--                    <div class="activity-dashboard-card cancelled_activity">-->
+<!--                        <div class="activity-dashboard-card__icon-container bg-mauve-light d-flex">-->
+<!--                            <i class="fa fa-clock-o text-mauve" style="padding-right: 80px; color: #3c3939;font-size: 30px;-->
+<!--                            padding-left: 0px;padding-bottom: 5px;padding-top: 13px;"/>-->
+<!--                        </div>-->
+<!--                        <div style="font-size: 30px;color: #3c3939;padding-left: 0px;padding-bottom: 17px;padding-top: 11px;">-->
+<!--                            <t t-esc="len_cancel"/>-->
+<!--                        </div>-->
+<!--                        <div class="dashboard-card__details"-->
+<!--                             style="padding-left: 26px;padding-bottom: 03px;padding-top: 11px;">-->
+<!--                            <h3>-->
+<!--                                <span>-->
+<!--                                    <div id="leads_this_year"/>-->
+<!--                                    <div id="leads_this_quarter"/>-->
+<!--                                    <div id="leads_this_month"/>-->
+<!--                                    <div id="leads_this_week"/>-->
+<!--                                </span>-->
+<!--                            </h3>-->
+<!--                            <p>-->
+<!--                                <h4>Cancelled Activities</h4>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="col-sm-12 col-md-3">
-                    <div class="activity-dashboard-card activity_type">
-                        <div class="activity-dashboard-card__icon-container bg-mauve-light d-flex justify-content-center align-items-center">
-                            <i class="fa fa-clock-o text-mauve"
-                               style="color: black; font-size: 30px;"/>
-                        </div>
-                        <div class="dashboard-card__details">
-                            <p>
-                                <h4>Activity Type</h4>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="col-sm-12 col-md-3">-->
+<!--                    <div class="activity-dashboard-card activity_type">-->
+<!--                        <div class="activity-dashboard-card__icon-container bg-mauve-light d-flex justify-content-center align-items-center">-->
+<!--                            <i class="fa fa-clock-o text-mauve"-->
+<!--                               style="color: black; font-size: 30px;"/>-->
+<!--                        </div>-->
+<!--                        <div class="dashboard-card__details">-->
+<!--                            <p>-->
+<!--                                <h4>Activity Type</h4>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </section>
     </t>
@@ -206,10 +206,11 @@
                     <thead class="table table-bordered mt32">
                         <tr class="table_head">
                             <th class="table_head_">Name</th>
+                            <th class="table_head_">Patient/Appointment</th>
                             <th class="table_head_">Activity Type</th>
                             <th class="table_head_">Assigned to</th>
                             <th class="table_head_">Dead Line Date</th>
-                            <th class="table_head_">View</th>
+<!--                            <th class="table_head_">View</th>-->
                             <th class="table_head_">Origin</th>
                         </tr>
                     </thead>
@@ -217,6 +218,8 @@
                         <tr t-foreach="planned_activity" t-as="line">
                             <td>
                                 <t t-esc="line['display_name']"/>
+                            </td>
+                            <td>
                             </td>
                             <td>
                                 <t t-esc="line['activity_type_id']['1']"/>
@@ -227,12 +230,12 @@
                             <td>
                                 <t t-esc="line['date_deadline']"/>
                             </td>
-                            <td class="click-view">
-                                <button t-att-value="line['id']"
-                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    View
-                                </button>
-                            </td>
+<!--                            <td class="click-view">-->
+<!--                                <button t-att-value="line['id']"-->
+<!--                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">-->
+<!--                                    View-->
+<!--                                </button>-->
+<!--                            </td>-->
                             <td class="click-origin-view">
                                 <button t-att-value="line['id']"
                                         style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
@@ -260,10 +263,11 @@
                     <thead class="table table-bordered mt32">
                         <tr class="table_head">
                             <th class="table_head_">Name</th>
+                            <th class="table_head_">Patient/Appointment</th>
                             <th class="table_head_">Activity Type</th>
                             <th class="table_head_">Assigned to</th>
                             <th class="table_head_">Dead Line Date</th>
-                            <th class="table_head_">View</th>
+<!--                            <th class="table_head_">View</th>-->
                             <th class="table_head_">Origin</th>
                         </tr>
                     </thead>
@@ -272,6 +276,7 @@
                             <td>
                                 <t t-esc="line['display_name']"/>
                             </td>
+                            <td></td>
                             <td>
                                 <t t-esc="line['activity_type_id']['1']"/>
                             </td>
@@ -281,12 +286,12 @@
                             <td>
                                 <t t-esc="line['date_deadline']"/>
                             </td>
-                            <td class="click-view">
-                                <button t-att-value="line['id']"
-                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    View
-                                </button>
-                            </td>
+<!--                            <td class="click-view">-->
+<!--                                <button t-att-value="line['id']"-->
+<!--                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">-->
+<!--                                    View-->
+<!--                                </button>-->
+<!--                            </td>-->
                             <td class="click-origin-view">
                                 <button t-att-value="line['id']"
                                         style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
@@ -316,10 +321,11 @@
                     <thead class="table table-bordered mt32">
                         <tr class="table_head">
                             <th class="table_head_">Name</th>
+                            <th class="table_head_">Patient/Appointment</th>
                             <th class="table_head_">Activity Type</th>
                             <th class="table_head_">Assigned to</th>
                             <th class="table_head_">Dead Line Date</th>
-                            <th class="table_head_">View</th>
+<!--                            <th class="table_head_">View</th>-->
                             <th class="table_head_">Origin</th>
                         </tr>
                     </thead>
@@ -328,6 +334,7 @@
                             <td>
                                 <t t-esc="line['display_name']"/>
                             </td>
+                            <td></td>
                             <td>
                                 <t t-esc="line['activity_type_id']['1']"/>
                             </td>
@@ -337,12 +344,12 @@
                             <td>
                                 <t t-esc="line['date_deadline']"/>
                             </td>
-                            <td class="click-view">
-                                <button t-att-value="line['id']"
-                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    View
-                                </button>
-                            </td>
+<!--                            <td class="click-view">-->
+<!--                                <button t-att-value="line['id']"-->
+<!--                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">-->
+<!--                                    View-->
+<!--                                </button>-->
+<!--                            </td>-->
                             <td class="click-origin-view">
                                 <button t-att-value="line['id']"
                                         style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
@@ -355,59 +362,59 @@
                 </t>
             </table>
         </div>
-        <div class="table_main_view">
-            <table cellspacing="10" width="100%"
-                   style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
-                <thead>
-                    <tr>
-                        <th>Overdue Activities</th>
-                    </tr>
-                    <t t-if="overdue_activity == ''">
-                        <td>No Data Available</td>
-                    </t>
-                </thead>
-                <t t-if="overdue_activity != ''">
-                    <thead class="table table-bordered mt32">
-                        <tr class="table_head">
-                            <th class="table_head_">Name</th>
-                            <th class="table_head_">Activity Type</th>
-                            <th class="table_head_">Assigned to</th>
-                            <th class="table_head_">Dead Line Date</th>
-                            <th class="table_head_">View</th>
-                            <th class="table_head_">Origin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr t-foreach="overdue_activity" t-as="line">
-                            <td>
-                                <t t-esc="line['display_name']"/>
-                            </td>
-                            <td>
-                                <t t-esc="line['activity_type_id']['1']"/>
-                            </td>
-                            <td>
-                                <t t-esc="line['user_id']['1']"/>
-                            </td>
-                            <td>
-                                <t t-esc="line['date_deadline']"/>
-                            </td>
-                            <td class="click-view">
-                                <button t-att-value="line['id']"
-                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    View
-                                </button>
-                            </td>
-                            <td class="click-origin-view">
-                                <button t-att-value="line['id']"
-                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">
-                                    Origin
-                                </button>
-                            </td>
+<!--        <div class="table_main_view">-->
+<!--            <table cellspacing="10" width="100%"-->
+<!--                   style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">-->
+<!--                <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Overdue Activities</th>-->
+<!--                    </tr>-->
+<!--                    <t t-if="overdue_activity == ''">-->
+<!--                        <td>No Data Available</td>-->
+<!--                    </t>-->
+<!--                </thead>-->
+<!--                <t t-if="overdue_activity != ''">-->
+<!--                    <thead class="table table-bordered mt32">-->
+<!--                        <tr class="table_head">-->
+<!--                            <th class="table_head_">Name</th>-->
+<!--                            <th class="table_head_">Activity Type</th>-->
+<!--                            <th class="table_head_">Assigned to</th>-->
+<!--                            <th class="table_head_">Dead Line Date</th>-->
+<!--                            <th class="table_head_">View</th>-->
+<!--                            <th class="table_head_">Origin</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr t-foreach="overdue_activity" t-as="line">-->
+<!--                            <td>-->
+<!--                                <t t-esc="line['display_name']"/>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <t t-esc="line['activity_type_id']['1']"/>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <t t-esc="line['user_id']['1']"/>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <t t-esc="line['date_deadline']"/>-->
+<!--                            </td>-->
+<!--                            <td class="click-view">-->
+<!--                                <button t-att-value="line['id']"-->
+<!--                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">-->
+<!--                                    View-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                            <td class="click-origin-view">-->
+<!--                                <button t-att-value="line['id']"-->
+<!--                                        style="border-radius: 8px; background-color: #c4c4f2;width: 100px;height: 35px;">-->
+<!--                                    Origin-->
+<!--                                </button>-->
+<!--                            </td>-->
 
-                        </tr>
-                    </tbody>
-                </t>
-            </table>
-        </div>
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </t>-->
+<!--            </table>-->
+<!--        </div>-->
     </t>
 </templates>
