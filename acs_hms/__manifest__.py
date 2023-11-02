@@ -102,6 +102,7 @@
         'wizard/multiple_consent_views.xml',
         'wizard/multiple_aftercare_views.xml',
         'wizard/picture_before.xml',
+        'wizard/pay_prescriber_view.xml',
         'views/hms_base_views.xml',
         'views/patient_view.xml',
         'views/physician_view.xml',

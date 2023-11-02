@@ -101,6 +101,9 @@
                             <div class="oe_button_box" name="button_box">
                                 <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
                                 </button> -->
+                                <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
+                                    <field string="Transactions" name="transaction_count" widget="statinfo"/>
+                                </button>
                             </div>
                             <div class="oe_title">
                                 <h1>
@@ -123,6 +126,11 @@
                                     <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
                                     <field name="expire_date"/>
                                     <field name="prescription_date"/>
+                                     <label for="is_prescriber_fee" string="Prescriber fee"/>
+                                     <div class="oe_inline">
+                                         <field name="is_prescriber_fee"/>
+                                         <span attrs="{'invisible': [('is_prescriber_fee', '=', False)]}"><field name="prescriber_fee" class="oe_inline"/></span>
+                                     </div>
                                     <field name="alert_count" invisible="1"/>
                                     <field name="pregnancy_warning" invisible="1"/>
                                 </group>

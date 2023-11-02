@@ -22,13 +22,13 @@
                 <field name="picking_ids" readonly="1" widget="many2many_tags" groups="stock.group_stock_user" invisible="1"/>
                 <field name="deliverd" readonly="1" groups="stock.group_stock_user" invisible="1"/>
             </field>
-            <field name="prescription_date" position="after">
-                  <label for="is_prescriber_fee" string="Prescriber fee"/>
-                 <div class="oe_inline">
-                     <field name="is_prescriber_fee"/>
-                     <span attrs="{'invisible': [('is_prescriber_fee', '=', False)]}"><field name="prescriber_fee" class="oe_inline"/></span>
-                 </div>
-            </field>
+<!--            <field name="prescription_date" position="after">-->
+<!--                  <label for="is_prescriber_fee" string="Prescriber fee"/>-->
+<!--                 <div class="oe_inline">-->
+<!--                     <field name="is_prescriber_fee"/>-->
+<!--                     <span attrs="{'invisible': [('is_prescriber_fee', '=', False)]}"><field name="prescriber_fee" class="oe_inline"/></span>-->
+<!--                 </div>-->
+<!--            </field>-->
             <field name="prescription_line_ids" position="after">
                 <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" groups="acs_hms_pharmacy.group_show_amounts_on_prescription">
                     <field name="currency_id" invisible="1"/>
