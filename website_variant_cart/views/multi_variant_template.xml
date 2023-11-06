@@ -105,6 +105,7 @@
                                 </t>
                             </tbody>
                         </table>
+
                         <div id="multi-variant-error" class="text-center alert alert-danger" style="display:none;padding: 8px;">
                             <span>No product will be selected</span>
                         </div>
@@ -118,6 +119,22 @@
                                 "display_currency": website.get_current_pricelist().currency_id,
                                 }'/>
                         </div>
+
+                        <script type="text/javascript">
+                            // set quantity to zero
+                            setTimeout(() => {
+                                jQuery('.p_variants').each(function (index, val) {
+                                    var subtotal = jQuery(val).find('#var-subtotal .oe_currency_value').text();
+                                    console.log(parseInt(subtotal))
+                                    subtotal = parseInt(subtotal);
+
+                                    if (subtotal == 0) {
+                                        jQuery(val).find(".form-control.quantity").val(0)
+                                    }
+                                });
+
+                            }, 300);
+                        </script>
                     </t>
                 </t>
             </xpath>
