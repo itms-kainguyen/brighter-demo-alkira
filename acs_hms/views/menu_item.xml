@@ -21,7 +21,7 @@
 <!--        parent="acs_hms.menu_hms" action='action_referring_doctors'/>-->
 
     <!-- Pricelist -->
-    <menuitem id="menu_product_pricelist_main" name="Pricelists" parent="acs_hms.menu_hms" action="product.product_pricelist_action2" groups="product.group_product_pricelist" sequence="20"/>
+<!--    <menuitem id="menu_product_pricelist_main" name="Pricelists" parent="acs_hms.menu_hms" action="product.product_pricelist_action2" groups="product.group_product_pricelist" sequence="20"/>-->
 
     <!-- Configuration Menu-->
     <menuitem id="menu_hms_cofig" name="Configuration" parent="menu_hms" groups="acs_hms_base.group_hms_manager" sequence="100"/>
@@ -29,7 +29,7 @@
     <menuitem id="menu_hms_cofig_settings" name="Settings" parent="menu_hms_cofig" sequence="0" action="acs_hms_base.action_hms_config_settings" groups="base.group_system"/>
 
     <!--Configuration Schedule -->
-    <menuitem id="menu_working_schedule" sequence="20" parent="menu_hms_cofig" action='resource.action_resource_calendar_form'/>
+<!--    <menuitem id="menu_working_schedule" sequence="20" parent="menu_hms_cofig" action='resource.action_resource_calendar_form'/>-->
 
     <!-- Patient Configuration Menu-->
 <!--    <menuitem id="menu_medical_alerts" name="Medical Alerts" sequence="11" parent="acs_hms_base.menu_hms_patient_cofig" action="acs_hms.act_open_medical_alerts"/>-->

@@ -198,7 +198,7 @@ class Appointment(models.Model):
         ('pause', 'Pause'),
         ('to_after_care', 'AfterCare'),
         # ('to_invoice', 'Invoice'),
-        ('done', 'Finished'),
+        ('done', 'Completed'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', required=True, copy=False, tracking=True,
         states=READONLY_STATES)
@@ -367,6 +367,19 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         tracking=True)
 
+    procedure = fields.Selection([
+        ("botox", "Botox Injections"),
+        ("filler", "Dermal Fillers"),
+        ("laser_hair_removal", "Laser Hair Removal"),
+        ("chemical_peels", "Chemical Peels"),
+        ("microdermabrasion", "Microdermabrasion"),
+        ("lip_fillers", "Lip Fillers"),
+        ("other", "Other"),
+    ],
+        string='Procedure', default='other',
+        states=READONLY_STATES,
+        required=True, tracking=True)
+
     survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
                                         copy=False, readonly=True)
 
@@ -421,6 +434,9 @@ class Appointment(models.Model):
                 if rec.consent_id.patient_signature and rec.consent_id.is_agree:
                     rec.state = 'confirm_consent'
                     rec.is_confirmed_consent = True
+
+    def update_checklist(self):
+        return {"type": "ir.actions.client", "tag": "reload"}
 
     @api.depends('prescription_id')
     def _compute_prescription_id(self):
@@ -800,6 +816,10 @@ class Appointment(models.Model):
         if not self.user_id:
             self.user_id = self.env.user.id
 
+        if not self.consent_ids:
+            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_schedule_consent_wiz")
+            return action
+
         if self.patient_id.email and (
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             try:
@@ -943,7 +963,7 @@ class Appointment(models.Model):
         self.state = 'done'
         template_aftercare = self.env.ref('acs_hms.appointment_aftercare_email')
         if len(self.aftercare_ids) <= 0:
-            raise UserError(_('Please define a aftercare to finished Appointment.'))
+            raise UserError(_('Please select Aftercare form to complete the appointment'))
 
         attachments = []
         for aftercare in self.aftercare_ids:
@@ -1018,6 +1038,14 @@ class Appointment(models.Model):
             'default_appointment_id': self.id}
         action['views'] = [(self.env.ref('acs_hms.view_hms_prescription_order_select_tree').id, 'tree'),
                            (self.env.ref('acs_hms.view_hms_prescription_order_form').id, 'form')]
+        return action
+
+    def multiple_consent_action(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("document_page.action_page")
+        action['domain'] = []
+        action['views'] = [(self.env.ref('document_page.view_wiki_tree').id, 'tree'),
+                           (self.env.ref('document_page.view_wiki_form').id, 'form')]
+        action['target'] = 'new'
         return action
 
     @api.model

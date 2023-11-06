@@ -41,7 +41,10 @@ class SendSms(models.TransientModel):
     _name = 'send.sms'
     _description = 'Wizard to send SMS'
 
-    sms_id = fields.Many2one('sms.gateway.config', string='Connection ID',
+    def _get_default_gateway(self):
+        return self.env['sms.gateway.config'].search([('sms_gateway_id.name', '=', 'twilio')], limit=1)
+
+    sms_id = fields.Many2one('sms.gateway.config', default=_get_default_gateway, string='Connection ID',
                              help='Gateway record with credentials')
     sms_to = fields.Char(string='Send To',
                          help='Enter the number to send the SMS')

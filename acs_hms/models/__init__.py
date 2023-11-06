@@ -6,6 +6,7 @@ from . import evaluation
 from . import product_kit
 from . import physician
 from . import appointment
+from . import survey_user_input
 from . import diseases
 from . import medicament
 from . import prescription
@@ -19,6 +20,5 @@ from . import res_users
 from . import consent_consent
 from . import hr_employee
 from . import aftercare
-from . import survey_user_input
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -33,7 +33,7 @@
     'maintainer': 'Cybrosys Techno Solutions',
     'external_dependencies': {
         'python': ['messagebird', 'telesign', 'telnyx', 'twilio', 'vonage']},
-    'depends': ['base', 'contacts'],
+    'depends': ['base', 'contacts','acs_hms_base'],
     'images': ['static/description/banner.png'],
     'data': [
         'security/multi_sms_gateway_groups.xml',

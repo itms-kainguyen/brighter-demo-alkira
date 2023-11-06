@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _, SUPERUSER_ID
+from odoo import api, fields, models, _, SUPERUSER_ID, Command
 from odoo.exceptions import UserError
 import logging
 
@@ -27,8 +27,13 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
+    def _rec_count(self):
+        for rec in self:
+            rec.transaction_count = len(self.env['payment.transaction'].search(
+                [('reference', '=', self.name), ('partner_id', '=', self.env.user.partner_id.id)]))
+
     READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
-                       'finished': [('readonly', True)],'expired': [('readonly', True)]}
+                       'finished': [('readonly', True)], 'expired': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -57,12 +62,13 @@ class ACSPrescriptionOrder(models.Model):
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirmed', 'Waiting Prescribe'),
+        ('draft', 'Prescription Order'),
+        ('confirmed', 'Pending Review'),
         ('prescription', 'Prescribed'),
-        ('finished', 'Finished'),
+        ('finished', 'Completed'),
         ('canceled', 'Cancelled'),
         ('expired', 'Expired')], string='Status', default='draft', tracking=True)
+
     appointment_ids = fields.One2many('hms.appointment', 'prescription_id', string='Appointments',
                                       states=READONLY_STATES)
 
@@ -82,15 +88,39 @@ class ACSPrescriptionOrder(models.Model):
         default=lambda x: fields.Date.today() + relativedelta(years=1),
         states=READONLY_STATES)
     prescription_type = fields.Selection([
-        ('botox', 'Botox'),
-        ('filler', 'Filler'),
-        ('other', 'Other')],
+        ("botox", "Botox Injections"),
+        ("filler", "Dermal Fillers"),
+        ("laser_hair_removal", "Laser Hair Removal"),
+        ("chemical_peels", "Chemical Peels"),
+        ("microdermabrasion", "Microdermabrasion"),
+        ("lip_fillers", "Lip Fillers"),
+        ("other", "Other"),
+    ],
         string='Procedure', default='other',
         states=READONLY_STATES,
         required=True, tracking=True)
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
-    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True, default=lambda self: self.env.user)
+    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True,
+                               default=lambda self: self.env.user)
+
+    survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
+                                        copy=False, readonly=True)
+
+    is_editable = fields.Boolean("Is Editable", compute='_compute_is_editable')
+
+    is_prescriber_fee = fields.Boolean('Is Prescriber fee', default=True)
+    prescriber_fee = fields.Float('Prescriber fee', default=28.0)
+    transaction_ids = fields.One2many('payment.transaction', 'prescription_id', string='Payment Transaction',
+                                      readonly=1)
+    transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
+
+    def _compute_is_editable(self):
+        is_nurse = self.env.user.has_group('acs_hms.group_hms_nurse')
+        for record in self:
+            record.is_editable = True
+            if is_nurse and not self.env.is_admin():
+                record.is_editable = False
 
     def get_1st_product(self):
         for rec in self:
@@ -158,39 +188,39 @@ class ACSPrescriptionOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         vals = []
-        for move_type in ['out_invoice', 'in_invoice']:
-            service = self.env['product.product'].search([('product_tmpl_id.name', '=', 'Prescriber Service')], limit=1)
-            if service:
-                vals.append({
-                    'move_type': move_type,
-                    'narration': self.notes,
-                    'currency_id': self.env.user.company_id.currency_id.id,
-                    'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                    'patient_id': self.patient_id.id if move_type == 'out_invoice' else False,
-                    'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                    'invoice_origin': self.name,
-                    'company_id': self.env.user.company_id.id,
-                    'invoice_date': self.prescription_date,
-                    'prescription_id': self.id,
-                    'invoice_line_ids': [[0, 0, {
-                        'product_id': service.id,
-                        'quantity': 1,
-                        'price_unit': service.list_price if move_type == 'out_invoice' else service.standard_price,
-                        'name': service.name or self.name,
-                        'product_uom_id': service.uom_id.id}]]
+        # for move_type in ['out_invoice', 'in_invoice']:
+        service = self.env['product.product'].search([('product_tmpl_id.name', '=', 'Prescriber Service')], limit=1)
+        if service:
+            vals.append({
+                'move_type': 'out_invoice',
+                'narration': self.notes,
+                'currency_id': self.env.user.company_id.currency_id.id,
+                'partner_id': self.patient_id.partner_id.id, #if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'patient_id': self.patient_id.id, # if move_type == 'out_invoice' else False,
+                'partner_shipping_id': self.patient_id.partner_id.id, #if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'invoice_origin': self.name,
+                'company_id': self.env.user.company_id.id,
+                'invoice_date': self.prescription_date,
+                'prescription_id': self.id,
+                'invoice_line_ids': [[0, 0, {
+                    'product_id': service.id,
+                    'quantity': 1,
+                    'price_unit': service.list_price,  # if move_type == 'out_invoice' else service.standard_price,
+                    'name': service.name or self.name,
+                    'product_uom_id': service.uom_id.id}]]
 
-                })
+            })
         return vals
+
     def pay_confirm(self):
         for app in self:
             if not app.prescription_line_ids:
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
 
-            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_hms_prescription_order_popup")
+            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_pay_prescriber_wiz")
             # action['domain'] = [('patient_id', '=', self.id)]
             action['context'] = {'show_pop_up': False}
-            action['res_model'] = self._name
-            action['res_id'] = self.id
+            action['res_model'] = 'pay.prescriber.wiz'
             return action
 
     def pay_prescription(self):
@@ -202,15 +232,28 @@ class ACSPrescriptionOrder(models.Model):
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
 
             app.state = 'confirmed'
-            template_id = self.env.ref('acs_hms.acs_prescription_email')
-            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
             if not app.name:
                 prescription_type_label = app._fields['prescription_type'].selection
                 prescription_type_label = dict(prescription_type_label)
-                app.name = prescription_type_label.get(app.prescription_type) + ": " + self.env[
-                    'ir.sequence'].next_by_code('prescription.order') or '/'
+                # prescription_type_label.get(app.prescription_type) + ": " +
+                app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             invoice_vals = self._prepare_invoice()
             moves = self.env['account.move'].sudo().create(invoice_vals)
+            if moves:
+                moves.action_post()
+
+    def action_view_transaction(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("payment.action_payment_transaction")
+        transaction_ids = self.env['payment.transaction'].search(
+            [('reference', '=', self.name), ('partner_id', '=', self.env.user.partner_id.id)])
+        action['domain'] = [('id', 'in', transaction_ids.ids)]
+        action['views'] = [(self.env.ref('payment.payment_transaction_list').id, 'tree'),
+                           (self.env.ref('payment.payment_transaction_form').id, 'form')]
+        return action
+
+    def button_prescribe_confirm(self):
+        for app in self:
+            app.state = 'prescription'
             # create prescription detail based on prescription line
             vals_list = []
             for line in app.prescription_line_ids:
@@ -226,12 +269,60 @@ class ACSPrescriptionOrder(models.Model):
                                 app.prescription_date.date() + relativedelta(months=i * line.use_every),
                         }
                         vals_list.append(vals)
-        if vals_list:
-            self.env['prescription.detail'].create(vals_list)
+            if len(vals_list) > 0:
+                self.env['prescription.detail'].create(vals_list)
 
-    def button_prescribe_confirm(self):
-        for app in self:
-            app.state = 'prescription'
+            MailMessage = self.env['mail.message']
+            appointment = False
+            physician = False
+            if app.appointment_id:
+                appointment = app.appointment_id.name
+            if app.physician_id:
+                physician = app.physician_id.name
+            body_html = '''
+                       <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+                       <p>Hello {nurse},</p>
+                       <p>Your Prescription details. For more details please refer attached PDF report.</p>
+                       <ul>
+                           <li>
+                               <p>Reference Number: {number}</p>
+                           </li>                         
+                           <li>
+                               <p>Prescription Date: {prescription_date}</p>
+                           </li>
+                       </ul>
+                       <p>Please feel free to call anytime for further information or any query.</p>
+                       <p>Best regards.</p><br/>
+                   </div>
+                   '''.format(nurse=app.nurse_id.name, number=app.name, prescription_date=app.prescription_date)
+            message_vals = {
+                'res_id': app.id,
+                'model': app._name,
+                'message_type': 'notification',
+                'subtype_id': self.env.ref('mail.mt_comment').id,
+                'body': body_html
+            }
+            # MailMessage.create(message_vals)
+            channel = self.env['mail.channel'].channel_get([app.nurse_id.partner_id.id])
+            channel_id = self.env['mail.channel'].browse(channel["id"])
+            pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                'acs_hms.report_hms_prescription_id', res_ids=[app.id])
+            attachment = self.env['ir.attachment'].create({
+                'name': 'prescription_' + app.name,
+                'type': 'binary',
+                'raw': pdf_content,
+                'res_model': app._name,
+                'res_id': app.id
+            })
+            channel_id.message_post(
+                body=(body_html),
+                message_type='comment',
+                subtype_xmlid='mail.mt_comment',
+                attachment_ids=[attachment.id]
+            )
+            template_id = self.env.ref('acs_hms.acs_prescription_email')
+            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
+            # channel = self.env['mail.channel'].create(message_vals)
 
     def button_done(self):
         for app in self:
@@ -526,11 +617,10 @@ class PrescriptionDetail(models.Model):
         if expired_prescription_ids:
             for pre in expired_prescription_ids:
                 print("pre", pre.name)
-                pre.write({'state':'expired'})
+                pre.write({'state': 'expired'})
                 logging.info(f"Updated {pre.name} expired prescription")
         else:
             logging.info(f"There is not any expired prescription")
-
 
         prescription_ids = self.search(
             [('scheduled_date', '<=', today + relativedelta(weeks=1)), ('state', '=', 'schedule')])

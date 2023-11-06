@@ -84,8 +84,8 @@
         <field name="arch" type="xml">
             <form string="ACS Prescription Order" >
                  <header invisible="not context.get('show_pop_up',True)">
-                    <button name="pay_confirm" states="draft" string="Confirm and Send" type="object" class="oe_highlight" groups="acs_hms.group_hms_nurse"/>
-                    <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="pay_confirm" states="draft" string="Submit for Review" type="object" class="oe_highlight" groups="acs_hms.group_hms_nurse"/>
+                    <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" invisible="1" groups="acs_hms.group_hms_jr_doctor"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
                     <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms.group_hms_jr_doctor"/>
@@ -101,6 +101,9 @@
                             <div class="oe_button_box" name="button_box">
                                 <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
                                 </button> -->
+                                <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
+                                    <field string="Transactions" name="transaction_count" widget="statinfo"/>
+                                </button>
                             </div>
                             <div class="oe_title">
                                 <h1>
@@ -112,9 +115,10 @@
                                 <group>
                                     <field name="patient_id"/>
                                     <field name="patient_age" invisible="1"/>
-                                    <field name="physician_id"/>
+                                    <field name="is_editable" invisible="1"/>
+                                    <field name="physician_id" attrs="{'readonly': [('is_editable', '=', False)]}"/>/>
                                     <field name="nurse_id"/>
-                                    <field name="prescription_type"/>
+                                    <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
         <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
                                 </group>
@@ -122,6 +126,11 @@
                                     <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
                                     <field name="expire_date"/>
                                     <field name="prescription_date"/>
+                                     <label for="is_prescriber_fee" string="Prescriber fee"/>
+                                     <div class="oe_inline">
+                                         <field name="is_prescriber_fee"/>
+                                         <span attrs="{'invisible': [('is_prescriber_fee', '=', False)]}"><field name="prescriber_fee" class="oe_inline"/></span>
+                                     </div>
                                     <field name="alert_count" invisible="1"/>
                                     <field name="pregnancy_warning" invisible="1"/>
                                 </group>
@@ -181,6 +190,23 @@
                                         <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}"/>
                                         <field name="notes" string="Advice" colspan="2"/>
                                     </group>
+                                </page>
+                                <page name="medical_checklist" string="Medical Checklist">
+                                    <field name="survey_answer_ids" widget="one2many_list">
+                                  <tree decoration-muted="skipped == True">
+                                    <field name="question_sequence" invisible="1"/>
+                                    <field name="create_date" optional="hidden"/>
+                                    <field name="page_id" optional="hidden"/>
+                                    <field name="question_id"/>
+                                    <field name="answer_type" optional="hidden"/>
+                                    <field name="skipped" optional="hidden"/>
+                                    <field name="matrix_row_id" string="Row answer"/>
+                                      <field name="suggested_answer_yes"/>
+                                      <field name="suggested_answer_no"/>
+                                    <field name="answer_is_correct" optional="hidden"/>
+                                    <field name="answer_score" sum="Score" optional="hidden"/>
+                                </tree>
+                            </field>
                                 </page>
                                 <page name="prescription_details" string="Prescription Details">
                                     <field name="prescription_detail_ids" nolabel="1" colspan="4">

@@ -30,7 +30,7 @@ class ResPartner(models.Model):
 
     name = fields.Char(tracking=True)
     code = fields.Char(string='Identification Code', default='/',
-        help='Identifier provided by the Health Center.', copy=False, tracking=True)
+        help='Identifier', copy=False, tracking=True)
     gender = fields.Selection([
         ('male', 'Male'), 
         ('female', 'Female'), 

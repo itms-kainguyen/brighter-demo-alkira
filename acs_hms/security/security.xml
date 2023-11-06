@@ -101,7 +101,8 @@
         <record id="hms_patient_department_rule" model="ir.rule">
             <field name="name">Departments Patients</field>
             <field name="model_id" ref="acs_hms_base.model_hms_patient"/>
-            <field name="domain_force">['|', '|',('user_id.id','=',user.id), ('department_ids', 'in', [dep.id for dep in user.department_ids]),('department_ids', '=', False)]</field>
+            <field name="domain_force">[(1,'=',1)]</field>
+<!--            '|', '|',('user_id.id','=',user.id), ('department_ids', 'in', [dep.id for dep in user.department_ids]),('department_ids', '=', False)-->
         </record>
         
         
@@ -118,7 +119,7 @@
         <record id="hms_appointment_doctor_department_rule" model="ir.rule">
             <field name="name">Departments Appointments</field>
             <field name="model_id" ref="model_hms_appointment"/>
-            <field name="domain_force">['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]</field>
+            <field name="domain_force">[(1,'=',1)]</field>
         </record>
 
 
@@ -155,7 +156,8 @@
         <record id="hms_treatment_department_rule" model="ir.rule">
             <field name="name">Departments Treatments</field>
             <field name="model_id" ref="model_hms_treatment"/>
-            <field name="domain_force">['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]</field>
+            <field name="domain_force">[(1,'=',1)]</field>
+<!--            '|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])-->
             <field name="groups" eval="[(4, ref('group_hms_receptionist'))]"/>
         </record>
         <!-- See all treatments -->

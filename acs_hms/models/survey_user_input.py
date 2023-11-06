@@ -13,7 +13,6 @@ class SurveyUserInput(models.Model):
     _inherit = "survey.user_input"
 
     appointment_id = fields.Many2one('hms.appointment', string='Appointment')
-
     # appointment_id = fields.One2many('hms.appointment', 'survey_response_id', string='Appointment')
 
     @api.model_create_multi
@@ -38,6 +37,7 @@ class SurveyUserInputLine(models.Model):
                                      string='Appointment')
     suggested_answer_yes = fields.Boolean('Yes', compute='_compute_suggested_answer')
     suggested_answer_no = fields.Boolean('No', compute='_compute_suggested_answer')
+    prescription_id = fields.Many2one('prescription.order', related='appointment_id.prescription_id', string='Prescription')
 
     @api.depends('suggested_answer_id')
     def _compute_suggested_answer(self):

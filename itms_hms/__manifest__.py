@@ -6,7 +6,7 @@
     'category': 'ITMS/ITMS',
     'version': '16.0.2',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'mail','product','acs_hms','acs_hms_online_appointment','auth_signup'],
+    'depends': ['base', 'web', 'mail','sms','product','acs_hms','acs_hms_online_appointment','auth_signup'],
     # always loaded
     'data': [
         'security/security.xml',

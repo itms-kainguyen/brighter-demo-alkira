@@ -20,6 +20,7 @@
 #############################################################################
 
 from . import res_partner
+from . import hms_patient
 from . import sms_connection_params
 from . import sms_gateway
 from . import sms_gateway_config

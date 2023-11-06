@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+###############################################################################
+#
+#    Cybrosys Technologies Pvt. Ltd.
+#
+#    Copyright (C) 2023-TODAY Cybrosys Technologies(<https://www.cybrosys.com>)
+#    Author: Saneen K (odoo@cybrosys.com)
+#
+#    You can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    (LGPL v3) along with this program.
+#    If not, see <http://www.gnu.org/licenses/>.
+#
+###############################################################################
+from odoo import fields, models
+
+
+class MultipleAftercare(models.TransientModel):
+    """Create new wizard model of product list for selection"""
+    _name = "multiple.aftercare"
+    _description = 'Multiple Selection'
+
+    document_list_ids = fields.Many2many('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'After Care')],
+                                         string='Aftercare List',
+                                         help="")
+
+    def action_add_line(self):
+        """Function for adding all the products to the order line that are
+        selected from the wizard"""
+        active_model = self.env.context.get('active_model')
+        active_id = self.env.context.get('active_id')
+        current_id = self.env['hms.appointment'].browse(active_id)
+        lines = []
+        for rec in self.document_list_ids:
+            if rec not in current_id.aftercare_ids.category_id:
+                lines.append((0, 0, {
+                        'appointment_id': active_id,
+                        'category_id': rec.id,
+                        'content': rec.content,
+                        'name': rec.name
+                }))
+        current_id.aftercare_ids = lines
+
