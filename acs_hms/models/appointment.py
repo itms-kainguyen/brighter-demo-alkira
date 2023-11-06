@@ -1227,25 +1227,28 @@ class Appointment(models.Model):
             client = Client(gateway.twilio_account_sid,
                             gateway.twilio_auth_token)
             for reminder in reminder_appointments:
-                message = """
-                Dear {nurse},
-                This is a friendly reminder that you have a appointment scheduled in a few days, details:
-                Reference Number: {appointment}
-                Schedule Date: {date}
-                """.format(nurse=reminder.nurse_id.name, appointment=reminder.name, date=reminder.schedule_date)
-                sms_to = reminder.nurse_id.phone
-                for number in sms_to.split(','):
-                    if number:
-                        client.messages.create(
-                            body=message,
-                            from_=gateway.twilio_phone_number,
-                            to=number
-                        )
-                history = self.env['sms.history'].sudo().create({
-                    'sms_gateway_id': gateway.sms_gateway_id.id,
-                    'sms_mobile': sms_to,
-                    'sms_text': message
-                })
+                try:
+                    message = """
+                    Dear {nurse},
+                    This is a friendly reminder that you have a appointment scheduled in a few days, details:
+                    Reference Number: {appointment}
+                    Schedule Date: {date}
+                    """.format(nurse=reminder.nurse_id.name, appointment=reminder.name, date=reminder.schedule_date)
+                    sms_to = reminder.nurse_id.phone
+                    for number in sms_to.split(','):
+                        if number:
+                            client.messages.create(
+                                body=message,
+                                from_=gateway.twilio_phone_number,
+                                to=number
+                            )
+                    history = self.env['sms.history'].sudo().create({
+                        'sms_gateway_id': gateway.sms_gateway_id.id,
+                        'sms_mobile': sms_to,
+                        'sms_text': message
+                    })
+                except Exception as e:
+                    pass
         return True
 
     @api.onchange('consultation_type')
