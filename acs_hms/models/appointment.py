@@ -1215,6 +1215,39 @@ class Appointment(models.Model):
             rec.date = rec.date + timedelta(hours=reschedule_time)
             rec.date_to = rec.date_to + timedelta(hours=reschedule_time)
 
+    @api.model
+    def send_sms_appointments_reminder(self):
+        from twilio.rest import Client
+        date_time_now = fields.Datetime.now()
+        gateway = self.env['sms.gateway.config'].search([('sms_gateway_id.name', '=', 'twilio')], limit=1)
+        if gateway:
+            reminder_appointments = self.sudo().search(
+                [('state', 'in', ['draft', 'confirm', 'confirm_consent', 'in_consultation', 'to_after_care']),
+                 ('schedule_date', '<=', fields.Datetime.now().date())])
+            client = Client(gateway.twilio_account_sid,
+                            gateway.twilio_auth_token)
+            for reminder in reminder_appointments:
+                message = """
+                Dear {nurse},
+                This is a friendly reminder that you have a appointment scheduled in a few days, details:
+                Reference Number: {appointment}
+                Schedule Date: {date}
+                """.format(nurse=reminder.nurse_id.name, appointment=reminder.name, date=reminder.schedule_date)
+                sms_to = reminder.nurse_id.phone
+                for number in sms_to.split(','):
+                    if number:
+                        client.messages.create(
+                            body=message,
+                            from_=gateway.twilio_phone_number,
+                            to=number
+                        )
+                history = self.env['sms.history'].sudo().create({
+                    'sms_gateway_id': gateway.sms_gateway_id.id,
+                    'sms_mobile': sms_to,
+                    'sms_text': message
+                })
+        return True
+
     @api.onchange('consultation_type')
     def _done_add_prescription(self):
         for rec in self:

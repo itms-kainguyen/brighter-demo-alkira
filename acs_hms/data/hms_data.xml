@@ -112,6 +112,16 @@
             <field eval="'model.send_prescription_reminder()'" name="code"/>
         </record>
         
+         <record id="ir_cron_send_sms_appointments_reminder_action" model="ir.cron">
+            <field name="name">Send SMS Appointment Reminder</field>
+            <field eval="True" name="active"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field ref="acs_hms.model_hms_appointment" name="model_id"/>
+            <field name="state">code</field>
+            <field eval="'model.send_sms_appointments_reminder()'" name="code"/>
+        </record>
 
     </data>
 </odoo>

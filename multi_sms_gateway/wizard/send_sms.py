@@ -127,8 +127,9 @@ class SendSms(models.TransientModel):
                         )
                     except telnyx.error.InvalidRequestError:
                         raise UserError('Missing required parameter!')
-        self.env['sms.history'].sudo().create({
+        history = self.env['sms.history'].sudo().create({
             'sms_gateway_id': self.sms_id.sms_gateway_id.id,
             'sms_mobile': self.sms_to,
             'sms_text': self.text
         })
+        return True
