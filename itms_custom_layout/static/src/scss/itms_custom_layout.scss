@@ -344,3 +344,10 @@ hide button invoice
 .container-buttonbox button[name="view_invoices"] {
   display: none;
 }
+
+// table list view
+
+.table-responsive .o_data_cell {
+    font-size: 15px;
+}
+
