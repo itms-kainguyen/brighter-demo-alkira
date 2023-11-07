@@ -63,7 +63,7 @@
         <field name="name">prescription.order.tree</field>
         <field name="model">prescription.order</field>
         <field name="arch" type="xml">
-            <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'">
+            <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'" expand="1">
                 <field name="name"/>
                 <field name="prescription_date"/>
                 <field name="first_product_id"/>

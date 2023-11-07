@@ -110,7 +110,7 @@ class ACSPrescriptionOrder(models.Model):
     is_editable = fields.Boolean("Is Editable", compute='_compute_is_editable')
 
     is_prescriber_fee = fields.Boolean('Is Prescriber fee', default=True)
-    prescriber_fee = fields.Float('Prescriber fee', default=28.0)
+    prescriber_fee = fields.Float('Prescriber fee', default=25.0)
     transaction_ids = fields.One2many('payment.transaction', 'prescription_id', string='Payment Transaction',
                                       readonly=1)
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
@@ -195,9 +195,11 @@ class ACSPrescriptionOrder(models.Model):
                 'move_type': 'out_invoice',
                 'narration': self.notes,
                 'currency_id': self.env.user.company_id.currency_id.id,
-                'partner_id': self.patient_id.partner_id.id, #if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                'patient_id': self.patient_id.id, # if move_type == 'out_invoice' else False,
-                'partner_shipping_id': self.patient_id.partner_id.id, #if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'partner_id': self.patient_id.partner_id.id,
+                # if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                'patient_id': self.patient_id.id,  # if move_type == 'out_invoice' else False,
+                'partner_shipping_id': self.patient_id.partner_id.id,
+                # if move_type == 'out_invoice' else self.physician_id.partner_id.id,
                 'invoice_origin': self.name,
                 'company_id': self.env.user.company_id.id,
                 'invoice_date': self.prescription_date,
