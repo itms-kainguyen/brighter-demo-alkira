@@ -351,3 +351,44 @@ hide button invoice
     font-size: 15px;
 }
 
+
+
+/****
+ITMS dashboard
+*/
+.color-orange {
+  background: #e36f3c !important;
+  border: #af481b !important;
+}
+
+.card-orange {
+  background: #f96c31;
+}
+
+.grid-box {
+  border: 1px solid #e0e0e0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.btn-group-vertical > button {
+  padding: 20px 5px !important;
+}
+
+.oe_kanban_global_click.o_kanban_record_has_image_fill {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+.o_kanban_image_fill_left.d-none.d-md-block {
+  margin-left: 5px !important;
+}
+
+.itms_dashboard.col-6.o_record_draggable {margin-bottom: 30px;}
+
+.itms_dashboard .oe_kanban_global_click.o_kanban_record_has_image_fill {
+  min-height: 150px;
+}
+
+.itms_dashboard_navigation {
+  padding-top: 12px;
+}

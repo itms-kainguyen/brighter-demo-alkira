@@ -33,7 +33,8 @@
         'security/ir.model.access.csv',
         "views/user_dashboard_view.xml",
         "views/user_view.xml",
-        "views/patient_dashboard_view.xml"
+        "views/patient_dashboard_view.xml",
+        "views/itms_dashboard_view.xml"
     ],
     'assets': {
         'web.assets_backend': [
