@@ -184,4 +184,5 @@ class Patient(models.Model):
 
             if not user.email:
                 raise UserError(_("Cannot send email: user %s has no email address.") % user.name)
-            template.sudo().with_context(lang=user.lang).send_mail(user.id, force_send=True, raise_exception=False)
+            email_values = {'user_id': user}
+            template.sudo().with_context(lang=user.lang, **email_values).send_mail(self.id, force_send=True, raise_exception=False)
