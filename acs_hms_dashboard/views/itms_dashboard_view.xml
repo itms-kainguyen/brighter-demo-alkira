@@ -350,9 +350,8 @@
     <record id="action_itms_dashboard" model="ir.actions.act_window">
         <field name="name">ITMS Dashboard</field>
         <field name="view_mode">kanban</field>
-        <field name="view_id" ref="itms_dashboard_kanban_view"/>
+        <field name="view_id" ref="itms_dashboard_kanban_view"></field>
         <field name="usage">menu</field>
-        <!-- <field name="domain">[('id','=',uid)]</field> -->
     </record>
     <menuitem id="itms_dashboard_menu" name="ITMS Dashboard" parent="main_dashboard"
               action="action_itms_dashboard" sequence="10"/>
