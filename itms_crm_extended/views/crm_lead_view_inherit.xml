@@ -51,8 +51,15 @@
               </group>
           </page>
         </page>
+
+          <button name="318" position="after">
+                <button name="action_create_subscription" string="Create Subscription" type="object" class="oe_highlight"  attrs="{'invisible': [('type', '!=', 'opportunity')]}">
+
+                </button>
+          </button>
       </field>
     </record>
+
 
   </data>
 </odoo>
