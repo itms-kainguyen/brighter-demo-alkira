@@ -77,3 +77,66 @@ class CRMLead(models.Model):
         ('500k_plus', '>$500k'),
     ], string='Estimated Annual Scheduled Product Purchase value')
 
+    def action_create_subscription(self):
+        # creating a subscription order based on selected lead (state=opportunity)
+        print('Creating Subscription')
+        return {
+            'name': 'Create New Subscription',
+            'type': 'ir.actions.act_window',
+            'res_model': 'subscription.package',
+            'view_mode': 'form',
+            'target': 'new',
+            'view_id': self.env.ref('itms_crm_extended.view_subscription_package_popup').id,
+            'context': {'default_lead': self.id}
+        }
+
+
+class SubscriptionPackageInherit(models.Model):
+    _inherit = "subscription.package"
+
+    lead = fields.Many2one('crm.lead', string='Opportunity')
+
+    @api.depends('reference_code')
+    def _compute_name(self):
+        """It displays record name as combination of short code, reference
+        code and partner name """
+        for rec in self:
+            plan_id = self.env['subscription.package.plan'].search(
+                [('id', '=', rec.plan_id.id)])
+            if plan_id.short_code and rec.reference_code:
+                print(rec.lead.partner_id)
+                print(rec.lead.name)
+                if rec.partner_id:
+                    rec.name = plan_id.short_code + '/' + rec.reference_code + '-' + rec.partner_id.name
+                else:
+                    print(rec.lead.partner_id)
+                    print(rec.lead.name)
+                    rec_name = rec.lead.partner_id.name or rec.lead.name
+                    rec.partner_id = rec.lead.partner_id
+                    rec.name = plan_id.short_code + '/' + rec.reference_code + '-' + str(rec_name)
+
+    def action_save_subscription(self):
+        print('action_save_subscription')
+        self.ensure_one()
+        # new_record = self.create({
+        #     'name': self.name,
+        #     'parent_id': self.parent_id.id
+        # })
+        # crm_lead = self.env["crm.lead"].browse(self)
+        if self.lead:
+            self.lead.message_post(
+                body="Subscription Package created '%s' has been created." % self.name,
+                subject="Subscription Package created",
+                # subtype_id='mail.mt_comment',
+            )
+        action = {
+            'type': 'ir.actions.act_window',
+            'res_model': 'subscription.package',
+            'view_mode': 'form',
+            'target': 'current',
+            'res_id': self.id,
+        }
+        return action
+
+
+
