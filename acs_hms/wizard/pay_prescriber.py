@@ -44,7 +44,7 @@ class PayPrescriberWiz(models.TransientModel):
         compute='_compute_suitable_payment_token_ids', precompute=True,
         compute_sudo=True,
     )
-    prescriber_fee = fields.Float('Prescriber fee', default=28.0)
+    prescriber_fee = fields.Float('Prescriber fee', default=25.0)
 
     payment_transaction_id = fields.Many2one(
         string="Payment Transaction",
