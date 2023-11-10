@@ -224,6 +224,10 @@ class ACSPrescriptionOrder(models.Model):
             action['context'] = {'show_pop_up': False}
             action['res_model'] = 'pay.prescriber.wiz'
             return action
+    
+    def confirm_without_pay(self):
+        for app in self:
+            app.state = 'confirmed'
 
     def pay_prescription(self):
         self.button_confirm()
