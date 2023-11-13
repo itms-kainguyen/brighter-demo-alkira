@@ -227,6 +227,11 @@ class ACSPrescriptionOrder(models.Model):
     
     def confirm_without_pay(self):
         for app in self:
+            if not app.name:
+                prescription_type_label = app._fields['prescription_type'].selection
+                prescription_type_label = dict(prescription_type_label)
+                # prescription_type_label.get(app.prescription_type) + ": " +
+                app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             app.state = 'confirmed'
 
     def pay_prescription(self):
