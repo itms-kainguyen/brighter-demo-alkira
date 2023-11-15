@@ -5,7 +5,7 @@ from odoo import SUPERUSER_ID, api
 _logger = logging.getLogger(__name__)
 
 try:
-    from odoo.addons.base_multi_company import hooks
+    from odoo.addons.itms_base_multi_company import hooks
 except ImportError:
     _logger.info("Cannot find `base_multi_company` module in addons path.")
 
