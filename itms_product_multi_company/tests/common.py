@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
-class ProductMultiCompanyCommon:
+class ProductMultiCompanyCommon(object):
     @classmethod
     def _create_products(cls):
         cls.product_obj = cls.env["product.product"]
