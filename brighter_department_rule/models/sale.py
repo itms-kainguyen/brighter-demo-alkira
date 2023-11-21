@@ -10,3 +10,12 @@ class SaleOrder(models.Model):
     
     department_id = fields.Many2one('hr.department', string='Department',
                                     default=lambda self: self.default_department_id())
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('website_id', False):
+                user = self.env['res.users'].sudo().browse([self.env.context.get('uid', False)])
+                if user:
+                    vals['department_id'] = user.department_ids and user.department_ids[0].id or False
+        return super().create(vals_list)
