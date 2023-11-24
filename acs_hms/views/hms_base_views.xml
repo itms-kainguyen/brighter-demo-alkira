@@ -188,6 +188,9 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="type">form</field>
         <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="department_id" string="Clinic"/>
+            </field>
             <xpath expr="//page" position="after">
                 <page string="Clinic Info" name="hms_info">
                     <group>
