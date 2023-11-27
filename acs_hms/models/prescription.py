@@ -533,11 +533,20 @@ class ACSPrescriptionLine(models.Model):
         ('line_section', "Section"),
         ('line_note', "Note")], help="Technical field for UX purpose.")
     repeat = fields.Integer(string='Repeat', default=5)
+    remain_repeat = fields.Integer(string='Remaining Repeat', compute='_compute_remaining_repeat')
     use_every = fields.Integer(
         "Use Every (months)", default=1,
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
+    
+    @api.depends('repeat')
+    def _compute_remaining_repeat(self):
+        for rec in self:
+            repeat_used = len(self.env['hms.appointment'].search([
+                ('prescription_id', '=', rec.prescription_id.id),
+                ('state', 'in', ['to_after_care', 'done'])]))
+            rec.remain_repeat = rec.repeat - repeat_used if rec.repeat > repeat_used else 0
 
     @api.onchange('product_id')
     def onchange_product(self):
