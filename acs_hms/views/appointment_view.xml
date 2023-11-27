@@ -480,7 +480,7 @@
                             <field name="prescription_line_repeat_ids">
                                 <tree editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="remain_repeat"/>
+                                    <field name="repeat"/>
                                 </tree>
                             </field>
                         </page>

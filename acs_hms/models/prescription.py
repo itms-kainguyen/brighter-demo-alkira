@@ -533,7 +533,7 @@ class ACSPrescriptionLine(models.Model):
         ('line_section', "Section"),
         ('line_note', "Note")], help="Technical field for UX purpose.")
     repeat = fields.Integer(string='Repeat', default=5)
-    remain_repeat = fields.Integer(string='Remaining Repeat', compute='_compute_remaining_repeat')
+    # remain_repeat = fields.Integer(string='Remaining Repeat', compute='_compute_remaining_repeat')
     use_every = fields.Integer(
         "Use Every (months)", default=1,
         help="This field used to schedule \
