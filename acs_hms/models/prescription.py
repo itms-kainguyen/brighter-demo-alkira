@@ -114,7 +114,7 @@ class ACSPrescriptionOrder(models.Model):
     transaction_ids = fields.One2many('payment.transaction', 'prescription_id', string='Payment Transaction',
                                       readonly=1)
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
-
+        
     def _compute_is_editable(self):
         is_nurse = self.env.user.has_group('acs_hms.group_hms_nurse')
         for record in self:

@@ -54,6 +54,10 @@
                         </group>
                         <group>
                             <field name="patient_id"/>
+                            <field 
+                                name="prescription_ids" 
+                                domain="[('state', '=', 'prescription'),('patient_id', '=', patient_id)]" 
+                                widget="many2many_checkboxes"/>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                             <field name="department_id" groups="acs_hms.group_allow_multi_department" invisible="1"/>
                             <field name="department_type" invisible="1"/>
@@ -76,12 +80,14 @@
                             <field name="medicine_line_ids" string="Medicine">
                                 <tree string="Medicine" editable="bottom">
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
+                                    <field name="prescription_id"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"/>
-                                     <field name="batch_number"/>
+                                    <field name="batch_number"/>
                                     <field name="medicine_technique"/>
                                     <field name="medicine_depth"/>
                                     <field name="medicine_method"/>
+                                    <field name="repeat"/>
                                 </tree>
                             </field>
                             <group colspan="4">
