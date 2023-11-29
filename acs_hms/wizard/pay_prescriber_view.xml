@@ -14,10 +14,10 @@
                         <field name="payment_icon_ids" widget="many2many_tags" />
                         <field name="partner_id" invisible="1"/>
                         <field name="suitable_payment_token_ids" options="{'always_reload': True}" invisible="1"  widget="many2many_tags"/>
-                        <label for="payment_token_id" string="Saved Payment Token"/>
+                        <label for="payment_token_id" string="Select Credit Card"/>
                         <div>
                             <field name="payment_token_id" class="oe_inline" options="{'always_reload': True, 'no_create': True, 'no_edit': True,'no_open': True}"/>
-                            <button name="save_payment" type="object" string="Manager Payment Method" class="oe_inline fa fa-arrow-right oe_link"/>
+                            <button name="save_payment" type="object" string="Manage Credit Cards" class="oe_inline fa fa-arrow-right oe_link"/>
                         </div>
 
                     </group>
@@ -28,7 +28,7 @@
                     </group>
                 </group>
                 <footer>
-                    <button name="pay_prescription" type="object" string="Pay Now" class="oe_highlight" confirm="You are about to process a payment of $28 using your saved credit card.If you wish to proceed, please click 'Ok' below. If you have any concerns or would like to make changes, click 'Cancel' to review your payment details."/>
+                    <button name="pay_prescription" type="object" string="Pay Now" class="oe_highlight" confirm="You are about to process a payment of $25 using your saved credit card.If you wish to proceed, please click 'Ok' below. If you have any concerns or would like to make changes, click 'Cancel' to review your payment details."/>
                     <button string="Close" class="oe_link" special="cancel" />
                 </footer>
             </form>

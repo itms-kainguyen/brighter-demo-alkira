@@ -29,7 +29,7 @@ class PayPrescriberWiz(models.TransientModel):
     partner_id = fields.Many2one('res.partner', 'Partner', default=lambda self: self.env.user.partner_id)
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
     payment_token_id = fields.Many2one(
-        string="Saved Payment Token", comodel_name='payment.token',
+        string="Select Credit Card", comodel_name='payment.token',
         domain="""[
                 ('company_id', '=', company_id),
                 ('provider_id.capture_manually', '=', False),
