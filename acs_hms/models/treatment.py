@@ -112,7 +112,25 @@ class ACSTreatment(models.Model):
                                              'treatment_id', string='Before Photos')
     attachment_after_ids = fields.Many2many('ir.attachment', 'treatment_attachment_after_rel', 'attachment_id',
                                             'treatment_id', string='After Photos')
-
+    prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_rel', 'prescription_id', 'treatment_id',
+                                        string='Prescriptions')
+    
+    @api.onchange('prescription_ids')
+    def onchange_prescription_ids(self):
+        for rec in self:
+            rec.medicine_line_ids = False
+            prescription_line_ids = rec.prescription_ids.mapped('prescription_line_ids')
+            for line in prescription_line_ids:
+                rec.medicine_line_ids = [(0, 0, {
+                    'product_id': line.product_id.id,
+                    'medicine_area': line.medicine_area,
+                    'medicine_technique': line.medicine_technique,
+                    'medicine_depth': line.medicine_depth,
+                    'medicine_method': line.medicine_method,
+                    'repeat': line.repeat,
+                    'prescription_id': line.prescription_id.id,
+                })]
+            
     @api.model
     def default_get(self, fields):
         res = super(ACSTreatment, self).default_get(fields)
@@ -158,7 +176,7 @@ class ACSTreatment(models.Model):
             for line in self.procedure_group_id.line_ids:
                 patient_procedure_ids.append((0, 0, self.get_line_data(line)))
             self.patient_procedure_ids = patient_procedure_ids
-
+    
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
@@ -375,6 +393,8 @@ class TreatmentMedicineLine(models.Model):
                                  related='treatment_id.company_id')
 
     appointment_id = fields.Many2one('hms.appointment', related='treatment_id.appointment_id', string='Appointment')
+    repeat = fields.Integer(string='Repeat', default=1)
+    prescription_id = fields.Many2one('prescription.order', string='Prescription')
 
     @api.onchange('product_id')
     def onchange_product_id(self):
