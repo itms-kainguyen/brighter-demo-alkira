@@ -115,7 +115,7 @@ class PayPrescriberWiz(models.TransientModel):
         active_id = self.env.context.get('active_id')
         current_id = self.env['prescription.order'].browse(active_id)
         if not self.payment_token_id:
-            raise ValidationError(_('Please select a payment token.'))
+            raise ValidationError(_('Please Select Credit Card.'))
         current_id.button_confirm()
         journal = self.env['account.journal'].search([('type', '=', 'bank')], limit=1)
         transaction = self.env['account.payment'].sudo().create({
