@@ -14,7 +14,7 @@
     </record>
 
     <!-- Treatment -->
-    <record id="view_hospital_hms_treatment_form" model="ir.ui.view">
+    <!-- <record id="view_hospital_hms_treatment_form" model="ir.ui.view">
         <field name="name">hms.treatment.form</field>
         <field name="model">hms.treatment</field>
         <field name="inherit_id" ref="acs_hms.view_hospital_hms_treatment_form"/>
@@ -23,7 +23,7 @@
                 <button class="oe_stat_button" type="object" name="acs_action_attachments_preview" title="Photos" icon="fa-files-o" string="Photos" widget="statinfo"/>
             </div>
         </field>
-    </record>
+    </record> -->
 
     <!-- procedure -->
     <record id="view_acs_patient_procedure_form" model="ir.ui.view">
