@@ -169,8 +169,8 @@
                                             <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
                                             <field name="allow_substitution" optional="hide"/>
                                             <field name="common_dosage_id" invisible="1"/>
-                                            <field name="common_dosage_group"/>
-                                            <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Qty Dose"/>
+                                            <!-- <field name="common_dosage_group"/> -->
+                                            <field name="dose" widget="integer" attrs="{'required': [('display_type', '=', False)]}" string="Dose"/>
                                             <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
                                             <field name="repeat"/>
                                             <field name="use_every" optional="show"/>
@@ -179,12 +179,12 @@
                                             <!-- <field name="days" attrs="{'required': [('display_type', '=', False)]}"/> -->
                                             <field name="manual_prescription_qty" invisible="1"/>
                                             <field name="manual_quantity" invisible="1"/>
-                                            <field name="quantity" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
+                                            <field name="quantity" invisible="1" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
                                             <field name="qty_available" readonly="1" optional="hide"/>
                                             <field name="prnt" invisible="1"/>
                                             <field name="short_comment" invisible="1"/>
                                             <field name="treatment_id" invisible="1"/>
-                                            <field name="name" string="Comment" widget="section_and_note_text" optional="show"/>
+                                            <field name="name" invisible="1" string="Comment" widget="section_and_note_text" optional="show"/>
                                         </tree>
                                     </field>
                                     <group colspan="4">
