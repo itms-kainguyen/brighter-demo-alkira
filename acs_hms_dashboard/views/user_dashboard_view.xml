@@ -346,7 +346,7 @@
                                         <t t-set="acs_record_lable">Running</t>
                                         <t t-set="acs_field2_name" t-value="record.my_total_treatments.raw_value"/>
                                         <t t-set="acs_record2_action" t-value="'open_my_treatments'"/>
-                                        <t t-set="acs_record2_lable">treatments</t>
+                                        <t t-set="acs_record2_lable">Treatments</t>
                                         <t t-set="acs_lable">My Treatments</t>
                                     </t>
                                 </div>
