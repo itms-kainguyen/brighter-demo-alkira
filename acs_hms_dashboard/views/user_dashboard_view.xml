@@ -59,6 +59,7 @@
                 <field name="total_emergency"/>
                 <field name="total_support"/>
                 <field name="total_shop"/>
+                <field name="total_event_management"/> 
                 <field name="total_prescription_color"/>
                 <field name="total_protocol_color"/>
                 <field name="total_meeting_now_color"/>

@@ -242,6 +242,8 @@ class ResUsers(models.Model):
     # total prescriber
     total_prescriber = fields.Integer(compute="_compute_dashboard_data")
 
+    total_event_management = fields.Integer(compute="_compute_dashboard_data")
+
     # total course
     total_course = fields.Integer(compute="_compute_dashboard_data")
 
