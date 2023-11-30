@@ -85,7 +85,7 @@
             <form string="ACS Prescription Order" >
                  <header invisible="not context.get('show_pop_up',True)">
                     <button name="pay_confirm" states="draft" string="Submit for Request" type="object" class="oe_highlight" groups="acs_hms_base.group_hms_manager"/>
-                    <button name="confirm_without_pay" states="draft" string="Submit for Request without Payment" type="object" class="oe_highlight" groups="acs_hms_base.group_hms_manager"/>
+<!--                    <button name="confirm_without_pay" states="draft" string="Submit for Request without Payment" type="object" class="oe_highlight" groups="acs_hms_base.group_hms_manager"/>-->
                     <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" invisible="1" groups="acs_hms.group_hms_doctor, acs_hms_base.group_hms_manager"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
@@ -184,7 +184,7 @@
                                             <field name="prnt" invisible="1"/>
                                             <field name="short_comment" invisible="1"/>
                                             <field name="treatment_id" invisible="1"/>
-                                            <field name="name" string="Comment" widget="section_and_note_text" optional="hide"/>
+                                            <field name="name" invisible="1" string="Comment" widget="section_and_note_text" optional="show"/>
                                         </tree>
                                     </field>
                                     <group colspan="4">
@@ -209,7 +209,7 @@
                                 </tree>
                             </field>
                                 </page>
-                                <page name="prescription_details" string="Prescription Details">
+                                <page name="prescription_details" string="Prescription Details" invisible="1">
                                     <field name="prescription_detail_ids" nolabel="1" colspan="4">
                                         <tree string="Prescription Detail" editable="bottom">
                                             <control>

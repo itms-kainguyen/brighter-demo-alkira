@@ -319,7 +319,7 @@
                                 </div>
 
                                 <!-- Open branch -->
-                                <div class="col-3 acs_block" groups="account.group_account_invoice">
+                                <!-- <div class="col-3 acs_block" groups="account.group_account_invoice">
                                     <t t-call="acs_dashboard_block_second">
                                         <t t-set="acs_record_color"
                                            t-value="record.total_open_invoice_color.raw_value"/>
@@ -333,10 +333,25 @@
                                         <t t-set="acs_record2_lable">Clinic</t>
                                         <t t-set="acs_lable">Clinic</t>
                                     </t>
+                                </div> -->
+
+
+                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_user">
+                                    <t t-call="acs_dashboard_block_second">
+                                        <t t-set="acs_record_color" t-value="record.my_total_treatments_color.raw_value"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-user-md'"/>
+                                        <t t-set="acs_field_name" t-value="record.my_total_treatments.raw_value"/>
+                                        <t t-set="acs_record_action" t-value="'open_my_running_treatments'"/>
+                                        <t t-set="acs_record_lable">Running</t>
+                                        <t t-set="acs_field2_name" t-value="record.my_total_treatments.raw_value"/>
+                                        <t t-set="acs_record2_action" t-value="'open_my_treatments'"/>
+                                        <t t-set="acs_record2_lable">Treatments</t>
+                                        <t t-set="acs_lable">My Treatments</t>
+                                    </t>
                                 </div>
 
                                 <!-- Clinical Support -->
-                                <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager"
+                                <div groups="acs_hms_base.group_hms_manager"
                                      class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_support_color.raw_value"/>
@@ -344,6 +359,17 @@
                                         <t t-set="acs_field_name" t-value="record.total_support.raw_value"/>
                                         <t t-set="acs_record_lable">Clinical Support</t>
                                         <t t-set="acs_record_action" t-value="'open_support'"/>
+                                    </t>
+                                </div>
+
+                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                     class="col-3 acs_block">
+                                    <t t-call="acs_dashboard_block">
+                                        <t t-set="acs_record_color" t-value="record.total_support_color.raw_value"/>
+                                        <t t-set="acs_record_icon" t-value="'fa-phone'"/>
+                                        <t t-set="acs_field_name" t-value="record.total_support.raw_value"/>
+                                        <t t-set="acs_record_lable">Event Management</t>
+                                        <t t-set="acs_record_action" t-value="'open_event_management'"/>
                                     </t>
                                 </div>
 

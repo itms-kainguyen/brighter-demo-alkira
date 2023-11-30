@@ -28,7 +28,8 @@
                     </group>
                 </group>
                 <footer>
-                    <button name="pay_prescription" type="object" string="Pay Now" class="oe_highlight" confirm="You are about to process a payment of $25 using your saved credit card.If you wish to proceed, please click 'Ok' below. If you have any concerns or would like to make changes, click 'Cancel' to review your payment details."/>
+                    <button name="pay_prescription" type="object" string="Pay Now" class="oe_highlight"/> 
+                    <!-- confirm="You are about to process a payment of $25 using your saved credit card.If you wish to proceed, please click 'Ok' below. If you have any concerns or would like to make changes, click 'Cancel' to review your payment details." -->
                     <button string="Close" class="oe_link" special="cancel" />
                 </footer>
             </form>

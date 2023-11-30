@@ -114,7 +114,17 @@ class ACSTreatment(models.Model):
                                             'treatment_id', string='After Photos')
     prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_rel', 'prescription_id', 'treatment_id',
                                         string='Prescriptions')
+    available_prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_available_rel', 'prescription_id', 'treatment_id',
+                                        string='Prescriptions', compute='_compute_available_prescription_ids')
     
+    @api.depends('patient_id')
+    def _compute_available_prescription_ids(self):
+        for rec in self:
+            rec.available_prescription_ids = self.env['prescription.order'].search([
+                ('patient_id', '=', rec.patient_id.id), 
+                ('state', '=', 'prescription')]
+            )
+
     @api.onchange('prescription_ids')
     def onchange_prescription_ids(self):
         for rec in self:

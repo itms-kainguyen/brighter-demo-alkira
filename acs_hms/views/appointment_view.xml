@@ -223,7 +223,7 @@
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box" groups="acs_hms_base.group_hms_manager">
-                        <button name="action_refer_doctor" string="Refer. To" type="object" states="in_consultation,invoiced" class="oe_stat_button" icon="fa-pencil-square-o"/>
+<!--                        <button name="action_refer_doctor" string="Refer. To" type="object" states="in_consultation,invoiced" class="oe_stat_button" icon="fa-pencil-square-o"/>-->
                         <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
                             <field string="Treatments" name="treatment_count" widget="statinfo"/>
                         </button>
@@ -632,7 +632,7 @@
                         </page> -->
 
                         <page name="treatment_ids" string="Treatments" invisible="0">
-                            <field name="treatment_ids" context="{'default_appointment_id': active_id,'default_patient_id': patient_id,'default_nurse_id': nurse_id}">
+                            <field name="treatment_ids" context="{'default_appointment_id': id,'default_patient_id': patient_id,'default_nurse_id': nurse_id}">
                                 <tree>
                                     <field name="name"/>
                                     <field name="template_id"/>

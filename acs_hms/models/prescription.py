@@ -114,7 +114,15 @@ class ACSPrescriptionOrder(models.Model):
     transaction_ids = fields.One2many('payment.transaction', 'prescription_id', string='Payment Transaction',
                                       readonly=1)
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
-        
+    product_ids = fields.Many2many('product.product', compute='_compute_product_ids', string='Medicines')
+    treatment_ids = fields.Many2many('hms.treatment', 'prescription_treatment_rel','treatment_id', 'prescription_id')
+
+    @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
+    def _compute_product_ids(self):
+        for rec in self:
+            rec.product_ids = False
+            rec.product_ids = rec.prescription_line_ids.mapped('product_id')
+
     def _compute_is_editable(self):
         is_nurse = self.env.user.has_group('acs_hms_base.group_hms_manager')
         for record in self:
@@ -479,6 +487,26 @@ class ACSPrescriptionOrder(models.Model):
         else:
             raise UserError(_("Something went wrong! Please Open Appointment and try again"))
 
+    def select_prescription(self):
+        self.ensure_one()
+        #get current treatment
+        treatment = self.env.context.get('default_treatment_id', False)
+        if not treatment:
+            raise UserError(_("Treatment not found!"))
+        # self.treatment_ids = [(4, treatment)]
+        treatment = self.env['hms.treatment'].browse(treatment)
+        treatment.prescription_ids = [(4, self.id)]
+        treatment.onchange_prescription_ids()
+
+    def remove_prescription(self):
+        self.ensure_one()
+        #get current treatment
+        treatment = self.env.context.get('default_treatment_id', False)
+        if not treatment:
+            raise UserError(_("Treatment not found!"))
+        treatment = self.env['hms.treatment'].browse(treatment)
+        treatment.prescription_ids = [(3, self.id)]
+        treatment.onchange_prescription_ids()
 
 class ACSPrescriptionLine(models.Model):
     _name = 'prescription.line'
