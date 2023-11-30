@@ -206,6 +206,9 @@ class ResUsers(models.Model):
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
 
+        # total event management
+        self.total_event_management = 0
+
         # total knowledge base
         self.total_knowledgebase = 0
 
@@ -304,6 +307,9 @@ class ResUsers(models.Model):
 
     total_support = fields.Integer(compute="_compute_dashboard_data")
     total_support_color = fields.Char(string='Total Support Color', default="#3CB371")
+
+    total_event_management = fields.Integer(compute="_compute_dashboard_data")
+    
 
     total_meeting_now = fields.Integer(compute="_compute_dashboard_data")
     total_meeting_now_color = fields.Char(string='Total Meeting Color', default="#fd5c63")
