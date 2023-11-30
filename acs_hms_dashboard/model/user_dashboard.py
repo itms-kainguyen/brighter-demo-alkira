@@ -156,6 +156,11 @@ class ResUsers(models.Model):
         Course = self.env['slide.channel']
         self.total_course = Course.search_count(course_domain)
 
+        # total event management
+        event_management_domain = self.get_filter('create_date')
+        Event_management = self.env['slide.channel']
+        self.total_event_management = Event_management.search_count(event_management_domain)
+
         # total branch
         branch_domain = self.get_filter('create_date')
         Branch = self.env['hr.department']
@@ -206,6 +211,7 @@ class ResUsers(models.Model):
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
 
+
         # total knowledge base
         self.total_knowledgebase = 0
 
@@ -235,6 +241,8 @@ class ResUsers(models.Model):
 
     # total prescriber
     total_prescriber = fields.Integer(compute="_compute_dashboard_data")
+
+    total_event_management = fields.Integer(compute="_compute_dashboard_data")
 
     # total course
     total_course = fields.Integer(compute="_compute_dashboard_data")
@@ -302,8 +310,12 @@ class ResUsers(models.Model):
     total_checklist = fields.Integer(compute="_compute_dashboard_data")
     total_checklist_color = fields.Char(string='Total Medical Checklist Color', default="#2db09c")
 
+
     total_support = fields.Integer(compute="_compute_dashboard_data")
     total_support_color = fields.Char(string='Total Support Color', default="#3CB371")
+
+    total_event_management = fields.Integer(compute="_compute_dashboard_data")
+    
 
     total_meeting_now = fields.Integer(compute="_compute_dashboard_data")
     total_meeting_now_color = fields.Char(string='Total Meeting Color', default="#fd5c63")
