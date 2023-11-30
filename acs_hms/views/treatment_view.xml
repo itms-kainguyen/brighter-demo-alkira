@@ -68,7 +68,7 @@
                     <notebook>
                         <page string="General Details" name="general_info" groups="acs_hms.group_hms_nurse">
                             <separator string="Prescriptions" class="acs_separator"/>
-                            <field name="available_prescription_ids" string="Prescriptions" >
+                            <field name="available_prescription_ids" string="Available Prescriptions" >
                                 <!-- <field name="prescription_ids" invisible="1"/> -->
                                 <tree string="Prescriptions" editable="bottom">
                                     <field name="name"/>
