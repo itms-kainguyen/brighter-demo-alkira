@@ -632,7 +632,7 @@
                         </page> -->
 
                         <page name="treatment_ids" string="Treatments" invisible="0">
-                            <field name="treatment_ids" context="{'default_appointment_id': active_id,'default_patient_id': patient_id,'default_nurse_id': nurse_id}">
+                            <field name="treatment_ids" context="{'default_appointment_id': id,'default_patient_id': patient_id,'default_nurse_id': nurse_id}">
                                 <tree>
                                     <field name="name"/>
                                     <field name="template_id"/>
