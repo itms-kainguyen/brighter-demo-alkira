@@ -369,7 +369,8 @@ class Appointment(models.Model):
         tracking=True)
 
     procedure = fields.Selection([
-        ("botox", "Botox Injections"),
+        # ("botox", "Botox Injections"),
+        ("anti_wrinkle", "Anti Wrinkle"),
         ("filler", "Dermal Fillers"),
         ("laser_hair_removal", "Laser Hair Removal"),
         ("chemical_peels", "Chemical Peels"),

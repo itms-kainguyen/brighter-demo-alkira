@@ -179,7 +179,7 @@
                                     <field name="partner_id" groups="base.group_no_one" required="0" readonly="1"/>
                                     <field name="company_id" groups="base.group_multi_company"  options="{'no_create': True}"/>
                                 </group>
-                                <group name="ref_doc_details" invisible="1">
+                                <group name="ref_doc_details" invisible="0">
                                 </group>
                                 <group name="basic_medical" invisible="1">
                                     <field name="blood_group" invisible="1"/>
