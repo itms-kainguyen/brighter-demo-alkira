@@ -158,7 +158,7 @@ class ResUsers(models.Model):
 
         # total branch
         branch_domain = self.get_filter('create_date')
-        Branch = self.env['res.branch']
+        Branch = self.env['hr.department']
         self.total_branch = Branch.sudo().search_count(branch_domain)
 
         # Open Invoices

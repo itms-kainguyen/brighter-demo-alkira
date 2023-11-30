@@ -352,6 +352,7 @@
         <field name="res_model">res.users</field>
         <field name="view_mode">kanban</field>
         <field name="view_id" ref="itms_dashboard_kanban_view"></field>
+        <field name="domain">[('id','=',uid)]</field>
     </record>
     
     <menuitem id="itms_dashboard_menu" name="ITMS Dashboard" parent="main_dashboard"

@@ -14,10 +14,11 @@
     "category": "Uncategorized",
     "version": "0.1",
     # any module necessary for this one to work correctly
-    "depends": ["base", "crm", "sale", "sale_crm"],
+    "depends": ["base", "crm", "sale", "sale_crm", "subscription_package"],
     # always loaded
     "data": [
         'views/crm_lead_view_inherit.xml',
+        'views/crm_lead_subscription_views.xml',
     ],
     "installable": True,
     "application": True,

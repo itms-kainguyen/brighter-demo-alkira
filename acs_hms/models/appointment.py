@@ -338,6 +338,7 @@ class Appointment(models.Model):
     consent_ids = fields.One2many('consent.consent', 'appointment_id', 'Consent Forms')
     is_prescription_expired = fields.Boolean(compute='_compute_is_prescription_expired')
     prescription_line_ids = fields.One2many('appointment.prescription.line', 'appointment_id', 'Prescription Line')
+    prescription_line_repeat_ids = fields.One2many(related='prescription_id.prescription_line_ids')
 
     # attachment_ids = fields.
     attachment_before_ids = fields.Many2many('ir.attachment', 'appointment_attachment_before_rel', 'attachment_id',

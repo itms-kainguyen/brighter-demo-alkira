@@ -45,9 +45,9 @@ class SurveyUserInputLine(models.Model):
             record.suggested_answer_yes = False
             record.suggested_answer_no = False
             if record.suggested_answer_id:
-                if record.suggested_answer_id.value == 'yes':
+                if str(record.suggested_answer_id.value).lower() == 'yes':
                     record.suggested_answer_yes = True
-                if record.suggested_answer_id.value == 'no':
+                if str(record.suggested_answer_id.value).lower() == 'no':
                     record.suggested_answer_no = True
 
 

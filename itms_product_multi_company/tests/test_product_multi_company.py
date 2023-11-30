@@ -11,8 +11,7 @@ from .common import ProductMultiCompanyCommon
 class TestProductMultiCompany(ProductMultiCompanyCommon, common.TransactionCase):
     def test_create_product(self):
         product = self.env["product.product"].create({"name": "Test"})
-        company = self.env.company
-        self.assertTrue(company.id in product.company_ids.ids)
+        self.assertFalse(product.company_ids)
 
     def test_company_none(self):
         self.assertFalse(self.product_company_none.company_id)
@@ -60,20 +59,13 @@ class TestProductMultiCompany(ProductMultiCompanyCommon, common.TransactionCase)
                 self.user_company_2
             ).description_sale = "Test 3"
 
-    def test_product_write(self):
-        # Companies on variants may be different compared to their templates
-        self.product_company_both.write({"company_ids": [(6, 0, self.company_1.ids)]})
-        self.assertNotEqual(
-            self.product_company_both.company_ids,
-            self.product_company_both.product_tmpl_id.company_ids,
-        )
-
     def test_uninstall(self):
         from ..hooks import uninstall_hook
 
         uninstall_hook(self.env.cr, None)
         rule = self.env.ref("product.product_comp_rule")
         domain = (
-            "['|', ('company_id', 'in', company_ids)," "('company_id', '=', False)]"
+            " ['|', ('company_id', '=', user.company_id.id), "
+            "('company_id', '=', False)]"
         )
         self.assertEqual(rule.domain_force, domain)

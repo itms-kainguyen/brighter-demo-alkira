@@ -114,6 +114,14 @@ class ACSPrescriptionOrder(models.Model):
     transaction_ids = fields.One2many('payment.transaction', 'prescription_id', string='Payment Transaction',
                                       readonly=1)
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
+    product_ids = fields.Many2many('product.product', compute='_compute_product_ids', string='Medicines')
+    treatment_ids = fields.Many2many('hms.treatment', 'prescription_treatment_rel','treatment_id', 'prescription_id')
+
+    @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
+    def _compute_product_ids(self):
+        for rec in self:
+            rec.product_ids = False
+            rec.product_ids = rec.prescription_line_ids.mapped('product_id')
 
     def _compute_is_editable(self):
         is_nurse = self.env.user.has_group('acs_hms.group_hms_nurse')
@@ -224,6 +232,15 @@ class ACSPrescriptionOrder(models.Model):
             action['context'] = {'show_pop_up': False}
             action['res_model'] = 'pay.prescriber.wiz'
             return action
+    
+    def confirm_without_pay(self):
+        for app in self:
+            if not app.name:
+                prescription_type_label = app._fields['prescription_type'].selection
+                prescription_type_label = dict(prescription_type_label)
+                # prescription_type_label.get(app.prescription_type) + ": " +
+                app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
+            app.state = 'confirmed'
 
     def pay_prescription(self):
         self.button_confirm()
@@ -470,6 +487,26 @@ class ACSPrescriptionOrder(models.Model):
         else:
             raise UserError(_("Something went wrong! Please Open Appointment and try again"))
 
+    def select_prescription(self):
+        self.ensure_one()
+        #get current treatment
+        treatment = self.env.context.get('default_treatment_id', False)
+        if not treatment:
+            raise UserError(_("Treatment not found!"))
+        # self.treatment_ids = [(4, treatment)]
+        treatment = self.env['hms.treatment'].browse(treatment)
+        treatment.prescription_ids = [(4, self.id)]
+        treatment.onchange_prescription_ids()
+
+    def remove_prescription(self):
+        self.ensure_one()
+        #get current treatment
+        treatment = self.env.context.get('default_treatment_id', False)
+        if not treatment:
+            raise UserError(_("Treatment not found!"))
+        treatment = self.env['hms.treatment'].browse(treatment)
+        treatment.prescription_ids = [(3, self.id)]
+        treatment.onchange_prescription_ids()
 
 class ACSPrescriptionLine(models.Model):
     _name = 'prescription.line'
@@ -524,11 +561,20 @@ class ACSPrescriptionLine(models.Model):
         ('line_section', "Section"),
         ('line_note', "Note")], help="Technical field for UX purpose.")
     repeat = fields.Integer(string='Repeat', default=5)
+    # remain_repeat = fields.Integer(string='Remaining Repeat', compute='_compute_remaining_repeat')
     use_every = fields.Integer(
         "Use Every (months)", default=1,
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
+    
+    @api.depends('repeat')
+    def _compute_remaining_repeat(self):
+        for rec in self:
+            repeat_used = len(self.env['hms.appointment'].search([
+                ('prescription_id', '=', rec.prescription_id.id),
+                ('state', 'in', ['to_after_care', 'done'])]))
+            rec.remain_repeat = rec.repeat - repeat_used if rec.repeat > repeat_used else 0
 
     @api.onchange('product_id')
     def onchange_product(self):

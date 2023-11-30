@@ -16,6 +16,16 @@ class ResPartner(models.Model):
     # ACS Note: Adding assignee as relation with partner for receptionist or Doctor to access only those patients assigned to them
     assignee_ids = fields.Many2many('res.partner', 'acs_partner_asignee_relation', 'partner_id', 'assigned_partner_id',
                                     'Nurse')
+    department_id = fields.Many2one('hr.department', string='Clinic')
+
+    @api.model_create_multi
+    def default_get(self, default_fields):
+        res = super(ResPartner, self).default_get(default_fields)
+        if self.env.user.department_ids:
+            res.update({
+                'department_id': self.env.user.department_ids[0].id or False
+            })
+        return res
 
 
 class ResUsers(models.Model):
@@ -152,7 +162,7 @@ class product_template(models.Model):
 
     hospital_product_type = fields.Selection(
         selection_add=[('consultation', 'Consultation')])
-    #('procedure', 'Procedure'),
+    # ('procedure', 'Procedure'),
     common_dosage_id = fields.Many2one('medicament.dosage', ondelete='cascade',
                                        string='Frequency')
     manual_prescription_qty = fields.Boolean("Manual Prescription Qty")

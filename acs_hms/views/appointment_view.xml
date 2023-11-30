@@ -459,8 +459,8 @@
 <!--                                </tree>-->
 <!--                            </field>-->
                         </page>
-                        <page name="prescription_line_ids" string="Existing Prescription">
-                            <field name="prescription_line_ids" >
+                        <page name="prescription_line_ids" string="Existing Prescription" invisible="1">
+                            <field name="prescription_line_ids" invisible="1">
                                 <tree editable="bottom">
                                     <field name="product_id"/>
                                     <field name="repeat"/>
@@ -473,11 +473,17 @@
                                     <field name="prescription_line_id" invisible="1"/>
                                     <field name="is_invoiced" invisible="1"/>
                                     <field name="done_in_appointment_id" invisible="1"/>
-                                    
                                 </tree>
                             </field>
                         </page>
-
+                        <page name="prescription_line_repeat_ids" string="Remaining Prescription" invisible="1">
+                            <field name="prescription_line_repeat_ids" invisible="1"> 
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="repeat"/>
+                                </tree>
+                            </field>
+                        </page>
 
                         <page name="info" string="General Information" invisible="1">
                             <group>

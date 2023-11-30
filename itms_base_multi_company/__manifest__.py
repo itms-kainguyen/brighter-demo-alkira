@@ -14,4 +14,5 @@
     "development_status": "Production/Stable",
     "depends": ["itms_general"],
     "maintainers": ["pedrobaeza"],
+    "post_load": "post_load",
 }

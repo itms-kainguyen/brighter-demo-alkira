@@ -54,6 +54,10 @@
                         </group>
                         <group>
                             <field name="patient_id"/>
+                            <field 
+                                name="prescription_ids" 
+                                domain="[('state', '=', 'prescription'),('patient_id', '=', patient_id)]" 
+                                widget="many2many_checkboxes" invisible="1"/>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                             <field name="department_id" groups="acs_hms.group_allow_multi_department" invisible="1"/>
                             <field name="department_type" invisible="1"/>
@@ -63,6 +67,24 @@
                     </group>
                     <notebook>
                         <page string="General Details" name="general_info" groups="acs_hms.group_hms_nurse">
+                            <separator string="Available Prescriptions" class="acs_separator"/>
+                            <field name="available_prescription_ids" string="Available Prescriptions" >
+                                <!-- <field name="prescription_ids" invisible="1"/> -->
+                                <tree string="Prescriptions" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="product_ids" widget="many2many_tags"/>
+                                    <button 
+                                        name="select_prescription" type="object" 
+                                        string="Select" icon="fa-plus" class="oe_highlight"
+                                        context="{'default_treatment_id': parent.id}"
+                                    />
+                                    <button 
+                                        name="remove_prescription" type="object" 
+                                        string="Deselect" icon="fa-minus" class="oe_highlight"
+                                        context="{'default_treatment_id': parent.id}"
+                                    />
+                                </tree>
+                            </field>
                             <separator string="Medicine" class="acs_separator"/>
                             <field name="prescription_line_ids" string="Medicine" readonly='1' invisible="1">
                                 <tree string="Medicine" create='false'>
@@ -76,12 +98,14 @@
                             <field name="medicine_line_ids" string="Medicine">
                                 <tree string="Medicine" editable="bottom">
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
+                                    <field name="prescription_id"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"/>
-                                     <field name="batch_number"/>
+                                    <field name="batch_number"/>
                                     <field name="medicine_technique"/>
                                     <field name="medicine_depth"/>
                                     <field name="medicine_method"/>
+                                    <field name="repeat"/>
                                 </tree>
                             </field>
                             <group colspan="4">

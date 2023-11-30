@@ -5,6 +5,7 @@ from odoo import api, fields, models
 
 
 class MultiCompanyAbstract(models.AbstractModel):
+
     _name = "multi.company.abstract"
     _description = "Multi-Company Abstract"
 
@@ -18,19 +19,23 @@ class MultiCompanyAbstract(models.AbstractModel):
     company_ids = fields.Many2many(
         string="Companies",
         comodel_name="res.company",
-        default=lambda self: self._default_company_ids(),
+    )
+    # TODO: Remove it following https://github.com/odoo/odoo/pull/81344
+    no_company_ids = fields.Boolean(
+        string="No Companies",
+        compute="_compute_no_company_ids",
+        compute_sudo=True,
+        store=True,
+        index=True,
     )
 
-    def _default_company_ids(self):
-        param = self.env["ir.config_parameter"].sudo()
-        global_default = False
-        if self == self.env["res.partner"]:
-            global_default = param.get_param("itms_base_multi_company.is_default_contact_global")
-        elif self == self.env["product.template"] or self == self.env["product.product"]:
-            global_default = param.get_param("itms_base_multi_company.is_default_product_global")
-        if global_default:
-            return False
-        return self.browse(self.env.company.ids)
+    @api.depends("company_ids")
+    def _compute_no_company_ids(self):
+        for record in self:
+            if record.company_ids:
+                record.no_company_ids = False
+            else:
+                record.no_company_ids = True
 
     @api.depends("company_ids")
     @api.depends_context("company")

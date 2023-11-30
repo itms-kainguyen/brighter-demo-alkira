@@ -29,7 +29,7 @@ class PayPrescriberWiz(models.TransientModel):
     partner_id = fields.Many2one('res.partner', 'Partner', default=lambda self: self.env.user.partner_id)
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
     payment_token_id = fields.Many2one(
-        string="Saved Payment Token", comodel_name='payment.token',
+        string="Select Credit Card", comodel_name='payment.token',
         domain="""[
                 ('company_id', '=', company_id),
                 ('provider_id.capture_manually', '=', False),
@@ -115,7 +115,7 @@ class PayPrescriberWiz(models.TransientModel):
         active_id = self.env.context.get('active_id')
         current_id = self.env['prescription.order'].browse(active_id)
         if not self.payment_token_id:
-            raise ValidationError(_('Please select a payment token.'))
+            raise ValidationError(_('Please Select Credit Card.'))
         current_id.button_confirm()
         journal = self.env['account.journal'].search([('type', '=', 'bank')], limit=1)
         transaction = self.env['account.payment'].sudo().create({
