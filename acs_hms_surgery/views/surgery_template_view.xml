@@ -17,7 +17,7 @@
                             <field name="surgery_product_id" domain="[('hospital_product_type','=','surgery')]" context="{'default_hospital_product_type':'surgery'}"/>
                         </group>
                     </group>
-                    <notebook groups="acs_hms.group_hms_nurse">
+                    <notebook groups="acs_hms_base.group_hms_manager">
                         <page name="surgery" string="Surgery">
                             <group name="consumables" string="Consumables">
                                 <field name="consumable_line_ids" nolabel="1" colspan="2">

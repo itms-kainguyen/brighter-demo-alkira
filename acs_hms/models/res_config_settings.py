@@ -55,8 +55,8 @@ class ResConfigSettings(models.TransientModel):
         domain=[('usage','=','internal')],
         string='Stock Location for Consumed Products in Procedure', readonly=False)
 
-    group_patient_registartion_invoicing = fields.Boolean("Patient Registration Invoicing", implied_group='acs_hms.group_patient_registartion_invoicing')
-    group_treatment_invoicing = fields.Boolean("Treatment Invoicing", implied_group='acs_hms.group_treatment_invoicing')
+    group_patient_registartion_invoicing = fields.Boolean("Patient Registration Invoicing", implied_group='acs_hms_base.group_hms_manager')
+    group_treatment_invoicing = fields.Boolean("Treatment Invoicing", implied_group='acs_hms_base.group_hms_manager')
     acs_prescription_qrcode = fields.Boolean(related='company_id.acs_prescription_qrcode', string="Print Authetication QrCode on Presctiprion", readonly=False)
     auto_followup_days = fields.Float(related='company_id.auto_followup_days', string='Default Followup on (Days)', readonly=False)
     patient_weight_measure_uom = fields.Char(string='Patient Weight unit of measure', config_parameter='acs_hms.acs_patient_weight_uom')

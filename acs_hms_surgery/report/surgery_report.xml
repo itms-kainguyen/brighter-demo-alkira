@@ -233,7 +233,7 @@
         <field name="report_name">acs_hms_surgery.report_acs_surgery</field>
         <field name="report_file">acs_hms_surgery.report_acs_surgery</field>
         <field name="binding_model_id" ref="model_hms_surgery"/>
-        <field name="groups_id" eval="[(4, ref('acs_hms.group_hms_receptionist'))]"/>
+        <field name="groups_id" eval="[(4, ref('acs_hms_base.group_hms_manager'))]"/>
         <field name="print_report_name">(object.name or 'Surgery').replace('/','_') + '_Surgery'</field>
         <field name="binding_type">report</field>
     </record>

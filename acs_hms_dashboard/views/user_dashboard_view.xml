@@ -172,9 +172,8 @@
                             </div>
                             <div class="row">
                                 <!-- Total Patients -->
-                                <div groups="acs_hms_base.group_hms_user"
-                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value"
-                                     class="col-3 acs_block">
+                                <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
+<!--                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value"-->
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_patients_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-bed'"/>
@@ -185,7 +184,7 @@
                                 </div>
 
                                 <!-- My Patients -->
-                                <!--                                <div groups="acs_hms.group_hms_jr_doctor" class="col-3 acs_block">-->
+                                <!--                                <div groups="acs_hms_base.group_hms_manager" class="col-3 acs_block">-->
                                 <!--                                    <t t-call="acs_dashboard_block">-->
                                 <!--                                        <t t-set="acs_record_color" t-value="record.my_total_patients_color.raw_value"/>-->
                                 <!--                                        <t t-set="acs_record_icon" t-value="'fa-bed'"/>-->
@@ -197,9 +196,9 @@
 
 
                                 <!-- Appointments -->
-                                <div groups="acs_hms_base.group_hms_user"
-                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value"
-                                     class="col-3 acs_block">
+                                <div groups="acs_hms_base.group_hms_user" class="col-3 acs_block">
+<!--                                     t-if="!record.is_physician.raw_value or record.is_manager.raw_value"-->
+<!--                                     class="col-3 acs_block">-->
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color"
                                            t-value="record.total_appointments_color.raw_value"/>
@@ -211,7 +210,7 @@
                                 </div>
 
                                 <!-- My Appointments -->
-                                <!--                                <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
+                                <!--                                <div groups="acs_hms_base.group_hms_manager" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
                                 <!--                                    <t t-call="acs_dashboard_block">-->
                                 <!--                                        <t t-set="acs_record_color" t-value="record.my_total_appointments_color.raw_value"/>-->
                                 <!--                                        <t t-set="acs_record_icon" t-value="'fa-bell'"/>-->
@@ -337,7 +336,7 @@
                                 </div>
 
                                 <!-- Clinical Support -->
-                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager"
                                      class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_support_color.raw_value"/>
@@ -349,7 +348,7 @@
                                 </div>
 
                                 <!-- Telehealth -->
-                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager"
                                      class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_meeting_now_color.raw_value"/>
@@ -364,7 +363,7 @@
 
 
                                 <!-- Schedules -->
-                                <!--                                <div groups="acs_hms.group_hms_receptionist" class="col-3 acs_block">-->
+                                <!--                                <div groups="acs_hms_base.group_hms_manager" class="col-3 acs_block">-->
                                 <!--                                    <t t-call="acs_dashboard_block">-->
                                 <!--                                        <t t-set="acs_record_color" t-value="record.total_shedules_color.raw_value"/>-->
                                 <!--                                        <t t-set="acs_record_icon" t-value="'fa-calendar'"/>-->
@@ -392,7 +391,7 @@
                                 </div>
 
                                 <!-- Emergency -->
-                                <div groups="acs_hms.group_hms_nurse,acs_hms_base.group_hms_manager"
+                                <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager"
                                      class="col-3 acs_block emergency">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_emergency_color.raw_value"/>
@@ -434,7 +433,7 @@
                                 <!--                                </div>-->
 
                                 <!-- My Avg Time -->
-                                <!--                                <div groups="acs_hms.group_hms_jr_doctor" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
+                                <!--                                <div groups="acs_hms_base.group_hms_manager" t-if="record.is_physician.raw_value" class="col-3 acs_block">-->
                                 <!--                                    <t t-call="acs_dashboard_block_second">-->
                                 <!--                                        <t t-set="acs_record_color" t-value="record.my_avg_time_color.raw_value"/>-->
                                 <!--                                        <t t-set="acs_record_icon" t-value="'fa-clock-o'"/>-->
@@ -449,7 +448,7 @@
                                 <!--                                </div>-->
 
                                 <!-- Todays Birthdays -->
-                                <!--                                <div class="col-3 acs_block" groups="acs_hms.group_hms_receptionist">-->
+                                <!--                                <div class="col-3 acs_block" groups="acs_hms_base.group_hms_manager">-->
                                 <!--                                    <t t-call="acs_dashboard_block_second">-->
                                 <!--                                        <t t-set="acs_record_color" t-value="record.birthday_color.raw_value"/>-->
                                 <!--                                        <t t-set="acs_record_icon" t-value="'fa-birthday-cake'"/>-->
@@ -464,7 +463,7 @@
                                 <!--                                </div>-->
                             </div>
 
-                            <div class="row" id="appointment_list" groups="acs_hms.group_hms_receptionist">
+                            <div class="row" id="appointment_list" groups="acs_hms_base.group_hms_manager">
                                 <div class="col-6 mb32">
                                     <t t-value="JSON.parse(record.appointment_data.raw_value)"
                                        t-set="appointment_data"/>
@@ -544,7 +543,7 @@
                             </div>
 
                             <!-- Graphs -->
-                            <div class="row" id="dashboard_graphs" groups="acs_hms.group_hms_receptionist">
+                            <div class="row" id="dashboard_graphs" groups="acs_hms_base.group_hms_manager">
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-#{record.appointment_bar_graph_color.raw_value}">
                                         <div class="card-heading">

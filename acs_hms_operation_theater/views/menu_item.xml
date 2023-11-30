@@ -2,10 +2,10 @@
 <odoo>
 
     <!-- Under Hospitalization menu -->
-    <menuitem id="menu_acs_ot_booking" name="OT Booking" action="action_acs_ot_booking" groups="acs_hms.group_hms_jr_doctor" parent="acs_hms_hospitalization.main_menu_hospitalization" sequence="70"/>
+    <menuitem id="menu_acs_ot_booking" name="OT Booking" action="action_acs_ot_booking" groups="acs_hms_base.group_hms_manager" parent="acs_hms_hospitalization.main_menu_hospitalization" sequence="70"/>
 
     <!-- Main OT Booking  -->
-    <menuitem id="main_menu_acs_ot_booking" name="OT Booking" groups="acs_hms.group_hms_receptionist" sequence="26" web_icon="acs_hms_operation_theater,static/description/icon.png"/>
+    <menuitem id="main_menu_acs_ot_booking" name="OT Booking" groups="acs_hms_base.group_hms_manager" sequence="26" web_icon="acs_hms_operation_theater,static/description/icon.png"/>
 
     <menuitem id="menu_acs_ot_booking" name="OT Booking" parent="acs_hms_operation_theater.main_menu_acs_ot_booking" action="action_acs_ot_booking"  sequence="5"/>
 

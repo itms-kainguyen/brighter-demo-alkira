@@ -116,7 +116,7 @@ class ACSPrescriptionOrder(models.Model):
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
         
     def _compute_is_editable(self):
-        is_nurse = self.env.user.has_group('acs_hms.group_hms_nurse')
+        is_nurse = self.env.user.has_group('acs_hms_base.group_hms_manager')
         for record in self:
             record.is_editable = True
             if is_nurse and not self.env.is_admin():
