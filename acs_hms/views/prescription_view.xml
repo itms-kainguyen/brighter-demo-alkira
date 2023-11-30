@@ -209,7 +209,7 @@
                                 </tree>
                             </field>
                                 </page>
-                                <page name="prescription_details" string="Prescription Details">
+                                <page name="prescription_details" string="Prescription Details" invisible="1">
                                     <field name="prescription_detail_ids" nolabel="1" colspan="4">
                                         <tree string="Prescription Detail" editable="bottom">
                                             <control>
