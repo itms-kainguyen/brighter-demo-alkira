@@ -586,6 +586,12 @@ class ResUsers(models.Model):
     def open_prescription(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
         return action
+    
+    def open_event_management(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("event_management.event_management_type_action_view_kanban")
+        return action
+
+    
 
     # def open_support(self):
     #     action = {}
