@@ -71,7 +71,7 @@
         <field name="arch" type="xml">
              <form string="Vaccination">
                 <header>
-                    <button name="action_done" string="Done" type="object" states="scheduled" class="oe_highlight" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="action_done" string="Done" type="object" states="scheduled" class="oe_highlight" groups="acs_hms_base.group_hms_manager"/>
                     <button name="action_cancel" string="Cancel" type="object" states="scheduled"/>
                     <button name="action_create_invoice" string="Create Invoice" type="object" states="to_invoice" class="oe_highlight" groups="account.group_account_invoice"/>
                     <button name="view_invoice" string="View Invoice" type="object" attrs="{'invisible': [('invoice_id','=',False)]}" class="oe_highlight" groups="account.group_account_invoice"/>

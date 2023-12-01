@@ -1204,7 +1204,7 @@ msgid "Hospitalization Usage Location for Consumed Products"
 msgstr ""
 
 #. module: acs_hms_hospitalization
-#: model:res.groups,name:acs_hms_hospitalization.group_acs_hms_hospitalization_user
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Hospitalization User"
 msgstr ""
 

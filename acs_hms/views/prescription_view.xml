@@ -84,14 +84,14 @@
         <field name="arch" type="xml">
             <form string="ACS Prescription Order" >
                  <header invisible="not context.get('show_pop_up',True)">
-                    <button name="pay_confirm" states="draft" string="Submit for Request" type="object" class="oe_highlight" groups="acs_hms.group_hms_nurse"/>
-                    <!-- <button name="confirm_without_pay" states="draft" string="Submit for Request without Payment" type="object" class="oe_highlight" groups="acs_hms.group_hms_nurse"/> -->
-                    <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" invisible="1" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="pay_confirm" states="draft" string="Submit for Request" type="object" class="oe_highlight" groups="acs_hms_base.group_hms_manager"/>
+<!--                    <button name="confirm_without_pay" states="draft" string="Submit for Request without Payment" type="object" class="oe_highlight" groups="acs_hms_base.group_hms_manager"/>-->
+                    <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" invisible="1" groups="acs_hms.group_hms_doctor, acs_hms_base.group_hms_manager"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
-                    <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms.group_hms_jr_doctor"/>
-                    <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms.group_hms_jr_doctor"/>
-                     <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_jr_doctor"/>
+                    <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms_base.group_hms_manager"/>
+                    <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
+                     <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_doctor"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,prescription,finished"/>
                 </header>
                 <div invisible="not context.get('show_pop_up',True)" class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
@@ -100,7 +100,7 @@
                 <sheet>
                     <div invisible="not context.get('show_pop_up',True)">
                             <div class="oe_button_box" name="button_box">
-                                <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                                <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope">
                                 </button> -->
                                 <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
                                     <field string="Transactions" name="transaction_count" widget="statinfo"/>
@@ -155,12 +155,12 @@
         <!--                                    </div>-->
         <!--                                </group>-->
                                     </group>
-                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="section_and_note_one2many">
+                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="one2many_list">
                                         <tree string="Prescription Line" editable="bottom">
                                             <control>
                                                 <create name="add_line_control" string="Add a line"/>
-                                                <!-- <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
-                                                <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/> -->
+<!--                                                <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>-->
+<!--                                                <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
                                             </control>
                                             <field name="id" invisible="1"/>
                                             <field name="display_type" invisible="1"/>
@@ -169,8 +169,8 @@
                                             <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
                                             <field name="allow_substitution" optional="hide"/>
                                             <field name="common_dosage_id" invisible="1"/>
-                                            <!-- <field name="common_dosage_group"/> -->
-                                            <field name="dose" widget="integer" attrs="{'required': [('display_type', '=', False)]}" string="Dose"/>
+                                            <field name="common_dosage_group" invisible="1"/>
+                                            <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Dose"/>
                                             <field name="dosage_uom_id" optional="hide" groups="uom.group_uom"/>
                                             <field name="repeat"/>
                                             <field name="use_every" optional="show"/>
