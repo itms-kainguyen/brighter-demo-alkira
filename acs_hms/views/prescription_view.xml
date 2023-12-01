@@ -117,7 +117,7 @@
                                     <field name="patient_id"/>
                                     <field name="patient_age" invisible="1"/>
                                     <field name="is_editable" invisible="1"/>
-                                    <field name="physician_id" attrs="{'readonly': [('is_editable', '=', False)]}"/>/>
+                                    <field name="physician_id" attrs="{'invisible': [('is_editable', '=', False)]}"/>
                                     <field name="nurse_id"/>
                                     <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>

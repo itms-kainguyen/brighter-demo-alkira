@@ -539,7 +539,6 @@ class ResUsers(models.Model):
 
     def open_my_treatments(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
-        action['domain'] = self.get_filter('date') + [('physician_id.user_id', '=', self.env.uid)]
         action['context'] = {}
         return action
 
