@@ -465,23 +465,23 @@ class Appointment(models.Model):
             lines.append((0, 0, data))
         self.prescription_line_ids = lines
 
-    @api.depends('date', 'date_to')
-    def _get_planned_duration(self):
-        for rec in self:
-            if rec.date and rec.date_to:
-                diff = rec.date_to - rec.date
-                planned_duration = (diff.days * 24) + (diff.seconds / 3600)
-                if rec.planned_duration != planned_duration:
-                    rec.planned_duration = planned_duration
-                else:
-                    rec.planned_duration = rec.manual_planned_duration
+    # @api.depends('date', 'date_to')
+    # def _get_planned_duration(self):
+    #     for rec in self:
+    #         if rec.date and rec.date_to:
+    #             diff = rec.date_to - rec.date
+    #             planned_duration = (diff.days * 24) + (diff.seconds / 3600)
+    #             if rec.planned_duration != planned_duration:
+    #                 rec.planned_duration = planned_duration
+    #             else:
+    #                 rec.planned_duration = rec.manual_planned_duration
 
-    @api.onchange('planned_duration')
-    def _inverse_planned_duration(self):
-        for rec in self:
-            rec.manual_planned_duration = rec.planned_duration
-            if rec.date:
-                rec.date_to = rec.date + timedelta(hours=rec.planned_duration)
+    # @api.onchange('planned_duration')
+    # def _inverse_planned_duration(self):
+    #     for rec in self:
+    #         rec.manual_planned_duration = rec.planned_duration
+    #         if rec.date:
+    #             rec.date_to = rec.date + timedelta(hours=rec.planned_duration)
 
     @api.depends('waiting_date_start', 'waiting_date_end')
     def _compute_waiting_running_duration(self):
