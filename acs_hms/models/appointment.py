@@ -909,8 +909,9 @@ class Appointment(models.Model):
             _logger.warning('Failed to update appointment confirmation email: %s', e)
 
     def appointment_consultation(self):
-        # if not self.waiting_date_start:
-        #     raise UserError(('No waiting start time defined.'))
+        self.waiting_date_start = datetime.now()
+        if not self.waiting_date_start:
+            raise UserError(('No waiting start time defined.'))
         datetime_diff = datetime.now() - self.waiting_date_start
         m, s = divmod(datetime_diff.total_seconds(), 60)
         h, m = divmod(m, 60)
