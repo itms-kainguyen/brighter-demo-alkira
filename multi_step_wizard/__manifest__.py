@@ -9,7 +9,7 @@
     "website": "https://github.com/OCA/server-ux",
     "data": [
         "views/multi_step_wizard_views.xml",
-        "views/patient_view.xml",
+        # "views/patient_view.xml",
         "wizard/my_wizard_views.xml",
         "security/ir.model.access.csv"],
     "installable": True,

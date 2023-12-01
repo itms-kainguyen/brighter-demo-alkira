@@ -956,9 +956,14 @@ class Appointment(models.Model):
             self.state = 'to_after_care'
         if self.consumable_line_ids:
             self.consume_appointment_material()
-        if self.prescription_id:
-            for line in self.prescription_id.prescription_line_ids:
+        # if self.prescription_id:
+        #     for line in self.prescription_id.prescription_line_ids:
+        #         line.repeat -= 1
+        if self.treatment_ids and self.treatment_ids.prescription_ids:
+            lines = self.treatment_ids.prescription_ids.prescription_line_ids
+            for line in lines:
                 line.repeat -= 1
+
         # self.appointment_done()
 
     def appointment_done(self):
