@@ -1148,7 +1148,7 @@ msgid "Allow substitution"
 msgstr "Permitir Sustitución"
 
 #. module: acs_hms
-#: model:res.groups,name:acs_hms.group_allow_consultation_pause
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Allow to Pause Consultation"
 msgstr "Permitir pausar la consulta"
 
@@ -1201,7 +1201,7 @@ msgid "Appointment"
 msgstr "Cita"
 
 #. module: acs_hms
-#: model:res.groups,name:acs_hms.group_acs_hms_appointment_user
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Appointment (Nurse)"
 msgstr "Cita (Enfermera)"
 
@@ -2812,7 +2812,7 @@ msgid "Journal Entry"
 msgstr "Entrada al diario"
 
 #. module: acs_hms
-#: model:res.groups,name:acs_hms.group_hms_jr_doctor
+#: model:res.groups,name:acs_hms.group_hms_doctor
 msgid "Jr Doctor"
 msgstr "Jr Doctor"
 
@@ -3063,7 +3063,7 @@ msgid "Medical Emergency"
 msgstr "Urgencia Médica"
 
 #. module: acs_hms
-#: model:res.groups,name:acs_hms.group_hms_medical_officer
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Medical Officer"
 msgstr "Oficial Médico"
 
@@ -3426,7 +3426,7 @@ msgstr "Número de mensajes no leidos"
 
 #. module: acs_hms
 #: model:ir.model.fields.selection,name:acs_hms.selection__resource_calendar__category__nurse
-#: model:res.groups,name:acs_hms.group_hms_nurse
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Nurse"
 msgstr "Enfermera"
 
@@ -3670,7 +3670,7 @@ msgstr "Factura del producto de registro del paciente"
 
 #. module: acs_hms
 #: model:ir.model.fields,field_description:acs_hms.field_res_config_settings__group_patient_registartion_invoicing
-#: model:res.groups,name:acs_hms.group_patient_registartion_invoicing
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 #: model_terms:ir.ui.view,arch_db:acs_hms.res_config_settings_view_form
 msgid "Patient Registration Invoicing"
 msgstr "Facturación de Registro de Paciente"
@@ -4130,7 +4130,7 @@ msgid "Reason for discontinuation"
 msgstr "Motivo para la interrupción del tratamiento"
 
 #. module: acs_hms
-#: model:res.groups,name:acs_hms.group_hms_receptionist
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Receptionist"
 msgstr "Recepcionista"
 
@@ -4679,7 +4679,7 @@ msgstr "Id del tratamiento"
 
 #. module: acs_hms
 #: model:ir.model.fields,field_description:acs_hms.field_res_config_settings__group_treatment_invoicing
-#: model:res.groups,name:acs_hms.group_treatment_invoicing
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 #: model_terms:ir.ui.view,arch_db:acs_hms.res_config_settings_view_form
 msgid "Treatment Invoicing"
 msgstr "Facturación del tratamiento"

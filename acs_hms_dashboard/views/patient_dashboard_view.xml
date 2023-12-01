@@ -143,7 +143,7 @@
                                     </t>
                                 </div>
                             </div>
-                            <!-- <div class="row" id="appointment_list" groups="acs_hms.group_hms_receptionist">
+                            <!-- <div class="row" id="appointment_list" groups="acs_hms_base.group_hms_manager">
                                 <div class="col-6 mb32">
                                     <t t-value="JSON.parse(record.appointment_data.raw_value)"
                                        t-set="appointment_data"/>
@@ -208,7 +208,7 @@
                                 </div>
                             </div> -->
                             <!-- Graphs -->
-                            <!-- <div class="row" id="dashboard_graphs" groups="acs_hms.group_hms_receptionist">
+                            <!-- <div class="row" id="dashboard_graphs" groups="acs_hms_base.group_hms_manager">
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-#{record.appointment_bar_graph_color.raw_value}">
                                         <div class="card-heading">

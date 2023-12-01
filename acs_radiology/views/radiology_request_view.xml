@@ -66,7 +66,7 @@
                                     <label for="invoice_exempt"/>
                                     <div name='invoice_exemption'>
                                         <field name='invoice_exempt' class="oe_inline" nolabel="1"/>
-                                        <button name="acs_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('invoice_id','!=', False)]}" groups="acs_hms_base.group_acs_invoice_exemption"/>
+                                        <button name="acs_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('invoice_id','!=', False)]}" groups="acs_hms_base.group_hms_manager"/>
                                     </div>
                                     <field name="invoice_id" invisible="1"/>
                                 </group>

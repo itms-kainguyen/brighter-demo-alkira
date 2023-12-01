@@ -44,7 +44,7 @@
                             <field name="invoice_id" groups="account.group_account_invoice" invisible="1"/>
                         </group>
                     </group>
-                    <notebook groups="acs_hms.group_hms_nurse">
+                    <notebook groups="acs_hms_base.group_hms_manager">
                         <page string="General Information" name="general">
                             <group>
                                 <group string="Template Details">
@@ -71,7 +71,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page name="pre_operative_checklist" string="Pre Operative Checklist" groups="acs_hms.group_hms_nurse,acs_hms.group_hms_medical_officer">
+                        <page name="pre_operative_checklist" string="Pre Operative Checklist" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager">
                             <div class="oe_right mt16" name="check_progress">
                                 <field name="pre_operative_checklist_done" widget="percentpie" string="Checked"/>
                             </div>
@@ -124,7 +124,7 @@
                             <group string="Extra Info"/>
                             <field name="extra_info" colspan='4'/>
                         </page>
-                        <page name="post_oprative" string="Post-Operative Orders" groups="acs_hms.group_hms_medical_officer">
+                        <page name="post_oprative" string="Post-Operative Orders" groups="acs_hms_base.group_hms_manager">
                             <group string="General Instruction">
                                 <field name="post_instruction" nolabel="1" colspan="2"/>
                             </group>

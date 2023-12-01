@@ -71,7 +71,7 @@
 <!--        <field name="print_report_name">(object.code or object.name).replace('/','_')+'_BarCode'</field>-->
 <!--        <field name="binding_model_id" ref="model_hms_patient"/>-->
 <!--        <field name="binding_type">action</field>-->
-<!--        <field name="groups_id" eval="[(4, ref('acs_hms.group_hms_receptionist'))]"/>-->
+<!--        <field name="groups_id" eval="[(4, ref('acs_hms_base.group_hms_manager'))]"/>-->
 <!--    </record>-->
 
     <!-- Label Printer Format -->
@@ -100,7 +100,7 @@
         <field name="report_file">acs_hms_barcode.report_patient_barcode_lable</field>
         <field name="print_report_name">(object.code or object.name).replace('/','_')+'_BarCode'</field>
         <field name="binding_model_id" ref="model_hms_patient"/>
-        <field name="groups_id" eval="[(4, ref('acs_hms.group_hms_receptionist'))]"/>
+        <field name="groups_id" eval="[(4, ref('acs_hms_base.group_hms_manager'))]"/>
         <field name="binding_type">report</field>
     </record>
 

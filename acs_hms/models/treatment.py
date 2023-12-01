@@ -117,6 +117,18 @@ class ACSTreatment(models.Model):
     available_prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_available_rel', 'prescription_id', 'treatment_id',
                                         string='Prescriptions', compute='_compute_available_prescription_ids')
     
+    def action_unlink(self):
+        self.ensure_one()
+        appointment_id = self.appointment_id.id
+        self.unlink()
+        return {'name': f"Appointment",
+                'view_mode': 'form',
+                'res_model': 'hms.appointment',
+                'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                'res_id': appointment_id,
+                'type': 'ir.actions.act_window',
+                }
+    
     @api.depends('patient_id')
     def _compute_available_prescription_ids(self):
         for rec in self:
@@ -233,13 +245,13 @@ class ACSTreatment(models.Model):
         self.appointment_prescription_line_id.done_at = datetime.now()
         self.appointment_prescription_line_id.prescription_line_id.is_done = True
         self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
-        return {'name': f"Appointment",
-                'view_mode': 'form',
-                'res_model': 'hms.appointment',
-                'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
-                'res_id': self.appointment_id.id,
-                'type': 'ir.actions.act_window',
-                }
+        # return {'name': f"Appointment",
+        #         'view_mode': 'form',
+        #         'res_model': 'hms.appointment',
+        #         'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+        #         'res_id': self.appointment_id.id,
+        #         'type': 'ir.actions.act_window',
+        #         }
 
     def treatment_cancel(self):
         self.state = 'cancel'

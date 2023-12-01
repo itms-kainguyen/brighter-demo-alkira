@@ -68,7 +68,7 @@
         <field name="inherit_id" ref="acs_hms_base.view_patient_form"/>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight" invisible="1" groups="acs_hms.group_patient_registartion_invoicing"/>
+                <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight" invisible="1" groups="acs_hms_base.group_hms_manager"/>
                 <button name="create_prescription" string="Create Prescription" type="object" class="oe_highlight" />
 
                 <button name="create_appointment" string="Create Appointment" type="object" class="oe_highlight" />
@@ -85,19 +85,19 @@
             </widget>
 
             <div name="button_box" position="inside">
-                <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-user-md">
+                <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
                     <field string="Treatments" name="treatment_count" widget="statinfo"/>
                 </button>
-                <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope">
                     <field string="Appointments" name="appointment_count" widget="statinfo"/>
                 </button>
-                <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope" invisible="1">
+                <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope" invisible="1">
                     <field string="Evaluations" name="evaluation_count" widget="statinfo"/>
                 </button>
-                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor,acs_hms.group_hms_nurse" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
+                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
-                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
+                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms_base.group_hms_manager" type="object" class="oe_stat_button" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
 
@@ -112,7 +112,7 @@
             </field>
 
             <field name="caste" position="after">
-                <field name="ethnic_group_id" groups="acs_hms_base.group_manage_ethnic_religion_tribe" invisible="1"/>
+                <field name="ethnic_group_id" groups="acs_hms_base.group_hms_manager" invisible="1"/>
             </field>
              <field name="company_id" position="attributes">
                 <attribute name="string">Clinic</attribute>
@@ -120,11 +120,11 @@
             <group name="ref_doc_details" position="inside">
                 <field name="ref_doctor_ids" widget="many2many_tags" invisible="1"/>
                 <field name="assignee_ids" widget="many2many_tags"/>
-                <field name="registration_product_id" groups="acs_hms.group_patient_registartion_invoicing"/>
+                <field name="registration_product_id" groups="acs_hms_base.group_hms_manager"/>
             </group>
 
             <page name="hospital_info" position="after">
-                <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse" invisible="1">
+                <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms_base.group_hms_manager" invisible="1">
                     <div>NOTE: Details are shown based on last Completed Patient Evaluation. <t attrs="{'invisible': [('last_evaluation_id','=',False)]}">Last Evaluation: <field name="last_evaluation_id" nolabel="1" class="oe_link"/></t> <button class="oe_inline oe_stat_button btn-link" type="object" name="show_weight_chart" title="Show Evaluation Charts" icon="fa-area-chart"  string="Show Evaluation Charts" widget="statinfo"/></div>
 
                     <group>
@@ -184,7 +184,7 @@
                     </group>
                 </page>
 
-                <page name='diseases' string="Treatment Notes" groups="acs_hms.group_hms_jr_doctor" invisible="1">
+                <page name='diseases' string="Treatment Notes" groups="acs_hms_base.group_hms_manager" invisible="1">
                     <separator string="Medical Alert" colspan="4" invisible="1"/>
                     <group invisible="1">
                         <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/>

@@ -122,7 +122,7 @@
         </field>
     </record>
 
-    <menuitem id="main_menu_hms_waiting_screen" name="Waiting Screen" sequence="200" web_icon="acs_hms_next_patient_screen,static/description/icon.png" groups="acs_hms.group_hms_receptionist"/>
+    <menuitem id="main_menu_hms_waiting_screen" name="Waiting Screen" sequence="200" web_icon="acs_hms_next_patient_screen,static/description/icon.png" groups="acs_hms_base.group_hms_manager"/>
 
     <menuitem id="menu_hms_waiting_screen" name="Waiting Screen" parent="main_menu_hms_waiting_screen" sequence="0" groups="acs_hms_next_patient_screen.group_waiting_screen" action="action_acs_hms_waiting_screen"/>
 

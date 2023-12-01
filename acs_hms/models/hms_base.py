@@ -207,5 +207,5 @@ class Physician(models.Model):
     def create(self, vals_list):
         res = super().create(vals_list)
         for record in res:
-            record.groups_id = [(4, self.env.ref('acs_hms.group_hms_jr_doctor').id)]
+            record.groups_id = [(4, self.env.ref('acs_hms.group_hms_doctor').id)]
         return res

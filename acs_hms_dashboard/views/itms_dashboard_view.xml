@@ -155,7 +155,7 @@
                         <div id="acs_hms_dashboard" class="">
 
 
-                            <div class="row" id="appointment_list" groups="acs_hms.group_hms_receptionist">
+                            <div class="row" id="appointment_list" groups="acs_hms_base.group_hms_manager">
                                 <div class="col-8 mb32">
                                     <t t-value="JSON.parse(record.appointment_data.raw_value)"
                                        t-set="appointment_data"/>
