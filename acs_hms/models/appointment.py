@@ -476,12 +476,12 @@ class Appointment(models.Model):
                 else:
                     rec.planned_duration = rec.manual_planned_duration
 
-    # @api.onchange('planned_duration')
-    # def _inverse_planned_duration(self):
-    #     for rec in self:
-    #         rec.manual_planned_duration = rec.planned_duration
-    #         if rec.date:
-    #             rec.date_to = rec.date + timedelta(hours=rec.planned_duration)
+    @api.onchange('planned_duration')
+    def _inverse_planned_duration(self):
+        for rec in self:
+            rec.manual_planned_duration = rec.planned_duration
+            if rec.date:
+                rec.date_to = rec.date + timedelta(hours=rec.planned_duration)
 
     @api.depends('waiting_date_start', 'waiting_date_end')
     def _compute_waiting_running_duration(self):
