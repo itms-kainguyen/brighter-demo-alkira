@@ -98,6 +98,10 @@
                         <t t-if="doc.physician_id and doc.physician_id.signature">
                             <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
                         </t>
+                         <br/>
+                        <t t-if="doc.physician_id and doc.physician_id.name">
+                            <span t-field="doc.physician_id.name"/>
+                        </t>
                         <br/>
                         <div class="col-6 pull-right" t-if="doc.sudo().company_id.acs_prescription_qrcode">
     <!--                        <span class="float-right" style="font-size: 10px;"><b>Scan to Authenticate.</b></span><br/>-->
