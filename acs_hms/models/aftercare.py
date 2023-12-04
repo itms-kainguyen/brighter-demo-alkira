@@ -49,8 +49,8 @@ class AfterCare(models.Model):
                 template_aftercare.attachment_ids = aftercare_attachment_id
                 medicine_line_ids = []
                 treatment_notes = []
-                if self.treatment_ids:
-                    for treat in self.treatment_ids:
+                if self.appointment_id.treatment_ids:
+                    for treat in self.appointment_id.treatment_ids:
                         if treat.state == 'done':
                             if treat.medicine_line_ids:
                                 for line in treat.medicine_line_ids:
