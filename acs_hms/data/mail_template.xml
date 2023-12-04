@@ -175,48 +175,49 @@
                     <p>Dear <t t-out="object.patient_id.name"></t>,</p>
                     <p>Thank you for choosing <strong><t t-out="object.department_id.name"></t></strong> for your recent cosmetic treatment.</p>
                     <p>Your treatment included:</p>
-                    <table class="table table-sm o_main_table mt16 acs_table">
+                    <t t-if="len(ctx.get('medicine_line_ids')) > 0">
+                        <table class="table table-sm o_main_table mt16 acs_table">
                         <thead>
                             <tr>
                                 <th>Medicine</th>
-                                <th>Area</th>
-                                <th>Amount</th>
-                                <th>Batch Number</th>
-                                <th>Technique</th>
-                                <th>Depth</th>
-                                <th>Method</th>
+<!--                                <th>Area</th>-->
+<!--                                <th>Amount</th>-->
+<!--                                <th>Batch Number</th>-->
+<!--                                <th>Technique</th>-->
+<!--                                <th>Depth</th>-->
+<!--                                <th>Method</th>-->
                             </tr>
                         </thead>
                         <tbody>
-                        <t t-if="len(ctx.get('medicine_line_ids')) > 0">
                             <t t-foreach="ctx.get('medicine_line_ids')" t-as="line">
                                 <tr>
                                     <td>
-                                        <span t-out="line.get('product_name')"/>
+                                        <span t-out="line.get('product_name') or ''"/>
                                     </td>
-                                    <td>
-                                        <span t-out="line.get('medicine_area')"/>
-                                    </td>
-                                    <td>
-                                        <span t-out="line.get('amount')"/>
-                                    </td>
-                                     <td>
-                                        <span t-out="line.get('batch_number')"/>
-                                    </td>
-                                    <td>
-                                        <span t-out="line.get('medicine_technique')"/>
-                                    </td>
-                                    <td>
-                                        <span t-out="line.get('medicine_depth')"/>
-                                    </td>
-                                    <td>
-                                        <span t-out="line.get('medicine_method')"/>
-                                    </td>
+<!--                                    <td>-->
+<!--                                        <span t-out="line.get('medicine_area') or ''"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span t-out="line.get('amount') or ''"/>-->
+<!--                                    </td>-->
+<!--                                     <td>-->
+<!--                                        <span t-out="line.get('batch_number') or ''"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span t-out="line.get('medicine_technique') or ''"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span t-out="line.get('medicine_depth') or ''"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span t-out="line.get('medicine_method') or ''"/>-->
+<!--                                    </td>-->
                                 </tr>
                             </t>
-                        </t>
+
                     </tbody>
                     </table>
+                    </t>
                      <t t-if="len(ctx.get('treatment_notes')) > 0">
                         <t t-foreach="ctx.get('treatment_notes')" t-as="note">
                             <p>
@@ -231,8 +232,15 @@
                     <p>
                         We hope you had a pleasant experience. Please find attached important post-treatment instructions to ensure optimal results.
                         Should you have any questions or concerns, feel free to reach out to us at <strong><t t-out="object.department_id.name"></t></strong>.
-                        We look forward to assisting you in your aesthetic journey.
                     </p>
+                    <div style="color: red">
+                        <p>Our Contact Details are:</p>
+                        <p>Address: <t t-out="object.company_id.partner_id.street"/>,  <t t-out="object.company_id.partner_id.street2"/>,  <t t-out="object.company_id.partner_id.city"/>,  <t t-out="object.company_id.partner_id.state_id.name"/>,  <t t-out="object.company_id.partner_id.zip"/>,  <t t-out="object.company_id.partner_id.country_id.name"/></p>
+                        <p>Phone:  <t t-out="object.company_id.partner_id.phone"/></p>
+                        <p>Primary Contact:</p>
+                    </div>
+                    <br/>
+                    <p>We look forward to assisting you in your aesthetic journey.</p>
                     <br/>
                     <p>Kind regards,</p>
                 </div>

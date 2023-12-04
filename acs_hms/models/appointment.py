@@ -989,11 +989,11 @@ class Appointment(models.Model):
         template_aftercare.attachment_ids = attachments
         medicine_line_ids = []
         treatment_notes = []
-        if self.prescription_line_ids:
-            for prescription in self.prescription_line_ids:
-                if prescription.treatment_id and prescription.is_done:
-                    if prescription.treatment_id.medicine_line_ids:
-                        for line in prescription.treatment_id.medicine_line_ids:
+        if self.treatment_ids:
+            for treat in self.treatment_ids:
+                if treat.state == 'done':
+                    if treat.medicine_line_ids:
+                        for line in treat.medicine_line_ids:
                             if line.product_id:
                                 medicine_area = line.medicine_area or ''
                                 amount = line.amount or ''
@@ -1006,9 +1006,9 @@ class Appointment(models.Model):
                                     {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
                                      'batch_number': batch_number, 'medicine_technique': medicine_technique,
                                      'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
-                    if prescription.treatment_id.template_id:
-                        finding = prescription.treatment_id.finding or ''
-                        template = prescription.treatment_id.template_id.name
+                    if treat.template_id:
+                        finding = treat.finding or ''
+                        template = treat.template_id.name
                         treatment_notes.append({'template': template, 'finding': finding})
         email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
         is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
