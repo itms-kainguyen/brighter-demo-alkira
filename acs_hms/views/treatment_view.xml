@@ -5,19 +5,21 @@
         <field name="name">Treatment.form</field>
         <field name="model">hms.treatment</field>
         <field name="arch" type="xml">
-            <form>
-                <script>
+            <form class='dialog_full_screen'>
+                <!-- <script>
                     $(document).ready(function(){
                     $(".o_form_button_save_new").hide();
                     });
-                </script>
+                </script> -->
                 <header>
-                    <!-- <button name="treatment_running" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/> -->
-                    <!-- <button name="treatment_done" groups="acs_hms.group_hms_jr_doctor" type="object" string="Done" class="oe_highlight"/> -->
-                    <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
-                    <!-- <button name="treatment_cancel" string="Cancel" states="draft,running,done" type="object" class="oe_highlight"/> -->
-                    <button name="treatment_draft" string="Draft" states="done" type="object" class="oe_highlight"/>
-                    <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/>
+                    <group invisible="context.get('hide_header')">
+                        <!-- <button name="treatment_running" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/> -->
+                        <!-- <button name="treatment_done" groups="acs_hms.group_hms_jr_doctor" type="object" string="Done" class="oe_highlight"/> -->
+                        <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
+                        <!-- <button name="treatment_cancel" string="Cancel" states="draft,running,done" type="object" class="oe_highlight"/> -->
+                        <button name="treatment_draft" string="Draft" states="done" type="object" class="oe_highlight"/>
+                        <!-- <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/> -->
+                    </group>
                     <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
                 </header>
                 <div class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
@@ -194,6 +196,11 @@
 <!--                                <field name="description"/>-->
 <!--                            </group>-->
 <!--                        </page>-->
+                        <footer position="inside" invisible="not context.get('hide_header')">
+                            <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
+                            <button name="treatment_draft" string="Draft" states="done" type="object" class="oe_highlight"/>
+                            <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/>
+                        </footer>
                     </notebook>
 
                 </sheet>

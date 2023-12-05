@@ -246,13 +246,14 @@ class ACSTreatment(models.Model):
         self.appointment_prescription_line_id.done_at = datetime.now()
         self.appointment_prescription_line_id.prescription_line_id.is_done = True
         self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
-        # return {'name': f"Appointment",
-        #         'view_mode': 'form',
-        #         'res_model': 'hms.appointment',
-        #         'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
-        #         'res_id': self.appointment_id.id,
-        #         'type': 'ir.actions.act_window',
-        #         }
+        if self.env.context.get('from_appointment'):
+            return {'name': f"Appointment",
+                    'view_mode': 'form',
+                    'res_model': 'hms.appointment',
+                    'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                    'res_id': self.appointment_id.id,
+                    'type': 'ir.actions.act_window',
+                    }
 
     def treatment_cancel(self):
         self.state = 'cancel'
