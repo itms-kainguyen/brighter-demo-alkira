@@ -777,32 +777,32 @@ class Appointment(models.Model):
             else:
                 self.consultation_type = 'consultation'
 
-    @api.onchange('physician_id', 'department_id', 'consultation_type')
-    def onchange_physician(self):
-        product_id = False
-        # ACS: First check configuration on department.
-        if self.acs_department_id:
-            # ACS: To avoid portal access error research department here.
-            if self.consultation_type == 'followup':
-                if self.acs_department_id.followup_service_id:
-                    product_id = self.acs_department_id.followup_service_id.id
+    # @api.onchange('physician_id', 'department_id', 'consultation_type')
+    # def onchange_physician(self):
+    #     product_id = False
+    #     # ACS: First check configuration on department.
+    #     if self.acs_department_id:
+    #         # ACS: To avoid portal access error research department here.
+    #         if self.consultation_type == 'followup':
+    #             if self.acs_department_id.followup_service_id:
+    #                 product_id = self.acs_department_id.followup_service_id.id
 
-            elif self.acs_department_id.consultaion_service_id:
-                product_id = self.acs_department_id.consultaion_service_id.id
+    #         elif self.acs_department_id.consultaion_service_id:
+    #             product_id = self.acs_department_id.consultaion_service_id.id
 
-        if self.physician_id:
-            if self.consultation_type == 'followup':
-                if self.physician_id.followup_service_id:
-                    product_id = self.physician_id.followup_service_id.id
+    #     if self.physician_id:
+    #         if self.consultation_type == 'followup':
+    #             if self.physician_id.followup_service_id:
+    #                 product_id = self.physician_id.followup_service_id.id
 
-            elif self.physician_id.consultaion_service_id:
-                product_id = self.physician_id.consultaion_service_id.id
+    #         elif self.physician_id.consultaion_service_id:
+    #             product_id = self.physician_id.consultaion_service_id.id
 
-            if self.physician_id.appointment_duration and not self._context.get('acs_online_transaction'):
-                self.planned_duration = self.physician_id.appointment_duration
+    #         if self.physician_id.appointment_duration and not self._context.get('acs_online_transaction'):
+    #             self.planned_duration = self.physician_id.appointment_duration
 
-        if product_id:
-            self.product_id = product_id
+    #     if product_id:
+    #         self.product_id = product_id
 
     def appointment_confirm(self):
         if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
