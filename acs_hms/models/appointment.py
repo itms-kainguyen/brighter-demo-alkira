@@ -1005,7 +1005,7 @@ class Appointment(models.Model):
                                 medicine_line_ids.append(
                                     {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
                                      'batch_number': batch_number, 'medicine_technique': medicine_technique,
-                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
+                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method, 'template': treat.template_id.name})
                     if treat.template_id:
                         finding = treat.finding or ''
                         template = treat.template_id.name

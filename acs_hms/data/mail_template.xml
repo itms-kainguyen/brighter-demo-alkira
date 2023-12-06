@@ -180,7 +180,7 @@
                         <thead>
                             <tr>
                                 <th>Medicine</th>
-<!--                                <th>Area</th>-->
+                                <th>Treatment Notes</th>
 <!--                                <th>Amount</th>-->
 <!--                                <th>Batch Number</th>-->
 <!--                                <th>Technique</th>-->
@@ -193,6 +193,9 @@
                                 <tr>
                                     <td>
                                         <span t-out="line.get('product_name') or ''"/>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.get('template') or ''"/>
                                     </td>
 <!--                                    <td>-->
 <!--                                        <span t-out="line.get('medicine_area') or ''"/>-->
@@ -218,14 +221,7 @@
                     </tbody>
                     </table>
                     </t>
-                     <t t-if="len(ctx.get('treatment_notes')) > 0">
-                        <t t-foreach="ctx.get('treatment_notes')" t-as="note">
-                            <p>
-                                Treatment Notes: <strong><t t-out="note.get('template')"></t></strong>
-<!--                                <p><t t-out="note.get('finding')"></t></p>-->
-                            </p>
-                        </t>
-                     </t>
+
                     <style>
                         table.table.table-sm.o_main_table.mt16.acs_table th, td, tbody { border: 1px solid black !important; }
                     </style>
@@ -233,11 +229,11 @@
                         We hope you had a pleasant experience. Please find attached important post-treatment instructions to ensure optimal results.
                         Should you have any questions or concerns, feel free to reach out to us at <strong><t t-out="object.department_id.name"></t></strong>.
                     </p>
-                    <div style="color: red">
+                    <div>
                         <p>Our Contact Details are:</p>
                         <p>Address: <t t-out="object.company_id.partner_id.street"/>,  <t t-out="object.company_id.partner_id.street2"/>,  <t t-out="object.company_id.partner_id.city"/>,  <t t-out="object.company_id.partner_id.state_id.name"/>,  <t t-out="object.company_id.partner_id.zip"/>,  <t t-out="object.company_id.partner_id.country_id.name"/></p>
                         <p>Phone:  <t t-out="object.company_id.partner_id.phone"/></p>
-                        <p>Primary Contact:</p>
+                        <p>Nurse Name: <t t-out="object.nurse_id.name"/></p>
                     </div>
                     <br/>
                     <p>We look forward to assisting you in your aesthetic journey.</p>
