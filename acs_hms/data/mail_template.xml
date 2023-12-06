@@ -180,9 +180,9 @@
                         <thead>
                             <tr>
                                 <th>Medicine</th>
-                                <th>Treatment Notes</th>
+<!--                                <th>Treatment Notes</th>-->
 <!--                                <th>Amount</th>-->
-<!--                                <th>Batch Number</th>-->
+                                <th>Batch Number</th>
 <!--                                <th>Technique</th>-->
 <!--                                <th>Depth</th>-->
 <!--                                <th>Method</th>-->
@@ -194,18 +194,18 @@
                                     <td>
                                         <span t-out="line.get('product_name') or ''"/>
                                     </td>
-                                    <td>
-                                        <span t-out="line.get('template') or ''"/>
-                                    </td>
+<!--                                    <td>-->
+<!--                                        <span t-out="line.get('template') or ''"/>-->
+<!--                                    </td>-->
 <!--                                    <td>-->
 <!--                                        <span t-out="line.get('medicine_area') or ''"/>-->
 <!--                                    </td>-->
 <!--                                    <td>-->
 <!--                                        <span t-out="line.get('amount') or ''"/>-->
 <!--                                    </td>-->
-<!--                                     <td>-->
-<!--                                        <span t-out="line.get('batch_number') or ''"/>-->
-<!--                                    </td>-->
+                                     <td>
+                                        <span t-out="line.get('batch_number') or ''"/>
+                                    </td>
 <!--                                    <td>-->
 <!--                                        <span t-out="line.get('medicine_technique') or ''"/>-->
 <!--                                    </td>-->
