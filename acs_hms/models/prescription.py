@@ -31,8 +31,8 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.transaction_count = len(self.env['payment.transaction'].search(
                 [('reference', '=', self.name), ('partner_id', '=', self.env.user.partner_id.id)]))
-            rec.treatment_medicine_count = len(self.env['treatment.medicine.line'].search(
-                [('treatment_id.state', '=', 'done'), ('treatment_id.patient_id', '=', self.patient_id.id)]))
+            rec.treatment_medicine_count = len(self.env['hms.treatment'].search(
+                [('state', '=', 'done'), ('patient_id', '=', self.patient_id.id)]))
 
     READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
                        'finished': [('readonly', True)], 'expired': [('readonly', True)]}
@@ -274,11 +274,12 @@ class ACSPrescriptionOrder(models.Model):
         return action
 
     def action_view_medicine_history(self):
-        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_medicine_line_view")
-        history_ids = self.env['treatment.medicine.line'].search(
-                [('treatment_id.state', '=', 'done'), ('treatment_id.patient_id', '=', self.patient_id.id)])
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
+        history_ids = self.env['hms.treatment'].search(
+                [('state', '=', 'done'), ('patient_id', '=', self.patient_id.id)])
         action['domain'] = [('id', 'in', history_ids.ids)]
-        action['context'] = {'search_default_treatment': 1, 'search_treatment': 1}
+        action['search_view_id'] = self.env.ref('acs_hms.view_hms_treatment_search').id
+        action['context'] = {'search_default_patient_groupby': 1, 'search_patient_groupby': 1}
         # action['views'] = [(self.env.ref('acs_hms.act_open_hms_medicine_line_view').id, 'tree'), (False, 'form')]
         return action
 
