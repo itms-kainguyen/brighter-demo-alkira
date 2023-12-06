@@ -235,10 +235,8 @@ class Appointment(models.Model):
 
     date = fields.Datetime(string='Date', default=fields.Datetime.now, states=READONLY_CONFIRMED_STATES, tracking=True,
                            copy=False)
-    date_to = fields.Datetime(string='Date To', default=fields.Datetime.now() + timedelta(minutes=15),
-                              states=READONLY_CONFIRMED_STATES, copy=False, tracking=True)
+    date_to = fields.Datetime(string='Date To',states=READONLY_CONFIRMED_STATES, copy=False, tracking=True)
     planned_duration = fields.Float('Duration', compute="_get_planned_duration", inverse='_inverse_planned_duration',
-                                    default=lambda self: self.env.company.acs_appointment_planned_duration,
                                     states=READONLY_CONFIRMED_STATES)
     manual_planned_duration = fields.Float('Manual Duration', states=READONLY_CONFIRMED_STATES)
 
