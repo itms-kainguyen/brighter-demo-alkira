@@ -114,7 +114,7 @@
                         <group>
                             <field name="code" readonly="1"/>
                             <field name="gender" required="1"/>
-                            <field name="primary_physician_id"/>
+                            <field name="primary_physician_id" string="Prescriber"/>
                             <field name="title"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="active" invisible="1"/>
