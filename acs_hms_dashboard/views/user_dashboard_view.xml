@@ -360,7 +360,7 @@
                                         <t t-set="acs_record_color" t-value="record.total_support_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa-phone'"/>
                                         <t t-set="acs_field_name" t-value="record.total_event_management.raw_value"/>
-                                        <t t-set="acs_record_lable">Event Management</t>
+                                        <t t-set="acs_record_lable">Education Event</t>
                                         <t t-set="acs_record_action" t-value="'open_event_management'"/>
                                     </t>
                                 </div>
