@@ -59,6 +59,56 @@
     </record>
 
     <!-- Prescription -->
+
+     <record id="view_hms_medicine_line_tree" model="ir.ui.view">
+        <field name="name">treatment.medicine.line.tree</field>
+        <field name="model">treatment.medicine.line</field>
+        <field name="arch" type="xml">
+            <tree string="Treatment Medicine" create="false" expand="1">
+                <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
+                <field name="batch_number"/>
+                <field name="treatment_id" optional="hide"/>
+                <field name="medicine_area"/>
+                <field name="amount"/>
+                <field name="medicine_depth"/>
+                <field name="medicine_method"/>
+                <field name="repeat"/>
+                <field name="prescription_id"/>
+            </tree>
+        </field>
+    </record>
+     <record id="view_hms_medicine_line_search" model="ir.ui.view">
+        <field name="name">treatment.medicine.line.search</field>
+        <field name="model">treatment.medicine.line</field>
+        <field name="arch" type="xml">
+            <search string="Treatment Medicine">
+                <field name="product_id"/>
+                <field name="prescription_id"/>
+                <field name="treatment_id"/>
+                <newline/>
+                <group expand="0" string="Group By...">
+                    <filter string="Treatment" name="treatment" domain="[]" context="{'group_by':'treatment_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_hms_medicine_line_view">
+        <field name="name">Past Treatment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">treatment.medicine.line</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="view_hms_medicine_line_search"/>
+        <field name="view_id" ref="view_hms_medicine_line_tree"/>
+        <field name="context">{'search_default_treatment': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+        </field>
+    </record>
+
+
     <record id="view_hms_prescription_order_tree" model="ir.ui.view">
         <field name="name">prescription.order.tree</field>
         <field name="model">prescription.order</field>
@@ -102,9 +152,13 @@
                             <div class="oe_button_box" name="button_box">
                                 <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope">
                                 </button> -->
+                                <button class="oe_stat_button btn-green" name="action_view_medicine_history" string="History" type="object" icon="fa-user-md">
+                                    <field string="History" name="treatment_medicine_count" widget="statinfo"/>
+                                </button>
                                 <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
                                     <field string="Transactions" name="transaction_count" widget="statinfo"/>
                                 </button>
+
                             </div>
                             <div class="oe_title">
                                 <h1>
