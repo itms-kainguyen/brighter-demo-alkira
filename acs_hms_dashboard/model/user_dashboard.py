@@ -678,7 +678,7 @@ class Adverse_Event(models.Model):
             Adverse Event: {}
             Please respond urgently.
             '''.format(
-                rec.department_ids[0].name,
+                rec.nurse_id.department_ids[0].name,
                 rec.nurse_id.name,
                 rec.patient_id.name,
                 rec.nurse_phone,
