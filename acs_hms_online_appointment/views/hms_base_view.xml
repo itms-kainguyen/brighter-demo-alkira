@@ -54,13 +54,13 @@
                     </group>
                 </group>
             </group>
-            <field name="planned_duration" position="after">
+            <!-- <field name="planned_duration" position="after">
                 <label for="date" string="Schedule Date"/>
                 <div class="o_row">
                     <field name="schedule_date"  nolabel="1" class="oe_inline"/>
                     <field name='schedule_slot_id' nolabel="1" class="oe_inline" domain=" [('slot_id.slot_date','=',schedule_date),('physician_id','=',physician_id),('rem_limit','>',0)]" options="{'no_create': True}"/>
                 </div>
-            </field>
+            </field> -->
         </field>
     </record>
 

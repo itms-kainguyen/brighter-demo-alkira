@@ -235,10 +235,8 @@ class Appointment(models.Model):
 
     date = fields.Datetime(string='Date', default=fields.Datetime.now, states=READONLY_CONFIRMED_STATES, tracking=True,
                            copy=False)
-    date_to = fields.Datetime(string='Date To', default=fields.Datetime.now() + timedelta(minutes=15),
-                              states=READONLY_CONFIRMED_STATES, copy=False, tracking=True)
+    date_to = fields.Datetime(string='Date To',states=READONLY_CONFIRMED_STATES, copy=False, tracking=True)
     planned_duration = fields.Float('Duration', compute="_get_planned_duration", inverse='_inverse_planned_duration',
-                                    default=lambda self: self.env.company.acs_appointment_planned_duration,
                                     states=READONLY_CONFIRMED_STATES)
     manual_planned_duration = fields.Float('Manual Duration', states=READONLY_CONFIRMED_STATES)
 
@@ -779,32 +777,32 @@ class Appointment(models.Model):
             else:
                 self.consultation_type = 'consultation'
 
-    @api.onchange('physician_id', 'department_id', 'consultation_type')
-    def onchange_physician(self):
-        product_id = False
-        # ACS: First check configuration on department.
-        if self.acs_department_id:
-            # ACS: To avoid portal access error research department here.
-            if self.consultation_type == 'followup':
-                if self.acs_department_id.followup_service_id:
-                    product_id = self.acs_department_id.followup_service_id.id
+    # @api.onchange('physician_id', 'department_id', 'consultation_type')
+    # def onchange_physician(self):
+    #     product_id = False
+    #     # ACS: First check configuration on department.
+    #     if self.acs_department_id:
+    #         # ACS: To avoid portal access error research department here.
+    #         if self.consultation_type == 'followup':
+    #             if self.acs_department_id.followup_service_id:
+    #                 product_id = self.acs_department_id.followup_service_id.id
 
-            elif self.acs_department_id.consultaion_service_id:
-                product_id = self.acs_department_id.consultaion_service_id.id
+    #         elif self.acs_department_id.consultaion_service_id:
+    #             product_id = self.acs_department_id.consultaion_service_id.id
 
-        if self.physician_id:
-            if self.consultation_type == 'followup':
-                if self.physician_id.followup_service_id:
-                    product_id = self.physician_id.followup_service_id.id
+    #     if self.physician_id:
+    #         if self.consultation_type == 'followup':
+    #             if self.physician_id.followup_service_id:
+    #                 product_id = self.physician_id.followup_service_id.id
 
-            elif self.physician_id.consultaion_service_id:
-                product_id = self.physician_id.consultaion_service_id.id
+    #         elif self.physician_id.consultaion_service_id:
+    #             product_id = self.physician_id.consultaion_service_id.id
 
-            if self.physician_id.appointment_duration and not self._context.get('acs_online_transaction'):
-                self.planned_duration = self.physician_id.appointment_duration
+    #         if self.physician_id.appointment_duration and not self._context.get('acs_online_transaction'):
+    #             self.planned_duration = self.physician_id.appointment_duration
 
-        if product_id:
-            self.product_id = product_id
+    #     if product_id:
+    #         self.product_id = product_id
 
     def appointment_confirm(self):
         if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
@@ -909,6 +907,7 @@ class Appointment(models.Model):
             _logger.warning('Failed to update appointment confirmation email: %s', e)
 
     def appointment_consultation(self):
+        self.waiting_date_start = datetime.now()
         if not self.waiting_date_start:
             raise UserError(('No waiting start time defined.'))
         datetime_diff = datetime.now() - self.waiting_date_start
@@ -956,9 +955,14 @@ class Appointment(models.Model):
             self.state = 'to_after_care'
         if self.consumable_line_ids:
             self.consume_appointment_material()
-        if self.prescription_id:
-            for line in self.prescription_id.prescription_line_ids:
+        # if self.prescription_id:
+        #     for line in self.prescription_id.prescription_line_ids:
+        #         line.repeat -= 1
+        if self.treatment_ids and self.treatment_ids.prescription_ids:
+            lines = self.treatment_ids.prescription_ids.prescription_line_ids
+            for line in lines:
                 line.repeat -= 1
+
         # self.appointment_done()
 
     def appointment_done(self):
@@ -983,11 +987,11 @@ class Appointment(models.Model):
         template_aftercare.attachment_ids = attachments
         medicine_line_ids = []
         treatment_notes = []
-        if self.prescription_line_ids:
-            for prescription in self.prescription_line_ids:
-                if prescription.treatment_id and prescription.is_done:
-                    if prescription.treatment_id.medicine_line_ids:
-                        for line in prescription.treatment_id.medicine_line_ids:
+        if self.treatment_ids:
+            for treat in self.treatment_ids:
+                if treat.state == 'done':
+                    if treat.medicine_line_ids:
+                        for line in treat.medicine_line_ids:
                             if line.product_id:
                                 medicine_area = line.medicine_area or ''
                                 amount = line.amount or ''
@@ -999,10 +1003,10 @@ class Appointment(models.Model):
                                 medicine_line_ids.append(
                                     {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
                                      'batch_number': batch_number, 'medicine_technique': medicine_technique,
-                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method})
-                    if prescription.treatment_id.template_id:
-                        finding = prescription.treatment_id.finding or ''
-                        template = prescription.treatment_id.template_id.name
+                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method, 'template': treat.template_id.name})
+                    if treat.template_id:
+                        finding = treat.finding or ''
+                        template = treat.template_id.name
                         treatment_notes.append({'template': template, 'finding': finding})
         email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
         is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,

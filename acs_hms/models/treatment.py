@@ -143,15 +143,16 @@ class ACSTreatment(models.Model):
             rec.medicine_line_ids = False
             prescription_line_ids = rec.prescription_ids.mapped('prescription_line_ids')
             for line in prescription_line_ids:
-                rec.medicine_line_ids = [(0, 0, {
-                    'product_id': line.product_id.id,
-                    'medicine_area': line.medicine_area,
-                    'medicine_technique': line.medicine_technique,
-                    'medicine_depth': line.medicine_depth,
-                    'medicine_method': line.medicine_method,
-                    'repeat': line.repeat,
-                    'prescription_id': line.prescription_id.id,
-                })]
+                if line.repeat > 0:
+                    rec.medicine_line_ids = [(0, 0, {
+                        'product_id': line.product_id.id,
+                        'medicine_area': line.medicine_area,
+                        'medicine_technique': line.medicine_technique,
+                        'medicine_depth': line.medicine_depth,
+                        'medicine_method': line.medicine_method,
+                        'repeat': line.repeat,
+                        'prescription_id': line.prescription_id.id,
+                    })]
             
     @api.model
     def default_get(self, fields):
@@ -245,13 +246,14 @@ class ACSTreatment(models.Model):
         self.appointment_prescription_line_id.done_at = datetime.now()
         self.appointment_prescription_line_id.prescription_line_id.is_done = True
         self.appointment_prescription_line_id.prescription_line_id.done_at = datetime.now()
-        # return {'name': f"Appointment",
-        #         'view_mode': 'form',
-        #         'res_model': 'hms.appointment',
-        #         'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
-        #         'res_id': self.appointment_id.id,
-        #         'type': 'ir.actions.act_window',
-        #         }
+        if self.env.context.get('from_appointment'):
+            return {'name': f"Appointment",
+                    'view_mode': 'form',
+                    'res_model': 'hms.appointment',
+                    'view_id': self.env.ref('acs_hms.view_hms_appointment_form').id,
+                    'res_id': self.appointment_id.id,
+                    'type': 'ir.actions.act_window',
+                    }
 
     def treatment_cancel(self):
         self.state = 'cancel'

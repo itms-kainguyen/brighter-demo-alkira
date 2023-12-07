@@ -37,4 +37,15 @@
         </div>
         </xpath>
     </template>
+
+    <template id="survey_fill_form_done_inherited" inherit_id="survey.survey_fill_form_done" name="Survey: finished">
+        <xpath expr="//t[@t-call='survey.survey_button_retake']" position="replace">
+            <a></a>
+        </xpath>
+    </template>
+     <template id="survey_page_print_inherit" inherit_id="survey.survey_page_print" name="Survey: print page">
+         <xpath expr="//t[@t-call='survey.survey_button_retake']" position="replace">
+            <a></a>
+        </xpath>
+     </template>
 </odoo>
