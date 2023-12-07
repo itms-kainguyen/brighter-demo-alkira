@@ -671,14 +671,14 @@ class Adverse_Event(models.Model):
                 rec.content += 'Allergic Reactions'
 
             rec.content = '''
-            {}: Urgent - Adverse Event
+            Urgent - Adverse Event
             Nurse: {}
             Patient: {}
             Contact: {}
             Adverse Event: {}
             Please respond urgently.
             '''.format(
-                rec.nurse_id.department_ids[0].name,
+                #rec.nurse_id.department_ids[0].name,
                 rec.nurse_id.name,
                 rec.patient_id.name,
                 rec.nurse_phone,
