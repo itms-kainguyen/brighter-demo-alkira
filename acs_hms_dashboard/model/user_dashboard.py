@@ -636,7 +636,8 @@ class Adverse_Event(models.Model):
     category_id = fields.Many2one('document.page',
                                   domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Adverse Event')],
                                   string='Adverse Event')
-    branch_id = fields.Many2one('res.branch', ondelete="cascade", string='Clinic', readonly=True)
+    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', readonly=True)
+
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
     patient_id = fields.Many2one('hms.patient', string='Patient')
     nurse_phone = fields.Char(string='Nurse Phone')
@@ -671,14 +672,14 @@ class Adverse_Event(models.Model):
                 rec.content += 'Allergic Reactions'
 
             rec.content = '''
-            Urgent - Adverse Event
+            {}: Urgent - Adverse Event
             Nurse: {}
             Patient: {}
             Contact: {}
             Adverse Event: {}
             Please respond urgently.
             '''.format(
-                #rec.nurse_id.department_ids[0].name,
+                rec.nurse_id.department_ids[0].name,
                 rec.nurse_id.name,
                 rec.patient_id.name,
                 rec.nurse_phone,
