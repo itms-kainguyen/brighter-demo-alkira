@@ -276,7 +276,7 @@ class ACSPrescriptionOrder(models.Model):
     def action_view_medicine_history(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
         history_ids = self.env['hms.treatment'].search(
-                [('state', '=', 'done'), ('patient_id', '=', self.patient_id.id)])
+            [('state', '=', 'done'), ('patient_id', '=', self.patient_id.id)])
         action['domain'] = [('id', 'in', history_ids.ids)]
         action['search_view_id'] = self.env.ref('acs_hms.view_hms_treatment_search').id
         action['context'] = {'search_default_patient_groupby': 1, 'search_patient_groupby': 1}
@@ -581,6 +581,7 @@ class ACSPrescriptionLine(models.Model):
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
+    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')], string="Use", help="")
 
     @api.depends('repeat')
     def _compute_remaining_repeat(self):
