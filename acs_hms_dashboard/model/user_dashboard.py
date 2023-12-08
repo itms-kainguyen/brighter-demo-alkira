@@ -55,7 +55,8 @@ class ResUsers(models.Model):
         # Patients
         Patient = self.env['hms.patient']
         patient_domain = self.get_filter('create_date')
-        patient_domain +=  ['|', ('assignee_ids', 'in', self.env.user.partner_id.id), ('department_ids', 'in', [dep.id for dep in self.env.user.department_ids])]
+        patient_domain = ['|', ('assignee_ids', 'in', self.env.user.partner_id.id),
+                  ('department_ids', 'in', [dep.id for dep in self.env.user.department_ids])]
         self.total_patients = Patient.search_count(patient_domain)
         patient_domain += ['|', ('primary_physician_id.user_id', '=', self.env.uid),
                            ('assignee_ids', 'in', self.env.user.partner_id.id)]
@@ -96,7 +97,7 @@ class ResUsers(models.Model):
             appointmnt_data.append({
                 'id': appointment.id,
                 'name': appointment.name,
-                'patient': appointment.patient_id.name,
+                # 'patient': appointment.patient_id.name,
                 'date': app_date or '',
                 'physician': appointment.physician_id.name,
                 'waiting_duration': '{0:02.0f}:{1:02.0f}'.format(*divmod(appointment.waiting_duration * 60, 60)),
