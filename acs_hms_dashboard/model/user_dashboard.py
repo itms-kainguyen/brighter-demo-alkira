@@ -55,6 +55,7 @@ class ResUsers(models.Model):
         # Patients
         Patient = self.env['hms.patient']
         patient_domain = self.get_filter('create_date')
+        patient_domain +=  ['|', ('assignee_ids', 'in', self.env.user.partner_id.id), ('department_ids', 'in', [dep.id for dep in self.env.user.department_ids])]
         self.total_patients = Patient.search_count(patient_domain)
         patient_domain += ['|', ('primary_physician_id.user_id', '=', self.env.uid),
                            ('assignee_ids', 'in', self.env.user.partner_id.id)]
