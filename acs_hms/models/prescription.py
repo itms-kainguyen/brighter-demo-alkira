@@ -119,6 +119,7 @@ class ACSPrescriptionOrder(models.Model):
     product_ids = fields.Many2many('product.product', compute='_compute_product_ids', string='Medicines')
     treatment_ids = fields.Many2many('hms.treatment', 'prescription_treatment_rel', 'treatment_id', 'prescription_id')
     treatment_medicine_count = fields.Integer(compute='_rec_count', string='History')
+    is_owner_prescriber = fields.Boolean("Owner Prescriber", compute='_compute_is_owner_prescriber', store=True)
 
     @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
     def _compute_product_ids(self):
@@ -132,6 +133,16 @@ class ACSPrescriptionOrder(models.Model):
             record.is_editable = True
             if is_nurse and not self.env.is_admin():
                 record.is_editable = False
+
+    @api.depends('physician_id')
+    def _compute_is_owner_prescriber(self):
+        is_doctor = self.env.user.has_group('acs_hms.group_hms_doctor')
+        for record in self:
+            record.is_owner_prescriber = False
+            if is_doctor and record.physician_id.user_id.id == self.env.user.id:
+                record.is_owner_prescriber = True
+                record.is_prescriber_fee = False
+                record.prescriber_fee = 0.0
 
     def get_1st_product(self):
         for rec in self:
@@ -229,12 +240,14 @@ class ACSPrescriptionOrder(models.Model):
         for app in self:
             if not app.prescription_line_ids:
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
-
-            action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_pay_prescriber_wiz")
-            # action['domain'] = [('patient_id', '=', self.id)]
-            action['context'] = {'show_pop_up': False}
-            action['res_model'] = 'pay.prescriber.wiz'
-            return action
+            if not app.is_owner_prescriber:
+                action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_pay_prescriber_wiz")
+                # action['domain'] = [('patient_id', '=', self.id)]
+                action['context'] = {'show_pop_up': False}
+                action['res_model'] = 'pay.prescriber.wiz'
+                return action
+            elif app.is_owner_prescriber:
+                app.state = 'confirmed'
 
     def confirm_without_pay(self):
         for app in self:
@@ -285,6 +298,8 @@ class ACSPrescriptionOrder(models.Model):
 
     def button_prescribe_confirm(self):
         for app in self:
+            if app.is_owner_prescriber and not app.name:
+                app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             app.state = 'prescription'
             # create prescription detail based on prescription line
             vals_list = []
