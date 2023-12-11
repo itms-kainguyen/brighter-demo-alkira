@@ -10,7 +10,7 @@
     # always loaded
     'data': [
         'views/purchase_views.xml',
-        'data/purchase_quotation_templates.xml'
+        'data/purchase_templates.xml'
     ],
     'assets': {
 
