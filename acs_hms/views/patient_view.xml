@@ -61,6 +61,53 @@
             </xpath>
         </field>
     </record>
+    <record id="view_survey_user_input_line_tree" model="ir.ui.view">
+        <field name="name">survey.user_input.line.tree</field>
+        <field name="model">survey.user_input.line</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="skipped == True" expand="1">
+                <field name="question_sequence" invisible="1"/>
+                <field name="create_date" optional="hidden"/>
+                <field name="page_id" optional="hidden"/>
+                <field name="question_id"/>
+                <field name="answer_type" optional="hidden"/>
+                <field name="skipped" optional="hidden"/>
+                <field name="matrix_row_id" string="Row answer"/>
+                <field name="suggested_answer_yes"/>
+                <field name="suggested_answer_no"/>
+                <field name="answer_is_correct" optional="hidden"/>
+                <field name="answer_score" sum="Score" optional="hidden"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="view_medical_checklist_search" model="ir.ui.view">
+        <field name="name">survey.user_input.line.search</field>
+        <field name="model">survey.user_input.line</field>
+        <field name="arch" type="xml">
+            <search string="Medical Checklist">
+                <field name="appointment_id"/>
+                <newline/>
+                <group expand="0" string="Group By...">
+                    <filter string="Appointment" name="appointment" domain="[]" context="{'group_by':'appointment_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medical_checklist">
+        <field name="name">Medical Checklist</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">survey.user_input.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_survey_user_input_line_tree"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+        </field>
+    </record>
 
     <record id="view_patient_tree" model="ir.ui.view">
     <field name="name">patient.tree</field>
@@ -98,6 +145,9 @@
             </widget>
 
             <div name="button_box" position="inside">
+                 <button class="oe_stat_button btn-green" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o">
+<!--                     <field string="Medical Checklist" name="checklist_count" widget="statinfo"/>-->
+                 </button>
                 <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
                     <field string="Treatments" name="treatment_count" widget="statinfo"/>
                 </button>
