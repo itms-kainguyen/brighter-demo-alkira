@@ -117,6 +117,7 @@
                 <field name="name"/>
                 <field name="prescription_date"/>
                 <field name="first_product_id"/>
+                <field name="department_id"/>
                 <field name="prescription_type"/>
                 <field name="expire_date"/>
                 <field name="patient_id"/>
@@ -182,6 +183,7 @@
                                     <field name="nurse_id"/>
                                     <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
+                                    <field name="department_id"/>
         <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
                                 </group>
                                 <group>

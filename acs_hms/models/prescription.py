@@ -27,6 +27,9 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
+    def get_clinic(self):
+        return self.env.user.department_ids[0].id if len(self.env.user.department_ids) > 0 else False
+
     def _rec_count(self):
         for rec in self:
             rec.transaction_count = len(self.env['payment.transaction'].search(
@@ -120,6 +123,7 @@ class ACSPrescriptionOrder(models.Model):
     treatment_ids = fields.Many2many('hms.treatment', 'prescription_treatment_rel', 'treatment_id', 'prescription_id')
     treatment_medicine_count = fields.Integer(compute='_rec_count', string='History')
     is_owner_prescriber = fields.Boolean("Owner Prescriber", compute='_compute_is_owner_prescriber', store=True)
+    department_id = fields.Many2one('hr.department', domain=[('patient_department', '=', True)], default=get_clinic, string='Clinic Name')
 
     @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
     def _compute_product_ids(self):
@@ -294,6 +298,14 @@ class ACSPrescriptionOrder(models.Model):
         action['search_view_id'] = self.env.ref('acs_hms.view_hms_treatment_search').id
         action['context'] = {'search_default_patient_groupby': 1, 'search_patient_groupby': 1}
         # action['views'] = [(self.env.ref('acs_hms.act_open_hms_medicine_line_view').id, 'tree'), (False, 'form')]
+        return action
+
+    def action_view_medical_checklist(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_medical_checklist")
+        history_ids = self.env['survey.user_input.line'].search(
+            [('appointment_id', '=', self.id)])
+        action['domain'] = [('id', 'in', history_ids.ids)]
+        action['context'] = {'search_default_appointment': 1, 'default_appointment': 1}
         return action
 
     def button_prescribe_confirm(self):
@@ -596,7 +608,8 @@ class ACSPrescriptionLine(models.Model):
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
-    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')], string="Expiration", help="")
+    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')],
+                           string="Expiration", help="")
 
     @api.depends('repeat')
     def _compute_remaining_repeat(self):
