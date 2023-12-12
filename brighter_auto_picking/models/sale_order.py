@@ -6,7 +6,15 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     # note_po_line_id = fields.Many2one('purchase.order.line', string='Note PO Line')
-    
+    delivery_purchase_order_id = fields.Many2one('purchase.order', string='Delivery Purchase Order')
+
+    def _compute_delivery_purchase_order_id(self):
+        for line in self:
+            line.delivery_purchase_order_id = \
+                line.move_ids and \
+                line.move_ids.created_purchase_line_id and \
+                line.move_ids.created_purchase_line_id[0].id or False
+            
     # def _action_launch_stock_rule(self, previous_product_uom_qty=False):
     #     res = super(SaleOrderLine, self)._action_launch_stock_rule(previous_product_uom_qty)
     #     for line in self:
