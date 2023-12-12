@@ -122,8 +122,7 @@ class Appointment(models.Model):
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
-                                   index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True,
-                                   default=_get_default_physician)
+                                   index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True)
 
     def get_clinic(self):
         clinic = self.env.user.department_ids[0].id if self.env.user.department_ids else False

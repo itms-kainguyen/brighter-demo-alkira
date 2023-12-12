@@ -760,12 +760,12 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to">
-                <field name="physician_id"/>
+                <!-- <field name="physician_id"/> -->
                 <field name="patient_id"/>
                 <field name="age"/>
                 <field name="medical_alert_ids" widget="many2many_tags"/>
                 <field name="state" filters="1"/>
-                <field name="physician_id" avatar_field="image_128"/>
+                <!-- <field name="physician_id" avatar_field="image_128"/> -->
             </calendar>
         </field>
     </record>
@@ -818,6 +818,7 @@
         <field name="view_id" ref="view_acs_appointment_calendar"/>
         <field name="view_mode">calendar,tree,form,kanban,pivot,graph,activity</field>
         <field name="context">{'search_default_today': 1,'search_default_done': 1}</field>
+        <field name="domain">[]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No Record Found

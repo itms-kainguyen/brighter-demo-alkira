@@ -51,7 +51,8 @@ class ACSTreatment(models.Model):
     medicine_line_ids = fields.One2many('treatment.medicine.line', 'treatment_id', 'Medicine',
                                         states=READONLY_STATES)
     template_id = fields.Many2one('treatment.template', 'Template Note')
-    finding = fields.Html(string="Findings", states=READONLY_STATES)
+    template_ids = fields.Many2many('treatment.template', 'treatment_template_rel', 'treatment_id', 'template_id')
+    finding = fields.Html(string="Findings",readonly="[('state', 'in', ['cancel', 'done'])]", compute='_compute_finding')
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
@@ -176,11 +177,20 @@ class ACSTreatment(models.Model):
         if self.department_id:
             self.department_type = self.department_id.department_type
 
-    @api.onchange('template_id')
-    def onchange_template_id(self):
-        self.finding = None
-        if self.template_id:
-            self.finding = self.template_id.notes
+    # @api.onchange('template_id')
+    # def onchange_template_id(self):
+    #     self.finding = None
+    #     if self.template_id:
+    #         self.finding = self.template_id.notes
+
+    @api.depends('template_ids')
+    def _compute_finding(self):
+        self.finding = ''
+        for rec in self:
+            if rec.template_ids:
+                for template in rec.template_ids:
+                    rec.finding += '\n'+ template.notes
+
 
     def get_line_data(self, line):
         base_date = fields.Date.today()
