@@ -367,7 +367,7 @@ class ACSPrescriptionOrder(models.Model):
             pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                 'acs_hms.report_hms_prescription_id', res_ids=[app.id])
             attachment = self.env['ir.attachment'].create({
-                'name': 'prescription_' + app.name,
+                'name': 'prescription_' + app.name or '/',
                 'type': 'binary',
                 'raw': pdf_content,
                 'res_model': app._name,
