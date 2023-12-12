@@ -366,8 +366,9 @@ class ACSPrescriptionOrder(models.Model):
             channel_id = self.env['mail.channel'].browse(channel["id"])
             pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                 'acs_hms.report_hms_prescription_id', res_ids=[app.id])
+            att_name = app.name if app.name else ''
             attachment = self.env['ir.attachment'].create({
-                'name': 'prescription_' + app.name or '/',
+                'name': 'prescription_' + att_name,
                 'type': 'binary',
                 'raw': pdf_content,
                 'res_model': app._name,
