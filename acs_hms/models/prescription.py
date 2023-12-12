@@ -565,7 +565,7 @@ class ACSPrescriptionLine(models.Model):
     manual_quantity = fields.Float(string='Manual Total Qty', default=1)
     active_component_ids = fields.Many2many('active.comp', 'product_pres_comp_rel', 'product_id', 'pres_id',
                                             'Active Component')
-    dose = fields.Float('Dosage', help="Amount of medication (eg, 250 mg) per dose", default=1.0)
+    dose = fields.Integer('Dosage', help="Amount of medication (eg, 250 mg) per dose", default=1)
     product_uom_category_id = fields.Many2one('uom.category', related='product_id.uom_id.category_id')
     dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose',
                                     domain="[('category_id', '=', product_uom_category_id)]")
@@ -596,7 +596,7 @@ class ACSPrescriptionLine(models.Model):
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
-    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')], string="Use", help="")
+    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')], string="Expiration", help="")
 
     @api.depends('repeat')
     def _compute_remaining_repeat(self):
