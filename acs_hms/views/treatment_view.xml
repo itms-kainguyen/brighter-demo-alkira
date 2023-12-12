@@ -217,7 +217,7 @@
         <field name="name">treatment.list</field>
         <field name="model">hms.treatment</field>
         <field name="arch" type="xml">
-            <tree string="Treatment Sheet">
+            <tree string="Treatment Sheet" expand="1">
                 <field name="name"/>
                 <!-- <field name="subject"/> -->
                 <field name="patient_id"/>

@@ -13,7 +13,7 @@
                 <field name="image_128"/>
                 <field name="age"/>
                 <field name="gender"/>
-                <field name="primary_physician_id"/>
+                <field name="primary_physician_id" string="Prescriber"/>
                 <field name="parent_id"/>
                 <field name="function"/>
                 <field name="code"/>
@@ -34,7 +34,7 @@
 <!--                                    <li><b>Code:</b> <field name="code"/></li>-->
 <!--                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>-->
 <!--                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>-->
-                                    <li t-if="record.primary_physician_id.raw_value"><b>Nurse:</b> <field name="primary_physician_id"/></li>
+                                    <li t-if="record.primary_physician_id.raw_value"><b>Prescriber:</b> <field name="primary_physician_id"/></li>
                                     </ul>
                                     <span class="oe_kanban_list_many2many">
                                         <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>

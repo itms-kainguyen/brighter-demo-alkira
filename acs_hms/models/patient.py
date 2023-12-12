@@ -23,6 +23,7 @@ class ACSPatient(models.Model):
             rec.appointment_count = len(rec.appointment_ids)
             rec.evaluation_count = len(rec.evaluation_ids)
             rec.patient_procedure_count = len(rec.patient_procedure_ids)
+            rec.checklist_count = len(self.env['survey.user_input.line'].search([('appointment_id.patient_id', '=', rec.id)]))
 
     def _acs_get_attachemnts(self):
         attachments = super(ACSPatient, self)._acs_get_attachemnts()
@@ -180,6 +181,7 @@ class ACSPatient(models.Model):
     acs_cancelled_appointments = fields.Integer(compute='acs_check_cancellation_flag', string='Cancelled Appointments')
 
     is_patient_valid_prescription = fields.Boolean("Valid", compute='_check_valid')
+    checklist_count = fields.Integer(compute='_rec_count', string='Medical Checklist')
 
     def _check_valid(self):
         Prescription = self.env['prescription.order']
@@ -304,6 +306,14 @@ class ACSPatient(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_acs_patient_evaluation")
         action['domain'] = [('patient_id','=',self.id)]
         action['context'] = {'default_patient_id': self.id, 'default_physician_id': self.primary_physician_id.id}
+        return action
+
+    def action_view_medical_checklist(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_medical_checklist")
+        history_ids = self.env['survey.user_input.line'].search(
+            [('appointment_id.patient_id', '=', self.id)])
+        action['domain'] = [('id', 'in', history_ids.ids)]
+        action['context'] = {'search_default_appointment': 1, 'default_appointment': 1}
         return action
 
 
