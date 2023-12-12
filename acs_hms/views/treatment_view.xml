@@ -112,9 +112,11 @@
                                     <field name="repeat"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Treatment Notes" name="treatment_info">
                             <group colspan="4">
-                                <field name="template_id" string="Select Treatment Note"></field>
-                                <field colspan="2" name="finding" string="Treatment Note" placeholder="Treatment Note..."/>
+                                <field name="template_ids" string="Select Treatment Note" widget="many2many_checkboxes"/>
+                                <field nolabel="1" colspan="2" name="finding" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}" string="Treatment Note" placeholder="Treatment Note..."/>
                             </group>
                         </page>
                         
