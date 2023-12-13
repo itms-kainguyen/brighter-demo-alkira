@@ -8,7 +8,7 @@
     'author': "ITMS Group",
     'website': "https://itmsgroup.com.au",
     "license": "AGPL-3",
-    "depends": ["base","document_page","contacts","portal","acs_hms_base", 'acs_hms'],
+    "depends": ["base","document_page","contacts","portal","acs_hms_base"],
     "data": [
         "security/ir.model.access.csv",
         "views/consent_form_views.xml",
