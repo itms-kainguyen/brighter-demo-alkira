@@ -7,7 +7,7 @@
             <tree string="Treatment Procedures">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="category_ids"/>
+                <field name="category_ids" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
@@ -21,7 +21,7 @@
                     <group>
                         <field name="name"/>
                         <field name="code"/>
-                        <field name="category_ids" widget="many2many_checkboxes"/>
+                        <field name="category_ids" widget="many2many_tags"/>
                     </group>
                 </sheet>
             </form>
