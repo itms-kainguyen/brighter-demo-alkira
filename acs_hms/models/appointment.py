@@ -384,7 +384,7 @@ class Appointment(models.Model):
         string='Procedure', default='other',
         states=READONLY_STATES,
         required=True, tracking=True)
-    procedure_id = fields.Many2one('treatment.procedure', ondelete='restrict', string='Procedure',
+    procedure_ids = fields.Many2many('treatment.procedure', ondelete='restrict', string='Procedure',
         states=READONLY_STATES,
         required=True, tracking=True)
 
@@ -396,12 +396,12 @@ class Appointment(models.Model):
 
     prescription_count = fields.Integer(compute='_rec_count', string='Prescriptions')
 
-    @api.depends('procedure_id')
+    @api.depends('procedure_ids')
     def _compute_consent_ids(self):
         for rec in self:
-            if rec.procedure_id:
+            if rec.procedure_ids:
                 rec.consent_ids = False
-                for category_id in rec.procedure_id.category_ids:
+                for category_id in rec.procedure_ids.category_ids:
                     #prepare consent.consent value
                     consent_val = {
                         'name': 'consent',
