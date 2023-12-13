@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+       <record id="anti_wrinkle" model="treatment.procedure">
+            <field name="name">Anti Wrinkle</field>
+            <field name="code">anti_wrinkle</field>
+        </record>
+       <record id="filler" model="treatment.procedure">
+            <field name="name">Dermal Fillers</field>
+            <field name="code">filler</field>
+        </record>
+       <record id="laser_hair_removal" model="treatment.procedure">
+            <field name="name">Laser Hair Removal</field>
+            <field name="code">laser_hair_removal</field>
+        </record>
+       <record id="chemical_peels" model="treatment.procedure">
+            <field name="name">Chemical Peels</field>
+            <field name="code">chemical_peels</field>
+        </record>
+       <record id="microdermabrasion" model="treatment.procedure">
+            <field name="name">Microdermabrasion</field>
+            <field name="code">microdermabrasion</field>
+        </record>
+       <record id="lip_fillers" model="treatment.procedure">
+            <field name="name">Lip Fillers</field>
+            <field name="code">lip_fillers</field>
+        </record>
+       <record id="other" model="treatment.procedure">
+            <field name="name">Other</field>
+            <field name="code">other</field>
+        </record>
+    </data>
+</odoo>
