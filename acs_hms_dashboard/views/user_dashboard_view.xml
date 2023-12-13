@@ -482,7 +482,7 @@
                             </div>
 
                             <div class="row" id="appointment_list" groups="acs_hms_base.group_hms_manager">
-                                <div class="col-6 mb32">
+                                <div class="col-lg-6 col-sm-12 mb32">
                                     <t t-value="JSON.parse(record.appointment_data.raw_value)"
                                        t-set="appointment_data"/>
                                     <div class="card">
@@ -545,7 +545,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 mb32 online-prescriber">
+                                <div class="col-lg-6 d-none d-md-block mb32 online-prescriber">
                                     <div class="card">
                                         <h5 class="card-header">
                                             <a type="object" name="open_appointments">Online Prescriber</a>
@@ -603,10 +603,6 @@
                             <!-- check is device small null true => windows -->
                             if (Object.is(document.querySelector("div.MessagingMenuContainer > .o-isDeviceSmall"), null)) {
                                 call_telehealth_dashboard();
-                            } else {
-                                <!-- mobile -->
-                                call_telehealth_dashboard_mobile();
-                            }
  
                             clone_telehealth_dashboard();
                             close_telehealth();
@@ -637,6 +633,11 @@
                                 })
                         
                             }, 1500);
+                            } else {
+                                <!-- mobile -->
+                                <!-- call_telehealth_dashboard_mobile(); -->
+                            }
+ 
                     
                             
                     
