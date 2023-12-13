@@ -318,7 +318,7 @@
                             <field name="consent_id" invisible="1" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                             <field name="is_confirmed_consent" invisible="1"/>
                             <!-- <field name="procedure" string="Treatment" invisible="1"/> -->
-                            <field name="procedure_ids" string="Treatments" widget="many2many_checkboxes"/>
+                            <field name="procedure_ids" string="Treatments" widget="many2many_tags"/>
                             <label for="invoice_exempt" string="No Charge" invisible="1"/>
                             <div name='invoice_exemption' class="o_row" invisible="1">
                                 <field name='invoice_exempt' class="oe_inline"/>
