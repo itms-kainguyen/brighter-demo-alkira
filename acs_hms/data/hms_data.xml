@@ -2,6 +2,21 @@
 <odoo>
     <data noupdate="1">
 
+         <record id="ir_cron_check_prescription" model="ir.cron" forcecreate="True">
+            <field name="name">Prescription Expire</field>
+            <field name="model_id" ref="acs_hms.model_prescription_order"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_check_prescription_locked()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True" />
+            <field name="priority" eval="5" />
+        </record>
+
         <!-- product.product -->
         <record id="hms_registration_service_0" model="product.product">
             <field name="name">Registration Service</field>

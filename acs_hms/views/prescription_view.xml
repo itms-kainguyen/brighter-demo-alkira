@@ -140,8 +140,9 @@
                     <button name="button_done" states="prescription" string="Done" type="object" class="oe_highlight" invisible="1" groups="acs_hms.group_hms_doctor, acs_hms_base.group_hms_manager"/>
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
-                    <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor"/>
-                    <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
+                    <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor" invisible="1"/>
+                     <button name="button_edit" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
+                     <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
                      <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',True),('state','!=','confirmed')]}"/>
                      <button name="button_prescribe_confirm" states="draft" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',False),('state','!=','draft')]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,prescription,finished"/>
@@ -176,20 +177,22 @@
                                     <field 
                                         name="physician_id" 
                                         attrs="{
-                                            'readonly': [('is_editable', '=', False)],
+                                            'readonly': ['|',('is_editable', '=', False), ('is_locked','=',True)],
                                             'invisible': ['&amp;',('is_editable', '=', False),('physician_id','=',False)]}"
                                     />
                                      <field name="is_owner_prescriber" invisible="1"/>
                                     <field name="nurse_id"/>
                                     <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
-                                    <field name="department_id"/>
+                                    <field name="department_id" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
         <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
                                 </group>
                                 <group>
                                     <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
-                                    <field name="expire_date"/>
-                                    <field name="prescription_date"/>
+                                    <field name="is_doctor_editable"/>
+                                    <field name="is_locked"/>
+                                    <field name="expire_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
+                                    <field name="prescription_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
                                      <label for="is_prescriber_fee" string="Prescriber fee"/>
                                      <div class="oe_inline">
                                          <field name="is_prescriber_fee"/>
@@ -218,7 +221,7 @@
         <!--                                    </div>-->
         <!--                                </group>-->
                                     </group>
-                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="one2many_list">
+                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="one2many_list" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}">
                                         <tree string="Prescription Line" editable="bottom">
                                             <control>
                                                 <create name="add_line_control" string="Add a line"/>
@@ -252,8 +255,8 @@
                                         </tree>
                                     </field>
                                     <group colspan="4">
-                                        <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}"/>
-                                        <field name="notes" string="Advice" colspan="2"/>
+                                        <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
+                                        <field name="notes" string="Advice" colspan="2" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
                                     </group>
                                 </page>
                                 <page name="medical_checklist" string="Medical Checklist">
