@@ -11,5 +11,10 @@
         <field name="model_id" ref="model_purchase_order"/>
         <field name="domain_force">['|',('department_id', 'in', user.department_ids.ids),('department_id', '=', False)]</field>
     </record>
+    <record id="hms_appointment_department_rule" model="ir.rule">
+        <field name="name">Appointment multi-department</field>
+        <field name="model_id" ref="acs_hms.model_hms_appointment"/>
+        <field name="domain_force">['|',('department_id', 'in', user.department_ids.ids),('department_id', '=', False)]</field>
+    </record>
 
 </odoo>
