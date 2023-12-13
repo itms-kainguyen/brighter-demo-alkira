@@ -254,7 +254,6 @@
                             
                             setTimeout(() => {
                                 $('#dashboard_prescribers .o_ChannelMember').on('click', function() {
-                                    console.log("imhere============ if ok");
                                     var self = $(this);
                                     var prescriber_id = self.data('partner-id');
                                     call_telehealth_dashboard();
