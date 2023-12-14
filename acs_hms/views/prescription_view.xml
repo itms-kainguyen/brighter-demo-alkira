@@ -115,7 +115,8 @@
         <field name="arch" type="xml">
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'" expand="1">
                 <field name="name"/>
-                <field name="prescription_date"/>
+                <field name="prescription_date" invisible="1"/>
+                <field name="prescription_date_format" string="Prescription Date"/>
                 <field name="first_product_id"/>
                 <field name="department_id"/>
                 <field name="prescription_type"/>

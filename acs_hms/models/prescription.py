@@ -65,6 +65,8 @@ class ACSPrescriptionOrder(models.Model):
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
                                         states=READONLY_STATES, tracking=True, copy=False)
+    prescription_date_format = fields.Char(string='Prescription Date Format',
+                                           compute='_compute_prescription_date_format')
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
@@ -136,8 +138,8 @@ class ACSPrescriptionOrder(models.Model):
                 tracked_fields = tracked_fields_ref.copy()
                 dummy, tracking_value_ids = record._mail_track(tracked_fields, dict.fromkeys(fields))
                 message = record.message_post(subject=_('Prescription updated'), tracking_value_ids=tracking_value_ids,
-                                                  message_type='comment',
-                                                  subtype_xmlid='mail.mt_comment',)
+                                              message_type='comment',
+                                              subtype_xmlid='mail.mt_comment', )
         res = super(ACSPrescriptionOrder, self).write(vals)
 
         return res
@@ -147,6 +149,13 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.product_ids = False
             rec.product_ids = rec.prescription_line_ids.mapped('product_id')
+
+    @api.depends('prescription_date')
+    def _compute_prescription_date_format(self):
+        for rec in self:
+            rec.prescription_date_format = ''
+            if rec.prescription_date:
+                rec.prescription_date_format = rec.prescription_date.strftime('%Y-%m-%d %H:%M')
 
     def _compute_is_editable(self):
         is_nurse = self.env.user.has_group('acs_hms_base.group_hms_manager')
