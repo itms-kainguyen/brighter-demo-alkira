@@ -360,8 +360,14 @@ class Appointment(models.Model):
     answer_addition_ids = fields.One2many('appointment.addition.survey.answer', 'appointment_id', 'Additional',
                                           readonly=True)
 
-    aftercare_ids = fields.One2many('patient.aftercare', 'appointment_id', 'Aftercare',
-                                    states=REQUIRED_STATES)
+    aftercare_ids = fields.One2many(
+        'patient.aftercare', 
+        'appointment_id', 
+        'Aftercare',
+        states=REQUIRED_STATES,
+        compute="_compute_aftercare_ids",
+        store=True,
+        readonly=False)
 
     prescription_type = fields.Selection([
         ('botox', 'Botox'),
@@ -412,6 +418,31 @@ class Appointment(models.Model):
                         'category_id': category_id.id,
                     }
                     rec.consent_ids = [(0, 0, consent_val)]
+    
+    @api.depends(
+        'treatment_ids', 
+        'treatment_ids.medicine_line_ids',
+        'treatment_ids.medicine_line_ids.product_id',
+        'treatment_ids.medicine_line_ids.product_id.default_aftercare_id')
+    def _compute_aftercare_ids(self):
+        for rec in self:
+            rec.aftercare_ids = False
+            product_ids = ''
+            product_ids = rec.treatment_ids.mapped('medicine_line_ids.product_id')
+            if not product_ids:
+                continue
+            aftercare_ids = False
+            aftercare_ids = product_ids.mapped('default_aftercare_id')
+            if not aftercare_ids:
+                continue
+            for aftercare_id in aftercare_ids:
+                #prepare patient.aftercare value
+                aftercare_val = {
+                    'name': aftercare_id.name,
+                    'category_id': aftercare_id.id,
+                    'appointment_id': rec.id,
+                }
+                rec.aftercare_ids = [(0, 0, aftercare_val)]
 
     def action_start_survey(self):
         self.ensure_one()
