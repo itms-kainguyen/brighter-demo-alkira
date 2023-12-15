@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="follow_button_template" xml:space="preserve">
+   <t t-inherit="mail.FollowButton" t-inherit-mode="extension" owl="1">
+      <xpath expr="//button[hasclass('o_FollowButton_unfollow')]" position="replace">
+         <button class="o_FollowButton_unfollow btn px-0" t-att-class="{ 'o_ChatterTopbar_button': followButtonView.chatterOwner, 'o-following text-success': !followButtonView.isUnfollowButtonHighlighted, 'o-unfollow text-warning': followButtonView.isUnfollowButtonHighlighted }" t-att-disabled="followButtonView.isDisabled" t-on-click="followButtonView.onClickUnfollow" t-on-mouseenter="followButtonView.onMouseEnterUnfollow" t-on-mouseleave="followButtonView.onMouseleaveUnfollow">
+            <div class="position-relative">
+               <!-- Hidden element used to set the button maximum size -->
+               <span class="invisible">
+                  <t t-out="followButtonView.followingText.length > followButtonView.unfollowingText.length ? followButtonView.followingText : followButtonView.unfollowingText"></t>
+               </span>
+               <span t-if="followButtonView.isUnfollowButtonHighlighted" class="o_FollowButton_text position-absolute end-0 top-0 bottom-0 text-warning">
+                  <span t-out="followButtonView.unfollowingText"/>
+               </span>
+               <span t-else="" class="o_FollowButton_text d-block position-absolute end-0 top-0 bottom-0">
+                  <span t-out="followButtonView.followingText"/>
+               </span>
+            </div>
+         </button>
+      </xpath>
+   </t>
+</templates>
