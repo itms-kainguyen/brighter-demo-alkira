@@ -6,6 +6,7 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 import uuid
+from datetime import timedelta, datetime
 
 
 class ACSPrescriptionOrder(models.Model):
@@ -27,6 +28,9 @@ class ACSPrescriptionOrder(models.Model):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
 
+    def get_clinic(self):
+        return self.env.user.department_ids[0].id if len(self.env.user.department_ids) > 0 else False
+
     def _rec_count(self):
         for rec in self:
             rec.transaction_count = len(self.env['payment.transaction'].search(
@@ -45,7 +49,7 @@ class ACSPrescriptionOrder(models.Model):
                                states=READONLY_STATES, copy=False)
 
     advice_id = fields.Many2one('advice.template', ondelete="set null", string='Advice Template',
-                                states=READONLY_STATES, copy=False)
+                                states=READONLY_STATES, copy=False, tracking=True)
 
     patient_id = fields.Many2one('hms.patient', ondelete="restrict", string='Patient', required=True,
                                  states=READONLY_STATES, tracking=True)
@@ -53,7 +57,7 @@ class ACSPrescriptionOrder(models.Model):
     notes = fields.Html(string='Notes', states=READONLY_STATES)
     prescription_line_ids = fields.One2many(comodel_name='prescription.line', inverse_name='prescription_id',
                                             string='Prescription line',
-                                            states=READONLY_STATES, copy=True, auto_join=True)
+                                            states=READONLY_STATES, copy=True, auto_join=True, tracking=True)
     prescription_detail_ids = fields.One2many(comodel_name='prescription.detail', inverse_name='prescription_id',
                                               string='Prescription detail',
                                               copy=False, auto_join=True)
@@ -61,6 +65,8 @@ class ACSPrescriptionOrder(models.Model):
                                  default=lambda self: self.env.user.company_id, states=READONLY_STATES)
     prescription_date = fields.Datetime(string='Prescription Date', required=True, default=fields.Datetime.now,
                                         states=READONLY_STATES, tracking=True, copy=False)
+    prescription_date_format = fields.Char(string='Prescription Date Format',
+                                           compute='_compute_prescription_date_format')
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
     state = fields.Selection([
@@ -104,15 +110,16 @@ class ACSPrescriptionOrder(models.Model):
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
     nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True,
-                               default=lambda self: self.env.user)
+                               default=lambda self: self.env.user, states=READONLY_STATES, )
 
     survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
                                         copy=False, readonly=True)
 
     is_editable = fields.Boolean("Is Editable", compute='_compute_is_editable')
-
-    is_prescriber_fee = fields.Boolean('Is Prescriber fee', default=True)
-    prescriber_fee = fields.Float('Prescriber fee', default=25.0)
+    is_locked = fields.Boolean("Is Locked", compute='_compute_is_locked')
+    is_doctor_editable = fields.Boolean("Is Doctor Editable", default=True, readonly=1)
+    is_prescriber_fee = fields.Boolean('Is Prescriber fee', default=True, states=READONLY_STATES, )
+    prescriber_fee = fields.Float('Prescriber fee', default=25.0, states=READONLY_STATES)
     transaction_ids = fields.One2many('payment.transaction', 'prescription_id', string='Payment Transaction',
                                       readonly=1)
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
@@ -120,6 +127,22 @@ class ACSPrescriptionOrder(models.Model):
     treatment_ids = fields.Many2many('hms.treatment', 'prescription_treatment_rel', 'treatment_id', 'prescription_id')
     treatment_medicine_count = fields.Integer(compute='_rec_count', string='History')
     is_owner_prescriber = fields.Boolean("Owner Prescriber", compute='_compute_is_owner_prescriber', store=True)
+    department_id = fields.Many2one('hr.department', domain=[('patient_department', '=', True)], default=get_clinic,
+                                    string='Clinic Name', tracking=True)
+
+    def write(self, vals):
+        for record in self:
+            if record.state == 'prescription':
+                fields = ['department_id', 'prescription_date', 'prescription_line_ids']
+                tracked_fields_ref = record.fields_get(fields)
+                tracked_fields = tracked_fields_ref.copy()
+                dummy, tracking_value_ids = record._mail_track(tracked_fields, dict.fromkeys(fields))
+                message = record.message_post(subject=_('Prescription updated'), tracking_value_ids=tracking_value_ids,
+                                              message_type='comment',
+                                              subtype_xmlid='mail.mt_comment', )
+        res = super(ACSPrescriptionOrder, self).write(vals)
+
+        return res
 
     @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
     def _compute_product_ids(self):
@@ -127,12 +150,53 @@ class ACSPrescriptionOrder(models.Model):
             rec.product_ids = False
             rec.product_ids = rec.prescription_line_ids.mapped('product_id')
 
+    @api.depends('prescription_date')
+    def _compute_prescription_date_format(self):
+        for rec in self:
+            rec.prescription_date_format = ''
+            if rec.prescription_date:
+                rec.prescription_date_format = rec.prescription_date.strftime('%Y-%m-%d %H:%M')
+
     def _compute_is_editable(self):
         is_nurse = self.env.user.has_group('acs_hms_base.group_hms_manager')
         for record in self:
             record.is_editable = True
             if is_nurse and not self.env.is_admin():
                 record.is_editable = False
+
+    @api.depends('prescription_date', 'state')
+    def _compute_is_locked(self):
+        for record in self:
+            record.is_locked = False
+            if record.state == 'prescription':
+                now = datetime.now()
+                timedelta_cal = datetime.strptime(now.strftime('%Y-%m-%d %H:%M:%S'),
+                                                  '%Y-%m-%d %H:%M:%S') - record.prescription_date
+                hours, remainder = divmod(timedelta_cal.seconds, 3600)
+                days_to_hours = timedelta_cal.days * 24
+                remainder = remainder // 60
+                remainder = round(remainder / 60, 2)
+                hour = hours + days_to_hours + remainder
+                if hour > 24:
+                    record.is_locked = True
+                    record.is_doctor_editable = True
+
+    def cron_check_prescription_locked(self):
+        pres = self.env['prescription.order'].search([('state', '=', 'prescription')])
+        for record in pres:
+            record.is_locked = False
+            now = datetime.now()
+            timedelta_cal = datetime.strptime(now.strftime('%Y-%m-%d %H:%M:%S'),
+                                              '%Y-%m-%d %H:%M:%S') - record.prescription_date
+            hours, remainder = divmod(timedelta_cal.seconds, 3600)
+            days_to_hours = timedelta_cal.days * 24
+            remainder = remainder // 60
+            remainder = round(remainder / 60, 2)
+            hour = hours + days_to_hours + remainder
+            if hour > 24:
+                record.is_locked = True
+                record.is_doctor_editable = True
+        return True
 
     @api.depends('physician_id')
     def _compute_is_owner_prescriber(self):
@@ -206,6 +270,9 @@ class ACSPrescriptionOrder(models.Model):
     def button_reset(self):
         self.prescription_detail_ids.unlink()
         self.write({'state': 'draft'})
+
+    def button_edit(self):
+        self.is_doctor_editable = False
 
     def _prepare_invoice(self):
         self.ensure_one()
@@ -296,9 +363,17 @@ class ACSPrescriptionOrder(models.Model):
         # action['views'] = [(self.env.ref('acs_hms.act_open_hms_medicine_line_view').id, 'tree'), (False, 'form')]
         return action
 
+    def action_view_medical_checklist(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_medical_checklist")
+        history_ids = self.env['survey.user_input.line'].search(
+            [('appointment_id', '=', self.id)])
+        action['domain'] = [('id', 'in', history_ids.ids)]
+        action['context'] = {'search_default_appointment': 1, 'default_appointment': 1}
+        return action
+
     def button_prescribe_confirm(self):
         for app in self:
-            if app.is_owner_prescriber and not app.name:
+            if not app.name:
                 app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             app.state = 'prescription'
             # create prescription detail based on prescription line
@@ -354,8 +429,9 @@ class ACSPrescriptionOrder(models.Model):
             channel_id = self.env['mail.channel'].browse(channel["id"])
             pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                 'acs_hms.report_hms_prescription_id', res_ids=[app.id])
+            att_name = app.name if app.name else ''
             attachment = self.env['ir.attachment'].create({
-                'name': 'prescription_' + app.name,
+                'name': 'prescription_' + att_name,
                 'type': 'binary',
                 'raw': pdf_content,
                 'res_model': app._name,
@@ -554,7 +630,7 @@ class ACSPrescriptionLine(models.Model):
     sequence = fields.Integer("Sequence", default=10)
     prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
     product_id = fields.Many2one('product.product', ondelete="cascade", string='Product',
-                                 domain=[('hospital_product_type', '=', 'medicament')])
+                                 domain=[('hospital_product_type', '=', 'medicament')], tracking=True)
     allow_substitution = fields.Boolean(string='Allow Substitution')
     prnt = fields.Boolean(string='Print', help='Check this box to print this line of the prescription.', default=True)
     manual_prescription_qty = fields.Boolean(related="product_id.manual_prescription_qty",
@@ -565,7 +641,7 @@ class ACSPrescriptionLine(models.Model):
     manual_quantity = fields.Float(string='Manual Total Qty', default=1)
     active_component_ids = fields.Many2many('active.comp', 'product_pres_comp_rel', 'product_id', 'pres_id',
                                             'Active Component')
-    dose = fields.Float('Dosage', help="Amount of medication (eg, 250 mg) per dose", default=1.0)
+    dose = fields.Integer('Dosage', help="Amount of medication (eg, 250 mg) per dose", default=1, tracking=True)
     product_uom_category_id = fields.Many2one('uom.category', related='product_id.uom_id.category_id')
     dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose',
                                     domain="[('category_id', '=', product_uom_category_id)]")
@@ -596,7 +672,8 @@ class ACSPrescriptionLine(models.Model):
         help="This field used to schedule \
             the email notify the customer \
             to schedule the appointment")
-    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')], string="Use", help="")
+    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')],
+                           string="Expiration", help="")
 
     @api.depends('repeat')
     def _compute_remaining_repeat(self):

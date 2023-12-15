@@ -317,7 +317,8 @@
                             </div>
                             <field name="consent_id" invisible="1" domain="[('patient_id','=',patient_id)]" options="{'no_quick_create': 1}" context="{'default_patient_id': patient_id,'default_nurse_id': nurse_id}"/>
                             <field name="is_confirmed_consent" invisible="1"/>
-                            <field name="procedure" string="Treatment"/>
+                            <!-- <field name="procedure" string="Treatment" invisible="1"/> -->
+                            <field name="procedure_ids" string="Treatments" widget="many2many_tags"/>
                             <label for="invoice_exempt" string="No Charge" invisible="1"/>
                             <div name='invoice_exemption' class="o_row" invisible="1">
                                 <field name='invoice_exempt' class="oe_inline"/>
@@ -395,7 +396,7 @@
                             </field>
                         </page>
                         <page string="Medical Treatment Checklist">
-                            <group>
+                            <group invisible="1">
                                 <group>
                                     <label for="survey_id" groups="survey.group_survey_user"/>
                                     <div groups="survey.group_survey_user" class="o_row">
@@ -760,12 +761,12 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to">
-                <field name="physician_id"/>
+                <!-- <field name="physician_id"/> -->
                 <field name="patient_id"/>
                 <field name="age"/>
                 <field name="medical_alert_ids" widget="many2many_tags"/>
                 <field name="state" filters="1"/>
-                <field name="physician_id" avatar_field="image_128"/>
+                <!-- <field name="physician_id" avatar_field="image_128"/> -->
             </calendar>
         </field>
     </record>
@@ -813,11 +814,12 @@
     </record>
 
     <record id="action_appointment" model="ir.actions.act_window">
-        <field name="name">Appointment</field>
+        <field name="name">Appointments</field>
         <field name="res_model">hms.appointment</field>
         <field name="view_id" ref="view_acs_appointment_calendar"/>
         <field name="view_mode">calendar,tree,form,kanban,pivot,graph,activity</field>
         <field name="context">{'search_default_today': 1,'search_default_done': 1}</field>
+        <field name="domain">[]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No Record Found
@@ -836,6 +838,7 @@
             <tree expand="1" create="0" edit="0" delete="0" decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" name="appointment_tree">
                 <field name="name"/>
                 <field name="patient_id"/>
+                <field name="department_id"/>
                 <field name="date" invisible="1"/>
                 <field name="survey_id" invisible="1"/>
                 <field name="is_done_survey" invisible="1"/>
