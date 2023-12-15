@@ -14,19 +14,22 @@
                         </li>
                         <li>
                             <div t-on-click="chatterTopbar.chatter.onclickMsg">
-                                <i class="fa fa-commenting-o chatter-icon chatter-message"></i>
+                                <!-- <i class="fa fa-commenting-o chatter-icon chatter-message"></i> -->
+                                <span class="material-symbols-outlined chatter-icon"> chat </span>
                             </div>
                         </li>
                         <li>
                             <div t-on-click="chatterTopbar.chatter.onClickNote">
-                                <i class="fa fa-pencil-square-o chatter-icon chatter-notes"></i>
+                                <!-- <i class="fa fa-pencil-square-o chatter-icon chatter-notes"></i> -->
+                                <span class="material-symbols-outlined chatter-icon"> edit_note </span>
                             </div>
                         </li>
 
                         <li>
                             <t t-if="chatterTopbar.chatter.hasActivities">
-                                <i class="fa fa-clock-o me-1 chatter-icon chatter-activity" t-on-click="chatterTopbar.chatter.onClickScheduleActivity"/>
-                                <i class="fa-light fa-clock-rotate-left"></i>
+                                <!-- <i class="fa fa-clock-o me-1 chatter-icon chatter-activity" t-on-click="chatterTopbar.chatter.onClickScheduleActivity"/> -->
+                                <span class="material-symbols-outlined chatter-icon"  t-on-click="chatterTopbar.chatter.onClickScheduleActivity"> progress_activity </span>
+                                <!-- <i class="fa-light fa-clock-rotate-left"></i> -->
                             </t>
                         </li>
                     </ul>
@@ -74,9 +77,13 @@
                 </div>
                 <div class="messages">
                     <div class="message-icons chattert_top_container">
-                        <div class="icon">
+                        <!-- <div class="icon">
                             <i class="fa fa-commenting-o chatter-message icon_chaater_top"></i>
+                        </div> -->
+                        <div class="icon">
+                            <span class="material-symbols-outlined"> chat </span>
                         </div>
+
                         <div >
                             <h1 class="chatter-message">Messages</h1>
                         </div>
@@ -89,7 +96,8 @@
                 <div class="notes">
                     <div class="notes-icons chattert_top_container">
                         <div class="icon">
-                            <i class="fa fa-pencil-square-o chatter-notes icon_chaater_top"></i>
+                            <!-- <i class="fa fa-pencil-square-o chatter-notes icon_chaater_top"></i> -->
+                            <span class="material-symbols-outlined chatter-icon"> edit_note </span>
 
                         </div>
 

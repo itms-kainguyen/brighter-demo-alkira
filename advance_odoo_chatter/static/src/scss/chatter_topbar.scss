@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
 .o_FollowerListMenu_dropdown {
   bottom: 30px !important;
   // left: -215px !important;
@@ -18,7 +20,9 @@
 }
 
 .chatter-message {
-  color: #2196f3;
+  // color: #2196f3;
+  color: #6c757d;
+
 }
 
 .chatter-activity {
@@ -143,6 +147,8 @@
   display: flex;
   gap: 10px;
   width: 417px;
+  align-items: center;
+
 }
 
 .messages {
@@ -176,7 +182,9 @@
 }
 
 .chatter-notes {
-  color: #e770b8;
+  // color: #e770b8;
+  color: #6c757d;
+ 
 }
 
 .o_Chatter_button {
