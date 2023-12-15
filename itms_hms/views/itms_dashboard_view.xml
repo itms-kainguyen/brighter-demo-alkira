@@ -36,7 +36,7 @@
     <record id="action_hms_adverse_event_popup" model="ir.actions.act_window">
         <field name="name">Adverse Event Notification</field>
         <field name="res_model">hms.adverse.event</field>
-        <field name="view_id" ref="acs_hms_dashboard.view_hms_adverse_event_popup_form"/>
+        <field name="view_id" ref="itms_hms.view_hms_adverse_event_popup_form"/>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
