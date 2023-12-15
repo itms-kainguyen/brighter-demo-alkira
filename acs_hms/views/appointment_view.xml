@@ -396,12 +396,12 @@
                             </field>
                         </page>
                         <page string="Medical Treatment Checklist">
-                            <group invisible="1">
+                            <group>
                                 <group>
                                     <label for="survey_id" groups="survey.group_survey_user"/>
                                     <div groups="survey.group_survey_user" class="o_row">
                                         <field name="survey_id"
-                                            context="{'default_access_mode': 'token'}"/>
+                                            context="{'default_access_mode': 'token'}" invisible="1"/>
                                         <button string="Display Checklist Form" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
                                         <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="0"/>
                                     </div>
