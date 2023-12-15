@@ -814,7 +814,7 @@
     </record>
 
     <record id="action_appointment" model="ir.actions.act_window">
-        <field name="name">Appointment</field>
+        <field name="name">Appointments</field>
         <field name="res_model">hms.appointment</field>
         <field name="view_id" ref="view_acs_appointment_calendar"/>
         <field name="view_mode">calendar,tree,form,kanban,pivot,graph,activity</field>
