@@ -15,7 +15,9 @@
 	position: fixed; 
     top: $o-navbar-height;
     height: calc(100% - #{$o-navbar-height}); 
-    background-color: $mk-appbar-background;
+    // background-color: $mk-appbar-background;
+	background-color: #ffffff;
+    border-right: 1px solid #dee2e6;
     .mk_apps_sidebar {
 	    padding: 0;
 	    white-space: nowrap;
@@ -34,12 +36,13 @@
 		            display: block;
 		            cursor: pointer;
 		            font-size: 13px;
-		            font-weight: 300;
+		            font-weight: 500;
 		            overflow: hidden;
 		            padding: 8px 11px;
 		            position: relative;
 		            text-decoration: none;
-		            color: $mk-appbar-color;
+		            // color: $mk-appbar-color;
+		            color: #6c757d !important;
 		            text-overflow: ellipsis;
 		            .mk_apps_sidebar_icon {
 					    width: 22px;
@@ -49,10 +52,14 @@
 		        }
 		    }
 	        > li.active > a {
-			    background: $o-brand-primary;
+			    // background: $o-brand-primary;
+				background: #f96c31;
+    			color: white !important;
 	        }
 	        > li:hover > a {
-			    background: $o-brand-primary;
+			    // background: $o-brand-primary;
+				background: #f96c31;
+    			color: white !important;
 	        }
 	    }
 	}
