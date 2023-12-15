@@ -39,7 +39,7 @@
         <field name="name">hms.adverse.event.tree</field>
         <field name="model">hms.adverse.event</field>
         <field name="arch" type="xml">
-             <tree string="Adverse Event" create="false" edit="false">
+             <tree string="Adverse Event">
                 <field name="patient_id" string="Patient" readonly="1" />
                 <field name="chemical_burns_event_boolean" string="Chemical Burns" widget="boolean_toggle" optional="show" readonly="1"/>
                 <field name="medication_error_event_boolean" string="Medication Errors" widget="boolean_toggle" optional="show" readonly="1"/>
