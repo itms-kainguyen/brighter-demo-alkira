@@ -115,11 +115,11 @@
     </record>   
 
     <menuitem
-        name="Appointment"
+        name="Appointments"
         id="appointment_menu"
         sequence="1"/>
      <menuitem id="appointment_booking"
-            name="Appointment"
+            name="Appointments"
             parent="appointment_menu"
             action="calendar.action_calendar_event"
             sequence="3"/>
