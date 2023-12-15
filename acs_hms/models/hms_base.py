@@ -15,8 +15,20 @@ class ResPartner(models.Model):
     is_referring_doctor = fields.Boolean(string="Is Refereinng Physician")
     # ACS Note: Adding assignee as relation with partner for receptionist or Doctor to access only those patients assigned to them
     assignee_ids = fields.Many2many('res.partner', 'acs_partner_asignee_relation', 'partner_id', 'assigned_partner_id',
-                                    'Nurse')
+                                    domain="[('id','in', suitable_assignee_ids)]", string='Nurse')
     department_id = fields.Many2one('hr.department', string='Clinic')
+
+    suitable_assignee_ids = fields.Many2many('res.partner', compute='_compute_suitable_assignee_ids', precompute=True,
+                                             compute_sudo=True)
+
+    def _compute_suitable_assignee_ids(self):
+        for record in self:
+            nurse_ids = self.env['res.users'].sudo().search(
+                [('groups_id', '=', self.env.ref('acs_hms_base.group_hms_manager').id)])
+            partner_ids = [user.partner_id.id for user in nurse_ids]
+            record.suitable_assignee_ids = self.env['res.partner'].sudo().search([
+                ('id', 'in', partner_ids),
+            ])
 
     @api.model_create_multi
     def default_get(self, default_fields):

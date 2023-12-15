@@ -196,6 +196,7 @@
                     <group>
                         <group>
                             <field name="acs_patient_id"/>
+                             <field name="suitable_assignee_ids" widget="many2many_tags" string="Suitable Assignees" invisible="1"/>
                             <field name="assignee_ids" widget="many2many_tags"/>
                         </group>
                         <group>
