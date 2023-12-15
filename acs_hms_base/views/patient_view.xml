@@ -112,7 +112,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="code" readonly="1"/>
+                            <field name="code" readonly="1" invisible="1"/>
                             <field name="gender" required="1"/>
                             <field name="primary_physician_id" string="Prescriber"/>
                             <field name="title"/>
