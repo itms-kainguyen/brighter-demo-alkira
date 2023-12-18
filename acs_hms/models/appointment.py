@@ -1006,9 +1006,8 @@ class Appointment(models.Model):
         if (self.invoice_exempt or self.invoice_id) and not (
                 self.consumable_line_ids and self.appointment_invoice_policy == 'advance' and not self.invoice_exempt and not self.consumable_invoice_id):
             self.appointment_done()
-        else:
-            # self.state = 'to_invoice'
-            self.state = 'to_after_care'
+        # else:
+        #     self.state = 'to_after_care'
         if self.consumable_line_ids:
             self.consume_appointment_material()
         # if self.prescription_id:
@@ -1018,7 +1017,14 @@ class Appointment(models.Model):
             lines = self.treatment_ids.prescription_ids.prescription_line_ids
             for line in lines:
                 line.repeat -= 1
-
+        return {
+            'name': _('Add Treatment'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hms.treatment',
+            'view_mode': 'form',
+            'view_id': self.env.ref('acs_hms.view_hospital_hms_treatment_form').id,
+            'target': 'current',
+        }
         # self.appointment_done()
 
     def appointment_done(self):

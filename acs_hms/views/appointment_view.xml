@@ -208,7 +208,19 @@
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','advance'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="action_create_invoice_with_procedure" string="Create Invoice (With Procedure)" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('procedure_to_invoice_ids','=',[]),('invoice_id','!=',False), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="create_consumed_prod_invoice" string="Create Consumable's Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|','|','|',('invoice_id','=',False),('state','=','done'), ('invoice_exempt','=', True),('consumable_line_count','=',[]),('consumable_invoice_id','!=',False),'&amp;',('appointment_invoice_policy','!=','advance'),('appointment_invoice_policy','!=','anytime')]}" type="object" class="oe_highlight"/> -->
-                    <button name="consultation_done" states="in_consultation" groups="acs_hms_base.group_hms_manager" type="object" string="Start Treatment" class="oe_highlight"/>
+                    <button 
+                        name="consultation_done" 
+                        states="in_consultation" 
+                        groups="acs_hms_base.group_hms_manager" 
+                        type="object" 
+                        string="Start Treatment" 
+                        class="oe_highlight"
+                        context="{
+                            'default_appointment_id': id,
+                            'default_patient_id': patient_id,
+                            'default_nurse_id': nurse_id,
+                            'from_appointment': True}"
+                        />
                     <button name="appointment_done" states="to_after_care" groups="acs_hms_base.group_hms_manager" type="object" string="Send Aftercare" class="oe_highlight"/>
                     <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,waiting,in_consultation" type="action"/>
                     <button name="appointment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
@@ -639,7 +651,7 @@
                                     'default_nurse_id': nurse_id,
                                     'hide_header': True,
                                     'from_appointment': True}">
-                                <tree>
+                                <tree create="0">
                                     <field name="name"/>
                                     <field name="template_id"/>
                                     <field name="finding"/>
