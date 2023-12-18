@@ -37,3 +37,7 @@
 table.o_list_table th div.d-flex {
   display: none !important;
 }
+
+table.o_list_table th.o_list_record_selector div.d-flex {
+    display: block !important;
+}
