@@ -119,7 +119,7 @@
                 <field name="prescription_date_format" string="Prescription Date"/>
                 <field name="first_product_id"/>
                 <field name="department_id"/>
-                <field name="prescription_type"/>
+                <field name="prescription_type" invisible="1"/>
                 <field name="expire_date" invisible="1"/>
                 <field name="patient_id"/>
                 <field name="physician_id"/>
