@@ -32,3 +32,8 @@
     top:-53px;
     right: -850px;
 }
+
+
+table.o_list_table th div.d-flex {
+  display: none !important;
+}
