@@ -47,10 +47,8 @@ class Appointment(models.Model):
 
     @api.model
     def _get_default_physician(self):
-        physician_id = False
-        if self.env.user.sudo().physician_id:
-            physician_id = self.env.user.physician_id.id
-        return physician_id
+        if self.department_id:
+            return self.env['hms.physician'].search([('user_id.department_ids', '=', [self.department_id.id])], limit=1)
 
     @api.depends('medical_alert_ids')
     def _get_alert_count(self):
@@ -121,8 +119,9 @@ class Appointment(models.Model):
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
-    physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician',
-                                   index=True, help='Nurse\'s Name', states=READONLY_STATES, tracking=True)
+    physician_id = fields.Many2one('hms.physician', ondelete='restrict', default=_get_default_physician,
+                                   string='Prescriber',
+                                   index=True, help='', states=READONLY_STATES, tracking=True)
 
     def get_clinic(self):
         clinic = self.env.user.department_ids[0].id if self.env.user.department_ids else False
@@ -234,7 +233,7 @@ class Appointment(models.Model):
 
     date = fields.Datetime(string='Date', default=fields.Datetime.now, states=READONLY_CONFIRMED_STATES, tracking=True,
                            copy=False)
-    date_to = fields.Datetime(string='Date To',states=READONLY_CONFIRMED_STATES, copy=False, tracking=True)
+    date_to = fields.Datetime(string='Date To', states=READONLY_CONFIRMED_STATES, copy=False, tracking=True)
     planned_duration = fields.Float('Duration', compute="_get_planned_duration", inverse='_inverse_planned_duration',
                                     states=READONLY_CONFIRMED_STATES)
     manual_planned_duration = fields.Float('Manual Duration', states=READONLY_CONFIRMED_STATES)
@@ -333,8 +332,8 @@ class Appointment(models.Model):
                                          readonly=True)
 
     consent_ids = fields.One2many(
-        'consent.consent', 
-        'appointment_id', 
+        'consent.consent',
+        'appointment_id',
         'Consent Forms',
         compute="_compute_consent_ids",
         store=True,
@@ -361,8 +360,8 @@ class Appointment(models.Model):
                                           readonly=True)
 
     aftercare_ids = fields.One2many(
-        'patient.aftercare', 
-        'appointment_id', 
+        'patient.aftercare',
+        'appointment_id',
         'Aftercare',
         states=REQUIRED_STATES,
         compute="_compute_aftercare_ids",
@@ -391,8 +390,8 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         required=True, tracking=True)
     procedure_ids = fields.Many2many('treatment.procedure', ondelete='restrict', string='Procedure',
-        states=READONLY_STATES,
-        required=True, tracking=True)
+                                     states=READONLY_STATES,
+                                     required=True, tracking=True)
 
     survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
                                         copy=False, readonly=True)
@@ -408,7 +407,7 @@ class Appointment(models.Model):
             if rec.procedure_ids:
                 rec.consent_ids = False
                 for category_id in rec.procedure_ids.category_ids:
-                    #prepare consent.consent value
+                    # prepare consent.consent value
                     consent_val = {
                         'name': 'consent',
                         # 'procedure_id': rec.procedure_id.id,
@@ -418,9 +417,9 @@ class Appointment(models.Model):
                         'category_id': category_id.id,
                     }
                     rec.consent_ids = [(0, 0, consent_val)]
-    
+
     @api.depends(
-        'treatment_ids', 
+        'treatment_ids',
         'treatment_ids.medicine_line_ids',
         'treatment_ids.medicine_line_ids.product_id',
         'treatment_ids.medicine_line_ids.product_id.default_aftercare_id')
@@ -436,7 +435,7 @@ class Appointment(models.Model):
             if not aftercare_ids:
                 continue
             for aftercare_id in aftercare_ids:
-                #prepare patient.aftercare value
+                # prepare patient.aftercare value
                 aftercare_val = {
                     'name': aftercare_id.name,
                     'category_id': aftercare_id.id,
@@ -473,6 +472,12 @@ class Appointment(models.Model):
             rec.is_prescription_expired = False
             if rec.prescription_id and rec.prescription_id.expire_date < fields.Date.today():
                 rec.is_prescription_expired = True
+
+    @api.onchange('department_id')
+    def _onchange_physician_id(self):
+        if self.department_id:
+            self.physician_id = self.env['hms.physician'].search(
+                [('user_id.department_ids', '=', [self.department_id.id])], limit=1)
 
     @api.onchange('prescription_id')
     def onchange_prescription_id(self):
@@ -1065,7 +1070,8 @@ class Appointment(models.Model):
                                 medicine_line_ids.append(
                                     {'product_name': product_name, 'medicine_area': medicine_area, 'amount': amount,
                                      'batch_number': batch_number, 'medicine_technique': medicine_technique,
-                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method, 'template': treat.template_id.name})
+                                     'medicine_depth': medicine_depth, 'medicine_method': medicine_method,
+                                     'template': treat.template_id.name})
                     if treat.template_id:
                         finding = treat.finding or ''
                         template = treat.template_id.name
