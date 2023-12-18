@@ -292,7 +292,7 @@ class ACSPrescriptionOrder(models.Model):
                 'invoice_origin': self.name,
                 'company_id': self.env.user.company_id.id,
                 'invoice_date': self.prescription_date,
-                'prescription_id': self.id,
+                'ref': self.name,
                 'invoice_line_ids': [[0, 0, {
                     'product_id': service.id,
                     'quantity': 1,
