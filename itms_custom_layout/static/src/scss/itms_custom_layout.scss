@@ -118,7 +118,7 @@ label.o_form_label {
 
 .o_form_view .o_inner_group {
   --columns: 1;
-  gap: 0px !important;
+  // gap: 0px !important;
 }
 
 label.o_form_label {
@@ -400,4 +400,9 @@ ITMS dashboard
 .o_form_status_indicator {
   height: 100%;
   margin: 0px 10px;
+}
+
+// hide the header group search
+.o_field_x2many_list th div.d-flex {
+  display: none !important;
 }
