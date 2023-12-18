@@ -142,7 +142,7 @@
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
                     <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor" invisible="1"/>
-                     <button name="button_request_change" type="object" string="Request Change" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?" groups="acs_hms_base.group_hms_manager"/>
+                     <button name="button_request_change" type="object" string="Request Change" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?" groups="acs_hms_base.group_hms_manager" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
                      <button name="button_edit" string="Edit" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
                      <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
                      <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',True),('state','!=','confirmed')]}"/>
