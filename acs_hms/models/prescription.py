@@ -274,6 +274,41 @@ class ACSPrescriptionOrder(models.Model):
     def button_edit(self):
         self.is_doctor_editable = False
 
+    def button_open_edit(self):
+        if not self.is_locked:
+            self.is_doctor_editable = False
+        return {
+            'name': f"Prescription",
+            'view_mode': 'form',
+            'res_model': 'prescription.order',
+            'view_id': self.env.ref('acs_hms.view_hms_prescription_order_form').id,
+            'res_id': self.id,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            # 'target': 'current',
+            'context': {}
+        }
+
+    def button_request_change(self):
+        # MailMessage.create(message_vals)
+        for app in self:
+            if app.physician_id:
+                body_html = '''
+                            <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+                              <p>Hello {doctor},</p>
+                              <p>Request change for Prescription <strong>{number}</strong></p>
+                          </div>
+                                  '''.format(doctor=app.physician_id.name, number=app.name,
+                                             prescription_date=app.prescription_date)
+                channel = self.env['mail.channel'].channel_get([app.physician_id.partner_id.id])
+                channel_id = self.env['mail.channel'].browse(channel["id"])
+                channel_id.message_post(
+                    body=(body_html),
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_comment'
+                )
+        return True
+
     def _prepare_invoice(self):
         self.ensure_one()
         vals = []

@@ -142,7 +142,8 @@
                     <button name="print_report" string="Print" type="object" states="prescription"/>
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
                     <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor" invisible="1"/>
-                     <button name="button_edit" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
+                     <button name="button_request_change" type="object" string="Request Change" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?" groups="acs_hms_base.group_hms_manager"/>
+                     <button name="button_edit" string="Edit" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
                      <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
                      <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',True),('state','!=','confirmed')]}"/>
                      <button name="button_prescribe_confirm" states="draft" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',False),('state','!=','draft')]}"/>
@@ -187,6 +188,7 @@
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
                                     <field name="department_id" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
         <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
+
                                 </group>
                                 <group>
                                     <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
@@ -201,6 +203,10 @@
                                      </div>
                                     <field name="alert_count" invisible="1"/>
                                     <field name="pregnancy_warning" invisible="1"/>
+                                     <div name='call_telehealth'>
+                                        <a name="acs_apply_call_telehealth"
+                                            class="btn btn-outline-primary" onclick="call_telehealth();">Call Prescriber</a>
+                                    </div>
                                 </group>
                             </group>
                             <notebook>

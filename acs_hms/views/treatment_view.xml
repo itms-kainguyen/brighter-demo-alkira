@@ -77,6 +77,8 @@
                                 <tree string="Prescriptions" editable="bottom">
                                     <field name="name"/>
                                     <field name="product_ids" widget="many2many_tags"/>
+                                    <field name="is_locked" invisible="1"/>
+                                     <field name="state" invisible="1"/>
                                     <button 
                                         name="select_prescription" type="object" 
                                         string="Select" icon="fa-plus" class="oe_highlight"
@@ -87,6 +89,15 @@
                                         string="Deselect" icon="fa-minus" class="oe_highlight"
                                         context="{'default_treatment_id': parent.id}"
                                     />
+                                     <button
+                                        name="button_open_edit" type="object"
+                                        string="Edit" class="oe_highlight" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"
+                                        context="{'default_treatment_id': parent.id}"
+                                    />
+                                     <button
+                                        name="button_request_change" type="object"
+                                        string="Request Change" groups="acs_hms_base.group_hms_manager" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?"
+                                        context="{'default_treatment_id': parent.id}"/>
                                 </tree>
                             </field>
                             <separator string="Medicine" class="acs_separator"/>
