@@ -290,7 +290,7 @@
                         <group>
                             <field name="patient_id"/>
                             <field name="age"/>
-                            <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
+                            <field name="department_id"/>
                             <field name="department_type" invisible="1"/>
                             <field name="physician_id" required="0" string="Prescriber"/>
                             <field name="nurse_id"/>
