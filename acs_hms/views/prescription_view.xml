@@ -115,7 +115,7 @@
         <field name="arch" type="xml">
             <tree string="ACS Prescription Order" decoration-info="state=='prescription'" decoration-muted="state=='canceled'" expand="1">
                 <field name="name" invisible="1"/>
-                <field name="prescription_date" invisible="1"/>
+                <field name="prescription_date"/>
                 <field name="prescription_date_format" string="Prescription Date"/>
                 <field name="first_product_id"/>
                 <field name="department_id"/>
@@ -178,9 +178,7 @@
                                     <field name="is_editable" invisible="1"/>
                                     <field 
                                         name="physician_id" 
-                                        attrs="{
-                                            'readonly': ['|',('is_editable', '=', False), ('is_locked','=',True)],
-                                            'invisible': ['&amp;',('is_editable', '=', False),('physician_id','=',False)]}"
+                                        attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]"
                                     />
                                      <field name="is_owner_prescriber" invisible="1"/>
                                     <field name="nurse_id"/>
