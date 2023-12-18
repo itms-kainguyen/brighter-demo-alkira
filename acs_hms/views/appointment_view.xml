@@ -651,7 +651,7 @@
                                     'default_nurse_id': nurse_id,
                                     'hide_header': True,
                                     'from_appointment': True}">
-                                <tree create="0">
+                                <tree>
                                     <field name="name"/>
                                     <field name="template_id"/>
                                     <field name="finding"/>
