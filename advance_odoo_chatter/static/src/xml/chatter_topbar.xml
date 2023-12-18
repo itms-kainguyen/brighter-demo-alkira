@@ -25,7 +25,7 @@
                             </div>
                         </li>
 
-                        <li>
+                        <li class="progress_activity">
                             <t t-if="chatterTopbar.chatter.hasActivities">
                                 <!-- <i class="fa fa-clock-o me-1 chatter-icon chatter-activity" t-on-click="chatterTopbar.chatter.onClickScheduleActivity"/> -->
                                 <span class="material-symbols-outlined chatter-icon"  t-on-click="chatterTopbar.chatter.onClickScheduleActivity"> progress_activity </span>
