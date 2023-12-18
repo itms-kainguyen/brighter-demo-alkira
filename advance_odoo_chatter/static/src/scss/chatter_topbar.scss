@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+.o_FollowerListMenu_dropdown {
+  bottom: 30px !important;
+  // left: -215px !important;
+  top: auto !important;
+  left: -179px !important;
+  position: absolute !important;
+}
+
+.o_Chatter.position-relative {
+  z-index: 1;
+}
+
+//  chatter icons style
+
+.chatter-icon {
+  font-size: 30px;
+  margin: 15px;
+}
+
+.chatter-message {
+  // color: #2196f3;
+  color: #6c757d;
+
+}
+
+.chatter-activity {
+  color: #27a57e;
+}
+
+// for the chatter shadow
+.chatter_shadow {
+  border-top-left-radius: 23px;
+  border-bottom-left-radius: 23px;
+  border: 2px solid #f0f0f0;
+  box-shadow: 0px 0px 10px 1px;
+}
+
+.o_Chatter_composer {
+  position: absolute;
+  padding-left: 0px !important;
+  top: 75px;
+}
+
+.o-composer-hide {
+  display: none;
+}
+
+.chatter_icon_top {
+  top: 45px;
+}
+
+.sidebar_chatter_top {
+  list-style: none;
+  position: absolute;
+  right: 8px;
+}
+
+.o_Composer_coreMain {
+  width: inherit !important;
+}
+
+.dropdown-menu {
+  z-index: 1000;
+}
+
+.sidebar_chatter_bottom {
+  list-style: none;
+  position: fixed;
+  right: 1rem;
+  bottom: 25px;
+}
+
+.o_FormRenderer_chatterContainer {
+  background-color: white;
+  border-left: 1px solid #dee2e6;
+  position: fixed;
+  // top: 0px;
+  top: 40px;
+  right: 0px;
+  width: 5.5%;
+  height: 100%;
+  // z-index: 997;
+  z-index: 0;
+  padding-bottom: 0px !important;
+}
+.o_FormRenderer_chatterContainer.oe_chatter.chatter_form {
+  z-index: 1000 !important;
+}
+
+.chatter_compos {
+  display: block;
+}
+
+.o_Chatter_scrollPanel {
+  z-index: -1;
+  width: 80%;
+  display: none;
+  position: absolute;
+  top: 325px;
+}
+
+.chatter_scroll_top {
+  top: auto !important;
+}
+
+.composer_chatter {
+  display: block;
+}
+
+#expand_chatter {
+  font-size: 25px;
+  margin-left: 1.5rem;
+}
+
+.collapse_chatter {
+  font-size: 25px;
+  margin-left: 1.5rem;
+  display: none;
+}
+
+#collapse_chatter {
+  display: none;
+  font-size: 30px;
+  margin-left: 18px;
+}
+
+// .o_form_view {
+//   padding-right: 18px;
+//   background-color: #fcf8fe !important;
+//   width: 94.5% !important;
+//   padding-right: 10px;
+// }
+
+.chatter_form {
+  width: 500px !important;
+  border-top-left-radius: 23px;
+  border-bottom-left-radius: 23px;
+}
+
+.chatter_form_expand {
+  width: 2px;
+}
+
+.chattert_top_container {
+  display: flex;
+  gap: 10px;
+  width: 417px;
+  align-items: center;
+
+}
+
+.messages {
+  margin-top: 20px;
+  display: none;
+}
+
+.activity-container {
+  margin-top: 20px;
+  display: none;
+}
+
+.notes {
+  margin-top: 20px;
+  display: none;
+}
+
+.close-button {
+  top: 10px;
+  position: absolute;
+  right: 30px;
+  font-size: 25px;
+}
+
+.collapse-icon {
+  display: none;
+}
+
+.icon_chaater_top {
+  font-size: 35px;
+}
+
+.chatter-notes {
+  // color: #e770b8;
+  color: #6c757d;
+ 
+}
+
+.o_Chatter_button {
+  margin-top: 20px;
+  position: absolute;
+  right: 60px;
+  font-weight: bold;
+  color: #da70f8;
+}
+
+.o_ChatterTopbar_tools {
+  border-left: none !important;
+}
+
+.composer_chatter {
+  display: block !important;
+}
+
+.test-ribbon {
+  right: 0px;
+  bottom: 0px !important;
+  height: 30px;
+  background-color: #fcf8fe;
+  z-index: 997;
+}
+
+.elixir-theme-footer {
+  z-index: 998;
+}
+
+.o_FormRenderer_chatterContainer.o-aside {
+  padding-bottom: 0px !important;
+  height: 100% !important;
+  --ChatterTopbar-padding-right: 0px !important;
+  width: 5.5%;
+}
+
+// .o_FollowerListMenu_dropdown {
+//   left: -179px !important;
+// }
+
+// .dropdown-toggle:has(.o_optional_columns_dropdown_toggle) {
+//   display: none;
+// }
+
+@media only screen and (min-width: 1800px) {
+  // .o_form_view {
+  //   width: 95.5% !important;
+  // }
+
+  .o_FormRenderer_chatterContainer.o-aside {
+    height: 100% !important;
+    width: 4.5%;
+  }
+}
+
+// .fa-paperclip {
+//   padding-left: 1.5rem;
+// }
+.fa-paperclip {
+  padding-left: 1rem;
+}
+
+.o_AttachmentBox {
+  margin-left: 10%;
+}
+
+.attachment_icon {
+  margin-right: 2px;
+  padding-left: 1.3rem !important;
+}
+
+#close_expand {
+  display: none;
+  margin-left: 22px;
+}
+
+//invoice paid
+.o_FormRenderer_chatterContainer.o-isInFormSheetBg {
+  width: 4.5% !important;
+}
+.o_FormRenderer_chatterContainer.o-isInFormSheetBg.chatter_form {
+  width: 500px !important;
+}
+
+// .o_web_client:has(> .o_action_manager > .o_website_preview) .test-ribbon{
+//     display: none !important;
+// }
+
+// chatter message box
+
+.o_Chatter_composer
+  > .o_Composer_coreMain
+  > .o_ComposerTextInput
+  > .o_ComposerTextInput_textarea {
+  height: 100px !important;
+}
+.o_Chatter_composer > .o_Composer_coreMain {
+  width: 350px !important;
+}
+
+//for navebar
+// .navbar_chatter{
+//   margin-right: 5% !important;
+// }
+.o_form_view.o_form_view_chatter {
+  margin-right: 6% !important;
+}
+.o_xxl_navbar_chatter {
+  padding-right: 5% !important;
+}
+.o_form_view.o_xxl_form_chatter {
+  margin-right: 5% !important;
+}
