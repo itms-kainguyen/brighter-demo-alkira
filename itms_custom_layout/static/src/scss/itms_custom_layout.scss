@@ -257,7 +257,7 @@ label.o_form_label {
 }
 
 div[name='call_telehealth'] .btn {
-  background: #f96c31 !important;
+  background: #FF4F00 !important;
   color: white;
   border-color: #d35c2b;
 }
@@ -394,4 +394,10 @@ ITMS dashboard
 
 .itms_dashboard_navigation {
   padding-top: 12px;
+}
+
+// form_status_indicator
+.o_form_status_indicator {
+  height: 100%;
+  margin: 0px 10px;
 }
