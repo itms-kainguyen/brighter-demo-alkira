@@ -665,7 +665,6 @@
                                         <create string="Add a treatment"/>
                                     </control> -->
                                     <field name="name"/>
-                                    <field name="template_id"/>
                                     <field name="finding"/>
                                     <field name="state"/>
                                 </tree>
