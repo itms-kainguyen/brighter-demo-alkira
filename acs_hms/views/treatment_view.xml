@@ -12,7 +12,7 @@
                         <!-- <button name="treatment_done" groups="acs_hms.group_hms_jr_doctor" type="object" string="Done" class="oe_highlight"/> -->
                         <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
                         <!-- <button name="treatment_cancel" string="Cancel" states="draft,running,done" type="object" class="oe_highlight"/> -->
-                        <button name="treatment_draft" string="Draft" states="done" type="object" class="oe_highlight"/>
+                        <button name="treatment_draft" string="Edit" states="done" type="object" class="oe_highlight"/>
                         <!-- <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/> -->
                     </group>
                     <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
