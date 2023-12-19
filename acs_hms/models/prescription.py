@@ -39,7 +39,7 @@ class ACSPrescriptionOrder(models.Model):
                 [('state', '=', 'done'), ('patient_id', '=', self.patient_id.id)]))
 
     READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
-                       'finished': [('readonly', True)], 'expired': [('readonly', True)]}
+                       'finished': [('readonly', True)], 'expired': [('readonly', True)], 'request': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -73,6 +73,7 @@ class ACSPrescriptionOrder(models.Model):
         ('draft', 'Prescription Order'),
         ('confirmed', 'Pending Review'),
         ('prescription', 'Prescribed'),
+        ('request', 'Request Change'),
         ('finished', 'Completed'),
         ('canceled', 'Cancelled'),
         ('expired', 'Expired')], string='Status', default='draft', tracking=True)
@@ -131,15 +132,6 @@ class ACSPrescriptionOrder(models.Model):
                                     string='Clinic Name', tracking=True)
 
     def write(self, vals):
-        for record in self:
-            if record.state == 'prescription':
-                fields = ['department_id', 'prescription_date', 'prescription_line_ids']
-                tracked_fields_ref = record.fields_get(fields)
-                tracked_fields = tracked_fields_ref.copy()
-                dummy, tracking_value_ids = record._mail_track(tracked_fields, dict.fromkeys(fields))
-                message = record.message_post(subject=_('Prescription updated'), tracking_value_ids=tracking_value_ids,
-                                              message_type='comment',
-                                              subtype_xmlid='mail.mt_comment', )
         res = super(ACSPrescriptionOrder, self).write(vals)
 
         return res
@@ -271,8 +263,51 @@ class ACSPrescriptionOrder(models.Model):
         self.prescription_detail_ids.unlink()
         self.write({'state': 'draft'})
 
+    def button_approve_request(self):
+        for record in self:
+            template_id = self.env.ref('acs_hms.acs_prescription_approve_request_email')
+            template_id.sudo().send_mail(record.id, raise_exception=False, force_send=True)
+            record.write({'state': 'prescription'})
+
+    def button_reject_request(self):
+        self.write({'state': 'request'})
+
     def button_edit(self):
         self.is_doctor_editable = False
+
+    def button_open_edit(self):
+        if not self.is_locked:
+            self.is_doctor_editable = False
+        return {
+            'name': f"Prescription",
+            'view_mode': 'form',
+            'res_model': 'prescription.order',
+            'view_id': self.env.ref('acs_hms.view_hms_prescription_order_form').id,
+            'res_id': self.id,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            # 'target': 'current',
+            'context': {}
+        }
+
+    def button_request_change(self):
+        # MailMessage.create(message_vals)
+        for app in self:
+            if app.physician_id:
+                body_html = '''
+                            <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+                              <p>Hi {doctor},is requesting a change to <strong>{number}</strong></p>
+                            </div>
+                            '''.format(doctor=app.physician_id.name, number=app.name)
+                channel = self.env['mail.channel'].channel_get([app.physician_id.partner_id.id])
+                channel_id = self.env['mail.channel'].browse(channel["id"])
+                channel_id.message_post(
+                    body=(body_html),
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_comment'
+                )
+                app.state = 'request'
+        return True
 
     def _prepare_invoice(self):
         self.ensure_one()
