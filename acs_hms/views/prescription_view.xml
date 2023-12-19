@@ -143,11 +143,12 @@
                     <button name="action_prescription_send" string="Send by Email" type="object" states="prescription" invisible="1"/>
                     <button name="button_reset" states="prescription" string="Edit" type="object" groups="acs_hms_base.group_hms_manager, acs_hms.group_hms_doctor" invisible="1"/>
                      <button name="button_request_change" type="object" string="Request Change" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?" groups="acs_hms_base.group_hms_manager" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
-                     <button name="button_edit" string="Edit" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
+                     <button name="button_edit" string="Edit" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','not in',('prescription','request'))]}"/>
+                     <button name="button_approve_request" states="request" string="Approve Change" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': [('state','!=','request')]}"/>
                      <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
                      <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',True),('state','!=','confirmed')]}"/>
                      <button name="button_prescribe_confirm" states="draft" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',False),('state','!=','draft')]}"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,prescription,finished"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,prescription,request,finished"/>
                 </header>
                 <div invisible="not context.get('show_pop_up',True)" class="alert alert-error text-center" role="alert" style="margin-bottom:0px; background-color:#f8b9b9;"  attrs="{'invisible': [('alert_count','=',0)]}">
                     <field name="medical_alert_ids" nolabel="1" widget="many2many_tags"/>
@@ -184,7 +185,7 @@
                                     <field name="nurse_id"/>
                                     <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
-                                    <field name="department_id" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
+                                    <field name="department_id" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
         <!--                            domain="[('physician_id','=',physician_id),'|',('diseases_id','in',diseases_ids),('diseases_id','=',False)]"-->
 
                                 </group>
@@ -192,19 +193,19 @@
                                     <field name="diseases_ids" widget="many2many_tags" invisible="1"/>
                                     <field name="is_doctor_editable" invisible="1"/>
                                     <field name="is_locked" invisible="1"/>
-                                    <field name="expire_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
-                                    <field name="prescription_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
+                                    <field name="expire_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
+                                    <field name="prescription_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
                                      <label for="is_prescriber_fee" string="Prescriber fee"/>
                                      <div class="oe_inline">
-                                         <field name="is_prescriber_fee"/>
-                                         <span attrs="{'invisible': [('is_prescriber_fee', '=', False)]}"><field name="prescriber_fee" class="oe_inline"/></span>
+                                         <field name="is_prescriber_fee" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
+                                         <span attrs="{'invisible': [('is_prescriber_fee', '=', False)], 'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"><field name="prescriber_fee" class="oe_inline"/></span>
                                      </div>
                                     <field name="alert_count" invisible="1"/>
                                     <field name="pregnancy_warning" invisible="1"/>
-                                     <div name='call_telehealth'>
-                                        <a name="acs_apply_call_telehealth"
-                                            class="btn btn-outline-primary" onclick="call_telehealth();">Call Prescriber</a>
-                                    </div>
+<!--                                     <div name='call_telehealth'>-->
+<!--                                        <a name="acs_apply_call_telehealth"-->
+<!--                                            class="btn btn-outline-primary" onclick="call_telehealth();">Call Prescriber</a>-->
+<!--                                    </div>-->
                                 </group>
                             </group>
                             <notebook>
@@ -226,7 +227,7 @@
         <!--                                    </div>-->
         <!--                                </group>-->
                                     </group>
-                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="one2many_list" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}">
+                                    <field name="prescription_line_ids" nolabel="1" colspan="4" context="{'default_appointment_id': appointment_id}" widget="one2many_list" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}">
                                         <tree string="Prescription Line" editable="bottom">
                                             <control>
                                                 <create name="add_line_control" string="Add a line"/>
