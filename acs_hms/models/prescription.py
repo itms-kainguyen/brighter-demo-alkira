@@ -39,7 +39,8 @@ class ACSPrescriptionOrder(models.Model):
                 [('state', '=', 'done'), ('patient_id', '=', self.patient_id.id)]))
 
     READONLY_STATES = {'cancel': [('readonly', True)], 'prescription': [('readonly', True)],
-                       'finished': [('readonly', True)], 'expired': [('readonly', True)], 'request': [('readonly', True)]}
+                       'finished': [('readonly', True)], 'expired': [('readonly', True)],
+                       'request': [('readonly', True)]}
 
     name = fields.Char(size=256, string='Number', help='Prescription Number of this prescription', readonly=True,
                        copy=False, tracking=True)
@@ -294,11 +295,15 @@ class ACSPrescriptionOrder(models.Model):
         # MailMessage.create(message_vals)
         for app in self:
             if app.physician_id:
+                config_parameter_obj = self.env['ir.config_parameter'].sudo()
+                url = config_parameter_obj.get_param('web.base.url')
+                url += '/web#id={id}&cids=1&model=prescription.order&view_type=form'.format(id=app.id)
                 body_html = '''
                             <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
                               <p>Hi {doctor},is requesting a change to <strong>{number}</strong></p>
+                              <p>URL: {url}</p>
                             </div>
-                            '''.format(doctor=app.physician_id.name, number=app.name)
+                            '''.format(doctor=app.physician_id.name, number=app.name, url=url)
                 channel = self.env['mail.channel'].channel_get([app.physician_id.partner_id.id])
                 channel_id = self.env['mail.channel'].browse(channel["id"])
                 channel_id.message_post(
