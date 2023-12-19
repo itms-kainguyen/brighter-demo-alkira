@@ -6,11 +6,6 @@
         <field name="model">hms.treatment</field>
         <field name="arch" type="xml">
             <form class='dialog_full_screen'>
-                <!-- <script>
-                    $(document).ready(function(){
-                    $(".o_form_button_save_new").hide();
-                    });
-                </script> -->
                 <header>
                     <group invisible="context.get('hide_header')">
                         <!-- <button name="treatment_running" states="draft" type="object" groups="acs_hms.group_hms_receptionist" string="Confirm" class="oe_highlight"/> -->
@@ -77,6 +72,8 @@
                                 <tree string="Prescriptions" editable="bottom">
                                     <field name="name"/>
                                     <field name="product_ids" widget="many2many_tags"/>
+                                    <field name="is_locked" invisible="1"/>
+                                     <field name="state" invisible="1"/>
                                     <button 
                                         name="select_prescription" type="object" 
                                         string="Select" icon="fa-plus" class="oe_highlight"
@@ -87,6 +84,15 @@
                                         string="Deselect" icon="fa-minus" class="oe_highlight"
                                         context="{'default_treatment_id': parent.id}"
                                     />
+                                     <button
+                                        name="button_open_edit" type="object"
+                                        string="Edit" class="oe_highlight" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','not in',('prescription','request'))]}"
+                                        context="{'default_treatment_id': parent.id}"
+                                    />
+                                     <button
+                                        name="button_request_change" type="object" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"
+                                        string="Request Change" groups="acs_hms_base.group_hms_manager" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?"
+                                        context="{'default_treatment_id': parent.id}"/>
                                 </tree>
                             </field>
                             <separator string="Medicine" class="acs_separator"/>
@@ -360,6 +366,21 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">treatment.template</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add treatment.
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_treatment_form">
+        <field name="name">Treatments Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hms.treatment</field>
+        <field name="view_mode">form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No Record Found
