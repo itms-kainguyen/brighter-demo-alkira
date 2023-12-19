@@ -255,13 +255,13 @@
 <!--                <filter name="is_infectious" string="Infectious" domain="[('is_infectious','=',1)]"/>-->
 <!--                <filter name="is_allergy" string="Allergic" domain="[('is_allergy','=',1)]"/>-->
                 <group expand="0" string="Group By...">
-                    <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
-                    <filter string="Doctor" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
-                    <filter string="Date" name="date_groupby" domain="[]" context="{'group_by':'date'}" />
-                    <filter string="Department" name="department_groupby" domain="[]" context="{'group_by':'department_id'}"/>
-                    <filter string="Hospital" name="hospital_groupby" domain="[]" context="{'group_by':'company_id'}" />
-                    <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Diagnosis" name="diagnosis_groupby" domain="[]" context="{'group_by':'diagnosis_id'}"/>
+<!--                    <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>-->
+<!--                    <filter string="Doctor" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}"/>-->
+<!--                    <filter string="Date" name="date_groupby" domain="[]" context="{'group_by':'date'}" />-->
+<!--                    <filter string="Department" name="department_groupby" domain="[]" context="{'group_by':'department_id'}"/>-->
+<!--                    <filter string="Hospital" name="hospital_groupby" domain="[]" context="{'group_by':'company_id'}" />-->
+<!--                    <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>-->
+<!--                    <filter string="Diagnosis" name="diagnosis_groupby" domain="[]" context="{'group_by':'diagnosis_id'}"/>-->
                 </group>
             </search>
         </field>
