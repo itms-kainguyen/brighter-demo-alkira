@@ -206,7 +206,7 @@
 <!--                        </page>-->
                         <footer position="inside" invisible="not context.get('hide_header')">
                             <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
-                            <button name="treatment_draft" string="Draft" states="done" type="object" class="oe_highlight"/>
+                            <button name="treatment_draft" string="Edit" states="done" type="object" class="oe_highlight"/>
                             <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/>
                         </footer>
                     </notebook>
@@ -250,10 +250,10 @@
                 <filter name="my_treatment" string="My Treatments" domain="[('physician_id.user_id', '=',uid)]"/>
                 <separator/>
                 <filter name="done" string="Not Done" domain="[('state','!=','done'),('state','!=','cancel')]"/>
-                <filter name="pregancy_warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>
-                <filter name="lactation" string="Under Lactation" domain="[('lactation','=',1)]"/>
-                <filter name="is_infectious" string="Infectious" domain="[('is_infectious','=',1)]"/>
-                <filter name="is_allergy" string="Allergic" domain="[('is_allergy','=',1)]"/>
+<!--                <filter name="pregancy_warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>-->
+<!--                <filter name="lactation" string="Under Lactation" domain="[('lactation','=',1)]"/>-->
+<!--                <filter name="is_infectious" string="Infectious" domain="[('is_infectious','=',1)]"/>-->
+<!--                <filter name="is_allergy" string="Allergic" domain="[('is_allergy','=',1)]"/>-->
                 <group expand="0" string="Group By...">
                     <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter string="Doctor" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
