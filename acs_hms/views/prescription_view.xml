@@ -145,7 +145,7 @@
                      <button name="button_request_change" type="object" string="Request Change" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?" groups="acs_hms_base.group_hms_manager" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"/>
                      <button name="button_edit" string="Edit" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','not in',('prescription','request'))]}"/>
                      <button name="button_approve_request" states="request" string="Approve Change" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': [('state','!=','request')]}"/>
-                     <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/>
+                     <!-- <button name="button_cancel" states="prescription" string="Cancel" type="object" groups="acs_hms_base.group_hms_manager"/> -->
                      <button name="button_prescribe_confirm" states="confirmed" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',True),('state','!=','confirmed')]}"/>
                      <button name="button_prescribe_confirm" states="draft" string="Approve" type="object" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_owner_prescriber','=',False),('state','!=','draft')]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,prescription,request,finished"/>
