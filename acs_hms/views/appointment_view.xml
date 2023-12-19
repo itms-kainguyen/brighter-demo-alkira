@@ -644,14 +644,26 @@
                             </group>
                         </page> -->
 
-                        <page name="treatment_ids" string="Treatments" invisible="0">
+                        <page name="treatment_ids" string="Treatments">
+                            <button name="%(acs_hms.act_open_treatment_form)d"
+                                class="oe_highlight" string="Add a treatment" type="action" 
+                                context="{
+                                    'default_appointment_id': id,
+                                    'default_patient_id': patient_id,
+                                    'default_nurse_id': nurse_id,
+                                    'from_appointment': True}"/>
                             <field name="treatment_ids" context="{
                                     'default_appointment_id': id,
                                     'default_patient_id': patient_id,
                                     'default_nurse_id': nurse_id,
                                     'hide_header': True,
-                                    'from_appointment': True}">
-                                <tree>
+                                    'from_appointment': True,
+                                    'target':'current'}"
+                                    >
+                                <tree create="0">
+                                    <!-- <control>
+                                        <create string="Add a treatment"/>
+                                    </control> -->
                                     <field name="name"/>
                                     <field name="template_id"/>
                                     <field name="finding"/>
