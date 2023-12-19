@@ -389,9 +389,10 @@
 
                                     <button name="action_open_form"
                                             type="object"
-                                            class="btn btn-secondary fa fa-arrow-right"
+                                            class="fas fa fa-signature"
                                             aria-label="Internal link"
                                             data-tooltip="Internal link"/>
+
                                 </tree>
                             </field>
                         </page>
