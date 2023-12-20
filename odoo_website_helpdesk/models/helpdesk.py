@@ -23,6 +23,7 @@ import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
+from twilio.rest import Client
 
 _logger = logging.getLogger(__name__)
 
@@ -110,6 +111,7 @@ class HelpDeskTicket(models.Model):
                                        help='Last Update Date')
     ticket_type = fields.Many2one('helpdesk.types',
                                   string='Ticket Type', help='Ticket Type')
+    ticket_name = fields.Char('Ticket Name', help='Ticket Name', related='ticket_type.name')
     team_head = fields.Many2one('res.users', string='Team Leader',
                                 compute='_compute_team_head',
                                 help='Team Leader Name')
@@ -130,7 +132,81 @@ class HelpDeskTicket(models.Model):
     merge_count = fields.Integer(string='Merge Count', help='Merged Tickets '
                                                             'Count')
     active = fields.Boolean(default=True, help='Active', string='Active')
+    
+    patient_id = fields.Many2one('hms.patient', string='Patient')
+    nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
+    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', readonly=True)
+    chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
+    medication_error_event_boolean = fields.Boolean(string='Medication Errors', default=False)
+    blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
+    infections_event_boolean = fields.Boolean(string='Infections', default=False)
+    allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
+    is_sent = fields.Boolean(string='Sent', default=False)
 
+    @api.onchange(
+        'nurse_id', 'customer_id', 
+        'chemical_burns_event_boolean', 
+        'medication_error_event_boolean', 
+        'blindness_event_boolean', 
+        'infections_event_boolean', 
+        'allergic_event_boolean',
+        'ticket_type')
+    def onchange_adverse_event_boolean(self):
+        for rec in self:
+            rec.description = ''
+            if rec.ticket_name != 'Adverse Event':
+                continue
+            if rec.nurse_id:
+                rec.phone = rec.nurse_id.phone
+
+            if rec.chemical_burns_event_boolean == True:
+                rec.description += 'Chemical Burns,'
+
+            if rec.medication_error_event_boolean == True:
+                rec.description += 'Medication Errors,'
+
+            if rec.blindness_event_boolean == True:
+                rec.description += 'Blindness,'
+
+            if rec.infections_event_boolean == True:
+                rec.description += 'Infections,'
+
+            if rec.allergic_event_boolean == True:
+                rec.description += 'Allergic Reactions'
+
+            rec.description = '''
+            {}: Urgent - Adverse Event
+            Nurse: {}
+            Patient: {}
+            Contact: {}
+            Adverse Event: {}
+            Please respond urgently.
+            '''.format(
+                rec.nurse_id.department_ids[0].name,
+                rec.nurse_id.name,
+                rec.customer_id.name,
+                rec.phone,
+                rec.description,
+            )
+
+    def send_sms(self):
+        for rec in self:
+            rec.is_sent = False
+            if rec.description:
+                twilio_client = self.env['sms.gateway.config'].sudo().search([('gateway_name', '=', 'twilio')])
+                client = Client(twilio_client.twilio_account_sid,
+                                twilio_client.twilio_auth_token)
+
+                rec.is_sent = client.messages.create(
+                    body=rec.description,
+                    from_=twilio_client.twilio_phone_number,
+                    to='+61 0402851235'
+                )
+                self.env['sms.history'].sudo().create({
+                    'sms_gateway_id': twilio_client.sms_gateway_id.id,
+                    'sms_mobile': '+61 0402851235',
+                    'sms_text': rec.description
+                })
 
     @api.onchange('team_id', 'team_head')
     def team_leader_domain(self):
@@ -268,7 +344,7 @@ class HelpDeskTicket(models.Model):
             {
                 'name': invoice_no,
                 'move_type': 'out_invoice',
-                'partner_id': self.customer_id.id,
+                'customer_id': self.customer_id.id,
                 'ticket_id': self.id,
                 'date': fields.Date.today(),
                 'invoice_date': fields.Date.today(),

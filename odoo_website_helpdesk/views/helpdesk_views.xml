@@ -67,7 +67,7 @@
             <field name="view_mode">graph,search</field>
         </record>
         <menuitem id="menu_helpdesk" name="Helpdesk"
-                  action="helpdesk_dashboard_action"
+                  action="action_helpdesk_my"
                   sequence="1"/>
         <menuitem id="helpdesk_management" parent="menu_helpdesk" name="Tickets"
                   action="action_helpdesk" sequence="2"/>

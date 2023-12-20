@@ -17,8 +17,8 @@
         'views/ir_attachment_view.xml',
         'views/product_views.xml',
         'views/prescription_view.xml',
-        'views/itms_dashboard_view.xml',
-        'views/user_dashboard_view.xml',
+        # 'views/itms_dashboard_view.xml',
+        # 'views/user_dashboard_view.xml',
         'data/email.xml'
     ],
     'assets': {
