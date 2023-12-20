@@ -790,8 +790,8 @@ class Appointment(models.Model):
                                                                           product_data=product_data, inv_data=inv_data)
         self.consumable_invoice_id = invoice.id
         self.acs_appointment_common_invoicing(invoice)
-        if self.state == 'to_invoice':
-            self.appointment_done()
+        # if self.state == 'to_after_care':
+        #     self.appointment_done()
 
     def action_create_invoice_with_procedure(self):
         return self.with_context(with_procedure=True).create_invoice()
