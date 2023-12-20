@@ -114,6 +114,8 @@ class ACSPatient(models.Model):
             rec.acs_cancelled_appointments = cancelled_appointments
 
     def get_clinic(self):
+        if self.env.user.has_group('acs_hms.group_hms_doctor') and not self.env.user.has_group('acs_hms_base.group_hms_manager'):
+            return False
         return self.env.user.department_ids
 
     ref_doctor_ids = fields.Many2many('res.partner', 'rel_doc_pat', 'doc_id',

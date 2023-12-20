@@ -23,18 +23,9 @@ class Adverse_Event(models.Model):
     category_id = fields.Many2one('document.page',
                                   domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Adverse Event')],
                                   string='Adverse Event')
-    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', readonly=True)
 
-    nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
-    patient_id = fields.Many2one('hms.patient', string='Patient')
     nurse_phone = fields.Char(string='Nurse Phone')
     content = fields.Char('Content')
-    chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
-    medication_error_event_boolean = fields.Boolean(string='Medication Errors', default=False)
-    blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
-    infections_event_boolean = fields.Boolean(string='Infections', default=False)
-    allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
-    is_sent = fields.Boolean(string='Sent', default=False)
 
     @api.onchange('nurse_id', 'patient_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean', 'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
     def onchange_adverse_event_boolean(self):

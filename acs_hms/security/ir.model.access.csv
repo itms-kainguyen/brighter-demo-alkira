@@ -27,7 +27,8 @@ access_acs_product_kit_line_user,acs.product.kit.line,model_acs_product_kit_line
 acs_hms.access_procedure_group_line,access_procedure_group_line,model_procedure_group_line,acs_hms_base.group_hms_user,1,0,0,0
 acs_hms.access_procedure_group,access_procedure_group,model_procedure_group,acs_hms_base.group_hms_user,1,0,0,0
 
-access_hms_patient_receptionist,Patient,acs_hms_base.model_hms_patient,acs_hms_base.group_hms_manager,1,1,1,0
+access_hms_patient_receptionist,Patient,acs_hms_base.model_hms_patient,acs_hms_base.group_hms_manager,1,1,1,1
+access_hms_patient_doctor,Patient Doctor,acs_hms_base.model_hms_patient,acs_hms.group_hms_doctor,1,1,1,1
 access_hms_hms_appointment_receptionist,Appointment,model_hms_appointment,acs_hms_base.group_hms_manager,1,1,1,0
 access_hms_hms_patient_disease_receptionist,ACS Patient Disease,model_hms_patient_disease,acs_hms_base.group_hms_manager,1,1,1,0
 access_hms_disease_gene_receptionist,ACS Disease Gene,model_disease_gene,acs_hms_base.group_hms_manager,1,1,1,0

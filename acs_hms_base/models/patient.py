@@ -19,6 +19,10 @@ class ACSPatient(models.Model):
         for rec in self:
             rec.invoice_count = Invoice.sudo().search_count([('partner_id', '=', rec.partner_id.id)])
 
+    def _get_primary_physician_id(self):
+        if self.env.user.has_group('acs_hms.group_hms_doctor'):
+            return self.env['hms.physician'].search([('user_id', '=', self.env.user.id)])
+
     partner_id = fields.Many2one('res.partner', required=True, ondelete='restrict', auto_join=True,
                                  string='Related Partner', help='Partner-related data of the Patient')
     gov_code = fields.Char(string='Government Identity', copy=False, tracking=True)
@@ -37,7 +41,7 @@ class ACSPatient(models.Model):
     emp_code = fields.Char(string='Employee Code')
     user_id = fields.Many2one('res.users', string='Related User', ondelete='cascade',
                               help='User-related data of the patient')
-    primary_physician_id = fields.Many2one('hms.physician', 'Nurse')
+    primary_physician_id = fields.Many2one('hms.physician', 'Prescriber', default=_get_primary_physician_id)
     acs_tag_ids = fields.Many2many('hms.patient.tag', 'patient_tag_hms_rel', 'tag_id', 'patient_tag_id',
                                    string="HMS Tags")
 
@@ -124,7 +128,7 @@ class ACSPatient(models.Model):
         for patient in patients:
             message += _(
                 '\nThe Mobile number is already registered with another Patient: %s, Government Identity:%s, DOB: %s.') % (
-                       patient.name, patient.gov_code, patient.birthday)
+                           patient.name, patient.gov_code, patient.birthday)
         if message:
             message += _('\n\n Are you sure you want to create a new Patient?')
             return {
