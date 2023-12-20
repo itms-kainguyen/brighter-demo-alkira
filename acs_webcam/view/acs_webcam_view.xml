@@ -9,7 +9,8 @@
             <field name="image_1920" position="after">
                 <div class="oe_right">
                     <div class="acs_webcam_div">
-                        <button name="acs_open_website_url" string=" Take Picture" class="fa fa-camera text-info" type="object" data-hotkey="p"/>
+                        <!-- <button name="acs_open_website_url" string="" class="fa fa-camera text-info" type="object" data-hotkey="p"/> -->
+                        <button name="acs_open_website_url" string=" Take Picture" class="material-symbols-outlined text-info btn_takephoto" type="object" data-hotkey="p"> photo_camera </button>
                     </div>
                 </div>
             </field>
@@ -24,7 +25,9 @@
             <field name="image_1920" position="after">
                 <div class="oe_right">
                     <div class="acs_webcam_div">
-                        <button name="acs_open_website_url" string=" Take Picture" class="fa fa-camera text-info" type="object" data-hotkey="p"/>
+                        <!-- <button name="acs_open_website_url" string=" Take Picture" class="fa fa-camera text-info" type="object" data-hotkey="p"/> -->
+
+                        <button name="acs_open_website_url" string=" Take Picture" class="material-symbols-outlined text-info btn_takephoto" type="object" data-hotkey="p"> photo_camera </button>
                     </div>
                 </div>
             </field>
