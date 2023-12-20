@@ -9,6 +9,13 @@
                 <separator string="Signature" class="acs_separator"/>
                     <field name="signature" widget="signature" class="img_fluid_signature"/>
             </xpath>
+            <xpath expr="//page[@name='personal_information']" position="inside">
+                <group string="Registration Insurance" name="registration_insurance" colspan="2">
+                    <group colspan="2">
+                        <field name="registration_insurance" widget="work_permit_upload"/>
+                    </group>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
