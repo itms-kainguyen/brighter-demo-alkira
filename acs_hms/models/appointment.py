@@ -118,6 +118,8 @@ class Appointment(models.Model):
     name = fields.Char(string='Number', readonly=True, copy=False, tracking=True, states=READONLY_STATES)
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
                                  required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
+    display_name = fields.Char(compute='_compute_display_name', string='Patient')
+
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', default=_get_default_physician,
                                    string='Prescriber',
@@ -418,6 +420,13 @@ class Appointment(models.Model):
                     }
                     rec.consent_ids = [(0, 0, consent_val)]
 
+    @api.depends('name', 'patient_id')
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.patient_id.name
+            if record.name:
+                record.display_name = record.name + ' - ' + record.patient_id.name
+
     @api.depends(
         'treatment_ids',
         'treatment_ids.medicine_line_ids',
@@ -448,6 +457,7 @@ class Appointment(models.Model):
         if self.survey_id.appointment_id:
             self.survey_id.appointment_id = False
         action = self.survey_id.action_start_survey()
+        # action['url'] = action['url'] + 'flag=1'
         action['context'] = {'default_appointment_id': self.id}
         action['target'] = 'new'
         self.survey_id.appointment_id = self.id
