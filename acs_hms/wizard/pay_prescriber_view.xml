@@ -17,7 +17,7 @@
                         <label for="payment_token_id" string="Select Credit Card"/>
                         <div>
                             <field name="payment_token_id" class="oe_inline" options="{'always_reload': True, 'no_create': True, 'no_edit': True,'no_open': True}"/>
-                            <button name="save_payment" type="object" string="Manage Credit Cards" class="oe_inline fa fa-arrow-right oe_link"/>
+                            <button name="save_payment" type="object" string="Manage Credit Cards" class="oe_inline fa fa-arrow-right btn btn-primary"/>
                         </div>
 
                     </group>

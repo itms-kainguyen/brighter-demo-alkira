@@ -31,7 +31,7 @@
     'maintainer': 'Cybrosys Techno Solutions',
     'category': 'Website',
     'depends': ['base', 'website', 'project', 'sale_project', 'hr_timesheet',
-                'mail', 'contacts'],
+                'mail', 'contacts', 'acs_hms'],
     'data': [
         'security/security_groups.xml',
         'security/ir.model.access.csv',

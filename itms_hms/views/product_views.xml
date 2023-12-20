@@ -12,5 +12,25 @@
                 <field name="medicine_method"/>
             </field>
         </field>
+    </record>        
+    
+    <record model="ir.ui.view" id="product_product_stock_tree_inherit">
+        <field name="name">product.product.stock.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_product_stock_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@icon='fa-history']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@icon='fa-refresh']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@icon='fa-cubes']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@icon='fa-area-chart']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
     </record>
 </odoo>
