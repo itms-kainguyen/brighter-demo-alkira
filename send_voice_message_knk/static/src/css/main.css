@@ -1,0 +1,18 @@
+@keyframes pulse {
+    0% {
+      background-color: #A6D0DD;
+      box-shadow: 0 0 0 0 rgba(0, 128, 0, 0.7);
+    }
+    70% {
+      background-color: #A6D0DD;
+      box-shadow: 0 0 0 10px rgba(0, 128, 0, 0);
+    }
+    100% {
+      background-color: #A6D0DD;
+      box-shadow: 0 0 0 0 rgba(0, 128, 0, 0);
+    }
+  }
+  
+  .recording {
+    animation: pulse 1.25s infinite;
+  }
