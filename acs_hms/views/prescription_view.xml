@@ -164,6 +164,8 @@
                                 <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
                                     <field string="Transactions" name="transaction_count" widget="statinfo"/>
                                 </button>
+                                  <button class="oe_stat_button btn-green" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o">
+                                </button>
 
                             </div>
                             <div class="oe_title">
@@ -265,23 +267,23 @@
                                         <field name="notes" string="Advice" colspan="2" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
                                     </group>
                                 </page>
-                                <page name="medical_checklist" string="Medical Checklist">
-                                    <field name="survey_answer_ids" widget="one2many_list">
-                                  <tree decoration-muted="skipped == True">
-                                    <field name="question_sequence" invisible="1"/>
-                                    <field name="create_date" optional="hidden"/>
-                                    <field name="page_id" optional="hidden"/>
-                                    <field name="question_id"/>
-                                    <field name="answer_type" optional="hidden"/>
-                                    <field name="skipped" optional="hidden"/>
-                                    <field name="matrix_row_id" string="Row answer"/>
-                                      <field name="suggested_answer_yes"/>
-                                      <field name="suggested_answer_no"/>
-                                    <field name="answer_is_correct" optional="hidden"/>
-                                    <field name="answer_score" sum="Score" optional="hidden"/>
-                                </tree>
-                            </field>
-                                </page>
+<!--                                <page name="medical_checklist" string="Medical Checklist">-->
+<!--                                    <field name="survey_answer_ids" widget="one2many_list">-->
+<!--                                  <tree decoration-muted="skipped == True">-->
+<!--                                    <field name="question_sequence" invisible="1"/>-->
+<!--                                    <field name="create_date" optional="hidden"/>-->
+<!--                                    <field name="page_id" optional="hidden"/>-->
+<!--                                    <field name="question_id"/>-->
+<!--                                    <field name="answer_type" optional="hidden"/>-->
+<!--                                    <field name="skipped" optional="hidden"/>-->
+<!--                                    <field name="matrix_row_id" string="Row answer"/>-->
+<!--                                      <field name="suggested_answer_yes"/>-->
+<!--                                      <field name="suggested_answer_no"/>-->
+<!--                                    <field name="answer_is_correct" optional="hidden"/>-->
+<!--                                    <field name="answer_score" sum="Score" optional="hidden"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                                </page>-->
                                 <page name="prescription_details" string="Prescription Details" invisible="1">
                                     <field name="prescription_detail_ids" nolabel="1" colspan="4">
                                         <tree string="Prescription Detail" editable="bottom">
