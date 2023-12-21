@@ -13,7 +13,7 @@
         </xpath>
         <xpath expr="//div[@t-ref='root']" position="after">
             <div t-attf-class="{{ className }}" t-ref="root" t-if="attachmentCard.attachment.mimetype == 'audio/mpeg'">
-                <div class="o_AttachmentCard o-has-card-details d-flex rounded"
+                <div class="o_AttachmentCard o-has-card-details d-flex flex-row rounded"
                     t-att-class="{
                         'o-isUploading': attachmentCard.attachment.isUploading,
                         'o-viewable': attachmentCard.attachment.isViewable,
