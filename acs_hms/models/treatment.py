@@ -52,7 +52,8 @@ class ACSTreatment(models.Model):
                                         states=READONLY_STATES)
     template_id = fields.Many2one('treatment.template', 'Template Note')
     template_ids = fields.Many2many('treatment.template', 'treatment_template_rel', 'treatment_id', 'template_id')
-    finding = fields.Html(string="Findings",readonly="[('state', 'in', ['cancel', 'done'])]", compute='_compute_finding')
+    finding = fields.Html(string="Findings", readonly="[('state', 'in', ['cancel', 'done'])]",
+                          compute='_compute_finding')
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
@@ -113,11 +114,13 @@ class ACSTreatment(models.Model):
                                              'treatment_id', string='Before Photos')
     attachment_after_ids = fields.Many2many('ir.attachment', 'treatment_attachment_after_rel', 'attachment_id',
                                             'treatment_id', string='After Photos')
-    prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_rel', 'prescription_id', 'treatment_id',
+    prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_rel', 'prescription_id',
+                                        'treatment_id',
                                         string='Prescriptions')
-    available_prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_available_rel', 'prescription_id', 'treatment_id',
-                                        string='Prescriptions', compute='_compute_available_prescription_ids')
-    
+    available_prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_available_rel',
+                                                  'prescription_id', 'treatment_id',
+                                                  string='Prescriptions', compute='_compute_available_prescription_ids')
+
     def action_unlink(self):
         self.ensure_one()
         appointment_id = self.appointment_id.id
@@ -129,12 +132,12 @@ class ACSTreatment(models.Model):
                 'res_id': appointment_id,
                 'type': 'ir.actions.act_window',
                 }
-    
+
     @api.depends('patient_id')
     def _compute_available_prescription_ids(self):
         for rec in self:
             rec.available_prescription_ids = self.env['prescription.order'].search([
-                ('patient_id', '=', rec.patient_id.id), 
+                ('patient_id', '=', rec.patient_id.id),
                 ('state', '=', 'prescription')]
             )
 
@@ -154,7 +157,7 @@ class ACSTreatment(models.Model):
                         'repeat': line.repeat,
                         'prescription_id': line.prescription_id.id,
                     })]
-            
+
     @api.model
     def default_get(self, fields):
         res = super(ACSTreatment, self).default_get(fields)
@@ -189,8 +192,7 @@ class ACSTreatment(models.Model):
         for rec in self:
             if rec.template_ids:
                 for template in rec.template_ids:
-                    rec.finding += '\n'+ template.notes
-
+                    rec.finding += '\n' + template.notes
 
     def get_line_data(self, line):
         base_date = fields.Date.today()
@@ -209,7 +211,7 @@ class ACSTreatment(models.Model):
             for line in self.procedure_group_id.line_ids:
                 patient_procedure_ids.append((0, 0, self.get_line_data(line)))
             self.patient_procedure_ids = patient_procedure_ids
-    
+
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
@@ -401,7 +403,8 @@ class TreatmentMedicineLine(models.Model):
         ('other', 'Other'),
     ], default='pre-area', string="Area")
     amount = fields.Char(string='Amount')
-    batch_number = fields.Char(string='Batch Number')
+    acs_lot_id = fields.Many2one("stock.lot", string="Lot/Serial number")
+    # batch_number = fields.Char(string='Batch Number')
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
         ('micro-bolus', 'Micro-Bolus'),
@@ -433,12 +436,11 @@ class TreatmentMedicineLine(models.Model):
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        result = {'domain': {'product_id': [('hospital_product_type', '=', 'medicament')]}}
-        if self.appointment_id:
-            if len(self.appointment_id.prescription_line_ids) <= 0:
-                result = {'domain': {
-                    'product_id': [('is_required_prescription', '=', False), ('hospital_product_type', '=', 'medicament')]}}
-        return result
+        if self.product_id:
+            result = {'domain': {'acs_lot_id': [('product_id', '=', self.product_id.id), '|',
+                                                ('expiration_date', '=', False),
+                                                ('expiration_date', '>', datetime.now().strftime('%Y-%m-%d'))]}}
+            return result
 
 
 class TreatmentTemplate(models.Model):

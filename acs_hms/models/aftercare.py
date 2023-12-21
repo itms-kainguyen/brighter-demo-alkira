@@ -57,7 +57,7 @@ class AfterCare(models.Model):
                                     if line.product_id:
                                         medicine_area = line.medicine_area or ''
                                         amount = line.amount or ''
-                                        batch_number = line.batch_number or ''
+                                        batch_number = line.acs_lot_id.name or ''
                                         medicine_technique = line.medicine_technique or ''
                                         medicine_depth = line.medicine_depth or ''
                                         medicine_method = line.medicine_method or ''

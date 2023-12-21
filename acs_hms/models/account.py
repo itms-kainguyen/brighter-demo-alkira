@@ -22,3 +22,9 @@ class PaymentTransaction(models.Model):
 
     prescription_id = fields.Many2one(
         string="Prescription", comodel_name='prescription.order', readonly=True)
+
+
+class AccountMove(models.Model):
+    _inherit = "account.move"
+
+    prescription_id = fields.Many2one('prescription.order', string='Prescription')

@@ -696,14 +696,11 @@ class Appointment(models.Model):
 
             product_data = [{'product_id': product_id}]
 
-        if self.prescription_line_ids:
-            for prescription in self.prescription_line_ids:
-                if prescription.treatment_id and prescription.is_done:
-                    if prescription.treatment_id.medicine_line_ids:
-                        for line in prescription.treatment_id.medicine_line_ids:
-                            product_data.append({
-                                'product_id': line.product_id
-                            })
+        if self.treatment_id.medicine_line_ids:
+            for line in self.treatment_id.medicine_line_ids:
+                product_data.append({
+                    'product_id': line.product_id
+                })
 
         if self.consumable_line_ids:
             product_data.append({
@@ -776,11 +773,32 @@ class Appointment(models.Model):
                 self.appointment_confirm()
 
     def create_consumed_prod_invoice(self):
-        if not self.consumable_line_ids:
-            raise UserError(_("There is no consumed product to invoice."))
-
         inv_data = self.acs_appointment_inv_data()
-        product_data = self.acs_appointment_inv_product_data(with_product=False)
+        inv_data['create_stock_move'] = True
+        product_data = []
+        for treat in self.treatment_ids:
+            if not treat.consumable_line_ids:
+                raise UserError(_("There is no consumed product to invoice."))
+
+            # product_data = self.acs_appointment_inv_product_data()
+            if treat.medicine_line_ids:
+                for line in treat.medicine_line_ids:
+                    product_data.append({
+                        'product_id': line.product_id,
+                        'lot_id': line.acs_lot_id and line.acs_lot_id.id or False,
+                    })
+
+            if treat.consumable_line_ids:
+                product_data.append({
+                    'name': _("Consumed Product/services"),
+                })
+                for consumable in treat.consumable_line_ids:
+                    product_data.append({
+                        'product_id': consumable.product_id,
+                        'quantity': consumable.qty,
+                        'lot_id': consumable.lot_id and consumable.lot_id.id or False,
+                        'product_uom_id': consumable.product_uom_id.id,
+                    })
 
         pricelist_context = {}
         if self.pricelist_id:
@@ -790,8 +808,8 @@ class Appointment(models.Model):
                                                                           product_data=product_data, inv_data=inv_data)
         self.consumable_invoice_id = invoice.id
         self.acs_appointment_common_invoicing(invoice)
-        if self.state == 'to_invoice':
-            self.appointment_done()
+        # if self.state == 'to_after_care':
+        #     self.appointment_done()
 
     def action_create_invoice_with_procedure(self):
         return self.with_context(with_procedure=True).create_invoice()
@@ -1072,7 +1090,7 @@ class Appointment(models.Model):
                             if line.product_id:
                                 medicine_area = line.medicine_area or ''
                                 amount = line.amount or ''
-                                batch_number = line.batch_number or ''
+                                batch_number = line.acs_lot_id.name or ''
                                 medicine_technique = line.medicine_technique or ''
                                 medicine_depth = line.medicine_depth or ''
                                 medicine_method = line.medicine_method or ''

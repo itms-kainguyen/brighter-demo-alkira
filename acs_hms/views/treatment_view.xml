@@ -111,7 +111,7 @@
                                     <field name="prescription_id"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"/>
-                                    <field name="batch_number"/>
+                                    <field name="acs_lot_id" options="{'always_reload': True}"/>
                                     <field name="medicine_technique"/>
                                     <field name="medicine_depth"/>
                                     <field name="medicine_method"/>

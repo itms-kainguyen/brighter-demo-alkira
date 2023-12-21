@@ -45,7 +45,7 @@ class ACSHmsMixin(models.AbstractModel):
             'invoice_line_ids': self.acs_get_invoice_lines(product_data, partner, inv_data, fiscal_position_id),
             'physician_id': inv_data.get('physician_id',False),
             'hospital_invoice_type': inv_data.get('hospital_invoice_type',False),
-            'fiscal_position_id': fiscal_position_id,
+            'fiscal_position_id': fiscal_position_id
         }
         if inv_data.get('ref_physician_id',False):
             data['ref_physician_id'] = inv_data.get('ref_physician_id',False)
@@ -73,6 +73,7 @@ class ACSHmsMixin(models.AbstractModel):
             quantity = data.get('quantity',1.0)
             uom_id = data.get('product_uom_id')
             discount = data.get('discount',0.0)
+            lot_id = data.get('lot_id', False)
 
             if product:
                 acs_pricelist_id = self.env.context.get('acs_pricelist_id')
@@ -96,6 +97,7 @@ class ACSHmsMixin(models.AbstractModel):
                 lines.append((0, 0, {
                     'name': data.get('name',product.get_product_multiline_description_sale()),
                     'product_id': product.id,
+                    'acs_lot_id': lot_id,
                     'price_unit': price,
                     'quantity': quantity,
                     'discount': discount,

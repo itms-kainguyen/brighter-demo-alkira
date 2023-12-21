@@ -207,7 +207,7 @@
                     <!-- <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','anytime'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/>
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|',('appointment_invoice_policy','!=','advance'),('invoice_id','!=',False),('state','=','to_invoice'), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
                     <!-- <button name="action_create_invoice_with_procedure" string="Create Invoice (With Procedure)" groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('procedure_to_invoice_ids','=',[]),('invoice_id','!=',False), ('invoice_exempt','=', True)]}" type="object" class="oe_highlight"/> -->
-                    <!-- <button name="create_consumed_prod_invoice" string="Create Consumable's Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|','|','|','|','|',('invoice_id','=',False),('state','=','done'), ('invoice_exempt','=', True),('consumable_line_count','=',[]),('consumable_invoice_id','!=',False),'&amp;',('appointment_invoice_policy','!=','advance'),('appointment_invoice_policy','!=','anytime')]}" type="object" class="oe_highlight"/> -->
+                     <button name="create_consumed_prod_invoice" string="Create Invoice" attrs="{'invisible': ['|',('consumable_invoice_id','!=', False), ('state','!=','to_after_care')]}" groups="account.group_account_invoice" type="object" class="oe_highlight"/>
                     <button 
                         name="consultation_done" 
                         states="in_consultation" 
@@ -415,7 +415,7 @@
                                     <div groups="survey.group_survey_user" class="o_row">
                                         <field name="survey_id"
                                             context="{'default_access_mode': 'token'}" invisible="1"/>
-                                        <button string="Display Checklist Form" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
+                                        <button string="Display Checklist Form" name="action_start_survey" type="object" invisible="1" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
                                         <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="0"/>
                                     </div>
                                  </group>
@@ -842,7 +842,7 @@
         <field name="res_model">hms.appointment</field>
         <field name="view_id" ref="view_acs_appointment_calendar"/>
         <field name="view_mode">calendar,tree,form,kanban,pivot,graph,activity</field>
-        <field name="context">{'search_default_today': 1,'search_default_done': 1}</field>
+        <field name="context"></field>
         <field name="domain">[]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
