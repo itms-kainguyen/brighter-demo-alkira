@@ -405,8 +405,17 @@ class ACSPrescriptionOrder(models.Model):
 
     def action_view_medical_checklist(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_medical_checklist")
+
+        appointment_ids = []
+        treatment_medicine_ids = self.env['treatment.medicine.line'].search(
+            [('treatment_id', '!=', False), ('prescription_id', '=', self.id)])
+        for medicine in treatment_medicine_ids:
+            treatment = self.env['hms.treatment'].search(
+                [('id', '=', medicine.treatment_id.id)])
+            if treatment.appointment_id:
+                appointment_ids.append(treatment.appointment_id.id)
         history_ids = self.env['survey.user_input.line'].search(
-            [('appointment_id', '=', self.id)])
+            [('appointment_id', 'in', appointment_ids)])
         action['domain'] = [('id', 'in', history_ids.ids)]
         action['context'] = {'search_default_appointment': 1, 'default_appointment': 1}
         return action
