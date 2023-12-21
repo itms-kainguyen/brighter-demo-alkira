@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.Composer" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_Composer_primaryToolButtons')]" position="inside">
+            <button class="o_Composer_button o_Composer_buttonRecording o_Composer_toolButton btn btn-light fa fa-microphone border-0 rounded-pill" t-att-class="{ 'o-isDeviceSmall': messaging.device.isSmall }" t-attf-class="{{ composerView.messageViewInEditing ? 'my-1' : 'mx-1' }}" title="Voice Message" aria-label="Voice Message" type="button" 
+            t-on-mousedown="composerView.onStartRecording" t-on-touchstart="composerView.onStartRecording" 
+            t-on-mouseup="composerView.onStopRecording" t-on-touchend="composerView.onStopRecording"/>
+        </xpath>
+    </t>
+    <t t-inherit="mail.AttachmentCard" t-inherit-mode="extension">
+        <xpath expr="//div[@t-ref='root']" position="attributes">
+            <attribute name="t-if">attachmentCard.attachment.mimetype != 'audio/mpeg'</attribute>
+        </xpath>
+        <xpath expr="//div[@t-ref='root']" position="after">
+            <div t-attf-class="{{ className }}" t-ref="root" t-if="attachmentCard.attachment.mimetype == 'audio/mpeg'">
+                <div class="o_AttachmentCard o-has-card-details d-flex flex-row rounded"
+                    t-att-class="{
+                        'o-isUploading': attachmentCard.attachment.isUploading,
+                        'o-viewable': attachmentCard.attachment.isViewable,
+                    }" t-att-title="attachmentCard.attachment.displayName ? attachmentCard.attachment.displayName : undefined" role="menu" t-att-aria-label="attachmentCard.attachment.displayName" t-att-data-id="attachmentCard.attachment.localId"
+                 >
+                <audio controls="controls"
+                    t-att-src="attachmentCard.attachment.attachUrl">
+                </audio>
+                <div class="o_AttachmentCard_aside position-relative rounded-end overflow-hidden" t-att-class="{ 'o-hasMultipleActions d-flex flex-column': attachmentCard.hasMultipleActions }">
+                        <!-- Remove button -->
+                        <t t-if="attachmentCard.attachment.isDeletable">
+                            <button class="o_AttachmentCard_asideItem o_AttachmentCard_asideItemUnlink btn top-0 justify-content-center align-items-center d-flex w-100 h-100 rounded-0" t-attf-class="{{ attachmentCard.attachmentList.composerViewOwner ? 'o-pretty position-absolute btn-primary transition-base' : '' }}" t-on-click="attachmentCard.onClickUnlink" title="Remove">
+                                <i class="fa fa-trash" role="img" aria-label="Remove"/>
+                            </button>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>
