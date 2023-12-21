@@ -154,6 +154,7 @@ class ACSTreatment(models.Model):
                         'medicine_technique': line.medicine_technique,
                         'medicine_depth': line.medicine_depth,
                         'medicine_method': line.medicine_method,
+                        'amount': line.dose,
                         'repeat': line.repeat,
                         'prescription_id': line.prescription_id.id,
                     })]
