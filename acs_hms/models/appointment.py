@@ -774,6 +774,7 @@ class Appointment(models.Model):
 
     def create_consumed_prod_invoice(self):
         inv_data = self.acs_appointment_inv_data()
+        inv_data['create_stock_move'] = True
         product_data = []
         for treat in self.treatment_ids:
             if not treat.consumable_line_ids:
@@ -783,7 +784,8 @@ class Appointment(models.Model):
             if treat.medicine_line_ids:
                 for line in treat.medicine_line_ids:
                     product_data.append({
-                        'product_id': line.product_id
+                        'product_id': line.product_id,
+                        'lot_id': line.acs_lot_id and line.acs_lot_id.id or False,
                     })
 
             if treat.consumable_line_ids:
@@ -1088,7 +1090,7 @@ class Appointment(models.Model):
                             if line.product_id:
                                 medicine_area = line.medicine_area or ''
                                 amount = line.amount or ''
-                                batch_number = line.batch_number or ''
+                                batch_number = line.acs_lot_id.name or ''
                                 medicine_technique = line.medicine_technique or ''
                                 medicine_depth = line.medicine_depth or ''
                                 medicine_method = line.medicine_method or ''
