@@ -45,8 +45,7 @@ class ACSHmsMixin(models.AbstractModel):
             'invoice_line_ids': self.acs_get_invoice_lines(product_data, partner, inv_data, fiscal_position_id),
             'physician_id': inv_data.get('physician_id',False),
             'hospital_invoice_type': inv_data.get('hospital_invoice_type',False),
-            'fiscal_position_id': fiscal_position_id,
-            'create_stock_move': True
+            'fiscal_position_id': fiscal_position_id
         }
         if inv_data.get('ref_physician_id',False):
             data['ref_physician_id'] = inv_data.get('ref_physician_id',False)
