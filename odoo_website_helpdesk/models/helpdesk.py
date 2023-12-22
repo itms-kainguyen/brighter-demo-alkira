@@ -151,7 +151,7 @@ class HelpDeskTicket(models.Model):
     def action_add_follower(self):
         self.ensure_one()
         # add prescriber, clinic manager, alkira manager as followers
-        parter_ids = ()
+        parter_ids = []
         if self.primary_physician_id:
             parter_ids.append(self.primary_physician_id.partner_id.id)
         if self.clinic_manager_id:
