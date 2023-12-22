@@ -260,17 +260,17 @@
                                                                style="width: 200px"
                                                                for="contact51">
                                                             <span class="s_website_form_label_content">
-                                                                Category
+                                                                Patient
                                                             </span>
                                                             <span class="s_website_form_mark">
                                                                 *
                                                             </span>
                                                         </label>
                                                         <div class="col-sm">
-                                                            <select name="category" id="contact51"
+                                                            <select name="patient_id" id="contact51"
                                                                     t-attf-class="form-control s_website_form_input"
                                                                     required="1">
-                                                                <t t-foreach="categories or []"
+                                                                <t t-foreach="patient_ids or []"
                                                                    t-as="c">
                                                                     <option t-att-value="c.id">
                                                                         <t t-esc="c.name"/>

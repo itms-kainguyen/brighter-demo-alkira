@@ -30,7 +30,7 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'category': 'Website',
-    'depends': ['base', 'website', 'project', 'sale_project', 'hr_timesheet',
+    'depends': ['base', 'website',
                 'mail', 'contacts', 'acs_hms'],
     'data': [
         'security/security_groups.xml',
@@ -43,7 +43,7 @@
         'views/team.xml',
         'views/portal_search.xml',
         'views/res_config_settings.xml',
-        'views/website_form.xml',
+        # 'views/website_form.xml',
         'views/report.xml',
         'views/helpdesk.xml',
         'views/helpdesk_views.xml',

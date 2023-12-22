@@ -13,21 +13,21 @@
                         type="object" class="btn btn-primary"/>
                     <button name="action_send_reply" string="Reply"
                             type="object" class="btn-primary"/>
-                    <button name="create_tasks" string="Create Task"
+                    <!-- <button name="create_tasks" string="Create Task"
                             type="object" class="btn-primary"
-                            attrs="{'invisible':[('create_task','=',False)]}"/>
-                    <button name="create_invoice" string="Create Invoice"
+                            attrs="{'invisible':[('create_task','=',False)]}"/> -->
+                    <!-- <button name="create_invoice" string="Create Invoice"
                             type="object" class="btn-primary"
-                            attrs="{'invisible':[('billable','=',False)]}"/>
+                            attrs="{'invisible':[('billable','=',False)]}"/> -->
                     <field name="stage_id" widget="statusbar"
                            options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" name="open_tasks"
+                        <!-- <button class="oe_stat_button" name="open_tasks"
                                 string="Tasks" type="object" icon="fa-tasks"
-                                attrs="{'invisible':[('create_task','=',False)]}">
-                        </button>
+                                attrs="{'invisible':[('create_task','=',False)]}"> -->
+                        <!-- </button> -->
                         <button class="oe_stat_button"
                                 name="open_merged_tickets"
                                 string="Merged Tickets" type="object"
@@ -39,10 +39,10 @@
                             </div>
                         </button>
 
-                        <button class="oe_stat_button" name="open_invoices"
+                        <!-- <button class="oe_stat_button" name="open_invoices"
                                 string="Invoices" type="object" icon="fa-tasks"
                                 attrs="{'invisible':[('billable','=',False)]}">
-                        </button>
+                        </button> -->
                     </div>
                     <field name="kanban_state" widget="state_selection"/>
                     <div class="oe_title">
@@ -50,19 +50,13 @@
                         <h1>
                             <field name="name"/>
                         </h1>
-                        <label for="subject" class="oe_edit_only"/>
-                        <h1 class="mt0">
-                            <field name="subject"/>
-                        </h1>
                     </div>
                     <group>
                         <group>
+                            <field name="subject" invisible="1"/>
                             <field name="ticket_type" widget="selection_badge"/>
-                            <field name="customer_id" attrs="{'invisible': [('ticket_name', '=', 'Adverse Event')]}"/>
                             <field name="patient_id" 
-                                attrs="{
-                                    'invisible': [('ticket_name', '!=', 'Adverse Event')],
-                                    'required': [('ticket_name', '!=', 'Adverse Event')]}"/>
+                                attrs="{'required': [('ticket_name', '!=', 'Adverse Event')]}"/>
                             <field name="ticket_name" invisible="1"/>
                             <field name="email"/>
                             <field name="phone"/>
@@ -70,7 +64,7 @@
                         </group>
                         <group attrs="{'invisible': [('ticket_name', '=', 'Adverse Event')]}">
                             <field name="show_category" invisible="1"/>
-                            <field name="priority" widget="priority"/>
+                            <!-- <field name="priority" widget="priority"/> -->
                             <field name="create_date"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
@@ -102,26 +96,14 @@
                                    placeholder="Provide the reason in detail"/>
                         </page>
                         <page string="Attachments">
-                            <field name="attachment_ids">
-                                <tree string="Attachments" no_open="1">
-                                    <field name="name"/>
-                                    <field name="res_model"/>
-                                    <field name="res_field"/>
-                                    <field name="res_id"/>
-                                    <field name="type"/>
-                                    <field name="file_size"/>
-                                    <field name="company_id"/>
-                                    <field name="create_uid"/>
-                                    <field name="create_date"/>
-                                    <field name="datas" widget="binary"
-                                           filename="name"/>
-                                </tree>
-                            </field>
+                            <group>
+                                <field name="attachment_ids" string="Add Photos" widget="many2many_binary"/>
+                            </group>
                         </page>
                         <page string="Customer Rating">
                             <group>
-                                <field name="customer_rating"
-                                       widget="priority"/>
+                                <!-- <field name="customer_rating"
+                                       widget="priority"/> -->
                                 <field name="review"/>
                             </group>
                         </page>
@@ -135,15 +117,14 @@
                                            groups="odoo_website_helpdesk.group_show_category"/>
                                 </group>
                                 <group>
-                                    <field name="project_id"/>
-                                    <field name="service_product_id" attrs="{'invisible':[('create_task','=',False)],
+                                    <!-- <field name="service_product_id" attrs="{'invisible':[('create_task','=',False)],
                                       'required': [('create_task','=', True)]}"/>
                                     <field name="show_create_task"
                                            invisible="1"/>
                                     <field name="create_task"
                                            attrs="{'invisible':[('show_create_task','=',False)]}"/>
                                     <field name="billable"
-                                           attrs="{'invisible':[('create_task','=',False)]}"/>
+                                           attrs="{'invisible':[('create_task','=',False)]}"/> -->
                                     <field name="last_update_date"/>
                                     <field name="replied_date"/>
                                 </group>
@@ -168,7 +149,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="customer_id"/>
+                <field name="patient_id"/>
                 <field name="customer_name"/>
                 <field name="subject"/>
                 <field name="stage_id"/>
@@ -182,7 +163,7 @@
             <form>
                 <group>
                     <field name="subject" string="Subject"/>
-                    <field name="customer_id" string="Customer"/>
+                    <field name="patient_id" string="Patient"/>
                     <field name="description" string="Description"/>
                 </group>
             </form>
@@ -238,7 +219,7 @@
                                     </div>
                                 </div>
                                 <div class="text-muted">
-                                    <field name="customer_id"/>
+                                    <field name="patient_id"/>
                                 </div>
                                 <div>
                                     <field name="tags" widget="many2many_tags"/>
@@ -249,8 +230,8 @@
                                 </div>
                                 <div class="o_kanban_record_bottom flex-wrap">
                                     <div class="oe_kanban_bottom_left">
-                                        <field name="priority"
-                                               widget="priority"/>
+                                        <!-- <field name="priority"
+                                               widget="priority"/> -->
                                         <field name="activity_ids"
                                                widget="kanban_activity"/>
                                     </div>
@@ -279,7 +260,7 @@
                     <div t-name="activity-box">
                         <div>
                             <field name="name" display="full"/>
-                            <field name="customer_id" muted="1"
+                            <field name="patient_id" muted="1"
                                    display="full"/>
                         </div>
                     </div>
@@ -294,8 +275,8 @@
         <field name="arch" type="xml">
             <calendar string="Helpdesk Ticket" date_start="create_date"
                       event_open_popup="true" mode="month"
-                      color="customer_id" quick_add="False">
-                <field name="customer_id"/>
+                      color="patient_id" quick_add="False">
+                <field name="patient_id"/>
                 <field name="subject"/>
                 <field name="team_id"/>
             </calendar>
@@ -365,7 +346,7 @@
         <field name="model">help.ticket</field>
         <field name="arch" type="xml">
             <pivot>
-                <field name="customer_id" type="col"/>
+                <field name="patient_id" type="col"/>
                 <field name="subject" type="row"/>
                 <field name="team_id" type="col"/>
                 <field name="customer_name" type="col"/>
@@ -373,7 +354,6 @@
                 <field name="phone"/>
                 <field name="start_date"/>
                 <field name="team_id" type="col"/>
-                <field name="project_id"/>
             </pivot>
         </field>
     </record>
@@ -383,7 +363,7 @@
         <field name="model">help.ticket</field>
         <field name="arch" type="xml">
             <graph>
-                <field name="customer_id"/>
+                <field name="patient_id"/>
                 <field name="subject"/>
                 <field name="team_id"/>
                 <field name="customer_name"/>
@@ -391,7 +371,6 @@
                 <field name="phone"/>
                 <field name="start_date"/>
                 <field name="team_id"/>
-                <field name="project_id"/>
             </graph>
         </field>
     </record>
@@ -410,8 +389,8 @@
                 <filter string="UnArchived" name="filter_unarchived"
                         domain="[('active','=', True)]"/>
                 <group expand="0" string="Group By">
-                    <filter name="Customer" string="Customer"
-                            context="{'group_by':'customer_id'}"/>
+                    <filter name="Patient" string="Patient"
+                            context="{'group_by':'patient_id'}"/>
                     <filter name="Team" string="Team"
                             context="{'group_by':'team_id'}"/>
                     <filter name="Team_Head" string="Team Head"

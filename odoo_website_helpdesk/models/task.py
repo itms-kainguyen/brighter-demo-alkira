@@ -22,12 +22,12 @@
 from odoo import fields, models
 
 
-class Task(models.Model):
-    """Inheriting the project task"""
-    _inherit = 'project.task'
+# class Task(models.Model):
+#     """Inheriting the project task"""
+#     _inherit = 'project.task'
 
-    ticket_id = fields.Many2one('help.ticket', string='Ticket',
-                                help='Ticket')
+#     ticket_id = fields.Many2one('help.ticket', string='Ticket',
+#                                 help='Ticket')
 
 
 class AccountMove(models.Model):

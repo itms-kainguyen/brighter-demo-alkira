@@ -20,9 +20,9 @@
                                         <th class="text-center">
                                             <span>Description :</span>
                                         </th>
-                                        <th class="text-center">
+                                        <!-- <th class="text-center">
                                             <span>Priority :</span>
-                                        </th>
+                                        </th> -->
                                         <th class="text-center">
                                             <span>Products :</span>
                                         </th>
@@ -31,15 +31,15 @@
                                 <tbody>
                                     <tr class="text-center">
                                         <td>
-                                            <span t-field="o.customer_id"
+                                            <span t-field="o.patient_id"
                                                   t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
                                         </td>
                                         <td>
                                             <h3 t-field="o.description"/>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <h3 t-field="o.priority"/>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <h3 t-field="o.product_id"/>
                                         </td>
@@ -47,7 +47,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <t t-set="tasks"
+                        <!-- <t t-set="tasks"
                            t-value="request.env['project.task'].search([('ticket_id', '=', o.id)])"/>
                         <t t-if="tasks">
                             <div>
@@ -91,7 +91,7 @@
                                     </tbody>
                                 </t>
                             </table>
-                        </t>
+                        </t> -->
                     </div>
                 </t>
             </t>

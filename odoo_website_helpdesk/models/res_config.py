@@ -42,9 +42,9 @@ class Helpdesk(models.TransientModel):
     """Inheriting the res config"""
     _inherit = 'res.config.settings'
 
-    show_create_task = fields.Boolean(string="Create Tasks",
-                                      config_parameter='odoo_website_helpdesk.show_create_task',
-                                      help='Create Task')
+    # show_create_task = fields.Boolean(string="Create Tasks",
+    #                                   config_parameter='odoo_website_helpdesk.show_create_task',
+    #                                   help='Create Task')
     show_category = fields.Boolean(string="Category",
                                    config_parameter='odoo_website_helpdesk.show_category',
                                    help='Category',

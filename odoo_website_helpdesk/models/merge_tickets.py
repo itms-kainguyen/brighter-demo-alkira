@@ -34,7 +34,7 @@ class MergeTicket(models.Model):
                               default=lambda self: self.env.user.partner_id.id)
     support_team_id = fields.Many2one('help.team', string='Support Team',
                                       help='Support Team Name')
-    customer_id = fields.Many2one('res.partner', string='Customer',
+    patient_id = fields.Many2one('res.partner', string='Customer',
                                   help='Customer Name'
                                   )
     support_ticket_id = fields.Many2one('help.ticket',
@@ -55,14 +55,14 @@ class MergeTicket(models.Model):
         defaults = super(MergeTicket, self).default_get(fields_list)
         active_ids = self._context.get('active_ids', [])
         selected_tickets = self.env['help.ticket'].browse(active_ids)
-        customer_ids = selected_tickets.mapped('customer_id')
+        patient_ids = selected_tickets.mapped('patient_id')
         subjects = selected_tickets.mapped('subject')
         display_names = selected_tickets.mapped('display_name')
         helpdesk_team = selected_tickets.mapped('team_id')
         descriptions = selected_tickets.mapped('description')
-        if len(customer_ids):  # Ensure both selected records have the same customer
+        if len(patient_ids):  # Ensure both selected records have the same customer
             defaults.update({
-                'customer_id': customer_ids[0].id,
+                'patient_id': patient_ids[0].id,
                 'support_team_id': helpdesk_team,
 
                 'support_ticket_ids': [(0, 0, {
@@ -87,7 +87,7 @@ class MergeTicket(models.Model):
             self.env['help.ticket'].create({
                 'subject': self.subject,
                 'description': description,
-                'customer_id': self.customer_id.id,
+                'patient_id': self.patient_id.id,
                 'team_id': self.support_team_id.id,
             })
         else:
