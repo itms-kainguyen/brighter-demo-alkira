@@ -155,9 +155,9 @@ class HelpDeskTicket(models.Model):
         if self.primary_physician_id:
             parter_ids.append(self.primary_physician_id.partner_id.id)
         if self.clinic_manager_id:
-            parter_ids.append(self.clinic_manager_id.user_partner_id.id)
+            parter_ids.append(self.clinic_manager_id.related_contact_ids[0].id)
         if self.alkira_manager_id:
-            parter_ids.append(self.alkira_manager_id.user_partner_id.id)
+            parter_ids.append(self.alkira_manager_id.related_contact_ids[0].id)
         self.with_context(skip_blocking_subscribe=True).message_subscribe(partner_ids=parter_ids)
 
     @api.depends('ticket_type')
