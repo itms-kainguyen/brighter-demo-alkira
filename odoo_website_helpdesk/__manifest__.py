@@ -30,7 +30,7 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'category': 'Website',
-    'depends': ['base', 'website',
+    'depends': ['base', 'website', 'app_odoo_customize'
                 'mail', 'contacts', 'acs_hms'],
     'data': [
         'security/security_groups.xml',
