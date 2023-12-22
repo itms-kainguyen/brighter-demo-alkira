@@ -14,7 +14,7 @@
                     <button name="action_send_reply" string="Reply"
                             type="object" class="btn-primary"/>
                     <button name="action_add_follower" string="Add Follower"
-                            type="object" class="btn-primary"/>
+                            type="object" context="{'skip_blocking_subscribe':True}" class="btn-primary"/>
                     <!-- <button name="create_tasks" string="Create Task"
                             type="object" class="btn-primary"
                             attrs="{'invisible':[('create_task','=',False)]}"/> -->
