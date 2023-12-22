@@ -10,7 +10,7 @@ class MailThread(models.AbstractModel):
     def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
         """ 停用订阅功能. """
         ir_config = self.env['ir.config_parameter']
-        app_stop_subscribe = True if ir_config.get_param('app_stop_subscribe', False) == "True" else False
+        app_stop_subscribe = True if not self.env.context.get('skip_blocking_subscribe') and ir_config.get_param('app_stop_subscribe', False) == "True" else False
         if app_stop_subscribe:
             return True
         else:
@@ -19,7 +19,7 @@ class MailThread(models.AbstractModel):
     def _message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None, customer_ids=None):
         """ 停用订阅功能. """
         ir_config = self.env['ir.config_parameter']
-        app_stop_subscribe = True if ir_config.get_param('app_stop_subscribe', False) == "True" else False
+        app_stop_subscribe = True if not self.env.context.get('skip_blocking_subscribe') and ir_config.get_param('app_stop_subscribe', False) == "True" else False
         if app_stop_subscribe:
             return True
         else:
