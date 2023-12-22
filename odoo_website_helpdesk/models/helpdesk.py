@@ -158,7 +158,7 @@ class HelpDeskTicket(models.Model):
             parter_ids.append(self.clinic_manager_id.user_partner_id.id)
         if self.alkira_manager_id:
             parter_ids.append(self.alkira_manager_id.user_partner_id.id)
-        self.message_subscribe(partner_ids=parter_ids)
+        self.with_context(skip_blocking_subscribe=True).message_subscribe(partner_ids=parter_ids)
 
     @api.depends('ticket_type')
     def _compute_alkira_manager_id(self):
