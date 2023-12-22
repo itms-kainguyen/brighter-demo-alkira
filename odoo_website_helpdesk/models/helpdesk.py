@@ -138,6 +138,7 @@ class HelpDeskTicket(models.Model):
     primary_physician_id = fields.Many2one('hms.physician', string='Prescriber', related='patient_id.primary_physician_id')
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
     branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', default=lambda self: self.env.user.department_id.id)
+    allow_department_ids = fields.Many2many('hr.department', string='Allowed Departments', related='nurse_id.department_ids')
     clinic_manager_id = fields.Many2one('hr.employee', string='Clinic Manager', related='branch_id.manager_id')
     alkira_manager_id = fields.Many2one('hr.employee', readonly='1', string='Alkira Manager', compute='_compute_alkira_manager_id')
     chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
