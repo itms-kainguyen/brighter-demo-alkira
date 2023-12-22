@@ -132,16 +132,50 @@ class HelpDeskTicket(models.Model):
     merge_count = fields.Integer(string='Merge Count', help='Merged Tickets '
                                                             'Count')
     active = fields.Boolean(default=True, help='Active', string='Active')
-    
+
+    customer_id = fields.Many2one('res.partner', related="patient_id.partner_id")
     patient_id = fields.Many2one('hms.patient', string='Patient')
+    primary_physician_id = fields.Many2one('hms.physician', string='Prescriber', related='patient_id.primary_physician_id')
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
-    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', readonly=True)
+    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', domain="[('id', 'in', self.env.user.department_ids.ids)]", default=lambda self: self.env.user.department_id.id)
+    clinic_manager_id = fields.Many2one('hr.employee', string='Clinic Manager', related='branch_id.manager_id')
+    alkira_manager_id = fields.Many2one('hr.employee', readonly='1', string='Alkira Manager', compute='_compute_alkira_manager_id')
     chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
     medication_error_event_boolean = fields.Boolean(string='Medication Errors', default=False)
     blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
     infections_event_boolean = fields.Boolean(string='Infections', default=False)
     allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
     is_sent = fields.Boolean(string='Sent', default=False)
+
+    def action_add_follower(self):
+        self.ensure_one()
+        # add prescriber, clinic manager, alkira manager as followers
+        parter_ids = ()
+        if self.primary_physician_id:
+            parter_ids.append(self.primary_physician_id.partner_id.id)
+        if self.clinic_manager_id:
+            parter_ids.append(self.clinic_manager_id.user_partner_id.id)
+        if self.alkira_manager_id:
+            parter_ids.append(self.alkira_manager_id.user_partner_id.id)
+        self.message_subscribe(partner_ids=parter_ids)
+
+    @api.depends('ticket_type')
+    def _compute_alkira_manager_id(self):
+        alkira_clinic_id = self.env['hr.department'].sudo().name_search('Alkira Aesthetics') 
+        if not alkira_clinic_id:
+            for rec in self:
+                rec.alkira_manager_id = False
+            return
+        manager_id = self.env['hr.department'].sudo().browse(alkira_clinic_id[0][0]).manager_id
+        if not manager_id:
+            for rec in self:
+                rec.alkira_manager_id = False
+            return
+        for rec in self:
+            if rec.ticket_type.name != 'Adverse Event':
+                rec.alkira_manager_id = False
+                continue
+            rec.alkira_manager_id = manager_id.id
 
     @api.depends('name', 'patient_id', 'patient_id.name', 'ticket_type', 'ticket_type.name')
     def _compute_subject(self):

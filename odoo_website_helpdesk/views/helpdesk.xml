@@ -13,6 +13,8 @@
                         type="object" class="btn btn-primary"/>
                     <button name="action_send_reply" string="Reply"
                             type="object" class="btn-primary"/>
+                    <button name="action_add_follower" string="Add Follower"
+                            type="object" class="btn-primary"/>
                     <!-- <button name="create_tasks" string="Create Task"
                             type="object" class="btn-primary"
                             attrs="{'invisible':[('create_task','=',False)]}"/> -->
@@ -57,6 +59,7 @@
                             <field name="ticket_type" widget="selection_badge"/>
                             <field name="patient_id" 
                                 attrs="{'required': [('ticket_name', '!=', 'Adverse Event')]}"/>
+                            <field name="primary_physician_id"/>
                             <field name="ticket_name" invisible="1"/>
                             <field name="email"/>
                             <field name="phone"/>
@@ -85,8 +88,10 @@
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="allergic_event_boolean" string="Allergic Reactions" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="branch_id" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="nurse_id" string="Nurse" attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="branch_id" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="clinic_manager_id" />
+                            <field name="alkira_manager_id" />
                             <field name="is_sent" string="Sent" invisible="1"/>
                         </group>
                     </group>
