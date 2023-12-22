@@ -14,6 +14,7 @@ class MailThread(models.AbstractModel):
         if app_stop_subscribe:
             return True
         else:
+            print(partner_ids)
             return super(MailThread, self).message_subscribe(partner_ids, subtype_ids)
 
     def _message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None, customer_ids=None):
