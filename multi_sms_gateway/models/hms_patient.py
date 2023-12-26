@@ -50,3 +50,18 @@ class ACSPatient(models.Model):
             'view_mode': 'form',
             'target': 'new'
         }
+    def form_send_sms(self):
+        self.ensure_one()
+        record_ids = self.id
+        numbers = self.env['hms.patient'].browse(record_ids).mapped('phone')
+        return {
+            'name': _('Send SMS'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'send.sms',
+            'context': {
+                'default_sms_to': ','.join([str(numb) for numb in numbers]),
+            },
+            'view_mode': 'form',
+            'target': 'new'
+        }
+    
