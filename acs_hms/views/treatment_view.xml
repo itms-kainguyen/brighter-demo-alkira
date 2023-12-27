@@ -64,6 +64,7 @@
                             <field name="attending_physician_ids" widget="many2many_tags" invisible="1"/>
                         </group>
                     </group>
+
                     <notebook>
                         <page string="General Details" name="general_info">
                             <separator string="Available Prescriptions" class="acs_separator"/>
@@ -110,8 +111,15 @@
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
                                     <field name="prescription_id"/>
                                     <field name="medicine_area"/>
-                                    <field name="amount"/>
+                                    <field name="amount"  class="amount-medicine"/>
                                     <field name="acs_lot_id" options="{'always_reload': True}"/>
+<!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->
+                                    <field name="is_red" string="Color" class="show-red" invisible="1"/>
+                                    <field name="forecast_availability" string="Availability" decoration-danger="is_red == True"/>
+                                    <field name="colour_forecast" widget="color" nolabel="1"/>
+<!--                                    <button title="Forecasted" class="o_forecast_report_button btn btn-link o_icon_button ms-2 forecast-medicine" icon="fa-area-chart" decoration-danger="is_red == True"/>-->
+<!--                                    <widget name="qty_at_date_widget" width="20px"/>-->
+<!--                                   <i class="fa fa-fw o_button_icon fa-area-chart">hi</i>-->
                                     <field name="medicine_technique"/>
                                     <field name="medicine_depth"/>
                                     <field name="medicine_method"/>
@@ -210,7 +218,40 @@
                             <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/>
                         </footer>
                     </notebook>
+                    <script type="text/javascript">
+                        setTimeout(() => {
+                        var lines = document.querySelectorAll('.show-red div input');
+                        var forecast = document.querySelectorAll('.forecast-medicine');
+                        for (i=0; i &lt; lines.length; i++) {
+                            console.log('checked',lines[i].checked);
+                            if (lines[i].checked){
+                                forecast[i].style.color = 'red';
+                                console.log(i);
+                            } else {
+                                forecast[i].style.color = 'blue';
+                        console.log(i);
+                            }
 
+                        }
+<!--                        [0].checked;-->
+<!--                        $('.show-red').each(function(index, value) {-->
+<!--                        var self = this;-->
+<!--                        console.log($(value).attr('data-tooltip'));-->
+<!--                        $('.forecast-medicine').css('color', 'red');-->
+<!--                        });-->
+
+                        }, 500);
+
+
+                    </script>
+
+                    <style type="text/css">
+
+<!--                        .show-red {-->
+<!--                            color: red;-->
+<!--                        }-->
+
+                    </style>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
