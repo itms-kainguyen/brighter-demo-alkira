@@ -11,7 +11,7 @@
                         <group>
                             <field name="user_id"/>
                             <field name="support_team_id"/>
-                            <field name="customer_id"/>
+                            <field name="patient_id"/>
                             <field name="support_ticket_id"
                                    attrs="{'invisible':[('new_ticket','=',True)]}"/>
                         </group>

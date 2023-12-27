@@ -46,8 +46,8 @@
                             <span class='d-none d-md-inline'>Ticket #</span>
                         </th>
                         <th class="text-right">Subject</th>
-                        <th style="display:none;" class="text-right">Priority
-                        </th>
+                        <!-- <th style="display:none;" class="text-right">Priority
+                        </th> -->
                         <th class="text-right">Date</th>
                         <th class="text-right">Stage</th>
                     </tr>
@@ -76,9 +76,9 @@
                             <td class="text-right">
                                 <span t-field="ticket.subject"/>
                             </td>
-                            <td class="text-right" style="display:none;">
+                            <!-- <td class="text-right" style="display:none;">
                                 <span t-field="ticket.priority"/>
-                            </td>
+                            </td> -->
                             <td class="text-right">
                                 <span t-field="ticket.create_date"
                                       t-options="{'widget': 'date'}"/>
@@ -127,12 +127,12 @@
                                 <div class="row flex-nowrap">
                                     <div class="col flex-grow-0 pe-2">
                                         <img class="rounded-circle mr4 float-start o_portal_contact_img"
-                                             t-att-src="image_data_uri(details['customer_id'].avatar_1024)"
+                                             t-att-src="image_data_uri(details['patient_id'].avatar_1024)"
                                              alt="Contact"/>
                                     </div>
                                     <div class="col ps-0"
                                          style="min-width: 150px">
-                                        <span t-esc="details['customer_id']"
+                                        <span t-esc="details['patient_id']"
                                               t-options='{"widget": "contact", "fields": ["name", "phone"], "no_marker": True}'/>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
                     </td>
                     <th>Person Name</th>
                     <td>
-                        <t t-esc="details['customer_id'].name"/>
+                        <t t-esc="details['patient_id'].name"/>
                     </td>
                 </tr>
                 <tr>
@@ -212,10 +212,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Priority</th>
+                    <!-- <th>Priority</th>
                     <td>
                         <t t-esc="details['priority']"/>
-                    </td>
+                    </td> -->
                     <th>Consultant</th>
                     <td>
                         <t t-esc="details['assigned_user'].name"/>
@@ -246,8 +246,8 @@
                         <span class="d-none d-md-inline">Ticket #</span>
                     </th>
                     <th class="text-right">Subject</th>
-                    <th style="display:none;" class="text-right">Priority
-                    </th>
+                    <!-- <th style="display:none;" class="text-right">Priority
+                    </th> -->
                     <th class="text-right">Date</th>
                     <th class="text-right">Stage</th>
                 </tr>
@@ -284,9 +284,9 @@
                                 <td class="text-right">
                                     <span t-field="data.subject"/>
                                 </td>
-                                <td class="text-right" style="display:none;">
+                                <!-- <td class="text-right" style="display:none;">
                                     <span t-field="data.priority"/>
-                                </td>
+                                </td> -->
                                 <td class="text-right">
                                     <span t-field="data.create_date"
                                           t-options="{'widget': 'date'}"/>

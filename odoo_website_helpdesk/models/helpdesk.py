@@ -52,12 +52,12 @@ class HelpDeskTicket(models.Model):
 
     name = fields.Char('Name', default=lambda self: self.env['ir.sequence'].
                        next_by_code('help.ticket') or _('New'))
-    customer_id = fields.Many2one('res.partner',
-                                  string='Customer Name',
-                                  help='Customer Name')
+    # customer_id = fields.Many2one('res.partner',
+    #                               string='Customer Name',
+    #                               help='Customer Name')
     customer_name = fields.Char('Customer Name', help='Customer Name')
-    subject = fields.Text('Subject', required=True,
-                          help='Subject of the Ticket')
+    subject = fields.Text('Subject', required=True, store=True,
+                          help='Subject of the Ticket', compute="_compute_subject", readonly=False)
     description = fields.Text('Description', required=True,
                               help='Description')
     email = fields.Char('Email', help='Email')
@@ -67,15 +67,15 @@ class HelpDeskTicket(models.Model):
     product_id = fields.Many2many('product.template',
                                   string='Product',
                                   help='Product Name')
-    project_id = fields.Many2one('project.project',
-                                 string='Project',
-                                 readonly=False,
-                                 related='team_id.project_id',
-                                 store=True,
-                                 help='Project Name')
+    # project_id = fields.Many2one('project.project',
+    #                              string='Project',
+    #                              readonly=False,
+    #                              related='team_id.project_id',
+    #                              store=True,
+    #                              help='Project Name')
 
-    priority = fields.Selection(PRIORITIES, default='1', help='Priority of the'
-                                                              ' Ticket')
+    # priority = fields.Selection(PRIORITIES, default='1', help='Priority of the'
+    #                                                           ' Ticket')
     stage_id = fields.Many2one('ticket.stage', string='Stage',
                                default=lambda self: self.env[
                                    'ticket.stage'].search(
@@ -102,9 +102,9 @@ class HelpDeskTicket(models.Model):
                                    string='Invoices',
                                    help='Invoicing id'
                                    )
-    task_ids = fields.Many2many('project.task',
-                                string='Tasks',
-                                help='Task id')
+    # task_ids = fields.Many2many('project.task',
+    #                             string='Tasks',
+    #                             help='Task id')
     color = fields.Integer(string="Color", help='Color')
     replied_date = fields.Datetime('Replied date', help='Replied Date')
     last_update_date = fields.Datetime('Last Update Date',
@@ -125,17 +125,22 @@ class HelpDeskTicket(models.Model):
     tags = fields.Many2many('helpdesk.tag', help='Tags')
     assign_user = fields.Boolean(default=False, help='Assign User')
     attachment_ids = fields.One2many('ir.attachment', 'res_id',
-                                     help='Attachment Line')
+                                     help='Attachment Line', string='Add Photos')
     merge_ticket_invisible = fields.Boolean(string='Merge Ticket',
                                             help='Merge Ticket Invisible or '
                                                  'Not', default=False)
     merge_count = fields.Integer(string='Merge Count', help='Merged Tickets '
                                                             'Count')
     active = fields.Boolean(default=True, help='Active', string='Active')
-    
+
+    customer_id = fields.Many2one('res.partner', related="patient_id.partner_id")
     patient_id = fields.Many2one('hms.patient', string='Patient')
+    primary_physician_id = fields.Many2one('hms.physician', string='Prescriber', related='patient_id.primary_physician_id')
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
-    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', readonly=True)
+    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', default=lambda self: self.env.user.department_id.id)
+    allow_department_ids = fields.Many2many('hr.department', string='Allowed Departments', related='nurse_id.department_ids')
+    clinic_manager_id = fields.Many2one('hr.employee', string='Clinic Manager', related='branch_id.manager_id')
+    alkira_manager_id = fields.Many2one('hr.employee', readonly='1', string='Alkira Manager', compute='_compute_alkira_manager_id')
     chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
     medication_error_event_boolean = fields.Boolean(string='Medication Errors', default=False)
     blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
@@ -143,8 +148,49 @@ class HelpDeskTicket(models.Model):
     allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
     is_sent = fields.Boolean(string='Sent', default=False)
 
+    def action_add_follower(self):
+        self.ensure_one()
+        # add prescriber, clinic manager, alkira manager as followers
+        parter_ids = []
+        if self.primary_physician_id:
+            parter_ids.append(self.primary_physician_id.partner_id.id)
+        if self.clinic_manager_id:
+            parter_ids.append(self.clinic_manager_id.related_contact_ids 
+                              and self.clinic_manager_id.related_contact_ids[0].id or False)
+        if self.alkira_manager_id:
+            parter_ids.append(self.alkira_manager_id.related_contact_ids 
+                              and self.alkira_manager_id.related_contact_ids[0].id or False)
+        self.message_subscribe(partner_ids=parter_ids)
+
+    @api.depends('ticket_type')
+    def _compute_alkira_manager_id(self):
+        alkira_clinic_id = self.env['hr.department'].sudo().name_search('Alkira Aesthetics') 
+        if not alkira_clinic_id:
+            for rec in self:
+                rec.alkira_manager_id = False
+            return
+        manager_id = self.env['hr.department'].sudo().browse(alkira_clinic_id[0][0]).manager_id
+        if not manager_id:
+            for rec in self:
+                rec.alkira_manager_id = False
+            return
+        for rec in self:
+            if rec.ticket_type.name != 'Adverse Event':
+                rec.alkira_manager_id = False
+                continue
+            rec.alkira_manager_id = manager_id.id
+
+    @api.depends('name', 'patient_id', 'patient_id.name', 'ticket_type', 'ticket_type.name')
+    def _compute_subject(self):
+        for rec in self:
+            rec.subject = rec.name or ''
+            if rec.patient_id:
+                rec.subject += ' - ' + rec.patient_id.name
+            if rec.ticket_type:
+                rec.subject += ' - ' + rec.ticket_type.name
+
     @api.onchange(
-        'nurse_id', 'customer_id', 
+        'nurse_id', 'patient_id', 
         'chemical_burns_event_boolean', 
         'medication_error_event_boolean', 
         'blindness_event_boolean', 
@@ -254,11 +300,11 @@ class HelpDeskTicket(models.Model):
         return self.env['ir.config_parameter'].sudo().get_param(
             'odoo_website_helpdesk.show_create_task')
 
-    show_create_task = fields.Boolean(string="Create Task",
-                                      default=_default_show_create_task,
-                                      compute='_compute_show_create_task')
-    create_task = fields.Boolean(string="Create Task", readonly=False,
-                                 related='team_id.create_task', store=True)
+    # show_create_task = fields.Boolean(string="Create Task",
+    #                                   default=_default_show_create_task,
+    #                                   compute='_compute_show_create_task')
+    # create_task = fields.Boolean(string="Create Task", readonly=False,
+    #                              related='team_id.create_task', store=True)
     billable = fields.Boolean(string="Billable", default=False)
 
     def _default_show_category(self):
@@ -282,11 +328,11 @@ class HelpDeskTicket(models.Model):
         for rec in self:
             rec.show_category = show_category
 
-    def _compute_show_create_task(self):
-        """Compute the created task"""
-        show_create_task = self._default_show_create_task()
-        for record in self:
-            record.show_create_task = show_create_task
+    # def _compute_show_create_task(self):
+    #     """Compute the created task"""
+    #     show_create_task = self._default_show_create_task()
+    #     for record in self:
+    #         record.show_create_task = show_create_task
 
     def auto_close_ticket(self):
         """Automatically closing the ticket"""
@@ -329,76 +375,77 @@ class HelpDeskTicket(models.Model):
 
     def create_invoice(self):
         """Create Invoice based on the ticket"""
-        tasks = self.env['project.task'].search(
-            [('project_id', '=', self.project_id.id),
-             ('ticket_id', '=', self.id)]).filtered(
-            lambda line: line.ticket_billed == False)
-        if not tasks:
-            raise UserError('No Tasks to Bill')
+        # tasks = self.env['project.task'].search(
+        #     [('project_id', '=', self.project_id.id),
+        #      ('ticket_id', '=', self.id)]).filtered(
+        #     lambda line: line.ticket_billed == False)
+        # if not tasks:
+        #     raise UserError('No Tasks to Bill')
 
-        total = sum(x.effective_hours for x in tasks if x.effective_hours > 0)
+        # total = sum(x.effective_hours for x in tasks if x.effective_hours > 0)
 
-        invoice_no = self.env['ir.sequence'].next_by_code(
-            'ticket.invoice')
-        self.env['account.move'].create([
-            {
-                'name': invoice_no,
-                'move_type': 'out_invoice',
-                'customer_id': self.customer_id.id,
-                'ticket_id': self.id,
-                'date': fields.Date.today(),
-                'invoice_date': fields.Date.today(),
-                'invoice_line_ids': [(0, 0,
-                                      {'product_id': self.service_product_id.id,
-                                       'name': self.service_product_id.name,
-                                       'quantity': total,
-                                       'product_uom_id': self.service_product_id.uom_id.id,
-                                       'price_unit': self.cost,
-                                       'account_id': self.service_product_id.categ_id.property_account_income_categ_id.id,
-                                       })],
-            }, ])
-        for task in tasks:
-            task.ticket_billed = True
-        return {
-            'effect': {
-                'fadeout': 'medium',
-                'message': 'Billed Successfully!',
-                'type': 'rainbow_man',
-            }
-        }
+        # invoice_no = self.env['ir.sequence'].next_by_code(
+        #     'ticket.invoice')
+        # self.env['account.move'].create([
+        #     {
+        #         'name': invoice_no,
+        #         'move_type': 'out_invoice',
+        #         'customer_id': self.patient_id.partner_id.id,
+        #         'ticket_id': self.id,
+        #         'date': fields.Date.today(),
+        #         'invoice_date': fields.Date.today(),
+        #         'invoice_line_ids': [(0, 0,
+        #                               {'product_id': self.service_product_id.id,
+        #                                'name': self.service_product_id.name,
+        #                                'quantity': total,
+        #                                'product_uom_id': self.service_product_id.uom_id.id,
+        #                                'price_unit': self.cost,
+        #                                'account_id': self.service_product_id.categ_id.property_account_income_categ_id.id,
+        #                                })],
+        #     }, ])
+        # for task in tasks:
+        #     task.ticket_billed = True
+        # return {
+        #     'effect': {
+        #         'fadeout': 'medium',
+        #         'message': 'Billed Successfully!',
+        #         'type': 'rainbow_man',
+        #     }
+        # }
 
     def create_tasks(self):
+        return
         """Task creation"""
-        task_id = self.env['project.task'].create({
-            'name': self.name + '-' + self.subject,
-            'project_id': self.project_id.id,
-            'company_id': self.env.company.id,
-            'ticket_id': self.id,
-        })
-        self.write({
-            'task_ids': [(4, task_id.id)]
-        })
+        # task_id = self.env['project.task'].create({
+        #     'name': self.name + '-' + self.subject,
+        #     'company_id': self.env.company.id,
+        #     'ticket_id': self.id,
+        # })
+        # self.write({
+        #     'task_ids': [(4, task_id.id)]
+        # })
 
-        return {
-            'name': 'Tasks',
-            'res_model': 'project.task',
-            'view_id': False,
-            'res_id': task_id.id,
-            'view_mode': 'form',
-            'type': 'ir.actions.act_window',
-            'target': 'new',
-        }
+        # return {
+        #     'name': 'Tasks',
+        #     'res_model': 'project.task',
+        #     'view_id': False,
+        #     'res_id': task_id.id,
+        #     'view_mode': 'form',
+        #     'type': 'ir.actions.act_window',
+        #     'target': 'new',
+        # }
 
     def open_tasks(self):
-        """View the Created task """
-        return {
-            'name': 'Tasks',
-            'domain': [('ticket_id', '=', self.id)],
-            'res_model': 'project.task',
-            'view_id': False,
-            'view_mode': 'tree,form',
-            'type': 'ir.actions.act_window',
-        }
+        return
+        # """View the Created task """
+        # return {
+        #     'name': 'Tasks',
+        #     'domain': [('ticket_id', '=', self.id)],
+        #     'res_model': 'project.task',
+        #     'view_id': False,
+        #     'view_mode': 'tree,form',
+        #     'type': 'ir.actions.act_window',
+        # }
 
     def open_invoices(self):
         """View the Created invoice"""
@@ -511,12 +558,12 @@ class HelpdeskTypes(models.Model):
     name = fields.Char(string='Type', help='Types')
 
 
-class Tasks(models.Model):
-    """Inheriting the task"""
-    _inherit = 'project.task'
+# class Tasks(models.Model):
+#     """Inheriting the task"""
+#     _inherit = 'project.task'
 
-    ticket_billed = fields.Boolean('Billed', default=False,
-                                   help='Billed Tickets')
+#     ticket_billed = fields.Boolean('Billed', default=False,
+#                                    help='Billed Tickets')
 
 
 class HelpdeskTags(models.Model):

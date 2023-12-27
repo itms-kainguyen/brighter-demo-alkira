@@ -11,7 +11,7 @@
                 <div class="app_settings_block" data-string="Helpdesk"
                      string="Helpdesk" data-key="helpdesk_ticket">
                     <h2>Helpdesk</h2>
-                    <div class="row mt16 o_settings_container">
+                    <!-- <div class="row mt16 o_settings_container">
                         <div class="col-lg-6 o_setting_box">
                             <div class="o_setting_left_pane">
                                 <field name="show_create_task"/>
@@ -21,7 +21,7 @@
                                 <div class="text-muted">Create tasks from tickets</div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div groups="odoo_website_helpdesk.helpdesk_manager">
                         <h2>Ticket Settings</h2>
                         <div class="row mt16 o_settings_container">

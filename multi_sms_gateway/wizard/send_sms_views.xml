@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <!-- Form view  of the wizard -->
             <form string="Send SMS">
-                <group string="SMS Gateway" colspan="4">
+                <group string="SMS Gateway" colspan="4" invisible='1'>
                     <field name="sms_id"/>
                 </group>
                 <group string="Send SMS" colspan="4">

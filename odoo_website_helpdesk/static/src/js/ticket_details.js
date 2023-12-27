@@ -15,9 +15,9 @@ odoo.define("odoo_website_helpdesk.ticket_details", function (require) {
         "Cost : " +
         self.parentElement.parentElement.children[4].outerText +
         "<br/>" +
-        "Priority : " +
-        self.parentElement.parentElement.children[6].outerText+
-          "<br/>" +"<br/>" +
+        // "Priority : " +
+        // self.parentElement.parentElement.children[6].outerText+
+        //   "<br/>" +"<br/>" +
          "Description : " +
         self.parentElement.parentElement.children[3].outerText +
         "<br/>";

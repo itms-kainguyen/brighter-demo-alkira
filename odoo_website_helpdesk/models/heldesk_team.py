@@ -39,11 +39,11 @@ class HelpDeskTeam(models.Model):
                                       ('groups_id', 'in', self.env.ref(
                                           'odoo_website_helpdesk.helpdesk_user').id)])
     email = fields.Char('Email', help='Email')
-    project_id = fields.Many2one('project.project',
-                                 string='Project',
-                                 help='Projects')
-    create_task = fields.Boolean(string="Create Task",
-                                 help="Task created or not")
+    # project_id = fields.Many2one('project.project',
+    #                              string='Project',
+    #                              help='Projects')
+    # create_task = fields.Boolean(string="Create Task",
+    #                              help="Task created or not")
 
     @api.onchange('team_lead_id')
     def members_choose(self):

@@ -73,6 +73,10 @@ class SendSms(models.TransientModel):
                             self.sms_id.twilio_auth_token)
             for number in self.sms_to.split(','):
                 if number:
+                    print("number",number)
+                    if not number.startswith('+61'):
+                        number = '+61' + number  # Prefix '61' to the number
+                    print("number",number)
                     client.messages.create(
                         body=self.text,
                         from_=self.sms_id.twilio_phone_number,
@@ -132,4 +136,14 @@ class SendSms(models.TransientModel):
             'sms_mobile': self.sms_to,
             'sms_text': self.text
         })
-        return True
+        title = ("Successfully!")
+        message = ("Send SMS Successfully!")
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': title,
+                'message': message,
+                'sticky': False,
+            }
+}
