@@ -435,13 +435,44 @@ class TreatmentMedicineLine(models.Model):
     repeat = fields.Integer(string='Repeat', default=1)
     prescription_id = fields.Many2one('prescription.order', string='Prescription')
 
+    # qty_available_today = fields.Float(compute='_compute_qty_at_date')
+    # qty_to_deliver = fields.Float(compute='_compute_qty_at_date', digits='Product Unit of Measure')
+    # free_qty_today = fields.Float(compute='_compute_qty_at_date', digits='Product Unit of Measure')
+    forecast_availability = fields.Float('Forecast Availability', compute='_compute_forecast_information',
+                                         digits='Product Unit of Measure', compute_sudo=True)
+    is_red = fields.Boolean(default=False)
+    colour_forecast = fields.Char(string="Color", default="#0000FF")
+
+    @api.depends('product_id', 'acs_lot_id', 'amount')
+    def _compute_forecast_information(self):
+        for line in self:
+            line.forecast_availability = 0.0
+            line.is_red = False
+            line.colour_forecast = "#0000FF"
+            if line.acs_lot_id:
+                line.forecast_availability = line.acs_lot_id.product_qty
+                if line.forecast_availability < float(line.amount):
+                    line.is_red = True
+                    line.colour_forecast = "#FF0000"
+
+
+    # @api.depends('product_id', 'amount')
+    # def _compute_qty_at_date(self):
+    #     print('ok')
+    #     for line in self:
+    #         line.qty_available_today = 1000
+    #         line.free_qty_today = 100
+    #         line.qty_to_deliver = float(line.amount)
+
     @api.onchange('product_id')
     def onchange_product_id(self):
-        if self.product_id:
-            result = {'domain': {'acs_lot_id': [('product_id', '=', self.product_id.id), '|',
-                                                ('expiration_date', '=', False),
-                                                ('expiration_date', '>', datetime.now().strftime('%Y-%m-%d'))]}}
-            return result
+        result = {'domain': {'acs_lot_id': [('product_id', '=', self.product_id.id), '|',
+                                            ('expiration_date', '=', False),
+                                            ('expiration_date', '>', datetime.now().strftime('%Y-%m-%d'))]}}
+        return result
+
+    def _openReport(self):
+        return
 
 
 class TreatmentTemplate(models.Model):
