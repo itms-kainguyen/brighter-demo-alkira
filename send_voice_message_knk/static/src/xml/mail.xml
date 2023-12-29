@@ -5,6 +5,15 @@
             <button class="o_Composer_button o_Composer_buttonRecording o_Composer_toolButton btn btn-light fa fa-microphone border-0 rounded-pill" t-att-class="{ 'o-isDeviceSmall': messaging.device.isSmall }" t-attf-class="{{ composerView.messageViewInEditing ? 'my-1' : 'mx-1' }}" title="Voice Message" aria-label="Voice Message" type="button" 
             t-on-mousedown="composerView.onStartRecording" t-on-touchstart="composerView.onStartRecording" 
             t-on-mouseup="composerView.onStopRecording" t-on-touchend="composerView.onStopRecording"/>
+            
+            <!-- <button type="button" class="btn btn-primary history_btn" id="history_btn"
+               t-on-click="buttonClicked">
+               <span>NEW BUTTON</span>
+           </button> -->
+
+
+            <button t-on-click="buttonClicked" class="o_Composer_button o_Composer_button_send_sms  o_Composer_toolButton btn btn-light fa fa-sms border-0 rounded-pill" t-att-class="{ 'o-isDeviceSmall': messaging.device.isSmall }"  title="SMS" aria-label="SMS" type="button" 
+            />
         </xpath>
     </t>
     <t t-inherit="mail.AttachmentCard" t-inherit-mode="extension">

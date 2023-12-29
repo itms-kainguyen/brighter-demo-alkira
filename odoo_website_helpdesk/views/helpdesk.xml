@@ -7,14 +7,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button 
-                        name="send_sms" string="Send" 
-                        attrs="{'invisible':[('ticket_name', '!=', 'Adverse Event')]}"
-                        type="object" class="btn btn-primary"/>
+                    
                     <button name="action_send_reply" string="Reply"
                             type="object" class="btn-primary"/>
-                    <button name="action_add_follower" string="Add Follower"
-                            type="object" context="{'skip_blocking_subscribe':True}" class="btn-primary"/>
+                    <!-- <button name="action_add_follower" string="Add Follower"
+                            type="object" context="{'skip_blocking_subscribe':True}" class="btn-primary"/> -->
                     <!-- <button name="create_tasks" string="Create Task"
                             type="object" class="btn-primary"
                             attrs="{'invisible':[('create_task','=',False)]}"/> -->
@@ -100,19 +97,28 @@
                         <page string="Issue Description">
                             <field name="description"
                                    placeholder="Provide the reason in detail"/>
+
+            
+                       
+                        <button 
+                        name="send_sms" string="Send" 
+                        attrs="{'invisible':[('ticket_name', '!=', 'Adverse Event')]}"
+                        type="object" class="btn btn-primary"/>
+
+
                         </page>
-                        <page string="Attachments">
+                        <page string="Add Photos">
                             <group>
                                 <field name="attachment_ids" string="Add Photos" widget="many2many_binary"/>
                             </group>
                         </page>
-                        <page string="Customer Rating">
+                        <!-- <page string="Customer Rating">
                             <group>
-                                <!-- <field name="customer_rating"
-                                       widget="priority"/> -->
+                                 <field name="customer_rating"
+                                       widget="priority"/> 
                                 <field name="review"/>
                             </group>
-                        </page>
+                        </page> -->
                         <page string="Other Information">
                             <group>
                                 <group>

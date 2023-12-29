@@ -32,10 +32,11 @@ class SmsHistory(models.Model):
     _name = 'sms.history'
     _description = 'SMS History'
     _rec_name = 'sms_mobile'
+    _order = "sms_date desc"
 
     sms_gateway_id = fields.Many2one('sms.gateway', string='Gateway',
                                      help='The SMS Gateway.')
-    sms_date = fields.Datetime(string='Date', default=fields.Date().today(),
+    sms_date = fields.Datetime(string='Date', default= fields.Datetime.now(), #fields.Date().today(),
                                help='Date of sending message(current day).')
     sms_mobile = fields.Char(
         string='Mobile Number', help='Phone Number to send SMS.')
