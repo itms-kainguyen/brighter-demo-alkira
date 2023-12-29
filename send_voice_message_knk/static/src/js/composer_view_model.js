@@ -44,7 +44,7 @@ registerPatch({
 
       const action = {
           type: 'ir.actions.act_window',
-          name: this.composer.isLog ? this.env._t('Log note') : this.env._t('Compose Email'),
+          name: this.composer.isLog ? this.env._t('Send SMS') : this.env._t('Send SMS'),
           res_model: 'send.sms',
           view_mode: 'form',
           views: [[false, 'form']],
