@@ -66,7 +66,7 @@
                     </group>
 
                     <notebook>
-                        <page string="General Details" name="general_info">
+                        <page string="Treatment" name="general_info">
                             <separator string="Available Prescriptions" class="acs_separator"/>
                             <field name="available_prescription_ids" string="Available Prescriptions" >
                                 <!-- <field name="prescription_ids" invisible="1"/> -->
