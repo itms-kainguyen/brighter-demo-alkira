@@ -86,7 +86,21 @@ class Helpdesk(models.TransientModel):
                                         config_parameter=
                                         'odoo_website_helpdesk.noti_brighter_emergency',
                                         help='Helpdesk menu')
+    phonenumber_brighter_emergency = fields.Char('Phone Number Brighter Emergency', config_parameter=
+                                        'odoo_website_helpdesk.phonenumber_brighter_emergency',)
 
+    noti_sms = fields.Boolean('SMS',
+                                        config_parameter=
+                                        'odoo_website_helpdesk.noti_sms',
+                                        help='Helpdesk menu')
+    noti_email = fields.Boolean('Email',
+                                        config_parameter=
+                                        'odoo_website_helpdesk.noti_email',
+                                        help='Helpdesk menu')
+    noti_chatter = fields.Boolean('Chatter',
+                                        config_parameter=
+                                        'odoo_website_helpdesk.noti_chatter',
+                                        help='Helpdesk menu')
 
     @api.onchange('closed_stage')
     def closed_stage_a(self):
