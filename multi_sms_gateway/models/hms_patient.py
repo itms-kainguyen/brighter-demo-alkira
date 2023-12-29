@@ -50,6 +50,8 @@ class ACSPatient(models.Model):
             'view_mode': 'form',
             'target': 'new'
         }
+    
+    
     def form_send_sms(self):
         self.ensure_one()
         record_ids = self.id

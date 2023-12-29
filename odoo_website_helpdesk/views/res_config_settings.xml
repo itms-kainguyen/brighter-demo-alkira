@@ -99,6 +99,46 @@
                             </div>
                         </div>
                     </div>
+
+                    <h2>Adverse Event, notify to</h2>
+                    <div class="row mt16 o_settings_container">
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="noti_nurse"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="noti_nurse"/>
+                                <!-- <div class="text-muted">Nurse</div> -->
+                                <br/>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="noti_clinic_manager"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="noti_clinic_manager"/>
+                                <!-- <div class="text-muted">Clinic Manager</div> -->
+                                <br/>
+                            </div>
+                        </div>
+
+                         <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="noti_brighter_emergency"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="noti_brighter_emergency"/>
+                                <!-- <div class="text-muted">Brighter emergency</div> -->
+                                <br/>
+                            </div>
+                        </div>
+
+
+
+                    </div>
                 </div>
             </xpath>
         </field>

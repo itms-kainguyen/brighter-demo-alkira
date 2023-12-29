@@ -28,10 +28,11 @@
             -> Send your voice messages in the mail chatter as an attachment.
     ''',
     'images': ['static/src/description/send_voice_message_knk_banner.jpg'],
-    'depends': ['mail'],
+    'depends': ['mail', 'multi_sms_gateway'],
     'assets': {
         'web.assets_backend': [
             'send_voice_message_knk/static/src/js/composer_view_model.js',
+            'send_voice_message_knk/static/src/js/send_sms.js',
             'send_voice_message_knk/static/src/xml/mail.xml',
             'send_voice_message_knk/static/src/css/main.css',
             'send_voice_message_knk/static/lib/index.js',

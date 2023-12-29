@@ -2,14 +2,26 @@
 
 import { registerPatch } from '@mail/model/model_core';
 import { attr } from '@mail/model/model_field';
+var rpc = require('web.rpc');
 
 const recorder = new MicRecorder({
     bitRate: 128
   });
   
+
+ // send_sms_view_form
+
+
 registerPatch({
     name: 'ComposerView',
     recordMethods: {
+        send_sms(event) {
+
+
+    
+    
+
+        },
         onStartRecording(event) {
             const isMobile = {
               // Code to check the user's OS and prevent default functions
