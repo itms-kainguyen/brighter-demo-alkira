@@ -2,20 +2,21 @@
 import { patch } from "@web/core/utils/patch";
 import { FormController } from "@web/views/form/form_controller";
 import { useService } from "@web/core/utils/hooks";
-patch(FormController.prototype, "hms_appointment", {
+patch(FormController.prototype, "sale_order", {
        setup(){
           this._super.apply();
           this.action = useService("action")
        },
        buttonClicked(){
+        console.log("this",this, this.action)
            this.action.doAction({
                type: 'ir.actions.act_window',
-               name: 'All Sale Orders',
+               name: 'Send SMS',
                view_mode: 'form',
-               views:[[false,"list"]],
-               res_model: 'sale.order',
+               views:[[false,"form"]],
+               res_model: 'send.sms',
                target: 'new',
-               context: "{'create' : False}",
+               //context: "{'create' : False}",
            })
        }
 });

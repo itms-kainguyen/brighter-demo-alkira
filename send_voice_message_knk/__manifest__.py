@@ -34,6 +34,7 @@
             'send_voice_message_knk/static/src/js/composer_view_model.js',
             'send_voice_message_knk/static/src/js/send_sms.js',
             'send_voice_message_knk/static/src/xml/mail.xml',
+            'send_voice_message_knk/static/src/xml/send_sms.xml',
             'send_voice_message_knk/static/src/css/main.css',
             'send_voice_message_knk/static/lib/index.js',
         ]
