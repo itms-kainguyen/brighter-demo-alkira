@@ -17,7 +17,7 @@
 #╚══════════════════════════════════════════════════════════════════════╝
 {
     'name': 'Create Stock Moves With Invoice And Refunds',
-    'category': 'Accounting',
+    'category': 'Hospitality Management/HMS',
     'version': '1.0.1',
     'author' : 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',

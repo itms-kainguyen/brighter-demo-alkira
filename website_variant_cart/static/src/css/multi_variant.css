@@ -1,0 +1,72 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : https://store.webkul.com/license.html/ */
+
+/*.input-group-addon1{
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.65;
+    color: #555555;
+    text-align: center;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: table-row;
+    border-collapse: unset;
+}
+.input-group-addon1:first-child {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group-addon1:last-child {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}*/
+
+
+/* custom */
+
+.js_main_product table td {
+    background: #f9faf9;
+    vertical-align: middle;
+}
+.js_main_product table td:nth-of-type(even) {
+    --table-accent-bg: #f9faf9 !important;
+}
+
+.input-group > .form-control, .input-group > .form-select {
+    width: auto;
+    border: none;
+    border-bottom: 1px solid gainsboro;
+}
+
+.css_quantity input {
+    height: 40px !important;
+}
+
+a.js_add_cart_json {
+    padding: 0px;
+    margin: 0px;
+}
+
+.css_quantity .btn, .css_quantity input .multi_variants_button {
+    border: none;
+}
+
+.multi_variants_button {
+    padding-left: 20px;
+}
+
+.input-group-append .btn-link {
+    color: #9e9e9e;
+}
+
+.input-group-prepend .btn-link {
+    color: #9e9e9e;
+}

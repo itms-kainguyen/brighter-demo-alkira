@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        
+        <record id="menu_about" model="theme.website.menu">
+            <field name="name">About</field>
+            <field name="url">/brighter-about-section</field>
+            <field name="sequence" type="int">21</field>
+        </record>
+
+        <record id="menu_explore" model="theme.website.menu">
+            <field name="name">explore</field>
+            <field name="url">/explore</field>
+            <field name="sequence" type="int">22</field>
+        </record>
+
+        
+
+    </data>
+
+</odoo>

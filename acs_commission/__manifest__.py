@@ -17,7 +17,7 @@
 #╚══════════════════════════════════════════════════════════════════════╝
 {
     'name': 'Partner Incentive / Commission Management',
-    'category': 'Accouting',
+    'category': 'Hospitality Management/HMS',
     'summary': 'Option to give commission & payment to Customer, Referral, Employee and third party contact in system',
     'description': """
         Incentive for Employees Incentive Management

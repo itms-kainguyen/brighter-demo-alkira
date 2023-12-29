@@ -1,0 +1,408 @@
+/* fix mobile version */
+@media only screen and (max-width: 768px) {
+  .o_form_view.o_xxs_form_view .o_inner_group .o_wrap_field .o_cell .o_field_widget {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+}
+
+/* end fix mobile version ===================================================== */
+
+.container-buttonbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  min-height: 80px;
+  max-height: 120px;
+  overflow-x: auto;
+  overflow-y: auto;
+  justify-content: flex-end;
+  padding: 5px; /* this */
+}
+
+.container-buttonbox button {
+  margin: 10px 5px;
+  border: 1px solid #dee2e6 !important;
+  min-width: 145px;
+}
+
+.container-buttonbox button:hover {
+  box-shadow: 5px 5px 15px #aaaaaa;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .container-buttonbox button {
+    margin: 10px 5px;
+    border: 1px solid #dee2e6 !important;
+    min-width: 166px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .container-buttonbox button {
+    margin: 10px 5px;
+    border: 1px solid #dee2e6 !important;
+    min-width: 145px;
+  }
+}
+
+
+
+/**
+custom dashboard
+*/
+
+#acs_hms_dashboard .card.acs-card.card-acs > a.oe_kanban_action:last-child {
+  display: none;
+}
+
+#acs_hms_dashboard .acs-card:hover .stat-icon {
+  transform: unset !important;
+  -webkit-transform: unset !important;
+  -moz-transform: scale(1.5) rotate(60deg) translateX(30px) translateY(-15px);
+  -ms-transform: scale(1.5) rotate(60deg) translateX(30px) translateY(-15px);
+  -o-transform: scale(1.5) rotate(60deg) translateX(30px) translateY(-15px);
+  opacity: 1;
+  transition: unset !important;
+  -webkit-transition: unset !important;
+  -moz-transition: all 0.8s ease;
+  -ms-transition: all 0.8s ease;
+  -o-transition: all 0.8s ease;
+}
+
+#acs_hms_dashboard .card.acs-card.card-acs {
+  background: #e36f3c !important;
+  border: 1px solid #e98630 !important;
+  height: 77px;
+}
+
+#acs_hms_dashboard .card-heading {
+  background: #e36f3c !important;
+  border: 1px solid #e98630 !important;
+  color: white;
+}
+
+#acs_hms_dashboard .card-heading .col-6:first-child {
+  display: none;
+}
+
+#acs_hms_dashboard .card-heading .col-6:last-child {
+  width: 100%;
+}
+
+
+#acs_hms_dashboard thead.bg-info {
+  background: #e36f3c !important;
+  color: white;
+}
+
+#acs_hms_dashboard #dashboard_graphs {
+  display: none;
+}
+
+#acs_hms_dashboard .acs_block {
+  float: left;
+  height: 100px;
+  min-width: 330px !important;
+}
+
+// compact
+
+label.o_form_label {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.o_form_view .o_inner_group {
+  --columns: 1;
+  // gap: 0px !important;
+}
+
+label.o_form_label {
+  font-size: 12px !important;
+}
+
+.o_inner_group input {
+  font-size: 12px;
+}
+
+
+// video call
+
+
+.o_Message_bubble .position-absolute {
+  width: 100% !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandCamera {
+  font-size: xx-large;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandClose {
+  font-size: xx-large;
+}
+
+.o_ChatWindowHeader_commandHideMemberList {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandPhone {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandShowMemberList {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandShowCallSettingsMenu {
+  display: none !important;
+}
+
+.o_ChatWindowHeader_command.o_ChatWindowHeader_commandExpand {
+  display: none !important;
+}
+
+.o_ChatWindowHeader {
+  height: 50px;
+  font-size: large;
+}
+
+.o_ChannelMemberList.d-flex.flex-column.overflow-auto.bg-light.itms_custom.bg-view {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: space-around;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.o_ChannelMemberList h6.m-2 {
+  display: block !important;
+  width: 100%;
+}
+
+
+.o_ChatWindow .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer {
+  border: 1px solid #FF4F00;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 30px;
+}
+
+.o_ChatWindow .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer:hover {
+  background: #FF4F00;
+  color: white;
+}
+
+
+#dashboard_prescribers .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer {
+  border: 1px solid #FF4F00;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 30px;
+}
+
+#dashboard_prescribers h6 {
+  text-align: left;
+}
+
+#dashboard_prescribers .o_ChannelMember.d-flex.align-items-center.mx-2.p-2.cursor-pointer:hover {
+  background: #FF4F00;
+  color: white;
+}
+
+
+#dashboard_prescribers .o_ChannelMemberList.d-flex.flex-column.overflow-auto.bg-light.itms_custom.bg-view {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  flex-direction: row !important;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  align-content: space-around;
+  align-items: center;
+  padding: 10px;
+  gap: 7px;
+}
+
+// hide offline members
+.o_ChannelMember:has(> div>span.o-offline) {
+  display: none !important;
+
+}
+
+.o_ChannelMemberList h6:nth-of-type(2){
+  display: none !important;
+}
+
+#appointment_list h5.card-header {
+  background: #FF4F00;
+}
+
+#appointment_list h5.card-header a {
+  color: white;
+}
+
+#appointment_list h5.card-header a::after {
+  margin-left: 5px;
+}
+
+.o_ChatWindow {
+  right: 20px !important;
+}
+
+div[name='call_telehealth'] .btn {
+  background: #FF4F00 !important;
+  color: white;
+  border-color: #d35c2b;
+}
+
+div[name='call_telehealth'] .btn:hover {
+  background: #d24b13 !important;
+  color: white;
+  border-color: #d35c2b;
+  box-shadow: 0px 25px 20px -20px rgba(0, 0, 0, 0.45);
+}
+
+.online-prescriber .card-header {
+  background: #FF4F00;
+}
+.online-prescriber .card-header a {
+  color: white;
+}
+
+
+.o_PersonaImStatusIcon_icon::before {
+  color: green;
+}
+
+/*
+#loading {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background-color: rgba(13, 12, 12, 0.9);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.loading-container {
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+
+
+.loader {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: loader 1.2s linear infinite;
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+*/
+
+// change the icon flip to photo
+
+.o_ChatterTopbar_buttonToggleAttachments .fa-paperclip:before {
+  content: "\f030";
+}
+
+/*
+hide button invoice
+*/
+.container-buttonbox button[name="view_invoices"] {
+  display: none;
+}
+
+// table list view
+
+.table-responsive .o_data_cell {
+    // font-size: 15px;
+}
+
+
+
+/****
+ITMS dashboard
+*/
+.color-orange {
+  background: #e36f3c !important;
+  border: #af481b !important;
+}
+
+.card-orange {
+  background: #FF4F00;
+}
+
+.grid-box {
+  border: 1px solid #e0e0e0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.btn-group-vertical > button {
+  padding: 20px 5px !important;
+}
+
+.oe_kanban_global_click.o_kanban_record_has_image_fill {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+.o_kanban_image_fill_left.d-none.d-md-block {
+  margin-left: 5px !important;
+}
+
+.itms_dashboard.col-6.o_record_draggable {margin-bottom: 30px;}
+
+.itms_dashboard .oe_kanban_global_click.o_kanban_record_has_image_fill {
+  min-height: 150px;
+}
+
+.itms_dashboard_navigation {
+  padding-top: 12px;
+}
+
+// form_status_indicator
+.o_form_status_indicator {
+  height: 100%;
+  margin: 0px 10px;
+}
+
+
+.o_navbar_apps_menu.show .dropdown-menu .o_app > a .mk_app_icon {
+  width: auto !important;
+}

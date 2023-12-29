@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="aboutus_page" model="ir.ui.view">
+            <field name="name">aboutus page</field>
+            <field name="type">qweb</field>
+            <field name="key">theme_alkira.aboutus_page</field>
+            <field name="arch" type="xml">
+                <t name="Aboutus" t-name="theme_alkira.aboutus_page">
+                    <t t-call="website.layout">
+                        <div id="wrap">
+
+                            <section class="bg_blue s_text_image pt32 pb32 o_colored_level" data-snippet="s_text_image"
+                                     data-name="Text - Image" style="background-image: none;">
+                                <div class="container">
+                                    <div class="row align-items-center" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip347484">
+                                        <div class="pt16 pb16 o_colored_level col-lg-5" data-bs-original-title=""
+                                             title="" aria-describedby="tooltip913980">
+                                            <h3>A platform designed for advanced injectors.
+                                                <br/>
+                                            </h3>
+                                            <p>Learn, Grow and Share in a Brighter space. Brighter advanced injector
+                                                network has been designed for advanced injectors around the world by
+                                                recognised global leaders in aethetic medicine. Now you can find
+                                                mentorship, medical supervision, best practice protocols and regulatory
+                                                compliance as well as a complete clinic management system all in the one
+                                                place. Now that´s a brigther way to do aesthetics.
+                                                <br/>
+                                            </p>
+                                            <p data-bs-original-title="" title="" aria-describedby="tooltip528104">
+                                                <a href="#" class="mb-2 btn btn-primary" data-bs-original-title=""
+                                                   title="">Apply Now
+                                                </a>
+                                                <br/>
+                                            </p>
+                                        </div>
+                                        <div class="pt16 pb16 o_colored_level col-lg-7" style="">
+                                            <img src="/theme_alkira/static/images/Connect-3.svg"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-id="162"
+                                                 data-original-src="/theme_alkira/static/images/Connect-3.svg"
+                                                 data-mimetype="image/jpeg" data-bs-original-title="" title=""
+                                                 aria-describedby="tooltip144071" style=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="bg_orange s_features pt32 pb32 o_colored_level" data-snippet="s_features"
+                                     data-name="Features" style="background-image: none;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="pt32 pb32 text-center o_colored_level col-lg-3">
+                                            <img src="/theme_alkira/static/images/connicons-250x169.png"/>
+                                            <br/>
+                                            <p class="text-feature-about">Connect with globally recognised industry
+                                                educators for custom built
+                                                training from highly skilled mentors and network with advanced practice
+                                                colleagues.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                        <div class="pt32 pb32 text-center o_colored_level col-lg-3">
+                                            <img src="/theme_alkira/static/images/compicons-250x169.png"/>
+                                            <p class="text-feature-about">Brighter provides a platform for injectors to
+                                                manage their own clinics
+                                                from day one with advanced compliance and reporting. With adverse event
+                                                management and practical protocols in best practice standards from
+                                                around the world.
+                                            </p>
+                                        </div>
+                                        <div class="pt32 pb32 text-center o_colored_level col-lg-3">
+                                            <img src="/theme_alkira/static/images/advicons-250x169.png"/>
+                                            <p class="text-feature-about">Learn from advanced injectors and become a
+                                                leader in aesthetic medicine.
+                                                Access to member only advanced never before seen content. Become a
+                                                leader in best practice aesthetic medicine.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                        <div class="pt32 pb32 text-center o_colored_level col-lg-3">
+                                            <img src="/theme_alkira/static/images/shareicons-250x169.png"/>
+                                            <p class="text-feature-about">Brighter is a voice for advanced practioners.
+                                                Share your knowledge and
+                                                collaborate with advance practice colleagues and global leaders in
+                                                aesthetics.
+                                                <br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="bg_orange s_text_image pt32 pb32 o_colored_level"
+                                     data-snippet="s_image_text"
+                                     data-name="Image - Text" style="background-image: none;">
+                                <div class="container">
+                                    <div class="row align-items-start">
+                                        <div class="col-lg-6 pt16 pb16 o_colored_level">
+                                            <img src="/theme_alkira/static/images/clinchecker.png"
+                                                 class="img img-fluid mx-auto" alt="" loading="lazy"
+                                                 data-original-id="161"
+                                                 data-original-src="/theme_alkira/static/images/clinchecker.png"
+                                                 data-mimetype="image/png"/>
+                                        </div>
+                                        <div class="col-lg-6 pt16 pb16 o_colored_level">
+                                            <p>Get real time reports about your clinic to track patient attendances,
+                                                spend, product trends and general financial reports.
+                                            </p>
+                                            <p>
+                                                <img src="/theme_alkira/static/images/clinicchart-480x478.png" alt=""
+                                                     class="img img-fluid o_we_custom_image" data-original-id="2230"
+                                                     data-original-src="/theme_alkira/static/images/clinicchart-480x478.png"
+                                                     data-mimetype="image/png" data-bs-original-title="" title=""
+                                                     aria-describedby="tooltip50965"/>
+                                                <br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="oe_structure"/>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="aboutus" model="website.page">
+            <field name="is_published">True</field>
+            <field name="url">/brighter-about-section</field>
+            <field name="view_id" ref="aboutus_page"/>
+            <field name="track">True</field>
+        </record>
+
+    </data>
+
+</odoo>

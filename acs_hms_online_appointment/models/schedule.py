@@ -64,7 +64,7 @@ class Appointmentschedule(models.Model):
         _tz_get, string='Timezone', required=True, default=lambda self: self.env.user.tz,
         help="Timezone where appointment take place")
     department_id = fields.Many2one('hr.department', domain=[('patient_department', '=', True)])
-    physician_ids = fields.Many2many('hms.physician', 'physician_schedule_rel', 'schedule_id', 'physician_id', 'Physicians')
+    physician_ids = fields.Many2many('hms.physician', 'physician_schedule_rel', 'schedule_id', 'physician_id', 'Prescribers')
     active = fields.Boolean(string="Active", default=True)
     schedule_type = fields.Selection([('appointment','Appointment')], string="Schedule Type", default="appointment")
     show_fee_on_booking = fields.Boolean("Show Fees")

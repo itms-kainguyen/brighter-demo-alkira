@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('settings')]" position="inside">
-                <div class="app_settings_block" data-string="HMS" string="HMS" data-key="acs_hms_base" groups="acs_hms_base.group_hms_manager">
+                <div class="app_settings_block" data-string="Brighter" string="Brighter" data-key="acs_hms_base" groups="acs_hms_base.group_hms_manager">
                     
                     <div id="patient_data"/>
                     <div id="appointment_data"/>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                      </div>
-                    <h2>HMS Mobile App</h2>
+                    <h2>Brighter Mobile App</h2>
                     <div class="row mt16 o_settings_container">
                         <div class='col-12 col-lg-6 o_setting_box' id='appstore'>
                             <div class="d-flex">

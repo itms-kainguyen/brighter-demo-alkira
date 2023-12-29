@@ -31,13 +31,94 @@
                 <field name="show_cancellation_warning_flag"/>
                 <field name="acs_cancelled_appointments"/>
                 <field name="acs_flag_days"/>
+                <field name="appointment_count"/>
+                <field name="prescription_count"/>
+                <field name="total_invoiced"/>
             </field>
-            <xpath expr="//div[hasclass('oe_kanban_details')]/ul" position="after">
-                <div t-if="record.show_cancellation_warning_flag.raw_value" class="badge rounded-pill text-bg-danger">
-                    <span class="fa fa-exclamation-triangle" title="Cancellation"/>
-                    <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days
-                </div>
+            <xpath expr="//div[hasclass('oe_kanban_details')]/div/ul" position="after">
+<!--                <div t-if="record.show_cancellation_warning_flag.raw_value" class="badge rounded-pill text-bg-danger">-->
+<!--                    <span class="fa fa-exclamation-triangle" title="Cancellation"/>-->
+<!--                    <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days-->
+<!--                </div>-->
             </xpath>
+             <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.appointment_count.value" data-type="object" data-name="action_appointment" href="#" class="oe_kanban_action oe_kanban_action_a me-1">
+                    <span class="badge rounded-pill" style="font-size: small !important;">
+                        <i class="fa fa-fw fa-stethoscope" role="img" aria-label="Appointments" title="Appointments"/>
+                        <t t-out="record.appointment_count.value"/>
+                    </span>
+                     <span class="badge rounded-pill" style="font-size: small !important;">
+                        <i class="fa fa-fw fa-wpforms" role="img" aria-label="Prescriptions" title="Prescriptions"/>
+                        <t t-out="record.prescription_count.value"/>
+                    </span>
+<!--                    <a t-if="record.total_invoiced.value" data-type="object" data-name="view_invoices" href="#" class="oe_kanban_action oe_kanban_action_a me-1">-->
+<!--                        <span class="badge rounded-pill" style="font-size: small !important;">-->
+<!--                            <i class="fa fa-money" role="img" aria-label="Invoiced" title="Invoiced"/>-->
+<!--                            <t t-out="record.total_invoiced.value"/>-->
+<!--                        </span>-->
+<!--                    </a>-->
+                </a>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_survey_user_input_line_tree" model="ir.ui.view">
+        <field name="name">survey.user_input.line.tree</field>
+        <field name="model">survey.user_input.line</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="skipped == True" expand="1">
+                <field name="question_sequence" invisible="1"/>
+                <field name="create_date" optional="hidden"/>
+                <field name="page_id" optional="hidden"/>
+                <field name="question_id"/>
+                <field name="answer_type" optional="hidden"/>
+                <field name="skipped" optional="hidden"/>
+                <field name="matrix_row_id" string="Row answer"/>
+                <field name="suggested_answer_yes"/>
+                <field name="suggested_answer_no"/>
+                <field name="answer_is_correct" optional="hidden"/>
+                <field name="answer_score" sum="Score" optional="hidden"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="view_medical_checklist_search" model="ir.ui.view">
+        <field name="name">survey.user_input.line.search</field>
+        <field name="model">survey.user_input.line</field>
+        <field name="arch" type="xml">
+            <search string="Medical Checklist">
+                <field name="appointment_id"/>
+                <newline/>
+                <group expand="0" string="Group By...">
+                    <filter string="Appointment" name="appointment" domain="[]" context="{'group_by':'appointment_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medical_checklist">
+        <field name="name">Medical Checklist</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">survey.user_input.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_survey_user_input_line_tree"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+        </field>
+    </record>
+
+    <record id="view_patient_tree" model="ir.ui.view">
+    <field name="name">patient.tree</field>
+    <field name="model">hms.patient</field>
+    <field name="inherit_id" ref="acs_hms_base.view_patient_tree"/>
+        <field name="arch" type="xml">
+            <field name="mobile" position="after">
+                <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
+                <field name="assignee_ids" widget="many2many_tags" string="Assignees"/>
+                <field name="allergies_ids" widget="many2many_tags"/>
+            </field>
         </field>
     </record>
 
@@ -47,55 +128,68 @@
         <field name="inherit_id" ref="acs_hms_base.view_patient_form"/>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight" attrs="{'invisible': [('invoice_id','!=',False)]}" groups="acs_hms.group_patient_registartion_invoicing"/>
+                <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight" invisible="1" groups="acs_hms_base.group_hms_manager"/>
+                <button name="create_prescription" string="Create Prescription" type="object" class="oe_highlight" />
+
+                <button name="create_appointment" string="Create Appointment" type="object" class="oe_highlight" />
                 <field name="invoice_id" invisible="1"/>
+                <field name="is_patient_valid_prescription" invisible="1"/>
             </header>
 
             <widget name="web_ribbon" position="after">
                 <field name="show_cancellation_warning_flag" invisible="1"/>
-                <div attrs="{'invisible': [('show_cancellation_warning_flag', '=', False)]}" class="badge rounded-pill text-bg-danger">
+                <div attrs="{'invisible': [('show_cancellation_warning_flag', '=', False)]}" class="badge rounded-pill text-bg-danger" invisible="1">
                     <span class="fa fa-exclamation-triangle" title="Cancellation"/>
                     <field name="acs_cancelled_appointments" nolabel="1"/> Appointment Cancellation in last <field name="acs_flag_days" nolabel="1"/> days
                 </div>
             </widget>
 
             <div name="button_box" position="inside">
-                <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-user-md">
+                 <button class="oe_stat_button" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o">
+<!--                     <field string="Medical Checklist" name="checklist_count" widget="statinfo"/>-->
+                 </button>
+                <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
                     <field string="Treatments" name="treatment_count" widget="statinfo"/>
                 </button>
-                <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope">
                     <field string="Appointments" name="appointment_count" widget="statinfo"/>
                 </button>
-                <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms.group_hms_receptionist" icon="fa-stethoscope">
+                <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope" invisible="1">
                     <field string="Evaluations" name="evaluation_count" widget="statinfo"/>
                 </button>
-                <button name="action_prescription" groups="acs_hms.group_hms_jr_doctor" type="object" class="oe_stat_button" icon="fa-wpforms">
+                <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
-                <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object">
-                    <field string="Patient Procedures" name="patient_procedure_count" widget="statinfo"/>
+                <button attrs="{'invisible': [('is_patient_valid_prescription','=', True)]}" name="action_prescription" groups="acs_hms_base.group_hms_manager" type="object" class="oe_stat_button" icon="fa-wpforms">
+                    <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
+
+                <!-- <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object">
+                    <field string="Procedures" name="patient_procedure_count" widget="statinfo"/>
+                </button> -->
             </div>
 
             <field name="age" position="after">
                 <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
+                <field name="suitable_assignee_ids" widget="many2many_tags" string="Suitable Assignees" invisible="1"/>
+                <field name="assignee_ids" widget="many2many_tags" string="Assignees"/>
             </field>
 
             <field name="caste" position="after">
-                <field name="ethnic_group_id" groups="acs_hms_base.group_manage_ethnic_religion_tribe"/>
+                <field name="ethnic_group_id" groups="acs_hms_base.group_hms_manager" invisible="1"/>
             </field>
              <field name="company_id" position="attributes">
-                <attribute name="string">Hospital</attribute>
+                <attribute name="string">Clinic</attribute>
             </field>
             <group name="ref_doc_details" position="inside">
-                <field name="ref_doctor_ids" widget="many2many_tags"/>
+                <field name="ref_doctor_ids" widget="many2many_tags" invisible="1"/>
                 <field name="assignee_ids" widget="many2many_tags"/>
-                <field name="registration_product_id" groups="acs_hms.group_patient_registartion_invoicing"/>
+                <field name="registration_product_id" groups="acs_hms_base.group_hms_manager"/>
             </group>
 
             <page name="hospital_info" position="after">
-                <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms.group_hms_nurse">
-                    <div>NOTE: Details are shown based on last Completed Patient Evaluation. <t attrs="{'invisible': [('last_evaluation_id','=',False)]}">Last Evaluation: <field name="last_evaluation_id" nolabel="1" class="oe_link"/></t> <button class="oe_inline oe_stat_button btn-link" type="object" name="show_weight_chart" title="Show Evaluation Charts" icon="fa-area-chart"  string="Show Evaluation Charts" widget="statinfo"/></div>
+                <page name="clinical_ass" string="Clinical Assesment" groups="acs_hms_base.group_hms_manager" invisible="1">
+                    <div>NOTE: Details are shown based on last Completed Patient Evaluation. <t attrs="{'invisible': [('last_evaluation_id','=',False)]}">Last Evaluation: <field name="last_evaluation_id" nolabel="1" class="oe_link"/></t> <button class="oe_inline oe_stat_button btn-link" type="object" name="show_weight_chart" title="Show Evaluation Charts" icon="fa-area-chart fas"  string="Show Evaluation Charts" widget="statinfo"/></div>
 
                     <group>
                         <group>
@@ -154,21 +248,21 @@
                     </group>
                 </page>
 
-                <page name='diseases' string="Diseases" groups="acs_hms.group_hms_jr_doctor">
-                    <separator string="Medical Alert" colspan="4"/>
-                    <group>
-                        <field name="medical_alert_ids" widget="many2many_tags"/>
+                <page name='diseases' string="Treatment Notes" groups="acs_hms_base.group_hms_manager" invisible="1">
+                    <separator string="Medical Alert" colspan="4" invisible="1"/>
+                    <group invisible="1">
+                        <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/>
                     </group>
-                    <separator string="Past Medical History" colspan="4"/>
-                    <field name="medical_history"/>
-                    <separator string="Diseases History" colspan="4"/>
+                    <separator string="Past Medical History" colspan="4" invisible="1"/>
+                    <field name="medical_history" invisible="1"/>
+                    <separator string="Treatment" colspan="4" class="acs_separator"/>
                     <field name="patient_diseases_ids"  nolabel="1" colspan="4"/>
-                    <separator string="Family Disease History"/>
-                    <field name="family_history_ids" />
-                    <separator string="Genetic Risk" />
-                    <field name="genetic_risks_ids"/>
+                    <separator string="Family Disease History" invisible="1"/>
+                    <field name="family_history_ids" invisible="1"/>
+                    <separator string="Genetic Risk" invisible="1"/>
+                    <field name="genetic_risks_ids" invisible="1"/>
                 </page>
-                <page string="Family" name="family_note">
+                <page string="Family" name="family_note" invisible="1">
                     <field name="family_member_ids">
                         <tree editable="bottom">
                             <field name="related_patient_id"/>
@@ -216,7 +310,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Weight Chart"></i> Weight Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="Weight Chart"></i> Weight Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="WightChart">
@@ -231,7 +325,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Height Chart"></i> Height Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="Height Chart"></i> Height Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="HeightChart">
@@ -246,7 +340,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Weight Chart"></i> Temprature
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="Weight Chart"></i> Temprature
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="TempratureChart">
@@ -261,7 +355,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Heart Rate Chart"></i> Heart Rate Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="Heart Rate Chart"></i> Heart Rate Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="HRChart">
@@ -276,7 +370,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="RR Chart"></i> RR Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="RR Chart"></i> RR Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="RRChart">
@@ -291,7 +385,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Systolic BP Chart"></i> Systolic BP Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="Systolic BP Chart"></i> Systolic BP Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="SBPChart">
@@ -306,7 +400,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="Diastolic BP Chart"></i> Diastolic BP Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="Diastolic BP Chart"></i> Diastolic BP Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="DBPChart">
@@ -321,7 +415,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="SpO2 Chart"></i> SpO2 Chart
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="SpO2 Chart"></i> SpO2 Chart
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="Spo2Chart">
@@ -336,7 +430,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div t-attf-class="card acs-card card-">
                                         <div class="card-heading">
-                                            <i class="fa fa-area-chart" aria-label="Info" title="RBS Chart"></i> RBS
+                                            <i class="fa fa-area-chart fas" aria-label="Info" title="RBS Chart"></i> RBS
                                         </div>
                                         <div class="card-body o_acs_AcsDashboardGraph">
                                             <t t-name="RBSChart">

@@ -23,7 +23,7 @@
         Batch Wise Pricing Product Expiry Product Manufacture Lock Lot acs hms medical healthcare health care
     """,
     'version': '1.0.4',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',

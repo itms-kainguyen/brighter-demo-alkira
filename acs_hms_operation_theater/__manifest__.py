@@ -22,7 +22,7 @@
     HMS Operation Theater Booking almightycs odoo acs hms medical hospital management system
     Manage Operation Theater Advance booking in Hospital to utilize OT more efficiently
     """,
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'version': '1.0.3',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',

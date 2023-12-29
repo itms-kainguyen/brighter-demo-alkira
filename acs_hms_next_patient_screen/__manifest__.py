@@ -22,7 +22,7 @@
         This module provides screen of next patient who is going in consultation. ACS HMS Hospital management system
     """,
     'version': '1.0.1',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',

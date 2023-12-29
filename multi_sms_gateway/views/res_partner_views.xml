@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Server action in 'res.partner' to open the wizard to send the SMS. -->
+    <!-- Available in Form and Tree Views -->
+    <record id="action_send_sms" model="ir.actions.server">
+        <field name="name">Send SMS</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.send_sms()</field>
+    </record>
+
+     <record id="action_patient_send_sms" model="ir.actions.server">
+        <field name="name">Send SMS</field>
+        <field name="model_id" ref="acs_hms_base.model_hms_patient"/>
+        <field name="binding_model_id" ref="acs_hms_base.model_hms_patient"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.send_sms()</field>
+    </record>
+
+
+
+    <record id="view_patient_form_send_sms" model="ir.ui.view">
+        <field name="name">patient.form</field>
+        <field name="model">hms.patient</field>
+        <field name="inherit_id" ref="acs_hms_base.view_patient_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <button name="form_send_sms" string="Send SMS" type="object" class="oe_highlight" />
+            </xpath>
+         </field>
+    </record>
+
+</odoo>

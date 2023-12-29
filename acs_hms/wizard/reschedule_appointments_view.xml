@@ -17,13 +17,13 @@
         </field>
     </record>
 
-    <record id="action_acs_reschedule_appointments" model="ir.actions.act_window">
-        <field name="name">Reschedule Appointments</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">acs.reschedule.appointments</field>
-        <field name="binding_model_id" ref="acs_hms.model_hms_appointment"/>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
+<!--    <record id="action_acs_reschedule_appointments" model="ir.actions.act_window">-->
+<!--        <field name="name">Reschedule Appointments</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">acs.reschedule.appointments</field>-->
+<!--        <field name="binding_model_id" ref="acs_hms.model_hms_appointment"/>-->
+<!--        <field name="view_mode">form</field>-->
+<!--        <field name="target">new</field>-->
+<!--    </record>-->
 
 </odoo>

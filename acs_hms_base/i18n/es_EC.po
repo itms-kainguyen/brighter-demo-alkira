@@ -269,7 +269,7 @@ msgstr ""
 "traducirán en este idioma."
 
 #. module: acs_hms_base
-#: model:res.groups,name:acs_hms_base.group_acs_invoice_exemption
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Allow Invoice Exemption"
 msgstr "Permitir facturas excentas"
 
@@ -1621,17 +1621,17 @@ msgid "Male"
 msgstr "Hombre"
 
 #. module: acs_hms_base
-#: model:res.groups,name:acs_hms_base.group_manage_medicines
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Manage Medicines"
 msgstr "Administrar medicamentos"
 
 #. module: acs_hms_base
-#: model:res.groups,name:acs_hms_base.group_manage_ethnic_religion_tribe
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Manage Religion/Tribe/Ethnic group"
 msgstr "Administrar religión/tribu/grupo étnico"
 
 #. module: acs_hms_base
-#: model:res.groups,name:acs_hms_base.group_manage_services
+#: model:res.groups,name:acs_hms_base.group_hms_manager
 msgid "Manage Services"
 msgstr "Administrar servicios"
 

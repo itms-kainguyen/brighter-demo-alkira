@@ -24,7 +24,7 @@
     The 13rd is the key of the EAN13, this will be automatically computed.
     Barcode product barcode generator generate product barcode 
     """,
-    "category" : "Warehouse",
+    'category': 'Hospitality Management/HMS',
     "version": '1.0.1',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',

@@ -17,7 +17,7 @@
 #╚══════════════════════════════════════════════════════════════════════╝
 {
     'name': 'Hospital Doctor Commission Management',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'summary': 'Option to give commission or payment to referring doctor, visiting dr and third party person in HMS',
     'description': """
         Hospital Management System with patient commission for referring doctor, for visiting doctor and commission for third party.

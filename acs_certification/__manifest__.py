@@ -32,7 +32,7 @@
          Zertifizierung Benutzerzertifizierung Mitarbeiterzertifikat Mitarbeiterzertifikat Produktgarantiezertifikat
     """,
     'version': '1.0.3',
-    'category': 'Extra Addons',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',

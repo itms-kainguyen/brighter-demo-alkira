@@ -22,7 +22,7 @@
     Patient Document Management System. hospital management medical management ACS HMS
     """,
     'version': '1.0.1',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',

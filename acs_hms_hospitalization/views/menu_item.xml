@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     
-    <menuitem name="Hospitalization" id="acs_inpatient_menu" parent="acs_hms.menu_hms" sequence="2" groups="acs_hms_hospitalization.group_acs_hms_hospitalization_user"/>
+    <menuitem name="Hospitalization" id="acs_inpatient_menu" parent="acs_hms.menu_hms" sequence="2" groups="acs_hms_base.group_hms_manager"/>
     <menuitem id="acs_conf_inpatient_add" name="Hospitalization" action="acs_action_form_inpatient" parent="acs_hms_hospitalization.acs_inpatient_menu" sequence="1"/>
 
     <!-- Hospitalization --> 
-    <menuitem id="main_menu_hospitalization" name="Hospitalization" sequence="26" groups="acs_hms_hospitalization.group_acs_hms_hospitalization_user" web_icon="acs_hms_hospitalization,static/description/icon.png"/>
+    <menuitem id="main_menu_hospitalization" name="Hospitalization" sequence="26" groups="acs_hms_base.group_hms_manager" web_icon="acs_hms_hospitalization,static/description/icon.png"/>
 
     <menuitem id="menu_hospitalization" name="Hospitalization" action="acs_action_form_inpatient" parent="main_menu_hospitalization"/>
 
-    <menuitem id="acs_health_surgery" name="Surgery" action="acs_hms_surgery.action_hms_surgery" parent="main_menu_hospitalization" groups="acs_hms.group_hms_nurse"/>
+    <menuitem id="acs_health_surgery" name="Surgery" action="acs_hms_surgery.action_hms_surgery" parent="main_menu_hospitalization" groups="acs_hms_base.group_hms_manager"/>
 
     <menuitem id="menuitem_action_hos_bed" name="Beds" parent="main_menu_hospitalization" action="action_bed" groups="acs_hms_hospitalization.group_acs_hms_hospitalization_executive"/>
 

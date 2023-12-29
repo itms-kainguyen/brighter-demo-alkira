@@ -9,7 +9,7 @@
                 <field name="patient_id" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
             </field>
             <notebook position="inside">
-                <page name="hospital_info" string="Hospital Info" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}">
+                <page name="hospital_info" string="Clinic Info" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}">
                     <group name="general">
                         <group name="general_details" string="General Details">
                             <field name="physician_id"/>

@@ -17,7 +17,7 @@
 #╚══════════════════════════════════════════════════════════════════════╝
 {
     'name': 'Facility Management System',
-    'category': 'Extra Tools',
+    'category': 'Hospitality Management/HMS',
     'version': '1.0.1',
     'author' : 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',

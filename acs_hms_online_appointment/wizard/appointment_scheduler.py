@@ -16,7 +16,7 @@ class AppointmentSchedulerWizard(models.TransientModel):
     booking_slot_time = fields.Integer("Minutes in each slot", help="Configure your slot length, 15-30min.")
     allowed_booking_per_slot = fields.Integer("Allowed Booking per Slot", help="No of allowed booking per slot.")
     department_id = fields.Many2one('hr.department', string="Department")
-    physician_ids = fields.Many2many('hms.physician', string="Physicians")
+    physician_ids = fields.Many2many('hms.physician', string="Prescribers")
     acs_own_schedule = fields.Boolean("Own Schedule")
     schedule_ids = fields.Many2many("appointment.schedule", "wiz_appointment_schedule_rel", "wiz_id", "schedule_id", compute="get_schedule_ids", string="schedules")
 

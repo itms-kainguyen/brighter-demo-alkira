@@ -1,3 +1,8 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
+
+
+
 .o_kanban_dashboard.o_acs_hms_kanban {
     .o_kanban_record {
 
@@ -27,3 +32,17 @@
     display: block;
     height: 350px;
 }
+
+.acs_separator
+{
+    text-transform: none !important;
+}
+
+img.o_signature.img.img-fluid {
+    max-width: 45% !important;
+}
+
+.btn-green.btn-light {
+  border-bottom-color: #4dfe4a !important;
+  border-bottom-width: thick !important;
+}  

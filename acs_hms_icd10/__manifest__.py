@@ -20,7 +20,7 @@
     'name' : 'International Classification of Diseases (ICD10)',
     'summary': 'International Classification of Diseases and Diseases Category (ICD10).',
     'version': '1.0.1',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'license': 'OPL-1',
     'depends' : ['acs_hms'],
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',

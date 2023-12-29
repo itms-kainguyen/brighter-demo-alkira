@@ -22,7 +22,7 @@
     'description': """
         Webcam Image image by webcam Patient Physician User image partner image employee image customer image user image by webcam
     """,
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',

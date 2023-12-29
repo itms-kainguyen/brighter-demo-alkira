@@ -22,16 +22,19 @@
         Hospital Management System hospital dashboard physician dashboard admin dashboard ACS HMS
     """, 
     'version': '1.0.4',
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',
-    "depends": ["acs_hms"],
+    "depends": ["acs_hms","multi_sms_gateway"],
     "data": [
-        "security/security.xml",
+        'security/security.xml',
+        'security/ir.model.access.csv',
         "views/user_dashboard_view.xml",
         "views/user_view.xml",
+        "views/patient_dashboard_view.xml",
+        "views/itms_dashboard_view.xml"
     ],
     'assets': {
         'web.assets_backend': [
@@ -41,7 +44,7 @@
     'images': [
         'static/description/acs_hms_dashboard_almightycs_odoo_cover.gif',
     ],
-    'application': False,
+    'application': True,
     'sequence': 2,
     'price': 75,
     'currency': 'USD',

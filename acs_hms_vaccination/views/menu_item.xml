@@ -6,8 +6,8 @@
 
     <menuitem id="vaccination_menu" name="Vaccination" parent="main_menu_vaccination" action="action_vaccination_vac" sequence="10"/>
 
-    <menuitem id="vaccine_menu" name="Vaccine" parent="main_menu_vaccination" action="product_template_action_vaccines" sequence="15" groups="acs_hms.group_hms_jr_doctor"/>
+    <menuitem id="vaccine_menu" name="Vaccine" parent="main_menu_vaccination" action="product_template_action_vaccines" sequence="15" groups="acs_hms_base.group_hms_manager"/>
 
-    <menuitem id="vaccination_group_menu" name="Vaccination Group" parent="main_menu_vaccination" sequence="20" action="action_hms_vaccination_group" groups="acs_hms.group_hms_jr_doctor"/>
+    <menuitem id="vaccination_group_menu" name="Vaccination Group" parent="main_menu_vaccination" sequence="20" action="action_hms_vaccination_group" groups="acs_hms_base.group_hms_manager"/>
 
 </odoo>

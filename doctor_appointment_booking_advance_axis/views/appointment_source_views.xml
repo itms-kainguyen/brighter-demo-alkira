@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_appointment_source_n" model="ir.actions.act_window">
+            <field name="name">Appointment Source</field>
+            <field name="res_model">appointment.source</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Appoinment Source
+                </p>
+            </field>
+        </record>
+
+        <record id="view_appointmet_source_tree" model="ir.ui.view">
+            <field name="name">appointment.source.tree</field>
+            <field name="model">appointment.source</field>
+            <field name="arch" type="xml">
+                <tree string="Appointment Person Source Tree" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        <record id="abcd" model="ir.ui.view">-->
+<!--            <field name="name">calendar.event.form</field>-->
+<!--            <field name="model">calendar.event</field>-->
+<!--            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--&lt;!&ndash;                <xpath expr="//label[@for='partner_ids']" position="replace">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="doctore_id" string="Attendees" class="oe_edit_only"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+<!--                <field name="partner_ids" position="after">-->
+<!--&lt;!&ndash;                     <field name="partner_ids" invisible="1"/>&ndash;&gt;-->
+<!--                    <field name="doctore_id" invisible="1"/>-->
+<!--                </field>-->
+<!--                <field name="start" position="after">-->
+<!--                    <field name="start_at" widget="date"/>-->
+<!--                    <field name="start_time"/>-->
+<!--                    <field name="end_time"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="abcd_tree_view" model="ir.ui.view">
+            <field name="name">calendar.event.tree</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="partner_ids" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                <field name="name" position="after">
+                    <field name="doctore_id" string="Doctor"/>
+                    <field name="partner_new" string="Patient"/>
+                     <field name="start_at" string="Date"/>
+                    <field name="videocall_location" widget="url" text="Join Video Call" options="{'icon': 'fa fa-lg fa-video-camera'}" attrs="{'invisible': [('videocall_location', '=', False)]}"/>
+                </field>
+                 <field name="start" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                 <field name="location" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                 <field name="stop" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="view_calendar_event_search" model="ir.ui.view">
+            <field name="name">calendar.event.search</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/filter[@name='mymeetings']" position="after">
+                    <filter string="Pending Appointment" name="pending_appointment" invisible="1"/>
+                    <filter string="Approved Appointment" name="approved_appointment" invisible="1"/>
+                    <filter string="Rejected Appointment" name="rejected_appointment" invisible="1"/>
+                    <filter string="Today Appointment" name="today_appointment" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

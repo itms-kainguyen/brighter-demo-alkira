@@ -19,7 +19,7 @@
 {
     'name': 'Add Products by Barcode in Invoice',
     'version': '1.0.1',
-    'category': 'Accounting',
+    'category': 'Hospitality Management/HMS',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'summary': """Add Products by scanning barcode to avoid mistakes and make work faster in Invoice.""",

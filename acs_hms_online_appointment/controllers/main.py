@@ -39,7 +39,7 @@ class HMSWebsite(Website):
         }
         physician_id = post.get('physician_id')
         department_id = post.get('department_id')
-        appoitment_by = post.get('appoitment_by','physician')
+        appoitment_by = post.get('appoitment_by','Prescriber')
         physician = department = ''
         allow_home_appointment = False
         company_id = request.website.company_id.sudo()

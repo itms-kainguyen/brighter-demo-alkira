@@ -45,7 +45,7 @@ class ACSHmsMixin(models.AbstractModel):
             'invoice_line_ids': self.acs_get_invoice_lines(product_data, partner, inv_data, fiscal_position_id),
             'physician_id': inv_data.get('physician_id',False),
             'hospital_invoice_type': inv_data.get('hospital_invoice_type',False),
-            'fiscal_position_id': fiscal_position_id,
+            'fiscal_position_id': fiscal_position_id
         }
         if inv_data.get('ref_physician_id',False):
             data['ref_physician_id'] = inv_data.get('ref_physician_id',False)
@@ -73,6 +73,7 @@ class ACSHmsMixin(models.AbstractModel):
             quantity = data.get('quantity',1.0)
             uom_id = data.get('product_uom_id')
             discount = data.get('discount',0.0)
+            lot_id = data.get('lot_id', False)
 
             if product:
                 acs_pricelist_id = self.env.context.get('acs_pricelist_id')
@@ -96,6 +97,7 @@ class ACSHmsMixin(models.AbstractModel):
                 lines.append((0, 0, {
                     'name': data.get('name',product.get_product_multiline_description_sale()),
                     'product_id': product.id,
+                    'acs_lot_id': lot_id,
                     'price_unit': price,
                     'quantity': quantity,
                     'discount': discount,
@@ -219,7 +221,7 @@ class ACSDocumntMixin(models.AbstractModel):
     _description = "Document Mixin"
 
     def _acs_get_attachemnts(self):
-        attachments = self.env['ir.attachment'].search([
+        attachments = self.env['patient.document'].search([
             ('res_model', '=', self._name),
             ('res_id', '=', self.id)])
         return attachments 
@@ -231,16 +233,32 @@ class ACSDocumntMixin(models.AbstractModel):
             rec.attachment_ids = [(6,0,attachments.ids)]
 
     attach_count = fields.Integer(compute="_acs_attachemnt_count", readonly=True, string="Documents")
-    attachment_ids = fields.Many2many('ir.attachment', 'attachment_acs_hms_rel', 'record_id', 'attachment_id', compute="_acs_attachemnt_count", string="Attachments")
+    attachment_ids = fields.Many2many('patient.document', 'attachment_acs_hms_rel', 'record_id', 'ir_attachment_id', compute="_acs_attachemnt_count", string="Attachments")
 
     def action_view_attachments(self):
         self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("base.action_attachment")
-        action['domain'] = [('id', 'in', self.attachment_ids.ids)]
-        action['context'] = {
+        action = None
+        attachment_view = self.env.ref('itms_hms.view_document_file_kanban_hms_patient')
+        action = {
+            'name': _('Attachments'),
+            'domain': [('res_model', '=', 'hms.patient'), ('res_id', '=', self.id)],
+            'res_model': 'patient.document',
+            'type': 'ir.actions.act_window',
+            'view_id': attachment_view.id,
+            'views': [(attachment_view.id, 'kanban'), (False, 'form')],
+            'view_mode': 'kanban,tree,form',
+            'help': _('''<p class="o_view_nocontent_smiling_face">
+                                            Upload files to your product
+                                        </p><p>
+                                            Use this feature to store any files, like drawings or specifications.
+                                        </p>'''),
+            'limit': 80,
+            'context': {
                 'default_res_model': self._name,
                 'default_res_id': self.id,
                 'default_is_document': True}
+        }
+
         return action
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

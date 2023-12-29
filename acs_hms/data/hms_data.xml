@@ -2,6 +2,21 @@
 <odoo>
     <data noupdate="1">
 
+         <record id="ir_cron_check_prescription" model="ir.cron" forcecreate="True">
+            <field name="name">Prescription Expire</field>
+            <field name="model_id" ref="acs_hms.model_prescription_order"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_check_prescription_locked()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True" />
+            <field name="priority" eval="5" />
+        </record>
+
         <!-- product.product -->
         <record id="hms_registration_service_0" model="product.product">
             <field name="name">Registration Service</field>
@@ -101,7 +116,27 @@
             <field eval="'model.send_appointment_reminder()'" name="code"/>
         </record>
 
+        <record id="ir_cron_send_prescription_reminder_action" model="ir.cron">
+            <field name="name">Send Prescription Reminder</field>
+            <field eval="True" name="active"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field ref="acs_hms.model_prescription_detail" name="model_id"/>
+            <field name="state">code</field>
+            <field eval="'model.send_prescription_reminder()'" name="code"/>
+        </record>
         
+         <record id="ir_cron_send_sms_appointments_reminder_action" model="ir.cron">
+            <field name="name">Send SMS Appointment Reminder</field>
+            <field eval="True" name="active"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field ref="acs_hms.model_hms_appointment" name="model_id"/>
+            <field name="state">code</field>
+            <field eval="'model.send_sms_appointments_reminder()'" name="code"/>
+        </record>
 
     </data>
 </odoo>

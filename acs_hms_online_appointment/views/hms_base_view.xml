@@ -13,7 +13,7 @@
             <xpath expr="//group[@name='right_data']" position="inside">
                 <separator string="Online Appoitnment"/>
                 <field name='allowed_online_booking'/>
-                <field name='allow_home_appointment'/>
+                <field name='allow_home_appointment' invisible="1"/>
                 <field name="show_fee_on_booking"/>
                 <field name='basic_info'/>
             </xpath>
@@ -27,14 +27,14 @@
         <field name="inherit_id" ref="acs_hms.view_physician_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='gneral_info']/group" position="after">
-                <group string="Online Appoitnment">
+                <group string="Online Appointment" invisible="1">
                     <group>
-                        <field name='allowed_online_booking'/>
-                        <field name='allow_home_appointment'/>
+                        <field name='allowed_online_booking' invisible="1"/>
+                        <field name='allow_home_appointment' invisible="1"/>
                     </group>
                     <group>
-                        <field name="show_fee_on_booking"/>
-                        <field name='basic_info'/>
+                        <field name="show_fee_on_booking" invisible="1"/>
+                        <field name='basic_info' invisible="1"/>
                     </group>
                 </group>
             </xpath>
@@ -50,17 +50,17 @@
             <group name="extra_info" position="after">
                 <group>
                     <group>
-                        <field name='booked_online'/>
+                        <field name='booked_online' invisible="1"/>
                     </group>
                 </group>
             </group>
-            <field name="planned_duration" position="after">
+            <!-- <field name="planned_duration" position="after">
                 <label for="date" string="Schedule Date"/>
                 <div class="o_row">
                     <field name="schedule_date"  nolabel="1" class="oe_inline"/>
                     <field name='schedule_slot_id' nolabel="1" class="oe_inline" domain=" [('slot_id.slot_date','=',schedule_date),('physician_id','=',physician_id),('rem_limit','>',0)]" options="{'no_create': True}"/>
                 </div>
-            </field>
+            </field> -->
         </field>
     </record>
 

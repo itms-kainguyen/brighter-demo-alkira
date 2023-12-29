@@ -32,7 +32,7 @@
                         <img class="acs_user_image" t-attf-src="data:image/png;base64,{{physician.image_1920}}" alt="Physician"/>
                     </t>
                     <t t-else="">
-                        <img class="acs_user_image" src="/acs_hms/static/src/img/physician.png" alt="Physician"/>
+                        <img class="acs_user_image" src="/acs_hms/static/src/img/physician.png" alt="Prescriber"/>
                     </t>
                 </div>
                 <div class="col-8">
@@ -67,7 +67,7 @@
         </div>
     </template>
 
-    <template id="physician_data" name="Appoitnment Physician Data">
+    <template id="physician_data" name="Appoitnment Prescriber Data">
         <div class="col-md-4 col-xs-12 acs_radio_block acs_physician_block">
             <input type="radio" name="physician_id" class="acs_checkbox sr-only" t-att-value="physician.id" t-attf-id="physician_{{physician.id}}"/>
             <label t-attf-for="physician_{{physician.id}}">
@@ -162,13 +162,13 @@
                                 </div>
 
                                 <div t-if="allow_department_selection or allow_physician_selection" class="text-center col-12 mt32">
-                                    <span>Select <t t-if="allow_department_selection">Department or</t> Physician and Book Appointment.<br/>
-                                    If you do not select Department or Physician All available slots will be shown.</span>
+                                    <span>Select <t t-if="allow_department_selection">Department or</t> Prescriber and Book Appointment.<br/>
+                                    If you do not select Department or Prescriber All available slots will be shown.</span>
                                 </div>
 
                                 <div t-else="" class="text-center col-12 mt32">
                                     <div class="col-12 alert alert-danger">
-                                        Online Appointment booking option is not published by Specific Department/Physician yet. Get Appointment Slots may show slots available generic Slots, if any available. (Not specific to Doctor or Department.)
+                                        Online Appointment booking option is not published by Specific Department/Prescriber yet. Get Appointment Slots may show slots available generic Slots, if any available. (Not specific to Doctor or Department.)
                                     </div>
                                 </div>
 
@@ -183,7 +183,7 @@
                                     </t>
                                     <t t-if="not physician_ids">
                                         <div class="col-12 alert alert-danger">
-                                            No Physicians to book appointment, please do booking by selecting Department.
+                                            No Prescribers to book appointment, please do booking by selecting Department.
                                         </div>
                                     </t>
                                 </div>
@@ -196,7 +196,7 @@
                                     </t>
                                     <t t-if="not department_ids">
                                         <div class="col-12 alert alert-danger">
-                                            No Departments to book appointment, please do booking by selecting physician.
+                                            No Departments to book appointment, please do booking by selecting Prescriber.
                                         </div>
                                     </t>
                                 </div>

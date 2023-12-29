@@ -18,9 +18,9 @@ class Physician(models.Model):
             record.prescription_count = Prescription.search_count([('physician_id', '=', record.id)])
             record.patient_count = Patient.search_count(['|',('primary_physician_id','=',record.id), ('assignee_ids','in',record.partner_id.id)])
 
-    consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Consultation Service')
-    followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service')
-    appointment_duration = fields.Float('Default Consultation Duration', default=0.25)
+    consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Telehealth Service', default=1336 or False)
+    followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service', default=1292 or False)
+    appointment_duration = fields.Float('Consultation (min)', default=0.25)
 
     is_primary_surgeon = fields.Boolean(string='Primary Surgeon')
     signature = fields.Binary('Signature')
@@ -31,6 +31,9 @@ class Physician(models.Model):
     appointment_count = fields.Integer(compute='_phy_rec_count', string='# Appointment')
     prescription_count = fields.Integer(compute='_phy_rec_count', string='# Prescriptions')
     patient_count = fields.Integer(compute='_phy_rec_count', string='# Patients')
+
+    provider_number = fields.Char(string="Provider Number")
+    prescriber_number = fields.Char(string="Prescriber Number")
 
     def action_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="report_prescription_table">
-        <table class="table table-sm o_main_table mt16">
+        <table class="table table-sm o_main_table mt16 acs_table">
             <thead>
                 <tr>
                     <th>Sr.No</th>
                     <th>Medicine</th>
-                    <th>Allow Substitution</th>
+<!--                    <th>Allow Substitution</th>-->
                     <th>Frequency</th>
                     <th>Dose Qty.</th>
                     <th>Qty. Per Day</th>
@@ -25,27 +25,27 @@
                             <td>
                                 <span t-field="line.sudo().product_id.name"/>
                             </td>
-                            <td>
-                                <span t-field="line.allow_substitution"/>
-                            </td>
+<!--                            <td>-->
+<!--                                <span t-field="line.allow_substitution"/>-->
+<!--                            </td>-->
                             <td>
                                 <span t-if="line.common_dosage_id.name" t-field="line.common_dosage_id.name"/>
                                 <span t-if="not line.common_dosage_id.name" t-field="line.common_dosage_id.abbreviation"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.dose"/> <span style="margin-left:5px;" t-field="line.dosage_uom_id"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.qty_per_day"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.days"/>
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-field="line.quantity"/>
                             </td>
                             <td>
-                                <span t-field="line.short_comment"/>
+                                <span t-field="line.name"/>
                             </td>
                         </t>
                         <t t-if="line.display_type == 'line_section'">
@@ -62,6 +62,13 @@
                 </t>
             </tbody>
         </table>
+        <style>
+
+            table.table.table-sm.o_main_table.mt16.acs_table th, td, tbody {
+                      border: 1px solid;
+
+            }
+        </style>
     </template>
 
     <template id="report_acs_medical_advice_document">
@@ -203,16 +210,16 @@
         </t>
     </template>
 
-    <record id="report_acs_medical_advice_id" model="ir.actions.report">
-        <field name="name">Medical Advice</field>
-        <field name="model">hms.appointment</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">acs_hms.report_acs_medical_advice</field>
-        <field name="report_file">acs_hms.report_acs_medical_advice</field>
-        <field name="print_report_name">(object.name or 'Appointment').replace('/','_')+'_ADVICE'</field>
-        <field name="binding_model_id" ref="model_hms_appointment"/>
-        <field name="groups_id" eval="[(4, ref('acs_hms.group_hms_receptionist'))]"/>
-        <field name="binding_type">report</field>
-    </record>
+<!--    <record id="report_acs_medical_advice_id" model="ir.actions.report">-->
+<!--        <field name="name">Medical Advice</field>-->
+<!--        <field name="model">hms.appointment</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">acs_hms.report_acs_medical_advice</field>-->
+<!--        <field name="report_file">acs_hms.report_acs_medical_advice</field>-->
+<!--        <field name="print_report_name">(object.name or 'Appointment').replace('/','_')+'_ADVICE'</field>-->
+<!--        <field name="binding_model_id" ref="model_hms_appointment"/>-->
+<!--        <field name="groups_id" eval="[(4, ref('acs_hms_base.group_hms_manager'))]"/>-->
+<!--        <field name="binding_type">report</field>-->
+<!--    </record>-->
 
 </odoo>

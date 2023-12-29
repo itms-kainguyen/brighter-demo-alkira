@@ -21,7 +21,7 @@
     'description': """
         Patient Insurance Management for Radiology and related Claims. Hospital Management with Insurance Claim. ACS HMS
     """,
-    'category': 'Medical',
+    'category': 'Hospitality Management/HMS',
     'version': '1.0.4',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'website': 'https://www.almightycs.com',

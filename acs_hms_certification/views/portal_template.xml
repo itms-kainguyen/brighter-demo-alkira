@@ -42,7 +42,7 @@
                         <thead>
                             <tr class="active">
                                 <th>Name</th>
-                                <th>Physician</th>
+                                <th>Prescriber</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
