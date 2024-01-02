@@ -89,7 +89,7 @@
 <!--                <filter string="Primary Surgeon" name="is_primary_surgeon" domain="[('is_primary_surgeon','=',1)]"/>-->
             </xpath>
             <xpath expr="//group" position="inside">
-                <filter string="Clinics" name="department_group" domain="[]" context="{'group_by':'department_ids'}"/>
+                <filter string="Clinics" name="department_group" domain="[]" context="{'group_by':'department_ids'}" invisible="1"/>
             </xpath>
         </field>
     </record>
