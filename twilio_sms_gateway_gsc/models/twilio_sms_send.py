@@ -58,9 +58,12 @@ class TwilioSmsSend(models.Model):
         ('done', 'Sent'),
         ('error', 'Error'),
     ]
+    def get_account(self):
+        twilio_account = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
+        return twilio_account.id if twilio_account else False
 
     name = fields.Char("SMS ID", help="ID", copy=False)
-    twilio_account_id = fields.Many2one("twilio.sms.gateway.account", "SMS Account",
+    twilio_account_id = fields.Many2one("twilio.sms.gateway.account", "SMS Account", default=get_account,
                                         domain="[('state', '=', 'confirmed')]", help="SMS Account")
     send_sms_to = fields.Selection(SEND_SMS_TO_SELECTIONS, "Send SMS To", default="single_contact")
     partner_id = fields.Many2one("res.partner", "Contact")
@@ -87,6 +90,10 @@ class TwilioSmsSend(models.Model):
     error_message = fields.Char("Error Message", copy=False)
     error_status_code = fields.Char("Error Status Code", copy=False)
     error_more_info = fields.Char("Error More Info", copy=False)
+
+
+    # log to patient
+    patient_id = fields.Many2one('hms.patient', 'Patient')
 
     # Odoo Logic Section
     # =====================    
@@ -196,18 +203,36 @@ class TwilioSmsSend(models.Model):
         response = {}
         if self.send_sms_to == "single_contact":
             customer_number = self.partner_id.mobile or self.partner_id.phone or ""
+            formatted_number = customer_number
+            if formatted_number.startswith('0'):
+                formatted_number = formatted_number[1:]
+            # Adding +61 if the number doesn't start with it
+            if not formatted_number.startswith('+61'):
+                formatted_number = '+61' + formatted_number
             datas = {
                 "From": twilio_account_from_number,
-                "To": customer_number.replace(" ", ""),
+                "To": formatted_number.replace(" ", ""),
                 "Body": message
             }
             result, response = self.send_sms_to_recipients(datas)
+            if self.patient_id:
+                # log to chatter
+                body = f"SMS to {formatted_number}: {message}"
+                message_type='sms'
+                self.patient_id.message_post(body=body, type=message_type)	
+
         elif self.send_sms_to == "multiple_contacts":
             for partner_id in self.partner_ids:
                 customer_number = partner_id.mobile or partner_id.phone or ""
+                formatted_number = customer_number
+                if formatted_number.startswith('0'):
+                    formatted_number = formatted_number[1:]
+                # Adding +61 if the number doesn't start with it
+                if not formatted_number.startswith('+61'):
+                    formatted_number = '+61' + formatted_number
                 datas = {
                     "From": twilio_account_from_number,
-                    "To": customer_number.replace(" ", ""),
+                    "To": formatted_number.replace(" ", ""),
                     "Body": message
                 }
                 result, response = self.send_sms_to_recipients(datas)
@@ -216,18 +241,35 @@ class TwilioSmsSend(models.Model):
         elif self.send_sms_to == "sms_group":
             for partner_id in self.sms_group_id.recipients:
                 customer_number = partner_id.mobile or partner_id.phone or ""
+                formatted_number = customer_number
+                if formatted_number.startswith('0'):
+                    formatted_number = formatted_number[1:]
+                # Adding +61 if the number doesn't start with it
+                if not formatted_number.startswith('+61'):
+                    formatted_number = '+61' + formatted_number
+
+                customer_number = partner_id.mobile or partner_id.phone or ""
                 datas = {
                     "From": twilio_account_from_number,
-                    "To": customer_number.replace(" ", ""),
+                    "To": formatted_number.replace(" ", ""),
                     "Body": message
                 }
                 result, response = self.send_sms_to_recipients(datas)
                 if not result:
                     break
         elif self.mobile_number:
+            formatted_number = (self.mobile_number or "").replace(" ", "")
+
+            if formatted_number.startswith('0'):
+                formatted_number = formatted_number[1:]
+
+            # Adding +61 if the number doesn't start with it
+            if not formatted_number.startswith('+61'):
+                formatted_number = '+61' + formatted_number
+
             datas = {
                 "From": twilio_account_from_number,
-                "To": (self.mobile_number or "").replace(" ", ""),
+                "To": formatted_number,
                 "Body": message
             }
             result, response = self.send_sms_to_recipients(datas)
@@ -245,4 +287,5 @@ class TwilioSmsSend(models.Model):
                 'error_status_code': response.get('status'),
                 'error_more_info': response.get('more_info'),
             })
+        # standard
         return True
