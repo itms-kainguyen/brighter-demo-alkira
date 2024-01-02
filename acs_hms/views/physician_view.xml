@@ -86,7 +86,7 @@
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='all']" position="after">
                 <separator/>
-                <filter string="Primary Surgeon" name="is_primary_surgeon" domain="[('is_primary_surgeon','=',1)]"/>
+<!--                <filter string="Primary Surgeon" name="is_primary_surgeon" domain="[('is_primary_surgeon','=',1)]"/>-->
             </xpath>
             <xpath expr="//group" position="inside">
                 <filter string="Clinics" name="department_group" domain="[]" context="{'group_by':'department_ids'}"/>

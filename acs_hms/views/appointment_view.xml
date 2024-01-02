@@ -759,11 +759,11 @@
                 <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
                 <field name="ref_physician_id"/>
                 <filter name="today" string="Today" domain="[('date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
-                <filter name="my_app" string="My Appointments" domain="[('physician_id.user_id', '=',uid)]"/>
-                <filter name="urgency" string="Urgent Appointment" domain="[('urgency','=','urgent')]"/>
-                <filter name="urgency" string="Medical Emergency" domain="[('urgency','=','medical_emergency')]"/>
-                <filter name="consultation" string="Consultation Appointment" domain="[('consultation_type','=','consultation')]"/>
-                <filter name="consultation" string="Followup Appointment" domain="[('consultation_type','=','followup')]"/>
+<!--                <filter name="my_app" string="My Appointments" domain="[('physician_id.user_id', '=',uid)]"/>-->
+<!--                <filter name="urgency" string="Urgent Appointment" domain="[('urgency','=','urgent')]"/>-->
+<!--                <filter name="urgency" string="Medical Emergency" domain="[('urgency','=','medical_emergency')]"/>-->
+<!--                <filter name="consultation" string="Consultation Appointment" domain="[('consultation_type','=','consultation')]"/>-->
+<!--                <filter name="consultation" string="Followup Appointment" domain="[('consultation_type','=','followup')]"/>-->
                 <separator/>
                 <filter name="done" string="Not Done" domain="[('state','!=','done')]"/>
                 <group expand="0" string="Group By...">
