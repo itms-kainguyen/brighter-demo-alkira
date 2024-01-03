@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+   
 <templates xml:space="preserve">
     <t t-inherit="mail.Composer" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('o_Composer_primaryToolButtons')]" position="inside">
             <button class="o_Composer_button o_Composer_buttonRecording o_Composer_toolButton btn btn-light fa fa-microphone border-0 rounded-pill" t-att-class="{ 'o-isDeviceSmall': messaging.device.isSmall }" t-attf-class="{{ composerView.messageViewInEditing ? 'my-1' : 'mx-1' }}" title="Voice Message" aria-label="Voice Message" type="button" 
             t-on-mousedown="composerView.onStartRecording" t-on-touchstart="composerView.onStartRecording" 
             t-on-mouseup="composerView.onStopRecording" t-on-touchend="composerView.onStopRecording"/>
+
+
         </xpath>
     </t>
     <t t-inherit="mail.AttachmentCard" t-inherit-mode="extension">
@@ -35,3 +39,4 @@
         </xpath>
     </t>
 </templates>
+

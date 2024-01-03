@@ -404,7 +404,7 @@ class TreatmentMedicineLine(models.Model):
         ('other', 'Other'),
     ], default='pre-area', string="Area")
     amount = fields.Char(string='Amount')
-    acs_lot_id = fields.Many2one("stock.lot", string="Lot/Serial number")
+    acs_lot_id = fields.Many2one("stock.lot", domain="[('product_id', '=', product_id),'|',('expiration_date','=',False),('expiration_date', '>', context_today().strftime('%Y-%m-%d'))]", string="Lot/Serial number")
     # batch_number = fields.Char(string='Batch Number')
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
@@ -454,7 +454,6 @@ class TreatmentMedicineLine(models.Model):
                 if line.forecast_availability < float(line.amount):
                     line.is_red = True
                     line.colour_forecast = "#FF0000"
-
 
     # @api.depends('product_id', 'amount')
     # def _compute_qty_at_date(self):

@@ -2,14 +2,103 @@
 
 import { registerPatch } from '@mail/model/model_core';
 import { attr } from '@mail/model/model_field';
+var rpc = require('web.rpc');
 
 const recorder = new MicRecorder({
     bitRate: 128
   });
   
+
+ // send_sms_view_form
+
+
 registerPatch({
     name: 'ComposerView',
     recordMethods: {
+
+      async onClickSendSMS() {
+        if (this.chatter && this.chatter.isTemporary) {
+            const chatter = this.chatter;
+            const saved = await this.chatter.doSaveRecord();
+            if (!saved) {
+                return;
+            }
+            chatter.composerView.mainSendSMS();
+            return;
+        }
+        this.mainSendSMS();
+    },
+
+
+    async mainSendSMS() {
+      const attachmentIds = this.composer.attachments.map(attachment => attachment.id);
+      const context = {
+          // default_attachment_ids: attachmentIds,
+          // default_body: escapeAndCompactTextContent(this.composer.textInputContent),
+          // default_is_log: this.composer.isLog,
+          // default_model: this.composer.activeThread.model,
+          // default_partner_ids: this.composer.recipients.map(partner => partner.id),
+          // default_res_id: this.composer.activeThread.id,
+          // mail_post_autofollow: this.composer.activeThread.hasWriteAccess,
+      };
+
+      const action = {
+          type: 'ir.actions.act_window',
+          name: this.composer.isLog ? this.env._t('Send SMS') : this.env._t('Send SMS'),
+          res_model: 'send.sms',
+          view_mode: 'form',
+          views: [[false, 'form']],
+          target: 'new',
+          context: context,
+      };
+      const composer = this.composer;
+      const options = {
+          onClose: () => {
+              if (!composer.exists()) {
+                  return;
+              }
+              composer._reset();
+              if (composer.activeThread) {
+                  composer.activeThread.fetchData(['messages']);
+              }
+          },
+      };
+      await this.env.services.action.doAction(action, options);
+  },
+
+
+        send_sms(event) {
+
+        //   this.do_action({
+        //     type: 'ir.actions.act_window',
+        //     res_model: 'send.sms',
+        //     view_mode: 'form',
+        //     view_type: 'form',
+        //     views: [[false, 'form']],
+        //     target: 'new',
+        //     res_id: false,
+        // });
+
+          //this.do_action('multi_sms_gateway.send_sms_view_form', {});
+    //         this.do_action({
+    //     name: 'Your View Title',
+    //     type: 'ir.actions.act_window',
+    //     res_model: 'send.sms',
+    //     view_mode: 'form',
+    //     views: [['multi_sms_gateway.send_sms_view_form', 'form']],
+    //     target: 'new',
+    // });
+
+          
+        //   rpc.query({
+        //     model: "send.sms",
+        //     method: "send_sms_chatter",
+        // })
+
+    
+    
+
+        },
         onStartRecording(event) {
             const isMobile = {
               // Code to check the user's OS and prevent default functions

@@ -27,7 +27,7 @@ import vonage
 from telesign.messaging import MessagingClient
 from twilio.rest import Client
 
-from odoo import fields, models
+from odoo import fields, models, api
 from odoo.exceptions import UserError
 
 
@@ -51,24 +51,27 @@ class SendSms(models.TransientModel):
     text = fields.Text(string='Text', required=True,
                        help='Enter the text for the SMS')
 
+
+
+    @api.model
+    def send_sms_chatter(self):
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        return {
+            'name': 'Send SMS',
+            'type': 'ir.actions.act_window',
+            'res_model': 'send.sms',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'views': [(False, 'form'),],
+            'view_id': 'multi_sms_gateway.send_sms_view_form' ,
+        }
+
     def action_send_sms(self):
         """
         Function to send SMS using different SMS gateway
         """
-        if self.sms_id.gateway_name == 'vonage':
-            client = vonage.Client(key=self.sms_id.vonage_key,
-                                   secret=self.sms_id.vonage_secret)
-            vonage.Sms(client)
-            for number in self.sms_to.split(','):
-                if number:
-                    client.sms.send_message(
-                        {
-                            "from": 'Vonage APIs',
-                            "to": number,
-                            "text": self.text
-                        }
-                    )
-        elif self.sms_id.gateway_name == 'twilio':
+        if self.sms_id.gateway_name == 'twilio':
             client = Client(self.sms_id.twilio_account_sid,
                             self.sms_id.twilio_auth_token)
             for number in self.sms_to.split(','):
@@ -82,14 +85,6 @@ class SendSms(models.TransientModel):
                         from_=self.sms_id.twilio_phone_number,
                         to=number
                     )
-        elif self.sms_id.gateway_name == 'telesign':
-            for number in self.sms_to.split(','):
-                if number:
-                    messaging = MessagingClient(
-                        self.sms_id.telesign_customer,
-                        self.sms_id.telesign_api_key)
-                    messaging.message(number, self.text, 'ARN')
-        elif self.sms_id.gateway_name == 'd7':
             for number in self.sms_to.split(','):
                 if number:
                     querystring = {
@@ -108,29 +103,6 @@ class SendSms(models.TransientModel):
                         'GET', 'https://http-api.d7networks.com/send',
                         headers={'cache-control': 'no-cache'},
                         params=querystring)
-        elif self.sms_id.gateway_name == 'messagebird':
-            client = messagebird.Client(self.sms_id.messagebird_api_key)
-            for number in self.sms_to.split(','):
-                if number:
-                    try:
-                        client.message_create(
-                            'MessageBird', number, self.text,
-                            {'reference': 'Foobar'}
-                        )
-                    except messagebird.client.ErrorException:
-                        raise UserError('Invalid parameter!')
-        elif self.sms_id.gateway_name == 'telnyx':
-            telnyx.api_key = self.sms_id.telnyx_api_key
-            for number in self.sms_to.split(','):
-                if number:
-                    try:
-                        telnyx.Message.create(
-                            from_=self.sms_id.telnyx_number,
-                            to=number,
-                            text=self.text
-                        )
-                    except telnyx.error.InvalidRequestError:
-                        raise UserError('Missing required parameter!')
         history = self.env['sms.history'].sudo().create({
             'sms_gateway_id': self.sms_id.sms_gateway_id.id,
             'sms_mobile': self.sms_to,
