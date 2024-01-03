@@ -114,8 +114,7 @@ class TwilioSmsSend(models.Model):
         if self.sms_template_id:
             self.message = self.sms_template_id.message
             if self.env.context.get('manual_sms') == True:
-                print("xx",self.env.context)
-                sms_body = self.sms_template_id.message.replace('[Patient\'s Name]', self.patient_id.name).replace('[Nurse\'s Name]', self.env.user.name)
+                sms_body = self.sms_template_id.message.replace('$PATIENT', self.patient_id.name).replace('$NURSE', self.env.user.name).replace('$CLINIC', self.env.user.department_ids[0].name)
                 self.message = sms_body
         else:
             self.message = ""
