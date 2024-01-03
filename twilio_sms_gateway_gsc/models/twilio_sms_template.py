@@ -17,7 +17,7 @@ class TwilioSendSMSTemplate(models.Model):
     model_id = fields.Many2one('ir.model', 'Applies to', domain="[('model', 'in', ['sale.order', 'stock.picking'])]",
                                help="The type of document this template can be used with")
     model = fields.Char('Related Document Model', related='model_id.model', index=True, store=True, readonly=True)
-
+    manual_sms = fields.Boolean("Manual SMS", default=True)
     # Overrides of mail.render.mixin
     @api.depends('model_id')
     def _compute_render_model(self):
