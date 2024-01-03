@@ -13,10 +13,10 @@
         <record id="action_helpdesk_my" model="ir.actions.act_window">
             <field name="name">My Helpdesk</field>
             <field name="res_model">help.ticket</field>
-            <field name="domain">[('assigned_user','=',uid), ('team_head','=', uid)]
-            </field>
+            <field name="context">{"search_default_my_ticket":1}</field>
             <field name="view_mode">tree,kanban,form,calendar,activity,pivot,graph</field>
         </record>
+        
         <record id="action_helpdesk_team" model="ir.actions.act_window">
             <field name="name">Helpdesk</field>
             <field name="res_model">help.team</field>

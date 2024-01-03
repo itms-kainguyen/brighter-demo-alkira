@@ -394,7 +394,7 @@
             <search string="Ticket Search">
                 <field name="name" string="Ticket"/>
                 <field name="subject"/>
-                <filter string="my_ticket" name="My Ticket"
+                <filter string="My Ticket" name="my_ticket"
                         domain="[('assigned_user', '=', uid)]"/>
                 <filter string="Archived" name="filter_archived"
                         domain="[('active','=', False)]"/>
