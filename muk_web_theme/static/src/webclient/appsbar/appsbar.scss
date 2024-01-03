@@ -16,7 +16,7 @@
     top: $o-navbar-height;
     height: calc(100% - #{$o-navbar-height}); 
     // background-color: $mk-appbar-background;
-	background-color: #ffffff;
+	background-color: #2b3040;
     border-right: 1px solid #dee2e6;
     .mk_apps_sidebar {
 	    padding: 0;
@@ -42,7 +42,7 @@
 		            position: relative;
 		            text-decoration: none;
 		            // color: $mk-appbar-color;
-		            color: #6c757d !important;
+		            color: #e7e8e8 !important;
 		            text-overflow: ellipsis;
 		            .mk_apps_sidebar_icon {
 					    width: 22px;
