@@ -14,4 +14,22 @@ class ACSHms(http.Controller):
                 return request.render("acs_hms.acs_prescription_details", {'prescription': prescription})
         return request.render("acs_hms.acs_no_details")
 
+    @http.route('/appointment/confirm', type='http', auth="user")
+    def accept_appointment(self, token, id, **kwargs):
+        token = token or request.httprequest.args.get('access_token')
+        app = request.env['hms.appointment'].sudo().search([
+            ('access_token', '=', token),
+            ('state', '!=', 'checkin')])
+        app.appointment_confirm()
+        return request.redirect('/my/appointments')
+
+    @http.route('/appointment/decline', type='http', auth="user")
+    def decline_appointment(self, token, id, **kwargs):
+        token = token or request.httprequest.args.get('access_token')
+        app = request.env['hms.appointment'].sudo().search([
+            ('access_token', '=', token),
+            ('state', '!=', 'checkin')])
+        app.appointment_cancel()
+        return request.redirect('/my/appointments')
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

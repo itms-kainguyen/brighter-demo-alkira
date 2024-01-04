@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from datetime import date, datetime, timedelta
 
 
 class Survey(models.Model):
@@ -25,8 +26,29 @@ class SurveyUserInput(models.Model):
         res = super()._mark_done()
         for user_input in self:
             user_input.appointment_id.is_done_survey = True
-            if user_input.appointment_id.state == 'confirm_consent':
-                user_input.appointment_id.state = 'in_consultation'
+            if user_input.appointment_id.state == 'checkin':
+                user_input.appointment_id.state = 'sign'
+                template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                for itms_consent_id in user_input.appointment_id.consent_ids:
+                    # Generate the PDF attachment.
+                    pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                        'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+                    attachment = self.env['ir.attachment'].create({
+                        'name': itms_consent_id.name,
+                        'type': 'binary',
+                        'raw': pdf_content,
+                        'res_model': itms_consent_id._name,
+                        'res_id': itms_consent_id.id
+                    })
+                    # Add the attachment to the mail template.
+                    template_consent.attachment_ids += attachment
+                # Send the email.
+                template_consent_creation = template_consent.sudo().send_mail(
+                    user_input.appointment_id.id, raise_exception=False, force_send=True)
+                if template_consent_creation:
+                    template_consent.reset_template()
+                    user_input.appointment_id.waiting_date_start = datetime.now()
+                    user_input.appointment_id.waiting_duration = 0.1
         return res
 
 
