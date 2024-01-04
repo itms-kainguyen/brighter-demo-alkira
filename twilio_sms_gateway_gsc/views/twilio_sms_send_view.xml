@@ -139,6 +139,55 @@
         </field>
     </record>
 
+
+    <record id="twilio_sms_send_from_view_simple" model="ir.ui.view">
+        <field name="name">twilio.sms.send.form</field>
+        <field name="model">twilio.sms.send</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="state" invisible="1"/>
+                        <field name="twilio_account_id" required="1" invisible="1"
+                               options="{'no_create': True,'no_create_edit': True , 'no_open': True}"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="send_sms_to" widget='radio' required="1"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1"/>
+                        <field name="partner_id" invisible="1"
+                               attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('send_sms_to', '!=', 'single_contact')], 'required': [('send_sms_to', '=', 'single_contact')]}"
+                               options="{'no_create': True,'no_create_edit': True , 'no_open': True}"/>
+                        <field name="partner_ids" widget='many2many_tags'
+                               attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('send_sms_to', '!=', 'multiple_contacts')], 'required': [('send_sms_to', '=', 'multiple_contacts')]}"
+                               options="{'no_create': True,'no_create_edit': True , 'no_open': True}"/>
+                        <field name="sms_group_id"
+                               attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('send_sms_to', '!=', 'sms_group')], 'required': [('send_sms_to', '=', 'sms_group')]}"
+                               options="{'no_create': True,'no_create_edit': True , 'no_open': True}"/>
+                        <field name="mobile_number"
+                               attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('send_sms_to', '!=', 'mobile')], 'required': [('send_sms_to', '=', 'mobile')]}"/>
+
+
+                        <field name="patient_id" />
+                        <field name="sms_template_id"
+                               domain="[('manual_sms','=',True)]"
+                               options="{'no_create': True,'no_create_edit': True , 'no_open': True}"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="message" required="1"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                     <button class="btn-primary"
+                            name="action_send_sms_to_recipients" type="object"
+                            string="Send Message"
+                            attrs="{'invisible': [('state', '=', 'done')]}" />
+                            <!-- confirm="This will send the SMS to all recipients. Do you still want to proceed ?"/> -->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
     <!-- Action View Section -->
     <record id="twilio_sms_send_action"
             model="ir.actions.act_window">

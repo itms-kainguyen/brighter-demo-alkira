@@ -73,7 +73,7 @@ Rest API, Email Template, Website Theme, Various Website Solutions, etc.
     'currency': 'EUR',
 
     # Dependencies
-    'depends': ['base', 'mail', 'sale_management', 'stock'],
+    'depends': ['base', 'mail', 'sale_management', 'stock', 'acs_hms_base'],
 
     # Views
     'data': [
@@ -87,6 +87,7 @@ Rest API, Email Template, Website Theme, Various Website Solutions, etc.
         'views/twilio_sms_groups_view.xml',
         'views/twilio_sms_log_history.xml',
         'data/ir_cron.xml',
+        'views/patient_gateway_view.xml',
         # 'views/'
         # 'wizard/'
     ],
