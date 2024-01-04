@@ -86,9 +86,10 @@ class Helpdesk(models.TransientModel):
                                         config_parameter=
                                         'odoo_website_helpdesk.noti_brighter_emergency',
                                         help='Helpdesk menu')
-    phonenumber_brighter_emergency = fields.Char('Phone Number Brighter Emergency', config_parameter=
-                                        'odoo_website_helpdesk.phonenumber_brighter_emergency',)
-
+    
+    brighter_emergency_contact = fields.Many2one('res.users', 'Brighter Emergency Contact', config_parameter=
+                                        'odoo_website_helpdesk.brighter_emergency_contact')
+    
     noti_sms = fields.Boolean('SMS',
                                         config_parameter=
                                         'odoo_website_helpdesk.noti_sms',

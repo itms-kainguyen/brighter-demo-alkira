@@ -127,8 +127,8 @@ In the event of an adverse occurrence, notifications will be directed to the fol
                                             </div>
 
                                              <div>
-                                                <label for="phonenumber_brighter_emergency"/>
-                                                <field name="phonenumber_brighter_emergency"/>
+                                                <label for="brighter_emergency_contact"/>
+                                                <field name="brighter_emergency_contact"/>
                                             </div>
                                         </div>
                                     </div>
