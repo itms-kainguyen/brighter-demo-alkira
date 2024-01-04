@@ -47,9 +47,9 @@ class Consent(models.Model):
         self.ensure_one()
         template_consent = self.env.ref('acs_hms.consent_appointment_form_email')
         hms_appointment_object = self.env['hms.appointment'].browse(self.appointment_id.id)
-        for itms_consent_id in hms_appointment_object.consent_ids:
+        for itms_consent_id in self.appointment_id.consent_ids:
             # Generate the PDF attachment.
-            if itms_consent_id.id == self.id:
+            if itms_consent_id.id:
                 pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
                     'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
                 attachment = self.env['ir.attachment'].create({
