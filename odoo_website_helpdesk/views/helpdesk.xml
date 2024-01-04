@@ -8,13 +8,13 @@
             <form>
                 <header>
                     
-                    <button name="action_send_reply" string="Reply"
-                            type="object" class="btn-primary"/>
+                    <!-- <button name="action_send_reply" string="Reply"
+                            type="object" class="btn-primary"/> -->
 
                     <button name="solved" string="Solved"
-                            type="object" class="btn-primary"/>
+                            type="object" class="btn-primary" attrs="{'invisible':[('stage_name','!=','In Progress')]}"/>
                     <button name="cancel" string="Cancel"
-                            type="object" class="btn-primary"/>  
+                            type="object" class="btn-primary" attrs="{'invisible':[('stage_name','!=','Canceled')]}" />  
                     <!-- <button name="action_add_follower" string="Add Follower"
                             type="object" context="{'skip_blocking_subscribe':True}" class="btn-primary"/> -->
                     <!-- <button name="create_tasks" string="Create Task"
@@ -23,8 +23,8 @@
                     <!-- <button name="create_invoice" string="Create Invoice"
                             type="object" class="btn-primary"
                             attrs="{'invisible':[('billable','=',False)]}"/> -->
-                    <field name="stage_id" widget="statusbar"
-                           options="{'clickable': '1'}"/>
+                    <field name="stage_id" widget="statusbar" clickable="True"
+ options="{'clickable': '1', 'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -58,6 +58,8 @@
                     <group>
                         <group>
                             <field name="subject" invisible="1"/>
+                            <field name="stage_name" invisible="1"/>
+                            
                             <field name="ticket_type" widget="selection_badge"/>
                             <field name="patient_id" 
                                 attrs="{'required': [('ticket_name', '!=', 'Adverse Event')]}"/>
@@ -107,7 +109,7 @@
                        
                         <button 
                         name="send_sms" string="Send" 
-                        attrs="{'invisible':[('ticket_name', '!=', 'Adverse Event')]}"
+                        attrs="{'invisible': [('is_sent', '=', True), ('ticket_name', '!=', 'Adverse Event')]}"              
                         type="object" class="btn btn-primary"/>
 
 

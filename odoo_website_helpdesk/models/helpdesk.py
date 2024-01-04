@@ -79,6 +79,7 @@ class HelpDeskTicket(models.Model):
 
     # priority = fields.Selection(PRIORITIES, default='1', help='Priority of the'
     #                                                           ' Ticket')
+    stage_name = fields.Char("Stage name", related='stage_id.name')
     stage_id = fields.Many2one('ticket.stage', string='Stage',
                                default=lambda self: self.env[
                                    'ticket.stage'].search(
@@ -241,6 +242,12 @@ class HelpDeskTicket(models.Model):
     def send_sms(self):
         # recipients are list of users
         recipients = []
+        self.is_sent = True
+        stage_id = self.env['ticket.stage'].search([
+                ('name', '=', 'In Progress')
+            ], limit=1)
+        self.write({'stage_id':stage_id.id})
+
         value = self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_nurse')
         if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_nurse'):
             recipients.append(self.nurse_id)
@@ -294,7 +301,7 @@ class HelpDeskTicket(models.Model):
                     'email_to': partner_id.partner_id.email,
                     'body_html': self.description
                 })
-                msg_id = mail_pool.create(values).send()
+                msg_id = mail_pool.sudo().create(values).send()
                 if partner_id:
                     body = f"Emailed to {partner_id.partner_id.email}: {self.description}"
                     message_type='email'
@@ -436,7 +443,7 @@ class HelpDeskTicket(models.Model):
         return stage_ids
 
     @api.model_create_multi
-    def create(self, vals_list):
+    def create(self, vals_list): 
         """Create function"""
         return super(HelpDeskTicket, self).create(vals_list)
 
