@@ -123,6 +123,7 @@ class HelpDeskTicket(models.Model):
                                     domain=lambda self: [
                                         ('groups_id', 'in', self.env.ref(
                                             'odoo_website_helpdesk.helpdesk_user').id)],
+                                    default=lambda self: self.env.user.id ,
                                     help='Assigned User Name')
     category_id = fields.Many2one('helpdesk.categories',
                                   help='Category')
@@ -224,20 +225,12 @@ class HelpDeskTicket(models.Model):
             if rec.allergic_event_boolean == True:
                 rec.description += 'Allergic Reactions'
 
-            rec.description = '''
-            {}: Urgent - Adverse Event
-            Nurse: {}
-            Patient: {}
-            Contact: {}
-            Adverse Event: {}
-            Please respond urgently.
-            '''.format(
-                rec.nurse_id.department_ids[0].name,
-                rec.nurse_id.name,
-                rec.customer_id.name,
-                rec.phone,
-                rec.description,
-            )
+            rec.description = f'''Urgent - Adverse Event - Please respond urgently
+Clinic: {rec.nurse_id.department_ids[0].name}
+Nurse: {rec.nurse_id.name}
+Patient: {rec.customer_id.name}
+Contact: {rec.phone}
+Adverse Event: {rec.description}.'''
 
     def send_sms(self):
         # recipients are list of users
