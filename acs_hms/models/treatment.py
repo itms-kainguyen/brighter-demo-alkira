@@ -121,10 +121,23 @@ class ACSTreatment(models.Model):
     consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
                                           string='Consumable Line', states=READONLY_STATES, copy=False)
     # photos
-    attachment_before_ids = fields.Many2many('ir.attachment', 'treatment_attachment_before_rel', 'attachment_id',
-                                             'treatment_id', string='Before Photos')
-    attachment_after_ids = fields.Many2many('ir.attachment', 'treatment_attachment_after_rel', 'attachment_id',
-                                            'treatment_id', string='After Photos')
+    attachment_front_ids = fields.Many2many('ir.attachment', 'treatment_attachment_front_rel', 'attachment_id',
+                                            'treatment_id', string='Front View')
+    attachment_right_ids = fields.Many2many('ir.attachment', 'treatment_attachment_right_rel', 'attachment_id',
+                                            'treatment_id', string='Right Profile')
+    attachment_left_ids = fields.Many2many('ir.attachment', 'treatment_attachment_left_rel', 'attachment_id',
+                                           'treatment_id', string='Left Profile')
+    attachment_oblique_right_ids = fields.Many2many('ir.attachment', 'treatment_attachment_oblique_right_rel', 'attachment_id',
+                                                    'treatment_id', string='Oblique Right')
+    attachment_oblique_left_ids = fields.Many2many('ir.attachment', 'treatment_attachment_oblique_left_rel', 'attachment_id',
+                                                   'treatment_id', string='Oblique Left')
+    attachment_top_ids = fields.Many2many('ir.attachment', 'treatment_attachment_top_rel', 'attachment_id',
+                                          'treatment_id', string='Top View')
+    attachment_bottom_ids = fields.Many2many('ir.attachment', 'treatment_attachment_bottom_rel', 'attachment_id',
+                                             'treatment_id', string='Bottom View')
+    attachment_back_ids = fields.Many2many('ir.attachment', 'treatment_attachment_back_rel', 'attachment_id',
+                                           'treatment_id', string='Back View')
+
     prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_rel', 'prescription_id',
                                         'treatment_id',
                                         string='Prescriptions')

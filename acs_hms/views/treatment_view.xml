@@ -154,27 +154,32 @@
                             </field>
                         </page>
 
-                         <page name="photos" string="Photos">
-                            <field name="photos_ids" nolabel="1" colspan="2" context="{'default_patient_id': patient_id }">
-                                <tree string="Photos" editable="bottom" create="0" delete="0">
-                                    <field name="name" nolabel="1"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" nolabel="0" class="acs_col_before"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" nolabel="0" class="acs_col_after"/>
-                                </tree>
-                            </field>
-                        </page>
-
-<!--                        <page name="photos" string="Photos">-->
-<!--                          <group name="extra_info">-->
-<!--                                <group>-->
-<!--                                    <field name="attachment_before_ids" widget="many2many_binary"/>-->
-<!--                                </group>-->
-<!--                                <group>-->
-<!--                                    <field name="attachment_after_ids" widget="many2many_binary"/>-->
-
-<!--                                </group>-->
-<!--                            </group>-->
+<!--                         <page name="photos" string="Photos">-->
+<!--                            <field name="photos_ids" nolabel="1" colspan="2" context="{'default_patient_id': patient_id }">-->
+<!--                                <tree string="Photos" editable="bottom" create="0" delete="0">-->
+<!--                                    <field name="name" nolabel="1"/>-->
+<!--                                    <field name="attachment_before_ids" widget="many2many_binary" nolabel="0" class="acs_col_before"/>-->
+<!--                                    <field name="attachment_after_ids" widget="many2many_binary" nolabel="0" class="acs_col_after"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
 <!--                        </page>-->
+
+                        <page name="photos" string="Photos">
+                          <group name="extra_info">
+                                <group>
+                                    <field name="attachment_front_ids" widget="many2many_binary"/>
+                                    <field name="attachment_right_ids" widget="many2many_binary"/>
+                                    <field name="attachment_left_ids" widget="many2many_binary"/>
+                                    <field name="attachment_oblique_right_ids" widget="many2many_binary"/>
+                                </group>
+                                <group>
+                                    <field name="attachment_oblique_left_ids" widget="many2many_binary"/>
+                                    <field name="attachment_top_ids" widget="many2many_binary"/>
+                                    <field name="attachment_bottom_ids" widget="many2many_binary"/>
+                                    <field name="attachment_back_ids" widget="many2many_binary"/>
+                                </group>
+                            </group>
+                        </page>
                         <!-- <page name="patient_procedures" string="Patient Procedures">
                             <group>
                                 <group>
