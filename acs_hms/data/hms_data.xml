@@ -139,4 +139,30 @@
         </record>
 
     </data>
+      <data noupdate="1">
+       <record id="hms_photos_template_front" model="treatment.photos.template">
+            <field name="name">Front View</field>
+        </record>
+         <record id="hms_photos_template_right" model="treatment.photos.template">
+            <field name="name">Right Profile</field>
+        </record>
+         <record id="hms_photos_template_left" model="treatment.photos.template">
+            <field name="name">Left Profile</field>
+        </record>
+         <record id="hms_photos_template_oblique_right" model="treatment.photos.template">
+            <field name="name">Oblique Right</field>
+        </record>
+        <record id="hms_photos_template_oblique_left" model="treatment.photos.template">
+            <field name="name">Oblique Left</field>
+        </record>
+         <record id="hms_photos_template_top" model="treatment.photos.template">
+            <field name="name">Top View</field>
+        </record>
+         <record id="hms_photos_template_bottom" model="treatment.photos.template">
+            <field name="name">Bottom View</field>
+        </record>
+         <record id="hms_photos_template_back" model="treatment.photos.template">
+            <field name="name">Back View</field>
+        </record>
+      </data>
 </odoo>
