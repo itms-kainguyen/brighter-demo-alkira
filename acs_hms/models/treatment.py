@@ -121,22 +121,22 @@ class ACSTreatment(models.Model):
     consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
                                           string='Consumable Line', states=READONLY_STATES, copy=False)
     # photos
-    attachment_front_ids = fields.Many2many('ir.attachment', 'treatment_attachment_front_rel', 'attachment_id',
-                                            'treatment_id', string='Front View')
-    attachment_right_ids = fields.Many2many('ir.attachment', 'treatment_attachment_right_rel', 'attachment_id',
-                                            'treatment_id', string='Right Profile')
-    attachment_left_ids = fields.Many2many('ir.attachment', 'treatment_attachment_left_rel', 'attachment_id',
-                                           'treatment_id', string='Left Profile')
-    attachment_oblique_right_ids = fields.Many2many('ir.attachment', 'treatment_attachment_oblique_right_rel', 'attachment_id',
-                                                    'treatment_id', string='Oblique Right')
-    attachment_oblique_left_ids = fields.Many2many('ir.attachment', 'treatment_attachment_oblique_left_rel', 'attachment_id',
-                                                   'treatment_id', string='Oblique Left')
-    attachment_top_ids = fields.Many2many('ir.attachment', 'treatment_attachment_top_rel', 'attachment_id',
-                                          'treatment_id', string='Top View')
-    attachment_bottom_ids = fields.Many2many('ir.attachment', 'treatment_attachment_bottom_rel', 'attachment_id',
-                                             'treatment_id', string='Bottom View')
-    attachment_back_ids = fields.Many2many('ir.attachment', 'treatment_attachment_back_rel', 'attachment_id',
-                                           'treatment_id', string='Back View')
+    # attachment_front_ids = fields.Many2many('ir.attachment', 'treatment_attachment_front_rel', 'attachment_id',
+    #                                         'treatment_id', string='Front View')
+    # attachment_right_ids = fields.Many2many('ir.attachment', 'treatment_attachment_right_rel', 'attachment_id',
+    #                                         'treatment_id', string='Right Profile')
+    # attachment_left_ids = fields.Many2many('ir.attachment', 'treatment_attachment_left_rel', 'attachment_id',
+    #                                        'treatment_id', string='Left Profile')
+    # attachment_oblique_right_ids = fields.Many2many('ir.attachment', 'treatment_attachment_oblique_right_rel', 'attachment_id',
+    #                                                 'treatment_id', string='Oblique Right')
+    # attachment_oblique_left_ids = fields.Many2many('ir.attachment', 'treatment_attachment_oblique_left_rel', 'attachment_id',
+    #                                                'treatment_id', string='Oblique Left')
+    # attachment_top_ids = fields.Many2many('ir.attachment', 'treatment_attachment_top_rel', 'attachment_id',
+    #                                       'treatment_id', string='Top View')
+    # attachment_bottom_ids = fields.Many2many('ir.attachment', 'treatment_attachment_bottom_rel', 'attachment_id',
+    #                                          'treatment_id', string='Bottom View')
+    # attachment_back_ids = fields.Many2many('ir.attachment', 'treatment_attachment_back_rel', 'attachment_id',
+    #                                        'treatment_id', string='Back View')
 
     prescription_ids = fields.Many2many('prescription.order', 'prescription_treatment_rel', 'prescription_id',
                                         'treatment_id',
@@ -147,6 +147,16 @@ class ACSTreatment(models.Model):
     photos_ids = fields.One2many('treatment.photos', 'treatment_id',
                                  string='Photos', states=READONLY_STATES, default=lambda self: self._default_photos(),
                                  copy=False)
+    # add 8 images: front view, right profile, left profile, oblique right, oblique left, top view, bottom view, back view,
+    front_view = fields.Binary(string='Front View', attachment=True)
+    right_profile = fields.Binary(string='Right Profile', attachment=True)
+    left_profile = fields.Binary(string='Left Profile', attachment=True)
+    oblique_right = fields.Binary(string='Oblique Right', attachment=True)
+    oblique_left = fields.Binary(string='Oblique Left', attachment=True)
+    top_view = fields.Binary(string='Top View', attachment=True)
+    bottom_view = fields.Binary(string='Bottom View', attachment=True)
+    back_view = fields.Binary(string='Back View', attachment=True)
+
 
     def action_unlink(self):
         self.ensure_one()

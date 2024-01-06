@@ -158,7 +158,7 @@
 <!--                            <field name="photos_ids" nolabel="1" colspan="2" context="{'default_patient_id': patient_id }">-->
 <!--                                <tree string="Photos" editable="bottom" create="0" delete="0">-->
 <!--                                    <field name="name" nolabel="1"/>-->
-<!--                                    <field name="attachment_before_ids" widget="many2many_binary" nolabel="0" class="acs_col_before"/>-->
+<!--                                    <field name="attachment_before_ids" widget="many2many_binary" nolabel="0" />-->
 <!--                                    <field name="attachment_after_ids" widget="many2many_binary" nolabel="0" class="acs_col_after"/>-->
 <!--                                </tree>-->
 <!--                            </field>-->
@@ -167,16 +167,19 @@
                         <page name="photos" string="Photos">
                           <group name="extra_info">
                                 <group>
-                                    <field name="attachment_front_ids" widget="many2many_binary"/>
-                                    <field name="attachment_right_ids" widget="many2many_binary"/>
-                                    <field name="attachment_left_ids" widget="many2many_binary"/>
-                                    <field name="attachment_oblique_right_ids" widget="many2many_binary"/>
-                                </group>
-                                <group>
-                                    <field name="attachment_oblique_left_ids" widget="many2many_binary"/>
-                                    <field name="attachment_top_ids" widget="many2many_binary"/>
-                                    <field name="attachment_bottom_ids" widget="many2many_binary"/>
-                                    <field name="attachment_back_ids" widget="many2many_binary"/>
+
+                                <field   name="front_view" widget="image" options="{'size':[0,270]}"  />
+                                <field   name="right_profile" widget="image" options="{'size':[0,270]}"  />
+                                <field   name="left_profile" widget="image" options="{'size':[0,270]}"  />
+                                <field   name="oblique_right" widget="image" options="{'size':[0,270]}"  />
+
+
+                            </group>
+                            <group>
+                                <field   name="oblique_left" widget="image" options="{'size':[0,270]}"  />
+                                <field   name="top_view" widget="image" options="{'size':[0,270]}"  />
+                                <field   name="bottom_view" widget="image" options="{'size':[0,270]}"  />
+                                <field   name="back_view" widget="image" options="{'size':[0,270]}"  />
                                 </group>
                             </group>
                         </page>
