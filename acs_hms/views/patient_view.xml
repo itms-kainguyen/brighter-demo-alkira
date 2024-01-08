@@ -115,9 +115,9 @@
     <field name="inherit_id" ref="acs_hms_base.view_patient_tree"/>
         <field name="arch" type="xml">
             <field name="mobile" position="after">
-                <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
-                <field name="assignee_ids" widget="many2many_tags" string="Assignees"/>
-                <field name="allergies_ids" widget="many2many_tags"/>
+                <field name="department_ids" invisible="1" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
+                <field name="assignee_ids" invisible="1" widget="many2many_tags" string="Assignees"/>
+                <field name="allergies_ids" invisible="1" widget="many2many_tags"/>
             </field>
         </field>
     </record>
