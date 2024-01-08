@@ -113,7 +113,9 @@ class Base(models.AbstractModel):
             attachment = self.env['ir.attachment'].create({
                 'datas': image,
                 'name': file_name,
+                'website_id': False,
             })
+            attachment.generate_access_token()
             return attachment
         else:
             return False
@@ -125,7 +127,9 @@ class Base(models.AbstractModel):
             attachment = self.env['ir.attachment'].create({
                 'datas': image,
                 'name': file_name,
+                'website_id': False,
             })
+            attachment.generate_access_token()
             return attachment
         else:
             return False
@@ -204,6 +208,8 @@ def get_ua_type():
         and ('miniProgram' in ua or 'MiniProgram' in ua or 'MiniProgramEnv' in ua or 'wechatdevtools' in ua):
         # 微信小程序及开发者工具
         utype = 'wxapp'
+    elif 'wxwork' in ua:
+        utype = 'qwapp'
     elif 'MicroMessenger' in ua:
         # 微信浏览器
         utype = 'wxweb'
@@ -212,7 +218,5 @@ def get_ua_type():
         utype = 'native_android'
     elif 'BytedanceWebview' in ua:
         utype = 'dyweb'
-    elif 'wxwork' in ua:
-        utype = 'qwapp'
     # _logger.warning('=========get ua %s,%s' % (utype, ua))
     return utype
