@@ -168,6 +168,7 @@
 
                         <field name="patient_id" />
                         <field name="sms_template_id"
+                               domain="[('manual_sms','=',True)]"
                                options="{'no_create': True,'no_create_edit': True , 'no_open': True}"
                                attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         <field name="message" required="1"

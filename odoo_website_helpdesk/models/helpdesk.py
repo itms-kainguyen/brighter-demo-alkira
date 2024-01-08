@@ -24,6 +24,9 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
 from twilio.rest import Client
+from odoo.addons.twilio_sms_gateway_gsc.twilio_sms_gateway_gsc_api.twilio_sms_gateway_gsc_api import TwilioSendSMSAPI
+
+
 
 _logger = logging.getLogger(__name__)
 
@@ -76,6 +79,7 @@ class HelpDeskTicket(models.Model):
 
     # priority = fields.Selection(PRIORITIES, default='1', help='Priority of the'
     #                                                           ' Ticket')
+    stage_name = fields.Char("Stage name", related='stage_id.name')
     stage_id = fields.Many2one('ticket.stage', string='Stage',
                                default=lambda self: self.env[
                                    'ticket.stage'].search(
@@ -119,6 +123,7 @@ class HelpDeskTicket(models.Model):
                                     domain=lambda self: [
                                         ('groups_id', 'in', self.env.ref(
                                             'odoo_website_helpdesk.helpdesk_user').id)],
+                                    default=lambda self: self.env.user.id ,
                                     help='Assigned User Name')
     category_id = fields.Many2one('helpdesk.categories',
                                   help='Category')
@@ -137,7 +142,7 @@ class HelpDeskTicket(models.Model):
     patient_id = fields.Many2one('hms.patient', string='Patient')
     primary_physician_id = fields.Many2one('hms.physician', string='Prescriber', related='patient_id.primary_physician_id')
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
-    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', default=lambda self: self.env.user.department_id.id)
+    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', default=lambda self: self.env.user.department_ids[0].id)
     allow_department_ids = fields.Many2many('hr.department', string='Allowed Departments', related='nurse_id.department_ids')
     clinic_manager_id = fields.Many2one('hr.employee', string='Clinic Manager', related='branch_id.manager_id')
     alkira_manager_id = fields.Many2one('hr.employee', readonly='1', string='Alkira Manager', compute='_compute_alkira_manager_id')
@@ -220,39 +225,106 @@ class HelpDeskTicket(models.Model):
             if rec.allergic_event_boolean == True:
                 rec.description += 'Allergic Reactions'
 
-            rec.description = '''
-            {}: Urgent - Adverse Event
-            Nurse: {}
-            Patient: {}
-            Contact: {}
-            Adverse Event: {}
-            Please respond urgently.
-            '''.format(
-                rec.nurse_id.department_ids[0].name,
-                rec.nurse_id.name,
-                rec.customer_id.name,
-                rec.phone,
-                rec.description,
-            )
+            rec.description = f'''Urgent - Adverse Event - Please respond urgently
+Clinic: {rec.nurse_id.department_ids[0].name}
+Nurse: {rec.nurse_id.name}
+Patient: {rec.customer_id.name}
+Contact: {rec.phone}
+Adverse Event: {rec.description}.'''
 
     def send_sms(self):
-        for rec in self:
-            rec.is_sent = False
-            if rec.description:
-                twilio_client = self.env['sms.gateway.config'].sudo().search([('gateway_name', '=', 'twilio')])
-                client = Client(twilio_client.twilio_account_sid,
-                                twilio_client.twilio_auth_token)
+        # recipients are list of users
+        recipients = []
+        self.is_sent = True
+        stage_id = self.env['ticket.stage'].search([
+                ('name', '=', 'In Progress')
+            ], limit=1)
+        self.write({'stage_id':stage_id.id})
 
-                rec.is_sent = client.messages.create(
-                    body=rec.description,
-                    from_=twilio_client.twilio_phone_number,
-                    to='+61 0402851235'
-                )
-                self.env['sms.history'].sudo().create({
-                    'sms_gateway_id': twilio_client.sms_gateway_id.id,
-                    'sms_mobile': '+61 0402851235',
-                    'sms_text': rec.description
+        value = self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_nurse')
+        if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_nurse'):
+            recipients.append(self.nurse_id)
+        if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_clinic_manager'):
+            if self.clinic_manager_id.user_id not in recipients:
+                recipients.append(self.clinic_manager_id.user_id)
+        if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_brighter_emergency'):
+            user_id = self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.brighter_emergency_contact')
+            user = self.env['res.users'].browse(int(user_id))
+            if user not in recipients:
+                recipients.append(user)
+
+
+        if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_sms'):
+            twilio_account_id = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
+            twilio_account_from_number = twilio_account_id.account_from_mobile_number
+            message= self.description
+
+            for partner_id in recipients:
+                customer_number = partner_id.mobile or partner_id.phone or ""
+                formatted_number = customer_number
+                if formatted_number.startswith('0'):
+                    formatted_number = formatted_number[1:]
+                # Adding +61 if the number doesn't start with it
+                if not formatted_number.startswith('+61'):
+                    formatted_number = '+61' + formatted_number
+                datas = {
+                    "From": twilio_account_from_number,
+                    "To": formatted_number.replace(" ", ""),
+                    "Body": message
+                }
+                result, response = self.send_sms_to_recipients(datas)
+                # log to user
+                if partner_id:
+                    body = f"SMS to {formatted_number}: {message}"
+                    message_type='sms'
+                    partner_id.partner_id.message_post(body=body, type=message_type)	
+                # log to helpdesk
+                if self.id:
+                    self.message_post(body=body, type=message_type)
+                if not result:
+                    break
+            pass
+        if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_email'):
+            #s end email here
+            for partner_id in recipients:
+                mail_pool = self.env['mail.mail']
+                values={}
+                values.update({
+                    'subject': self.name,
+                    'email_to': partner_id.partner_id.email,
+                    'body_html': self.description
                 })
+                msg_id = mail_pool.sudo().create(values).send()
+                if partner_id:
+                    body = f"Emailed to {partner_id.partner_id.email}: {self.description}"
+                    message_type='email'
+                    partner_id.partner_id.message_post(body=body, type=message_type)	
+                # log to helpdesk
+                if self.id:
+                    self.message_post(body=body, type=message_type)
+            pass
+        if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_chatter'):
+            # send chatter here
+            for partner_id in recipients:
+                channel = self.env['mail.channel'].channel_get([partner_id.partner_id.id])
+                channel_id = self.env['mail.channel'].browse(channel["id"])
+                channel_id.message_post(
+                    body=self.description,
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_comment',
+                )
+                if partner_id:
+                    body = f"Noticed to chatter: {self.description}"
+                    message_type='sms'
+                    partner_id.partner_id.message_post(body=body, type=message_type)	
+                # log to helpdesk
+                if self.id:
+                    self.message_post(body=body, type=message_type)
+
+            
+
+
+
 
     @api.onchange('team_id', 'team_head')
     def team_leader_domain(self):
@@ -364,7 +436,7 @@ class HelpDeskTicket(models.Model):
         return stage_ids
 
     @api.model_create_multi
-    def create(self, vals_list):
+    def create(self, vals_list): 
         """Create function"""
         return super(HelpDeskTicket, self).create(vals_list)
 
@@ -508,6 +580,71 @@ class HelpDeskTicket(models.Model):
                 'default_res_id': self.id,
             }
         }
+    def solved(self):
+        for line in self:
+            stage_id = self.env['ticket.stage'].search([
+                ('name', '=', 'Closed')
+            ], limit=1)
+            line.write({'stage_id':stage_id.id})
+
+    def cancel(self):
+        for line in self:
+            stage_id = self.env['ticket.stage'].search([
+                ('name', '=', 'Canceled')
+            ], limit=1)
+            line.write({'stage_id':stage_id.id})
+
+    # copy from send sms
+    def send_sms_to_recipients(self, datas):
+        twilio_sms_log_history_obj = self.env['twilio.sms.log.history']
+        twilioSendSMSAPIObj = TwilioSendSMSAPI()
+        twilio_account_id = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
+        #twilio_account_id = self.twilio_account_id
+        response_obj = twilioSendSMSAPIObj.post_twilio_sms_send_to_recipients_api(twilio_account_id, datas)
+        if response_obj.status_code in [200, 201]:
+            response = response_obj.json()
+            twilio_sms_log_history_obj.create({
+                #'sms_send_rec_id': self.id,
+                'twilio_account_id': twilio_account_id.id,
+                'message_id': response.get("sid"),
+                'mobile_number': response.get("to"),
+                'message': response.get("body"),
+                'status': response.get("status"),
+                'message_price': response.get("price", 0.0),
+            })
+        elif response_obj.status_code in [400]:
+            response = response_obj.json()
+            twilio_sms_log_history_obj.create({
+                #'sms_send_rec_id': self.id,
+                'twilio_account_id': twilio_account_id.id,
+                'message_id': "",
+                'mobile_number': datas.get("To"),
+                'message': datas.get("Body"),
+                'status': "Error",
+                'message_price': 0.0,
+                'error_code': response.get('code'),
+                'error_message': response.get('message'),
+                'error_status_code': response.get('status'),
+                'error_more_info': response.get('more_info'),
+            })
+        elif response_obj.status_code in [401]:
+            response = response_obj.json()
+            twilio_sms_log_history_obj.create({
+                #'sms_send_rec_id': self.id,
+                'twilio_account_id': twilio_account_id.id,
+                'message_id': "",
+                'mobile_number': datas.get("To"),
+                'message': datas.get("Body"),
+                'status': "Error",
+                'message_price': 0.0,
+                'error_code': response.get('code'),
+                'error_message': response.get('message'),
+                'error_status_code': response.get('status'),
+                'error_more_info': response.get('more_info'),
+            })
+            return False, response
+        return True, ""
+
 
 
 class StageTicket(models.Model):
@@ -572,3 +709,5 @@ class HelpdeskTags(models.Model):
     _description = 'Helpdesk Tags'
 
     name = fields.Char(string='Tag', help='Tag Name')
+
+

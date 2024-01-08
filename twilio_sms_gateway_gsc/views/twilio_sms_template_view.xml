@@ -8,6 +8,7 @@
             <tree>
                 <field name="name"/>
                 <field name="message"/>
+                <field name="manual_sms"/>
                 <field name="active"/>
             </tree>
         </field>
@@ -38,6 +39,7 @@
                         <group>
                             <field name="model_id"
                                    options="{'no_create': True}"/>
+                            <field name="manual_sms" invisible="0"/>
                             <field name="model" invisible="1"/>
                             <field name="active" invisible="1"/>
                         </group>
