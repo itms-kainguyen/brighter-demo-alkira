@@ -62,7 +62,7 @@
         <field name="model">hms.patient</field>
         <field name="arch" type="xml">
             <tree string="Patient">
-                <field name="code" optional="show"/>
+                <field name="code" optional="hidden"/>
                 <field name="name"/>
                 <field name="age" optional="show"/>
                 <field name="gender" optional="show"/>
@@ -92,9 +92,9 @@
                                 <span class="o_stat_value"><field name="acs_amount_due" widget="monetary" options="{'currency_field': 'currency_id'}"/></span>
                             </div>
                         </button>
-                        <button class="oe_stat_button" type="object"
+                        <button class="oe_stat_button" type="object" invisible="1"
                             name="action_view_attachments" icon="fa-files-o">
-                            <field string="Documents" name="attach_count" widget="statinfo"/>
+                            <field string="Documents" name="attach_count" widget="statinfo" invisible="1"/>
                         </button>
                     </div>
 
