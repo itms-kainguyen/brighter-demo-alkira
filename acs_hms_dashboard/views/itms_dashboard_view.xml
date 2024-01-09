@@ -345,7 +345,7 @@
 
     <!-- Menu Adverse Event -->
     <menuitem id="menu_adverse_event" name="Adverse Event" sequence="300" action="action_adverse_event"
-              groups="acs_hms_base.group_hms_manager" web_icon="acs_hms_base,static/description/icon.png"/>
+              groups="acs_hms_base.group_hms_manager" web_icon="acs_hms_base,static/src/img/adverse.png"/>
 
     <record id="action_itms_dashboard" model="ir.actions.act_window">
         <field name="name">ITMS Dashboard</field>
