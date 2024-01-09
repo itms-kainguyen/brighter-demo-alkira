@@ -8,8 +8,13 @@
             <form>
                 <header>
                     
-                    <button name="action_send_reply" string="Reply"
-                            type="object" class="btn-primary"/>
+                    <!-- <button name="action_send_reply" string="Reply"
+                            type="object" class="btn-primary"/> -->
+
+                    <button name="solved" string="Solved"
+                            type="object" class="btn-primary" attrs="{'invisible':[('stage_name','!=','In Progress')]}"/>
+                    <button name="cancel" string="Cancel"
+                            type="object" class="btn-primary" attrs="{'invisible':[('stage_name','!=','Canceled')]}" />  
                     <!-- <button name="action_add_follower" string="Add Follower"
                             type="object" context="{'skip_blocking_subscribe':True}" class="btn-primary"/> -->
                     <!-- <button name="create_tasks" string="Create Task"
@@ -18,8 +23,8 @@
                     <!-- <button name="create_invoice" string="Create Invoice"
                             type="object" class="btn-primary"
                             attrs="{'invisible':[('billable','=',False)]}"/> -->
-                    <field name="stage_id" widget="statusbar"
-                           options="{'clickable': '1'}"/>
+                    <field name="stage_id" widget="statusbar" clickable="True"
+ options="{'clickable': '1', 'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -27,7 +32,7 @@
                                 string="Tasks" type="object" icon="fa-tasks"
                                 attrs="{'invisible':[('create_task','=',False)]}"> -->
                         <!-- </button> -->
-                        <button class="oe_stat_button"
+                        <!-- <button class="oe_stat_button"
                                 name="open_merged_tickets"
                                 string="Merged Tickets" type="object"
                                 icon="fa-list"
@@ -36,7 +41,7 @@
                                 <field name="merge_count" readonly="True"/>
                                 <span class="o_stat_text">Merged Tickets</span>
                             </div>
-                        </button>
+                        </button> -->
 
                         <!-- <button class="oe_stat_button" name="open_invoices"
                                 string="Invoices" type="object" icon="fa-tasks"
@@ -53,6 +58,8 @@
                     <group>
                         <group>
                             <field name="subject" invisible="1"/>
+                            <field name="stage_name" invisible="1"/>
+                            
                             <field name="ticket_type" widget="selection_badge"/>
                             <field name="patient_id" 
                                 attrs="{'required': [('ticket_name', '!=', 'Adverse Event')]}"/>
@@ -88,7 +95,7 @@
                             <field name="nurse_id" string="Nurse" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="branch_id" domain="[('id', 'in', allow_department_ids)]" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="clinic_manager_id" />
-                            <field name="alkira_manager_id" />
+                            <!-- <field name="alkira_manager_id" /> -->
                             <field name="is_sent" string="Sent" invisible="1"/>
                             <field name="allow_department_ids" invisible="1"/>
                         </group>
@@ -102,7 +109,7 @@
                        
                         <button 
                         name="send_sms" string="Send" 
-                        attrs="{'invisible':[('ticket_name', '!=', 'Adverse Event')]}"
+                        attrs="{'invisible': [('is_sent', '=', True), ('ticket_name', '!=', 'Adverse Event')]}"              
                         type="object" class="btn btn-primary"/>
 
 
@@ -164,7 +171,7 @@
                 <field name="patient_id"/>
                 <field name="customer_name"/>
                 <field name="subject"/>
-                <field name="stage_id"/>
+                <field name="stage_id" />
             </tree>
         </field>
     </record>
@@ -394,7 +401,7 @@
             <search string="Ticket Search">
                 <field name="name" string="Ticket"/>
                 <field name="subject"/>
-                <filter string="my_ticket" name="My Ticket"
+                <filter string="My Ticket" name="my_ticket"
                         domain="[('assigned_user', '=', uid)]"/>
                 <filter string="Archived" name="filter_archived"
                         domain="[('active','=', False)]"/>

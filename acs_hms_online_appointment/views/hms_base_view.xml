@@ -70,7 +70,7 @@
         <field name="inherit_id" ref="acs_hms.view_hms_appointment_search"/>
         <field name="arch" type="xml">
             <filter name="my_app" position="after">
-                <filter name="online_appointments" string="Online Appointments" domain="[('booked_online', '=',True)]"/>
+                <filter name="online_appointments" string="Online Appointments" domain="[('booked_online', '=',True)]" invisible="1"/>
             </filter>
         </field>
     </record>

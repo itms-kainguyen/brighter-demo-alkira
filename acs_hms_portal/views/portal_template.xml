@@ -2,7 +2,7 @@
 
     <template id="patient_portal_layout" inherit_id="portal.portal_layout">
         <xpath expr="//div[hasclass('o_portal_my_security')]" position="before">
-            <div class="o_portal_my_family mt-3">
+            <div class="o_portal_my_family mt-3" style="display: none !important">
                 <h4>Family Members <i class="fa fa-group mx-1"/></h4>
                 <t t-set="relatives" t-value="user_id.patient_relatives()"/>
                 <t t-if="relatives">
@@ -224,11 +224,13 @@
 
     <template id="portal_my_home_prescriptions" name="Prescriptions - Portal My Home  and Evaluation" inherit_id="portal.portal_my_home" priority="30" customize_show="True">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            <t t-call="portal.portal_docs_entry">
-                <t t-set="title">Prescriptions</t>
-                <t t-set="url" t-value="'/my/prescriptions'"/>
-                <t t-set="placeholder_count" t-value="'prescription_count'"/>
-            </t>
+             <t t-if="env.user.has_group('acs_hms_base.group_hms_manager')">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Prescriptions</t>
+                    <t t-set="url" t-value="'/my/prescriptions'"/>
+                    <t t-set="placeholder_count" t-value="'prescription_count'"/>
+                </t>
+             </t>
         </xpath>
     </template>
 
@@ -681,6 +683,64 @@
                 </div>
             </div>
         </t>
+    </template>
+
+    <!-- Portal View -->
+    <template id="portal_my_account_hms" inherit_id="portal.portal_my_details_fields">
+<!--        xpath expr="//div[contains(@t-attf-class, 'o_wsale_apply_layout')]" position="replace"/>-->
+<!--        <xpath expr="//div[contains(text(), 'Company Name')]" position="attributes">-->
+<!--                 <attribute name="invisible">1</attribute>-->
+<!--        </xpath>-->
+<!--         <xpath expr="//div[5]" position="attributes">-->
+<!--&lt;!&ndash;                 <attribute name="t-if">not partner.acs_patient_id</attribute>&ndash;&gt;-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--        </xpath>-->
+
+         <xpath expr="//div[3]" position="after">
+             <div t-attf-class="mb-3 #{error.get('birthday') and 'o_has_error' or ''} col-xl-6">
+                <label class="col-form-label" for="birthday">Birthday</label>
+                <input type="date" name="birthday" t-attf-class="form-control #{error.get('birthday') and 'is-invalid' or ''}" t-att-value="birthday or partner.acs_patient_id.birthday" />
+            </div>
+          <div t-attf-class="mb-1 #{error.get('allergies_ids') and 'o_has_error' or ''} col-xl-6">
+                <label class="col-form-label" for="allergies_ids">Allergies</label>
+<!--                <select name="allergies_ids" t-attf-class="form-select #{error.get('allergies_ids') and 'is-invalid' or ''}">-->
+                <select name="allergies_ids" t-attf-class="form-select #{error.get('allergies_ids') and 'is-invalid' or ''} js-example-basic-multiple new-get_data" multiple="multiple">
+                    <t t-foreach="partner.acs_patient_id.allergies_ids or []" t-as="allergies">
+                        <option t-att-value="allergies.id" t-att-selected="partner.acs_patient_id.allergies_ids">
+                            <t t-esc="allergies.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+
+             <div t-attf-class="mb-3 #{error.get('mobile') and 'o_has_error' or ''} col-xl-6">
+                <label class="col-form-label" for="mobile">Mobile</label>
+                <input type="tel" name="mobile" t-attf-class="form-control #{error.get('mobile') and 'is-invalid' or ''}" t-att-value="mobile or partner.acs_patient_id.mobile" />
+            </div>
+             <div t-attf-class="mb-3 #{error.get('phone') and 'o_has_error' or ''} col-xl-6">
+                <label class="col-form-label" for="phone">Phone</label>
+                <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone or partner.phone" />
+            </div>
+
+         </xpath>
+
+        <xpath expr="//div[9]" position="attributes">
+<!--                 <attribute name="t-if">not partner.acs_patient_id</attribute>-->
+                <attribute name="hidden">hidden</attribute>
+        </xpath>
+
+        <xpath expr="//div[10]" position="attributes">
+<!--                 <attribute name="t-if">not partner.acs_patient_id</attribute>-->
+                <attribute name="hidden">hidden</attribute>
+        </xpath>
+        <xpath expr="//div[11]" position="attributes">
+<!--                 <attribute name="t-if">not partner.acs_patient_id</attribute>-->
+                <attribute name="style">display: none !important</attribute>
+        </xpath>
+        <xpath expr="//div[12]" position="attributes">
+<!--                 <attribute name="t-if">not partner.acs_patient_id</attribute>-->
+                <attribute name="hidden">hidden</attribute>
+        </xpath>
     </template>
 
 </odoo>

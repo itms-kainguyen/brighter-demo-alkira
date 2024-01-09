@@ -9,8 +9,6 @@
             t-on-mouseup="composerView.onStopRecording" t-on-touchend="composerView.onStopRecording"/>
 
 
-            <button t-on-click="composerView.onClickSendSMS" class="o_Composer_button o_Composer_button_send_sms  o_Composer_toolButton btn btn-light fa fa-sms border-0 rounded-pill" t-att-class="{ 'o-isDeviceSmall': messaging.device.isSmall }"  title="SMS" aria-label="SMS" type="button" 
-            />
         </xpath>
     </t>
     <t t-inherit="mail.AttachmentCard" t-inherit-mode="extension">

@@ -31,7 +31,7 @@
     'maintainer': 'Cybrosys Techno Solutions',
     'category': 'Website',
     'depends': ['base', 'website',
-                'mail', 'contacts', 'acs_hms'],
+                'mail', 'contacts', 'acs_hms', 'twilio_sms_gateway_gsc'],
     'data': [
         'security/security_groups.xml',
         'security/ir.model.access.csv',

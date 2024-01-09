@@ -20,6 +20,7 @@
 	flex-wrap: wrap !important;
 	justify-content: flex-start;
     align-content: flex-start;
+	align-items: flex-end !important;
 	background-size: cover;
 	overflow: inital;
 	@include media-breakpoint-up(lg) {
