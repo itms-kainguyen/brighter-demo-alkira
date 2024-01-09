@@ -694,7 +694,7 @@
         <field name="domain">[('id','=',uid)]</field>
     </record>
     <menuitem id="main_dashboard" name="My Dashboard" sequence="0"
-              web_icon="acs_hms_dashboard,static/description/icon.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
+              web_icon="acs_hms_dashboard,static/src/img/dashboard.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
     <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"
               action="action_my_dashboard" sequence="1"/>
 
@@ -789,6 +789,6 @@
     </record>
 
     <!-- Menu Adverse Event -->
-    <menuitem id="menu_adverse_event" name="Adverse Event" sequence="300" action="action_adverse_event" groups="acs_hms_base.group_hms_manager" web_icon="acs_hms_base,static/description/icon.png"/>
+    <menuitem id="menu_adverse_event" name="Adverse Event" sequence="300" action="action_adverse_event" groups="acs_hms_base.group_hms_manager" web_icon="acs_hms_base,static/src/img/adverse.png"/>
 
 </odoo>
