@@ -48,7 +48,7 @@
     <menuitem id="action_menu_working_schedule" name="Schedule" sequence="75" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" action="action_resource_calendar" web_icon="acs_hms,static/src/img/calendar.png"/>
 
     <!-- Main Treatment Menu -->
-    <menuitem id="main_menu_treatment" name="Treatments" sequence="25" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/treatment.png"/>
+    <menuitem id="main_menu_treatment" name="Treatments" sequence="25" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/treatment2.png"/>
     <menuitem id="menu_treatment" name="Treatments" parent="main_menu_treatment" action="acs_action_form_hospital_treatment" sequence="10"/>
     <!-- <menuitem id="menu_acs_patient_procedure_treatment" name="Patient Procedures" parent="main_menu_treatment" action="action_acs_patient_procedure" sequence="20"/> -->
     <menuitem id="menu_treatment_cofig" name="Configuration" parent="main_menu_treatment" groups="acs_hms_base.group_hms_manager" sequence="100"/>
