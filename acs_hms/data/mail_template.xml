@@ -31,12 +31,6 @@
             <p>Date &amp; Time: <t t-out="appointment_date or ''"/> (Timezone: <t t-out="object.physician_id.tz or 'UTC'"/>)</p>
         </li>
     </ul>
-    <p>In preparation for your upcoming appointment, we kindly request that you click on the following link to accept or decline.</p>
-     <p><a t-attf-href="/appointment/confirm?token={{object.access_token}}&amp;id={{object.id}}" style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
-            Accept</a>
-       <a t-attf-href="/appointment/decline?token={{object.access_token}}&amp;id={{object.id}}" style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
-            Decline</a>
-     </p><br/>
     <p>Please feel free to call anytime for further information or any query.</p>
 
     <p>Best regards.</p><br/>

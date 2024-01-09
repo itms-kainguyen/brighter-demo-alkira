@@ -6,7 +6,6 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import odoo
-import uuid
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -36,7 +35,7 @@ class AcsCancelReason(models.Model):
 class Appointment(models.Model):
     _name = 'hms.appointment'
     _description = "Appointment"
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'acs.hms.mixin', 'acs.documnt.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'acs.hms.mixin', 'acs.documnt.mixin']
     _order = "id desc"
 
     @api.model
@@ -55,11 +54,6 @@ class Appointment(models.Model):
     def _get_alert_count(self):
         for rec in self:
             rec.alert_count = len(rec.medical_alert_ids)
-
-    def _compute_access_url(self):
-        super()._compute_access_url()
-        for order in self:
-            order.access_url = f'/appointment/confirm/{order.id}'
 
     @api.depends('consumable_line_ids')
     def _get_consumable_line_count(self):
@@ -197,10 +191,8 @@ class Appointment(models.Model):
     ], string='Urgency Level', default='normal', states=READONLY_STATES)
     state = fields.Selection([
         ('draft', 'Scheduled'),
-        ('sent', 'Sent'),
-        # ('confirmed', 'Confirmed'),  # consent
-        ('checkin', 'Medical Checklist'),  # confirm_consent
-        ('sign', 'Consent'),
+        ('confirm', 'Consent'),
+        ('confirm_consent', 'Medical Checklist'),
         ('waiting', 'Waiting'),
         ('in_consultation', 'Treatment'),
         ('pause', 'Pause'),
@@ -509,9 +501,9 @@ class Appointment(models.Model):
     def _compute_is_confirmed_consent(self):
         for rec in self:
             rec.is_confirmed_consent = False
-            if rec.consent_id and rec.state == 'sign':
+            if rec.consent_id and rec.state == 'confirm':
                 if rec.consent_id.patient_signature and rec.consent_id.is_agree:
-                    rec.state = 'in_consultation'
+                    rec.state = 'confirm_consent'
                     rec.is_confirmed_consent = True
 
     def update_checklist(self):
@@ -675,41 +667,25 @@ class Appointment(models.Model):
         This function opens a window to compose an email, with the template message loaded by default
         '''
         self.ensure_one()
-        # template_id = self.env['ir.model.data']._xmlid_to_res_id('acs_hms.acs_appointment_email',
-        #                                                          raise_if_not_found=False)
-        for record in self:
-            if not record.access_token:
-                record.access_token = str(uuid.uuid4())
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('acs_hms.acs_appointment_email',
+                                                                 raise_if_not_found=False)
 
-            if record.patient_id.email and (
-                    self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
-                template = self.env.ref('acs_hms.acs_appointment_email')
-                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
-                                                                          force_send=True)
-                if template_appointment_creation:
-                    template.reset_template()
-                    record.state = 'sent'
-
-        # ctx = {
-        #     'default_model': 'hms.appointment',
-        #     'default_res_id': self.ids[0],
-        #     'default_use_template': bool(template_id),
-        #     'default_template_id': template_id,
-        #     'default_composition_mode': 'comment',
-        #     'force_email': True
-        # }
-        # return {
-        #     'type': 'ir.actions.act_window',
-        #     'res_model': 'mail.compose.message',
-        #     'views': [(False, 'form')],
-        #     'view_id': False,
-        #     'target': 'new',
-        #     'context': ctx,
-        # }
-
-    def action_checkin(self):
-        for record in self:
-            record.state = 'checkin'
+        ctx = {
+            'default_model': 'hms.appointment',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'force_email': True
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
 
     def acs_appointment_inv_product_data(self, with_product=True):
         product_data = []
@@ -933,41 +909,39 @@ class Appointment(models.Model):
             action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_schedule_consent_wiz")
             return action
 
-        self.state = 'checkin'
-
-        # if self.patient_id.email and (
-        #         self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
-        #     try:
-        #         template = self.env.ref('acs_hms.acs_appointment_email')
-        #         template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
-        #                                                                   force_send=True)
-        #         if template_appointment_creation:
-        #             template.reset_template()
-        #             # Get the mail template for the sale order confirmation.
-        #             template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
-        #             for itms_consent_id in self.consent_ids:
-        #                 # Generate the PDF attachment.
-        #                 pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
-        #                     'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
-        #                 attachment = self.env['ir.attachment'].create({
-        #                     'name': itms_consent_id.name,
-        #                     'type': 'binary',
-        #                     'raw': pdf_content,
-        #                     'res_model': itms_consent_id._name,
-        #                     'res_id': itms_consent_id.id
-        #                 })
-        #                 # Add the attachment to the mail template.
-        #                 template_consent.attachment_ids += attachment
-        #             # Send the email.
-        #             template_consent_creation = template_consent.sudo().send_mail(
-        #                 self.id, raise_exception=False, force_send=True)
-        #             if template_consent_creation:
-        #                 template_consent.reset_template()
-        #                 self.waiting_date_start = datetime.now()
-        #                 self.waiting_duration = 0.1
-        #                 self.state = 'sent'
-        #     except Exception as e:
-        #         _logger.warning('Failed to send appointment confirmation email: %s', e)
+        if self.patient_id.email and (
+                self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
+            try:
+                template = self.env.ref('acs_hms.acs_appointment_email')
+                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
+                                                                          force_send=True)
+                if template_appointment_creation:
+                    template.reset_template()
+                    # Get the mail template for the sale order confirmation.
+                    template_consent = self.env.ref('acs_hms.appointment_consent_form_email')
+                    for itms_consent_id in self.consent_ids:
+                        # Generate the PDF attachment.
+                        pdf_content, dummy = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                            'itms_consent_form.report_consent', res_ids=[itms_consent_id.id])
+                        attachment = self.env['ir.attachment'].create({
+                            'name': itms_consent_id.name,
+                            'type': 'binary',
+                            'raw': pdf_content,
+                            'res_model': itms_consent_id._name,
+                            'res_id': itms_consent_id.id
+                        })
+                        # Add the attachment to the mail template.
+                        template_consent.attachment_ids += attachment
+                    # Send the email.
+                    template_consent_creation = template_consent.sudo().send_mail(
+                        self.id, raise_exception=False, force_send=True)
+                    if template_consent_creation:
+                        template_consent.reset_template()
+                        self.waiting_date_start = datetime.now()
+                        self.waiting_duration = 0.1
+                        self.state = 'confirm'
+            except Exception as e:
+                _logger.warning('Failed to send appointment confirmation email: %s', e)
 
     # def consent_forms_confirm(self):
     #     if (not self._context.get('acs_online_transaction')) and (not self.invoice_exempt):
@@ -1015,9 +989,9 @@ class Appointment(models.Model):
         self.waiting_date_start = datetime.now()
         self.waiting_duration = 0.1
 
-    def appointment_sign(self):
+    def appointment_waiting_manual(self):
         try:
-            self.state = self.state = 'in_consultation'
+            self.state = self.state = 'confirm_consent'
         except Exception as e:
             _logger.warning('Failed to update appointment confirmation email: %s', e)
 

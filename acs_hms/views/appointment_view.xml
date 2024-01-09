@@ -191,11 +191,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_appointment_send" states="draft" type="object" groups="acs_hms_base.group_hms_manager" string="Schedule &amp; Send Appointment Details" class="oe_highlight"/>
-                    <button name="action_start_survey" states="checkin" groups="acs_hms_base.group_hms_manager" type="object" string="Start Medical Checklist" class="oe_highlight"/>
-                    <button name="appointment_sign" states="sign" type="object" groups="acs_hms_base.group_hms_manager" string="Sign Consent Form(s)" class="oe_highlight"/>
-                    <button name="appointment_waiting" states="checkin" type="object" groups="acs_hms_base.group_hms_manager" string="Waiting" class="oe_highlight" invisible="1"/>
-                    <button name="print_report" string="Print" type="object" states="draft" invisible="1"/>
+                    <button name="appointment_confirm" states="draft" type="object" groups="acs_hms_base.group_hms_manager" string="Schedule &amp; Send Appointment Details" class="oe_highlight"/>
+                    <button name="appointment_waiting" states="confirm" type="object" groups="acs_hms_base.group_hms_manager" string="Waiting" class="oe_highlight" invisible="1"/>
+                    <button name="appointment_waiting_manual" states="confirm" type="object" groups="acs_hms_base.group_hms_manager" string="Sign Consent Form(s)" class="oe_highlight"/>
+                    <button name="print_report" string="Print" type="object" states="draft,confirm" invisible="1"/>
+                    <button name="action_start_survey" states="confirm_consent" groups="acs_hms_base.group_hms_manager" type="object" string="Start Medical Checklist" class="oe_highlight"/>
                     <button name="action_pause" states="in_consultation" groups="acs_hms_base.group_hms_manager" type="object" string="Pause"/>
                     <button name="action_start_paused" states="pause" groups="acs_hms_base.group_hms_manager" type="object" string="Start"/>
                     <button name="button_pres_req" string="Create Prescription" groups="acs_hms_base.group_hms_manager" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
@@ -222,9 +222,9 @@
                             'from_appointment': True}"
                         />
                     <button name="appointment_done" states="to_after_care" groups="acs_hms_base.group_hms_manager" type="object" string="Send Aftercare" class="oe_highlight"/>
-                    <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,waiting,in_consultation" type="action"/>
+                    <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,waiting,in_consultation" type="action"/>
                     <button name="appointment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,checkin,sign,in_consultation,to_after_care,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_after_care,done"/>
                     <field name="appointment_invoice_policy" invisible="1"/>
                     <field name="consumable_invoice_id" invisible="1"/>
                     <field name="consumable_line_ids" invisible="1"/>
