@@ -69,6 +69,7 @@
                 <field name="total_shop_color"/>
                 <field name="total_checklist"/>
                 <field name="total_checklist_color"/>
+                <field name="total_cpd_color"/>
                 <templates>
 
                     <t t-name="acs_dashboard_block">
@@ -417,6 +418,16 @@
                                         <t t-set="acs_field_name" t-value="record.total_emergency.raw_value"/>
                                         <t t-set="acs_record_lable">Adverse Event</t>
                                         <t t-set="acs_record_action" t-value="'open_emergency'"/>
+                                    </t>
+                                </div>
+
+                                 <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" class="col-3 acs_block">
+                                    <t t-call="acs_dashboard_block">
+                                        <t t-set="acs_record_color" t-value="record.total_cpd_color.raw_value"/>
+                                        <t t-set="acs_record_icon" t-value="'fa fa-clock-o'"/>
+                                         <t t-set="acs_field_name" t-value="0"/>
+                                        <t t-set="acs_record_lable">CPD</t>
+                                        <t t-set="acs_record_action" t-value="'open_cpd'"/>
                                     </t>
                                 </div>
 

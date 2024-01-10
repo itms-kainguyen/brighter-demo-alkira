@@ -21,7 +21,7 @@ DASHBOARD_FIELDS = ['is_physician', 'is_manager', 'identification_id', 'birthday
                     'my_avg_time_color', 'my_total_treatments_color', 'avg_time_color', 'physicians_color',
                     'total_prescription_color', 'total_protocol_color', 'total_meeting_now_color',
                     'total_consent_color',
-                    'total_emergency_color', 'total_support_color', 'total_shop_color']
+                    'total_emergency_color', 'total_support_color', 'total_shop_color', 'total_cpd_color']
 
 
 class ResUsers(models.Model):
@@ -324,6 +324,7 @@ class ResUsers(models.Model):
 
     total_emergency = fields.Integer(compute="_compute_dashboard_data")
     total_emergency_color = fields.Char(string='Total Emergency Color', default="#fd5c63")
+    total_cpd_color = fields.Char(string='Total CPD Color', default="#ea791c")
 
     def _get_user_role(self):
         for rec in self:
@@ -624,6 +625,14 @@ class ResUsers(models.Model):
 
     def open_emergency(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms_dashboard.action_hms_adverse_event_popup")
+        # action['domain'] = [('patient_id', '=', self.id)]
+        # action['context'] = {'show_pop_up': False}
+        # action['res_model'] = self._name
+        # action['res_id'] = self.id
+        return action
+
+    def open_cpd(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("hr_timesheet.act_hr_timesheet_line")
         # action['domain'] = [('patient_id', '=', self.id)]
         # action['context'] = {'show_pop_up': False}
         # action['res_model'] = self._name
