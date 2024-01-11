@@ -8,7 +8,6 @@ class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
     description = fields.Text('Description')
-    name = fields.Char('Name')
     location = fields.Selection(
         [('online', 'Online'), ('hospital', 'Hospital'), ('seminar', 'Seminar'), ('clinic', 'Clinic')],
         string='Location', default='online')
