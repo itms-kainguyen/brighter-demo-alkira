@@ -26,8 +26,8 @@
         <field name="arch" type="xml">
             <field name="task_id" position="after">
                 <field name="location"/>
-                <field name="attachment_certification_ids" widget="many2many_binary"/>
-                <field name="certification_expiry"/>
+<!--                <field name="attachment_certification_ids" widget="many2many_binary"/>-->
+<!--                <field name="certification_expiry"/>-->
             </field>
             <field name="date" position="before">
                 <field name="user_id" readonly="1" invisible="1"/>
