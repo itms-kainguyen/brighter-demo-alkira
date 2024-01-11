@@ -27,7 +27,7 @@
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',
     'license': 'OPL-1',
-    "depends": ["acs_hms","multi_sms_gateway"],
+    "depends": ["acs_hms","multi_sms_gateway","hr_timesheet"],
     "data": [
         'security/security.xml',
         'security/ir.model.access.csv',

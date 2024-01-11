@@ -410,16 +410,17 @@
                                 </div>
 
 
-                                 <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" class="col-3 acs_block">
+                                 <div groups="acs_hms_base.group_hms_manager, acs_hms_base.group_hms_user" class="col-3 acs_block">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_cpd_color.raw_value"/>
                                         <t t-set="acs_record_icon" t-value="'fa fa-clock-o'"/>
+                                        <t t-set="acs_field_name" t-value="0"/>
                                         <t t-set="acs_record_lable">CPD</t>
                                         <t t-set="acs_record_action" t-value="'open_cpd'"/>
                                     </t>
                                 </div>
                                   <!-- Emergency -->
-                                <div groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager"
+                                <div groups="acs_hms_base.group_hms_manager"
                                      class="col-3 acs_block emergency">
                                     <t t-call="acs_dashboard_block">
                                         <t t-set="acs_record_color" t-value="record.total_emergency_color.raw_value"/>
