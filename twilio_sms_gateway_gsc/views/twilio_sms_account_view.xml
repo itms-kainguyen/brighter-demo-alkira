@@ -151,8 +151,8 @@
     <!-- Top Parent Menu -->
     <!-- Main Channel Engine Menu -->
     <menuitem id="twilio_sms_gateway_main_app_menu"
-              name="Twilio SMS Gateway" sequence="20"
-              web_icon="twilio_sms_gateway_gsc,static/description/icon.png"/>
+              name="SMS" sequence="20"
+              web_icon="twilio_sms_gateway_gsc,static/description/sms.png"/>
 
     <!-- Parent/Top Menu Section -->
     <menuitem id="twilio_sms_gateway_config_menu"
