@@ -33,7 +33,7 @@
                 <field name="user_id" readonly="1" invisible="1"/>
             </field>
              <field name="name" position="replace">
-                 <field name="description"/>
+                 <field name="description" class="acs_col2"/>
              </field>
             <field name="project_id" position="attributes">
                 <field name="invisible">1</field>
