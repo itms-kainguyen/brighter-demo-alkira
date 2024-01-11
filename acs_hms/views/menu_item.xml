@@ -56,7 +56,7 @@
     <menuitem id="menu_treatment_template" name="Treatment Note Template" parent="menu_treatment_cofig" action="act_open_treatment_template_view" sequence="11"/>
 
     <!-- Main Appointment Menu -->
-    <menuitem id="action_main_menu_appointmnet_opd" action="action_appointment" sequence="25" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/Cal.png"/>
+    <menuitem id="action_main_menu_appointmnet_opd" action="action_appointment" sequence="1" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/Cal.png"/>
 
     <!-- Appointment Configuration -->
     <menuitem id="menu_appointment_cofig" name="Configuration"
@@ -67,7 +67,7 @@
     <menuitem id="menu_acs_cancel_reason" name="Cancellation" sequence="50" parent="menu_appointment_cofig" action="action_acs_cancel_reason" groups="acs_hms_base.group_hms_manager"/>
 
     <!-- Main Prescriptions Menu -->
-    <menuitem id="hos_pres_root" name="Prescription" sequence="25" groups="acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/prescription2.png"/>
+    <menuitem id="hos_pres_root" name="Prescription" sequence="7" groups="acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/prescription2.png"/>
     <menuitem id="hos_prescption_inner_root" name="Prescription" parent="hos_pres_root" action="act_open_hms_prescription_order_view"/>
 
     <menuitem id="menu_pres_cofig" name="Configuration" parent="hos_pres_root" groups="acs_hms.group_hms_doctor" sequence="100"/>
