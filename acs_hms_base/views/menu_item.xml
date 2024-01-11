@@ -16,7 +16,7 @@
 <!--    <menuitem id="menu_religion" name="Religion" action="acs_hms_base.act_acs_religion_view" parent="acs_hms_base.menu_hms_patient_cofig" sequence="20"/>-->
 
     <!--Main Physician -->
-    <menuitem id="main_menu_physician" name="Prescriber" groups="acs_hms_base.group_hms_user"  sequence="20" web_icon="acs_hms_base,static/src/img/physician.png"/>
+    <menuitem id="main_menu_physician" name="Prescriber" groups="acs_hms_base.group_hms_user"  sequence="20" web_icon="acs_hms_base,static/src/img/prescriber.png"/>
 
     <menuitem id="action_menu_physician" sequence="0" parent="main_menu_physician" action="action_physician"/>
 
@@ -50,7 +50,7 @@
 
     <menuitem id="menu_medicine_medicament_route" name="Route" parent="acs_hms_base.menu_medicine_cofig" action="action_medicament_route" sequence="10"/>
 
-    <menuitem name="TeleHealth"
+    <menuitem name="Telehealth"
         id="mail.menu_root_discuss"
         action="mail.action_discuss"
         web_icon="acs_hms_base,static/src/img/tele.png"
