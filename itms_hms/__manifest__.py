@@ -19,6 +19,7 @@
         'views/prescription_view.xml',
         # 'views/itms_dashboard_view.xml',
         # 'views/user_dashboard_view.xml',
+        'views/menu.xml',
         'data/email.xml'
     ],
     'assets': {

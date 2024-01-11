@@ -32,10 +32,10 @@
     <!-- Top menu item -->
     <menuitem
         id="menu_document_root"
-        name="Knowledge"
+        name="Compliance"
         groups="document_knowledge.group_document_user"
-        web_icon="document_knowledge,static/description/icon.png"
-        sequence="116"
+        web_icon="document_knowledge,static/description/compliance.png"
+        sequence="6"
     />
     <menuitem
         id="menu_document_section"
