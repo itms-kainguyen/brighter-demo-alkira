@@ -32,6 +32,9 @@
             <field name="date" position="before">
                 <field name="user_id" readonly="1" invisible="1"/>
             </field>
+             <field name="name" position="replace">
+                 <field name="description"/>
+             </field>
         </field>
     </record>
 
@@ -40,7 +43,7 @@
      </record>
 
      <menuitem id="hr_timesheet.timesheet_menu_root"
-            name="CPDs"
+            name="CPD Log"
             sequence="75"
             groups="hr_timesheet.group_hr_timesheet_user"
             web_icon="acs_hms,static/src/img/timesheet.png"/>
