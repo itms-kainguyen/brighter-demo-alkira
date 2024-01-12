@@ -97,7 +97,7 @@ class ResUsers(models.Model):
             appointmnt_data.append({
                 'id': appointment.id,
                 'name': appointment.name,
-                # 'patient': appointment.patient_id.name,
+                'patient': appointment.patient_id.name,
                 'date': app_date or '',
                 'physician': appointment.physician_id.name,
                 'waiting_duration': '{0:02.0f}:{1:02.0f}'.format(*divmod(appointment.waiting_duration * 60, 60)),
