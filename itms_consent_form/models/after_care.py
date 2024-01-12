@@ -20,6 +20,9 @@ class AfterCare(models.Model):
                                   domain=[('type', '=', 'content'), ('parent_id.name', '=', 'After Care')],
                                   string='Template')
 
+    knowledge_id = fields.Many2one('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'After Care')],
+                                   string='Template')
+
 
 class AfterCareHistory(models.Model):
     _name = 'patient.aftercare.history'

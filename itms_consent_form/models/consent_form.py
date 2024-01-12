@@ -41,6 +41,9 @@ class Consent(models.Model):
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
                                  default=lambda self: self.env.company, store=True)
 
+    knowledge_id = fields.Many2one('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'Consent')],
+                                   string='Template')
+
     @api.depends('nurse_id')
     def _compute_signature(self):
         for rec in self:
@@ -93,6 +96,16 @@ class Consent(models.Model):
         self.ensure_one()
         return self.env.ref('itms_consent_form.action_consent_form')
 
+    @api.onchange('knowledge_id')
+    def onchange_knowledge_id(self):
+        self.content = None
+        if self.knowledge_id:
+            self.content = self.knowledge_id.document_body_html
+            self.patient_signature = None
+            self.patient_signed_by = None
+            # self.nurse_signature = None
+            # self.nurse_signed_by = None
+
     @api.onchange('category_id')
     def onchange_category_id(self):
         self.content = None
@@ -100,8 +113,6 @@ class Consent(models.Model):
             self.content = self.category_id.content
             self.patient_signature = None
             self.patient_signed_by = None
-            # self.nurse_signature = None
-            # self.nurse_signed_by = None
 
     def _compute_access_url(self):
         super()._compute_access_url()
@@ -110,7 +121,7 @@ class Consent(models.Model):
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return '%s' % self.category_id.name
+        return '%s' % self.knowledge_id.name
 
     def action_preview_consent(self):
         self.ensure_one()

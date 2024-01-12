@@ -23,8 +23,8 @@ class AfterCare(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "res_model": "document.page",
-            "res_id": self.category_id.id,
+            "res_model": "bureaucrat.knowledge.document",
+            "res_id": self.knowledge_id.id,
             "view_mode": "form",
             "view_type": "form",
             "views": [(False, "form")],

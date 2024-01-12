@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Aftercare">
                 <field name="name" />
-                 <field name="category_id" />
+                 <field name="knowledge_id" />
             </tree>
         </field>
     </record>
@@ -27,7 +27,7 @@
                              <group>
                              </group>
                         </group>
-                        <field name="category_id" />
+                        <field name="knowledge_id" />
                     </sheet>
 
                 </form>

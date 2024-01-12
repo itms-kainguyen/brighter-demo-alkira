@@ -6,11 +6,11 @@
         <div class="page">
             <div class="oe_structure"/>
             <h2 class="mt-4" style="text-align:center">
-                <span t-field="doc.category_id.name"/>
+                <span t-field="doc.knowledge_id.name"/>
             </h2>
             <div class="row mt-4 mb-4" id="consentinformations">
                 <div>
-                    <p t-field="doc.category_id.content"/>
+                    <p t-field="doc.knowledge_id.document_body_html"/>
                 </div>
             </div>
         </div>

@@ -7,6 +7,6 @@ class TreatmentProcedure(models.Model):
     name = fields.Char('Name', required=True)
     code = fields.Char('Code', required=True)
     category_ids = fields.Many2many(
-        'document.page', 
+        'bureaucrat.knowledge.document',
         string='Consent Forms', 
-        domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Consent')])
+        domain=[('category_id.name', '=', 'Consent')])

@@ -40,7 +40,7 @@
                              <group>
                                  <field name="patient_id"/>
                                  <field name="name" string="Title"/>
-                                 <field name="category_id" string="Select Template Form"/>
+                                 <field name="knowledge_id" string="Select Template Form"/>
                              </group>
                              <group>
                                  <field name="nurse_id"/>

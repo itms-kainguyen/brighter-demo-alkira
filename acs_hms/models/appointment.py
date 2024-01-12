@@ -416,7 +416,7 @@ class Appointment(models.Model):
                         'patient_id': rec.patient_id.id,
                         'nurse_id': rec.nurse_id.id,
                         'appointment_id': rec.id,
-                        'category_id': category_id.id,
+                        'knowledge_id': category_id.id,
                     }
                     rec.consent_ids = [(0, 0, consent_val)]
 
