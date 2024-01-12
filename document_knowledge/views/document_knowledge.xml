@@ -35,7 +35,7 @@
         name="Compliance"
         groups="document_knowledge.group_document_user"
         web_icon="document_knowledge,static/description/compliance.png"
-        sequence="6"
+        sequence="9"
     />
     <menuitem
         id="menu_document_section"

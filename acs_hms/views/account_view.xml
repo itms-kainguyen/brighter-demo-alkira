@@ -53,7 +53,7 @@
 
      <menuitem id="hr_timesheet.timesheet_menu_root"
             name="CPD Log"
-            sequence="9"
+            sequence="12"
             groups="hr_timesheet.group_hr_timesheet_user"
             web_icon="acs_hms,static/src/img/timesheet.png"/>
 

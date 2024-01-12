@@ -200,7 +200,7 @@
     <!-- Parent/Top Menu Section -->
     <menuitem id="twilio_sms_main_menu" name="SMS"
               parent="twilio_sms_gateway_gsc.twilio_sms_gateway_main_app_menu"
-              sequence="5"/>
+              sequence="17"/>
 
     <!-- Child Menu Section -->
     <menuitem id="twilio_sms_send_menu" name="Send SMS"

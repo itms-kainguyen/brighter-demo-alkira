@@ -4,7 +4,7 @@
               name="Knowledge"
               groups="bureaucrat_knowledge.group_bureaucratic_knowledge_user"
               web_icon="bureaucrat_knowledge,static/description/knowledge.png"
-              sequence="7"/>
+              sequence="10"/>
 
     <menuitem id="bureaucrat_knowledge_category_menu"
               parent="bureaucrat_knowledge_menu" sequence="30"

@@ -68,7 +68,7 @@
         </record>
         <menuitem id="menu_helpdesk" name="Support"
                   action="action_helpdesk_my"
-                  sequence="4" web_icon="odoo_website_helpdesk,static/src/img/support.png"/>
+                  sequence="6" web_icon="odoo_website_helpdesk,static/src/img/support.png"/>
         <menuitem id="helpdesk_management" parent="menu_helpdesk" name="Tickets"
                   action="action_helpdesk" sequence="2"/>
 
