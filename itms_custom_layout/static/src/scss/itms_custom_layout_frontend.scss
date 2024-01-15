@@ -51,3 +51,9 @@ products list view
 .oe_product_cart .oe_product_image .oe_product_image_link {
     padding-top: calc(50% / (var(--o-wsale-card-thumb-aspect-ratio, 1)));
 }
+
+
+// hide the precription on user portal
+.o_portal_my_home a[href="/my/prescriptions"] {
+    display: none !important;
+}
