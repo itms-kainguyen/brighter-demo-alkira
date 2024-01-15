@@ -14,6 +14,7 @@ from odoo.tools.misc import formatLang
 from odoo.release import version
 from twilio.rest import Client
 import re
+
 DASHBOARD_FIELDS = ['is_physician', 'is_manager', 'identification_id', 'birthday', 'birthday_color',
                     'total_patients_color', 'total_treatments_color', 'total_appointments_color',
                     'total_open_invoice_color', 'total_shedules_color', 'appointment_bar_graph_color',
@@ -54,7 +55,6 @@ class ResUsers(models.Model):
     def _compute_dashboard_data(self):
         # Patients
         Patient = self.env['hms.patient']
-        patient_domain = self.get_filter('create_date')
         # patient_domain = self.get_filter('create_date')
         patient_domain = ['|', '|', ('assignee_ids', 'in', self.env.user.partner_id.id),
                           ('department_ids', 'in', [dep.id for dep in self.env.user.department_ids]),
@@ -63,6 +63,7 @@ class ResUsers(models.Model):
         my_patient_domain = ['|', ('primary_physician_id.user_id', '=', self.env.uid),
                           ('assignee_ids', 'in', self.env.user.partner_id.id)]
         self.my_total_patients = Patient.search_count(my_patient_domain)
+
         # Physicians
         Physician = self.env['hms.physician']
         Partner = self.env['res.partner']
@@ -210,10 +211,9 @@ class ResUsers(models.Model):
         emergency_domain += [('is_sent', '=', 'True')]
         self.total_emergency = Emergency.sudo().search_count(emergency_domain)
 
-        #self.total_patients = Patient.search_count(patient_domain)
+        # self.total_patients = Patient.search_count(patient_domain)
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
-
 
         # total knowledge base
         self.total_knowledgebase = 0
@@ -313,12 +313,10 @@ class ResUsers(models.Model):
     total_checklist = fields.Integer(compute="_compute_dashboard_data")
     total_checklist_color = fields.Char(string='Total Medical Checklist Color', default="#2db09c")
 
-
     total_support = fields.Integer(compute="_compute_dashboard_data")
     total_support_color = fields.Char(string='Total Support Color', default="#3CB371")
 
     total_event_management = fields.Integer(compute="_compute_dashboard_data")
-    
 
     total_meeting_now = fields.Integer(compute="_compute_dashboard_data")
     total_meeting_now_color = fields.Char(string='Total Meeting Color', default="#fd5c63")
@@ -601,12 +599,10 @@ class ResUsers(models.Model):
     def open_prescription(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.act_open_hms_prescription_order_view")
         return action
-    
+
     def open_event_management(self):
         action = self.env["ir.actions.actions"]._for_xml_id("event_management.event_management_type_action_view_kanban")
         return action
-
-    
 
     # def open_support(self):
     #     action = {}
@@ -639,6 +635,7 @@ class ResUsers(models.Model):
         # action['res_model'] = self._name
         # action['res_id'] = self.id
         return action
+
 
 class Adverse_Event(models.Model):
     _name = 'hms.adverse.event'
@@ -698,13 +695,13 @@ class Adverse_Event(models.Model):
                 rec.nurse_phone,
                 rec.content,
             )
-                # for number in self.sms_to.split(','):
-                #     if number:
-                #         client.messages.create(
-                #             body=self.text,
-                #             from_=self.sms_id.twilio_phone_number,
-                #             to=number
-                #         )
+            # for number in self.sms_to.split(','):
+            #     if number:
+            #         client.messages.create(
+            #             body=self.text,
+            #             from_=self.sms_id.twilio_phone_number,
+            #             to=number
+            #         )
 
     # @api.onchange('category_id')
     # def onchange_category_id(self):
