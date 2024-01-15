@@ -112,7 +112,7 @@
                                     <field name="prescription_id"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"  class="amount-medicine"/>
-                                    <field name="acs_lot_id" options="{'always_reload': True}"/>
+                                    <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}"/>
 <!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->
                                     <field name="is_red" string="Color" class="show-red" invisible="1"/>
                                     <field name="forecast_availability" string="Availability" decoration-danger="is_red == True"/>
