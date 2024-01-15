@@ -55,13 +55,14 @@ class ResUsers(models.Model):
         # Patients
         Patient = self.env['hms.patient']
         patient_domain = self.get_filter('create_date')
+        # patient_domain = self.get_filter('create_date')
         patient_domain = ['|', '|', ('assignee_ids', 'in', self.env.user.partner_id.id),
-                  ('department_ids', 'in', [dep.id for dep in self.env.user.department_ids]), ('department_ids', '=', False)]
+                          ('department_ids', 'in', [dep.id for dep in self.env.user.department_ids]),
+                          ('department_ids', '=', False)]
         self.total_patients = Patient.search_count(patient_domain)
-        patient_domain += ['|', ('primary_physician_id.user_id', '=', self.env.uid),
-                           ('assignee_ids', 'in', self.env.user.partner_id.id)]
-        self.my_total_patients = Patient.search_count(patient_domain)
-
+        my_patient_domain = ['|', ('primary_physician_id.user_id', '=', self.env.uid),
+                          ('assignee_ids', 'in', self.env.user.partner_id.id)]
+        self.my_total_patients = Patient.search_count(my_patient_domain)
         # Physicians
         Physician = self.env['hms.physician']
         Partner = self.env['res.partner']
@@ -209,7 +210,7 @@ class ResUsers(models.Model):
         emergency_domain += [('is_sent', '=', 'True')]
         self.total_emergency = Emergency.sudo().search_count(emergency_domain)
 
-        self.total_patients = Patient.search_count(patient_domain)
+        #self.total_patients = Patient.search_count(patient_domain)
         self.total_support = 0
         self.total_shop = self.env['product.template'].sudo().search_count(shop_domain)
 
@@ -660,7 +661,8 @@ class Adverse_Event(models.Model):
     allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
     is_sent = fields.Boolean(string='Sent', default=False)
 
-    @api.onchange('nurse_id', 'patient_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean', 'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
+    @api.onchange('nurse_id', 'patient_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean',
+                  'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
     def onchange_adverse_event_boolean(self):
         for rec in self:
             rec.content = ''
