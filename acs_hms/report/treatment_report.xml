@@ -100,7 +100,7 @@
 <!--                                <th>Prescription</th>-->
                                 <th>Area</th>
                                 <th>Amount</th>
-                                <th>Lot/Serial Number</th>
+                                <th>Batch Number</th>
                                 <th>Technique</th>
                                 <th>Depth</th>
                                 <th>Method</th>
