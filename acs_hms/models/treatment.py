@@ -157,6 +157,14 @@ class ACSTreatment(models.Model):
     bottom_view = fields.Binary(string='Bottom View', attachment=True)
     back_view = fields.Binary(string='Back View', attachment=True)
 
+    employee_id = fields.Many2one('hr.employee', compute='_compute_employee_id', string='Employee')
+
+    @api.depends('nurse_id')
+    def _compute_employee_id(self):
+        for line in self:
+            line.employee_id = False
+            if line.nurse_id:
+                line.employee_id = self.env['hr.employee'].search([('user_id', '=', line.nurse_id.id)], limit=1)
 
     def action_unlink(self):
         self.ensure_one()

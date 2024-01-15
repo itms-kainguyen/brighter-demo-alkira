@@ -1,45 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <template id="report_acs_treatment_document">
-        <t t-call="web.external_layout">
-            <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
-            <div class="page">
-                <div class="oe_structure"/>
-                <div class="row mb32 mt32">
-                    <div class="col-12 text-center">
-                        <h3>
-                            <strong>
-                                <span>Treatments: </span>
-                                <span t-field="doc.name"/>
-                            </strong>
-                        </h3>
+     <template id="treatment_external_layout_standard_customized" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-att-style='report_header_style']" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="col-3 mb4">
+<!--                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>-->
+                    </div>
+                    <div class="col-9 text-end" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                </div>
+                <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
                     </div>
                 </div>
+                <div class="row">
+                </div>
+            </div>
+        </xpath>
 
+
+    </template>
+
+    <template id="treatment_new_external_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="acs_hms.treatment_external_layout_standard_customized"><t t-raw="0"/></t>
+    </template>
+
+    <template id="report_acs_treatment_document">
+        <t t-call="acs_hms.treatment_new_external_layout">
+            <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
+            <div style="text-align: right !important">
+                 <span t-if="doc.employee_id.address_id" t-field="doc.employee_id.address_id"/> <br/>
+                 <span t-if="doc.employee_id.address_id.street">
+                     <a t-field="doc.employee_id.address_id.street"/><br/>
+                 </span>
+                <span t-if="doc.employee_id.address_id.street2">
+                    <a t-field="doc.employee_id.address_id.street2"/><br/>
+                </span>
+                 <span t-if="doc.employee_id.address_id.city" >
+                     <a t-field="doc.employee_id.address_id.city"/>
+                 </span>
+                 <span t-if="doc.employee_id.address_id.state_id">
+                     <a  t-field="doc.employee_id.address_id.state_id"/>
+                 </span>
+                <span t-if="doc.employee_id.address_id.zip">
+                    <a t-field="doc.employee_id.address_id.zip"/><br/>
+                </span>
+                 <span t-if="doc.employee_id.address_id.country_id" t-field="doc.employee_id.address_id.country_id"/><br/>
+             </div>
+            <div class="page">
+                <div class="mt64 text-center">
+                    <h3>
+                        <strong>
+                            <span>Treatments: </span>
+                            <span t-field="doc.name"/>
+                        </strong>
+                    </h3>
+                </div>
                 <div style="border: 1px solid black;"/>
-
                 <div class="row mt8">
                     <div class="col-6">
                         <t t-if="doc.patient_id">
-                            <strong>Patint :-</strong><span t-field="doc.patient_id"/><br/>
-                        </t>
-                        <t t-if="doc.diagnosis_id">
-                            <strong>Diagnosis :-</strong><span t-field="doc.diagnosis_id"/><br/>
+                            <a style="font-weight: bold; font-family: sans-serif">Patient</a>: <span t-field="doc.patient_id"/><br/>
                         </t>
                         <t t-if="doc.date">
-                            <strong>Date of Diagnosis :-</strong><span t-field="doc.date"/><br/>
-                        </t>
-                    </div>
-                    <div class="col-6">
-                        <t t-if="doc.physician_id">
-                            <strong>Physician :-</strong><span t-field="doc.physician_id"/><br/>
-                        </t>
-                        <t t-if="doc.department_id">
-                            <strong>Department :-</strong><span t-field="doc.department_id"/><br/>
-                        </t>
-                        <t t-if="doc.end_date">
-                            <strong>End Date :-</strong><span t-field="doc.end_date"/><br/>
+                            <a style="font-weight: bold; font-family: sans-serif">Date of</a>: <span t-field="doc.date"/><br/>
                         </t>
                     </div>
                 </div>
@@ -47,66 +87,88 @@
                 <div style="border: 1px solid black;" class="mt8 mb16"/>
 
                 <br/>
-                <t t-if="doc.prescription_line_ids">
-                    <div class="text-center">
+                <t t-if="doc.medicine_line_ids">
+                    <div>
                         <h4>
-                            <strong>Prescribed Medicine</strong>
+                            <a style="font-weight: bold; font-family: sans-serif">Medicine</a>
                         </h4>
                     </div>
-
-                    <t t-call="acs_hms.report_prescription_table">
-                        <t t-set="prescription" t-value="doc"/>
-                    </t>
-                </t>
-
-                <br/>
-                <t t-if="doc.patient_procedure_ids">
-                    <div class="text-center">
-                        <h4>
-                            <strong>Patient Procedures</strong>
-                        </h4>
-                    </div>
-
-                    <table class="table table-sm o_main_table mt16">
+                    <table class="table table-sm o_main_table mt16 acs_table">
                         <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Patient</th>
-                                <th>Procedures</th>
-                                <th>Price</th>
-                                <th>Physician</th>
-                                <th>Duration</th>
-                                <th>State</th>
+                            <tr style="font-weight: bold; font-family: sans-serif">
+                                <th>Medicine</th>
+                                <th>Prescription</th>
+                                <th>Area</th>
+                                <th>Amount</th>
+                                <th>Lot/Serial Number</th>
+                                <th>Technique</th>
+                                <th>Depth</th>
+                                <th>Method</th>
+                                <th>Repeat</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="doc.patient_procedure_ids" t-as="line">
+                            <t t-foreach="doc.medicine_line_ids" t-as="line">
                                 <tr>
                                     <td>
-                                        <span t-field="line.name"/>
+                                        <span t-field="line.sudo().product_id.name"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.patient_id.name"/>
+                                        <span t-if="line.sudo().prescription_id" t-field="line.sudo().prescription_id.name"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.product_id.name"/>
+                                        <span t-field="line.medicine_area"/>
+                                    </td>
+                                     <td>
+                                        <span t-field="line.amount"/>
+                                    </td>
+                                     <td>
+                                         <span t-if="line.sudo().acs_lot_id" t-field="line.acs_lot_id.name"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.price_unit"/>
+                                        <span t-field="line.medicine_technique"/>
                                     </td>
                                     <td>
-                                        <span t-field="line. physician_id.name"/>
+                                        <span t-field="line.medicine_depth"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.duration"/>
+                                        <span t-field="line.medicine_method"/>
                                     </td>
-                                    <td>
-                                        <span t-field="line.state"/>
+                                    <td style="text-align: right;">
+                                        <span t-field="line.repeat"/>
                                     </td>
+
                                 </tr>
                             </t>
                         </tbody>
+                         <style>
+
+                        table.table.table-sm.o_main_table.mt16.acs_table tr, th, td, tbody {
+                             border: 1px solid;
+                             color: black !important;
+                        }
+                    </style>
                     </table>
+
+                    <br/><br/>
+                    <p><span t-field="doc.finding"/></p>
+                    <br/>
+                    <div class="row">
+                        <div class="col-6">
+                            <b class="col-6 pull-right">Nurse Signature</b>
+                            <br/>
+                            <t t-if="doc.employee_id and doc.employee_id.signature">
+                                <span t-field="doc.employee_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
+                            </t>
+                             <br/>
+                            <t t-if="doc.employee_id and doc.employee_id.name">
+                                <span t-field="doc.employee_id.name"/>
+                            </t>
+                            <br/>
+
+                        </div>
+                    </div>
+
                 </t>
             </div>
         </t>
