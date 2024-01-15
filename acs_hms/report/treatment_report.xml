@@ -97,7 +97,7 @@
                         <thead>
                             <tr style="font-weight: bold; font-family: sans-serif">
                                 <th>Medicine</th>
-                                <th>Prescription</th>
+<!--                                <th>Prescription</th>-->
                                 <th>Area</th>
                                 <th>Amount</th>
                                 <th>Lot/Serial Number</th>
@@ -113,9 +113,9 @@
                                     <td>
                                         <span t-field="line.sudo().product_id.name"/>
                                     </td>
-                                    <td>
-                                        <span t-if="line.sudo().prescription_id" t-field="line.sudo().prescription_id.name"/>
-                                    </td>
+<!--                                    <td>-->
+<!--                                        <span t-if="line.sudo().prescription_id" t-field="line.sudo().prescription_id.name"/>-->
+<!--                                    </td>-->
                                     <td>
                                         <span t-field="line.medicine_area"/>
                                     </td>
