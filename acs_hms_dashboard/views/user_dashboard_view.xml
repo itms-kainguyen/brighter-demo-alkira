@@ -7,7 +7,7 @@
         <field name="priority">100</field>
         <field name="arch" type="xml">
             <kanban create="false" class="o_kanban_dashboard o_acs_hms_kanban">
-                <field name="total_patients"/>
+                <!-- <field name="total_patients"/> -->
                 <field name="total_patients_color"/>
                 <field name="total_appointments"/>
                 <field name="total_appointments_color"/>
@@ -24,7 +24,7 @@
 
                 <field name="my_total_appointments"/>
                 <field name="my_total_appointments_color"/>
-                <field name="my_total_patients"/>
+                <!-- <field name="my_total_patients"/> -->
                 <field name="my_total_patients_color"/>
                 <field name="my_avg_wait_time"/>
                 <field name="my_avg_cons_time"/>
