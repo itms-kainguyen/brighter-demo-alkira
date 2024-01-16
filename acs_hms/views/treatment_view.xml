@@ -302,7 +302,7 @@
         <field name="model">hms.treatment</field>
         <field name="arch" type="xml">
             <search string="Search Treatments">
-                <field name="name"/>
+                <field name="name" filter_domain="['|',('name', 'ilike', self), ('patient_id', 'ilike', self)]"/>
                 <!-- <field name="subject"/> -->
                 <field name="patient_id"/>
                 <field name="physician_id"/>
