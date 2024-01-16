@@ -317,7 +317,7 @@
         <field name="usage">menu</field>
         <!-- <field name="domain">[('id','=',uid)]</field> -->
     </record>
-    <menuitem id="patient_dashboard_menu" name="Patient Dashboard" parent="main_dashboard"
-              action="action_patient_dashboard" sequence="10"/>
+<!--    <menuitem id="patient_dashboard_menu" name="Patient Dashboard" parent="main_dashboard"-->
+<!--              action="action_patient_dashboard" sequence="10"/>-->
 
 </odoo>

@@ -355,7 +355,7 @@
         <field name="domain">[('id','=',uid)]</field>
     </record>
     
-    <menuitem id="itms_dashboard_menu" name="ITMS Dashboard" parent="main_dashboard"
-              action="action_itms_dashboard" sequence="10"/>
+<!--    <menuitem id="itms_dashboard_menu" name="ITMS Dashboard" parent="main_dashboard"-->
+<!--              action="action_itms_dashboard" sequence="10"/>-->
 
 </odoo>
