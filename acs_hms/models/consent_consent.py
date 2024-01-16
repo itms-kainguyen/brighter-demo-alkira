@@ -1,11 +1,11 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
+
 class Consent(models.Model):
     _inherit = 'consent.consent'
 
     appointment_id = fields.Many2one('hms.appointment', string='Appointment', required=1)
-
 
     def action_open_form(self):
         # return the form view of this partner
@@ -20,14 +20,14 @@ class Consent(models.Model):
             "view_id": False,
             "target": "new",
         }
-    
+
     def create(self, vals_list):
         for vals in vals_list:
             vals['name'] = self.env['ir.sequence'].next_by_code('consent.consent') or 'Consent'
             vals['content'] = None
-            if vals.get('category_id'):
-                category_consent = self.env['document.page'].browse(vals['category_id'])
-                vals['content'] = category_consent.content
+            if vals.get('knowledge_id'):
+                category_consent = self.env['bureaucrat.knowledge.document'].browse(vals['knowledge_id'])
+                vals['content'] = category_consent.document_body_html
                 vals['patient_signature'] = None
                 vals['patient_signed_by'] = None
 
@@ -35,8 +35,8 @@ class Consent(models.Model):
 
     def write(self, vals):
         if vals.get('category_id'):
-            category_consent = self.env['document.page'].browse(vals['category_id'])
-            vals['content'] = category_consent.content
+            category_consent = self.env['bureaucrat.knowledge.document'].browse(vals['knowledge_id'])
+            vals['content'] = category_consent.document_body_html
             vals['patient_signature'] = None
             vals['patient_signed_by'] = None
 
