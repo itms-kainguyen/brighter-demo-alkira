@@ -34,7 +34,7 @@ class Consent(models.Model):
         return super(Consent, self).create(vals_list)
 
     def write(self, vals):
-        if vals.get('category_id'):
+        if vals.get('knowledge_id'):
             category_consent = self.env['bureaucrat.knowledge.document'].browse(vals['knowledge_id'])
             vals['content'] = category_consent.document_body_html
             vals['patient_signature'] = None
