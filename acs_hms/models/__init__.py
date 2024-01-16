@@ -21,5 +21,6 @@ from . import consent_consent
 from . import hr_employee
 from . import aftercare
 from . import analytic_line
+from . import pos
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
