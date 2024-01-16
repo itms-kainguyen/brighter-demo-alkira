@@ -12,11 +12,11 @@ class AfterCare(models.Model):
 
     appointment_id = fields.Many2one('hms.appointment', string='Appointment')
 
-    @api.onchange('category_id')
-    def onchange_category_id(self):
+    @api.onchange('knowledge_id')
+    def onchange_knowledge_id(self):
         self.ensure_one()
-        if self.category_id:
-            self.name = self.category_id.name
+        if self.knowledge_id:
+            self.name = self.knowledge_id.name
 
     def action_open_form(self):
         # return the form view of this partner
