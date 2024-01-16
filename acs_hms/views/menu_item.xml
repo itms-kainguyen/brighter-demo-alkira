@@ -83,4 +83,11 @@
 <!--    <menuitem id="menu_medicine_hms_medicament_group" name="Medicament Group" parent="acs_hms_base.acs_medicine_root" action="act_open_medicament_group_view" sequence="11"/>-->
     <menuitem id="menu_acs_product_kit" name="Template" parent="acs_hms_base.acs_medicine_root" action="action_acs_product_kit" sequence="15"/>
 
+
+    <menuitem id="point_of_sale.menu_point_of_sale_customer"
+        name="Customers"
+        parent="point_of_sale.menu_point_of_sale"
+        action="acs_hms.res_partner_action_customer_pos"
+        sequence="100"/>
+
 </odoo>

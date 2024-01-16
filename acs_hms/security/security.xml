@@ -297,6 +297,18 @@
             <field name="domain_force">[(1,'=',1)]</field>
             <field name="groups" eval="[(4, ref('acs_hms.group_hms_all_prescription'))]"/>
         </record>
+
+         <record id="acs_owner_employee_access_rule" model="ir.rule">
+            <field name="name">Employee Department</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="domain_force">['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
     </data>
 
 </odoo>
