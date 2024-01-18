@@ -512,7 +512,7 @@ class TreatmentMedicineLine(models.Model):
                                  domain="[('product_id', '=', product_id),'|',('expiration_date','=',False),('expiration_date', '>', context_today().strftime('%Y-%m-%d'))]",
                                  string="Lot/Serial number")
 
-    expiration_date = fields.Datetime(related='acs_lot_id.expiration_date', string='Expiry date')
+    expiration_date = fields.Datetime(related='acs_lot_id.expiration_date', store=True, string='Expiry date')
     # batch_number = fields.Char(string='Batch Number')
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
