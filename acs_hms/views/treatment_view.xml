@@ -13,7 +13,7 @@
                         <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
                         <!-- <button name="treatment_cancel" string="Cancel" states="draft,running,done" type="object" class="oe_highlight"/> -->
                         <button name="treatment_draft" string="Edit" states="done" type="object" class="oe_highlight"/>
-                        <!-- <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/> -->
+                         <button name="create_order" string="Create Order" attrs="{'invisible': ['|',('order_id','!=', False),('state','!=','done')]}" type="object" class="oe_highlight"/>
                     </group>
                     <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
                 </header>
@@ -62,6 +62,7 @@
                             <field name="department_type" invisible="1"/>
                             <field name="end_date" invisible="1"/>
                             <field name="attending_physician_ids" widget="many2many_tags" invisible="1"/>
+                             <field name="order_id"/>
                         </group>
                     </group>
 
@@ -113,6 +114,7 @@
                                     <field name="medicine_area"/>
                                     <field name="amount"  class="amount-medicine"/>
                                     <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}"/>
+                                    <field name="expiration_date"/>
 <!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->
                                     <field name="is_red" string="Color" class="show-red" invisible="1"/>
                                     <field name="forecast_availability" string="Availability" decoration-danger="is_red == True"/>
@@ -234,6 +236,7 @@
                             <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
                             <button name="treatment_draft" string="Edit" states="done" type="object" class="oe_highlight"/>
                             <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/>
+                            <button name="create_order" string="Create Order" attrs="{'invisible': ['|',('order_id','!=', False),('state','!=','done')]}" type="object" class="oe_highlight"/>
                         </footer>
                     </notebook>
                     <script type="text/javascript">

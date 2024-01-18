@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import base64
+import json
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -63,8 +64,8 @@ class ACSTreatment(models.Model):
                                         states=READONLY_STATES)
     template_id = fields.Many2one('treatment.template', 'Template Note')
     template_ids = fields.Many2many('treatment.template', 'treatment_template_rel', 'treatment_id', 'template_id')
-    finding = fields.Html(string="Findings", readonly="[('state', 'in', ['cancel', 'done'])]",
-                          compute='_compute_finding')
+    finding = fields.Html(string="Findings", readonly="[('state', 'in', ['cancel', 'done'])]")
+    finding_tmp = fields.Html(string="Findings Tmp", readonly="[('state', 'in', ['cancel', 'done'])]")
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
@@ -120,6 +121,8 @@ class ACSTreatment(models.Model):
 
     consumable_line_ids = fields.One2many('hms.consumable.line', 'treatment_id',
                                           string='Consumable Line', states=READONLY_STATES, copy=False)
+    order_id = fields.Many2one('sale.order', string='Sale Order', copy=False, readonly=1)
+
     # photos
     # attachment_front_ids = fields.Many2many('ir.attachment', 'treatment_attachment_front_rel', 'attachment_id',
     #                                         'treatment_id', string='Front View')
@@ -240,6 +243,15 @@ class ACSTreatment(models.Model):
                 for template in rec.template_ids:
                     rec.finding += '\n' + template.notes
 
+    @api.onchange('template_ids')
+    def _onchange_finding(self):
+        # from bs4 import BeautifulSoup
+        for rec in self:
+            rec.finding = ''
+            if rec.template_ids:
+                for template in rec.template_ids:
+                    rec.finding += '\n' + template.notes
+
     def get_line_data(self, line):
         base_date = fields.Date.today()
         return {
@@ -316,6 +328,53 @@ class ACSTreatment(models.Model):
 
     def treatment_cancel(self):
         self.state = 'cancel'
+
+    def create_order(self):
+        product_data = []
+        order_data = {
+            'date_order': datetime.now(),
+            'partner_id': self.patient_id.partner_id.id,
+            'user_id': self.env.user.id,
+            'state': 'draft',
+        }
+
+        order = self.env['sale.order'].create(order_data)
+        if not self.medicine_line_ids:
+            raise UserError(_("There is no medicine to order."))
+
+        # product_data = self.acs_appointment_inv_product_data()
+        if order:
+            if self.medicine_line_ids:
+                for line in self.medicine_line_ids:
+                    product_data.append({
+                        'product_id': line.product_id.id,
+                        'name': line.product_id.name,
+                        # 'pack_lot_ids': [[0, 0, line.acs_lot_id or []]],
+                        'order_id': order.id,
+                        'product_uom_qty': 1.0,
+                        'price_unit': line.product_id.list_price,
+                        # 'price_subtotal': 1.0 * line.product_id.list_price,
+                        # 'price_subtotal_incl': 0.0
+                        # 'name': line.product_id.id
+                    })
+
+            if self.consumable_line_ids:
+                # product_data.append({
+                #     'name': _("Consumed Product/services"),
+                # })
+                for consumable in self.consumable_line_ids:
+                    product_data.append({
+                        'product_id': consumable.product_id.id,
+                        'name': consumable.product_id.name,
+                        'product_uom_qty': consumable.qty,
+                        'price_unit': consumable.price_unit,
+                        'product_uom': consumable.product_uom_id.id,
+                        'order_id': order.id,
+                        # 'name': consumable.product_id.id
+                    })
+
+        self.env['sale.order.line'].create(product_data)
+        self.order_id = order.id
 
     # def action_appointment(self):
     #     action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.action_appointment")
@@ -452,6 +511,8 @@ class TreatmentMedicineLine(models.Model):
     acs_lot_id = fields.Many2one("stock.lot",
                                  domain="[('product_id', '=', product_id),'|',('expiration_date','=',False),('expiration_date', '>', context_today().strftime('%Y-%m-%d'))]",
                                  string="Lot/Serial number")
+
+    expiration_date = fields.Datetime(related='acs_lot_id.expiration_date', string='Expiry date')
     # batch_number = fields.Char(string='Batch Number')
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
