@@ -702,10 +702,10 @@
         <field name="usage">menu</field>
         <field name="domain">[('id','=',uid)]</field>
     </record>
-    <menuitem id="main_dashboard" name="My Dashboard" sequence="0"
-              web_icon="acs_hms_dashboard,static/src/img/dashboard.png" groups="acs_hms_dashboard.group_hms_dashboard"/>
-    <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"
-              action="action_my_dashboard" sequence="1"/>
+<!--    <menuitem id="main_dashboard" name="My Dashboard" sequence="0"-->
+<!--              web_icon="acs_hms_dashboard,static/src/img/dashboard.png" groups="acs_hms_dashboard.group_hms_dashboard"/>-->
+<!--    <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"-->
+<!--              action="action_my_dashboard" sequence="1"/>-->
 
     <!-- POPUP -->
     <record id="view_hms_adverse_event_popup_form" model="ir.ui.view">
