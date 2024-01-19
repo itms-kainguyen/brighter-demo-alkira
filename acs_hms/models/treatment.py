@@ -159,7 +159,7 @@ class ACSTreatment(models.Model):
     top_view = fields.Binary(string='Top View', attachment=True)
     bottom_view = fields.Binary(string='Bottom View', attachment=True)
     back_view = fields.Binary(string='Back View', attachment=True)
-
+    # preview_img_view = fields.Binary(string='Preview Image')
     employee_id = fields.Many2one('hr.employee', compute='_compute_employee_id', string='Employee')
 
     @api.depends('nurse_id')
@@ -466,6 +466,18 @@ class ACSTreatment(models.Model):
         else:
             raise UserError(_("Something went wrong! Plese Open Appointment and try again"))
 
+    def action_link_patient(self):
+        config_action = self.sudo().env.ref("acs_hms_base.action_patient")
+        url = "/web#id={}&view_type=kanban&model=hms.patient&action={}".format(
+            self.id, config_action and config_action.id or ""
+        )
+        return {
+            'type': 'ir.actions.act_url',
+            'name': "Patients",
+            'target': 'new',
+            'url': url
+        }
+
 
 class TreatmentMedicineLine(models.Model):
     _name = 'treatment.medicine.line'
@@ -512,7 +524,7 @@ class TreatmentMedicineLine(models.Model):
                                  domain="[('product_id', '=', product_id),'|',('expiration_date','=',False),('expiration_date', '>', context_today().strftime('%Y-%m-%d'))]",
                                  string="Lot/Serial number")
 
-    expiration_date = fields.Datetime(related='acs_lot_id.expiration_date', store=True, string='Expiry date')
+    expiration_date = fields.Datetime(related='acs_lot_id.expiration_date', string='Expiry date')
     # batch_number = fields.Char(string='Batch Number')
     medicine_technique = fields.Selection([
         ('bolus', 'Bolus'),
