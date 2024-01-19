@@ -474,7 +474,7 @@ class ACSTreatment(models.Model):
         return {
             'type': 'ir.actions.act_url',
             'name': "Patients",
-            'target': 'new',
+            'target': 'self',
             'url': url
         }
 
