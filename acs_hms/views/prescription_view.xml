@@ -184,7 +184,7 @@
                                         attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]}"
                                     />
                                      <field name="is_owner_prescriber" invisible="1"/>
-                                    <field name="nurse_id"/>
+                                    <field name="nurse_id" string="Practitioner"/>
                                     <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
                                     <field name="department_id" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
