@@ -197,11 +197,11 @@
                                     <field name="is_locked" invisible="1"/>
                                     <field name="expire_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
                                     <field name="prescription_date" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
-                                     <label for="is_prescriber_fee" string="Prescriber fee"/>
-                                     <div class="oe_inline">
-                                         <field name="is_prescriber_fee" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>
-                                         <span attrs="{'invisible': [('is_prescriber_fee', '=', False)], 'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"><field name="prescriber_fee" class="oe_inline"/></span>
-                                     </div>
+<!--                                     <label for="is_prescriber_fee" string="Prescriber fee"/>-->
+<!--                                     <div class="oe_inline">-->
+<!--                                         <field name="is_prescriber_fee" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"/>-->
+<!--                                         <span attrs="{'invisible': [('is_prescriber_fee', '=', False)], 'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','request', 'finished','expired','cancel'))]}"><field name="prescriber_fee" class="oe_inline"/></span>-->
+<!--                                     </div>-->
                                     <field name="alert_count" invisible="1"/>
                                     <field name="pregnancy_warning" invisible="1"/>
 <!--                                     <div name='call_telehealth'>-->

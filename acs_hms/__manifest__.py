@@ -132,6 +132,7 @@
             'acs_hms/static/src/js/hms_graph_field.xml',
             'acs_hms/static/src/js/hms_graph_field.scss',
             'acs_hms/static/src/scss/custom.scss',
+            'acs_hms/static/src/xml/calendar.xml',
         ]
     },
     'demo': [

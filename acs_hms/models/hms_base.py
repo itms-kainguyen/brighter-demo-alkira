@@ -169,6 +169,15 @@ class ACSFamilyRelation(models.Model):
         return res
 
 
+class Pricelist(models.Model):
+    _inherit = "product.pricelist"
+
+    def get_clinic(self):
+        return self.env.user.department_ids
+
+    department_ids = fields.Many2many('hr.department', 'pricelist_department_rel', 'pricelist_id', 'department_id', default=get_clinic, string='Clinic')
+
+
 class product_template(models.Model):
     _inherit = "product.template"
 

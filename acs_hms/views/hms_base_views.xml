@@ -359,4 +359,15 @@
             </field>
         </record>
 
+        <record id="product_pricelist_inherit_view" model="ir.ui.view">
+        <field name="name">product.pricelist.form</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}"/>
+            </field>
+        </field>
+        </record>
+
 </odoo>

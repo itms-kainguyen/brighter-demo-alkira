@@ -645,8 +645,8 @@ class Appointment(models.Model):
 
     def write(self, values):
         res = super(Appointment, self).write(values)
-        if 'follow_date' in values:
-            self.sudo()._create_edit_followup_reminder()
+        # if 'follow_date' in values:
+        #     self.sudo()._create_edit_followup_reminder()
         if 'date' in values:
             self.sudo().update_reminder_dates()
         if 'refered_from_appointment_id' in values:

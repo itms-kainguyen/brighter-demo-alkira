@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="web.CalendarCommonPopover.footer" t-inherit-mode="extension" owl="1">
+         <xpath expr="//t[contains(@t-if,'isEventEditable')]" position="replace">
+             <t t-if="isEventEditable">
+                <a href="#" class="btn btn-primary o_cw_popover_edit" t-on-click="onEditEvent">Open</a>
+            </t>
+        </xpath>
+
+    </t>
+
+</templates>
