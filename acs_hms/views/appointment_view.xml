@@ -313,9 +313,9 @@
                         <group>
                             <label for="date" string="Schedule Date" invisible="0"/>
                             <div class="o_row" invisible="0">
-                                <field name="date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_to'}"/>
+                                <field name="date" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_to'}"/>
                                 <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                                <field name="date_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
+                                <field name="date_to" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
                             </div>
                             <field name="planned_duration" widget="float_time" invisible="1"/>
                             <field name="consultation_type"/>

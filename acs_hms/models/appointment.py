@@ -1192,7 +1192,7 @@ class Appointment(models.Model):
         }
         running_treatment_ids = self.patient_id.treatment_ids.filtered(lambda trt: trt.state in ['running'])
         action['domain'] = [('id', 'in', running_treatment_ids.ids)]
-        action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
+        # action['views'] = [(self.env.ref('acs_hms.view_acs_hms_treatment_appointment_tree').id, 'tree')]
 
         # action['views'] = [(self.env.ref('acs_hms.view_hospital_hms_treatment_form').id, 'form')]
         #
