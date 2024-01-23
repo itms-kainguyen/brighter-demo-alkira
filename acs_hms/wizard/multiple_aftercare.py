@@ -27,7 +27,7 @@ class MultipleAftercare(models.TransientModel):
     _name = "multiple.aftercare"
     _description = 'Multiple Selection'
 
-    document_list_ids = fields.Many2many('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'After Care')],
+    document_list_ids = fields.Many2many('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'After Care')],
                                          string='Aftercare List',
                                          help="")
 

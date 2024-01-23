@@ -27,7 +27,7 @@ class MultipleConsent(models.TransientModel):
     _name = "multiple.consent"
     _description = 'Multiple Selection'
 
-    document_list_ids = fields.Many2many('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Consent')],
+    document_list_ids = fields.Many2many('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'Consent')],
                                          string='Consent Form List',
                                          help="")
 
