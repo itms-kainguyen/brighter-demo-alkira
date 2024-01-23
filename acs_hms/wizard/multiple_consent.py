@@ -43,10 +43,10 @@ class MultipleConsent(models.TransientModel):
         current_id = self.env['hms.appointment'].browse(active_id)
         lines = []
         for rec in self.bureaucrat_document_list_ids:
-            if rec not in current_id.consent_ids.category_id:
+            if rec not in current_id.consent_ids.knowledge_id:
                 lines.append((0, 0, {
                         'appointment_id': active_id,
-                        'category_id': rec.id,
+                        'knowledge_id': rec.id,
                         'content': rec.document_body_html,
                         # 'name': self.env['ir.sequence'].next_by_code('consent.consent') or 'consent',
                         'patient_id': current_id.patient_id.id,

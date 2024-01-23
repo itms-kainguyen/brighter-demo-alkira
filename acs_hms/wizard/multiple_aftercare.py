@@ -44,10 +44,10 @@ class MultipleAftercare(models.TransientModel):
         current_id = self.env['hms.appointment'].browse(active_id)
         lines = []
         for rec in self.bureaucrat_document_list_ids:
-            if rec not in current_id.aftercare_ids.category_id:
+            if rec not in current_id.aftercare_ids.knowledge_id:
                 lines.append((0, 0, {
                         'appointment_id': active_id,
-                        'category_id': rec.id,
+                        'knowledge_id': rec.id,
                         'content': rec.document_body_html,
                         'name': rec.name
                 }))
