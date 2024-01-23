@@ -10,6 +10,7 @@ from datetime import date, datetime, timedelta
 class ACSTreatment(models.Model):
     _name = 'hms.treatment'
     _description = "Treatment"
+    _order = "date DESC"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'acs.hms.mixin', 'acs.documnt.mixin']
 
     @api.depends('medical_alert_ids')
