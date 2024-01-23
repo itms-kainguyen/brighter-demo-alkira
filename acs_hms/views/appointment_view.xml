@@ -236,16 +236,16 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box" groups="acs_hms_base.group_hms_manager">
 <!--                        <button name="action_refer_doctor" string="Refer. To" type="object" states="in_consultation,invoiced" class="oe_stat_button" icon="fa-pencil-square-o"/>-->
-                        <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
+                        <!-- <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
                             <field string="Treatments" name="treatment_count" widget="statinfo"/>
-                        </button>
+                        </button> -->
                         <!-- hide 2 button if not save when create it -->
-                        <button class="oe_stat_button btn-green" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '=', 0)]}">
+                        <!-- <button class="oe_stat_button btn-green" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '=', 0)]}">
                             <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" name="action_prescription" string="Prescription" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('prescription_count', '&gt;', 0)]}">
                             <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
-                        </button>
+                        </button> -->
                 <!-- <button  attrs="{'invisible': [('is_patient_valid_prescription','=',False)]}" name="action_prescription" groups="acs_hms_base.group_hms_manager" type="object" class="oe_stat_button btn-green" icon="fa-wpforms">
                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                 </button>
@@ -255,14 +255,14 @@
 
 
 
-                        <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
+                        <!-- <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="account.group_account_invoice">
                             <field string="Invoices" name="invoice_count" widget="statinfo"/>
-                        </button>
+                        </button> -->
                         <!-- <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object" string="Procedures"/> -->
                         <field name="prescription_ids" invisible="1"/>
-                        <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
+                        <!-- <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
-                        </button>
+                        </button> -->
                     </div>
                     <field name="image_128" widget='image' class="oe_avatar"/>
                     <div class="oe_title">
@@ -286,6 +286,9 @@
                     <field name="reminder_date" invisible="1"/>
                     <field name="acs_reminder_sent" invisible="1"/>
 
+               
+                    <notebook>
+                    <page name="general" string="General">
                     <group>
                         <group>
                             <field name="patient_id"/>
@@ -380,7 +383,7 @@
                         <!--                            <separator name="past_history" string="Past History" groups="acs_hms_base.group_hms_manager"/>-->
                         <!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms_base.group_hms_manager"/>-->
                     </group>
-                    <notebook>
+                    </page>
                         <page name="consent_form" string="Consent Form">
                             <button name="%(acs_hms.multiple_consent_action)d"
                              class="oe_highlight" string="Select Multiple Forms" type="action"/>
