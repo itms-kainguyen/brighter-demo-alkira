@@ -14,7 +14,7 @@
        <field name="type">form</field>
        <field name="arch" type="xml">
            <form>
-               <field name="document_list_ids"/>
+               <field name="bureaucrat_document_list_ids"/>
                <footer>
                    <button name="action_add_line" string="Confirm" type="object" class="oe_highlight"/>
                    <button string="Cancel" class="btn btn-default" special="cancel"/>
