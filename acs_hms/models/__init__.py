@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import hms_base
+from . import ir_attachment
 from . import company
 from . import patient
 from . import evaluation

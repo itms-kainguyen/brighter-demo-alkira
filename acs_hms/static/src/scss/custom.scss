@@ -62,3 +62,37 @@ img.o_signature.img.img-fluid {
 .acs_col_after {
    background: aliceblue;
 }
+
+// Photo form
+
+#photo_form {
+    .header_photo_form {
+        justify-content: space-between;
+    }
+}
+
+.style_button_image {
+    label {
+        color: unset;
+        background-color: unset;
+        border-color: unset;
+        border: unset;
+    }
+}
+
+.oe_kanban_global_click {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+.btn_remove_record {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    button {
+        width: 60%;
+        margin: 0px auto;
+    }
+}

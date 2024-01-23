@@ -77,7 +77,7 @@
     'website': 'https://www.almightycs.com',
     'live_test_url': 'https://www.youtube.com/watch?v=hiumJoDEHxI',
     'license': 'OPL-1',
-    'depends': ['base', 'itms_consent_form', 'acs_hms_base', 'web_timer_widget', 'website', 'digest', 'survey', 'multi_sms_gateway'],
+    'depends': ['base', 'web', 'itms_consent_form', 'acs_hms_base', 'web_timer_widget', 'website', 'digest', 'survey', 'multi_sms_gateway'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -132,7 +132,7 @@
             'acs_hms/static/src/js/hms_graph_field.xml',
             'acs_hms/static/src/js/hms_graph_field.scss',
             'acs_hms/static/src/scss/custom.scss',
-            'acs_hms/static/src/xml/calendar.xml',
+            'acs_hms/static/src/xml/**/*'
         ]
     },
     'demo': [

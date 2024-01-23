@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import base64
 import json
-
+import magic
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from datetime import date, datetime, timedelta
@@ -162,6 +162,75 @@ class ACSTreatment(models.Model):
     back_view = fields.Binary(string='Back View', attachment=True)
     # preview_img_view = fields.Binary(string='Preview Image')
     employee_id = fields.Many2one('hr.employee', compute='_compute_employee_id', string='Employee')
+
+    # Photo form
+    attachment_ids = fields.One2many(
+        'ir.attachment', 'res_id', domain=[('res_model', '=', 'hms.treatmen')],
+        string='Attachments',
+        readonly=False
+    )
+    attachment_copy_ids = fields.One2many(
+        'ir.attachment', 'res_id', domain=[('res_model', '=', 'hms.treatmen')],
+        string='Attachments',
+        readonly=False
+    )
+    photo = fields.Binary(string='Photo')
+    is_invisible = fields.Boolean(compute="_compute_is_invisible")
+
+    @api.depends('attachment_ids')
+    def _compute_is_invisible(self):
+        for rec in self:
+            is_invisible = True
+            if rec.attachment_ids:
+                is_invisible = False
+            rec.is_invisible = is_invisible
+
+    @api.onchange('photo')
+    def onchange_photo(self):
+        if self.photo:
+            self.upload_file()
+            self.is_invisible = False
+            self.photo = False
+
+    @api.onchange('attachment_ids')
+    def onchange_attachment_ids(self):
+        if not self.attachment_ids:
+            self.is_invisible = True
+
+    @api.onchange('attachment_ids')
+    def onchange_attachment_ids(self):
+        if not self.attachment_ids:
+            self.is_invisible = True
+
+    def upload_file(self, photo=False):
+        if not photo:
+            photo = self.photo
+
+        file = self.env['ir.attachment'].sudo().with_context(default_res_model=self._name,
+                                                             default_res_id=self._origin).create({
+            'res_model': self._name,
+            'res_id': self._origin,
+            'name': 'photo',
+            'type': 'binary',
+            'file_display': photo
+        })
+        file_type = self.detect_file_type(photo)
+
+        if 'pdf' in file_type.lower():
+            file.instruction_pdf = photo
+            file.instruction_type = 'pdf'
+        else:
+            file.datas = photo
+            file.instruction_type = 'image'
+        attachment_ids = self.attachment_ids.ids
+        attachment_ids.append(file.id)
+        self.attachment_copy_ids = [(6, 0, attachment_ids)]
+        self.attachment_ids = self.attachment_copy_ids
+        return file
+
+    def detect_file_type(self, file_content):
+        file_type = magic.from_buffer(base64.b64decode(file_content))
+        return file_type
 
     @api.depends('nurse_id')
     def _compute_employee_id(self):
