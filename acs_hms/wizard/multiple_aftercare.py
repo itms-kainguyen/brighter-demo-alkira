@@ -27,7 +27,12 @@ class MultipleAftercare(models.TransientModel):
     _name = "multiple.aftercare"
     _description = 'Multiple Selection'
 
-    document_list_ids = fields.Many2many('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'After Care')],
+    document_list_ids = fields.Many2many('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'After Care')],
+                                         string='Aftercare List',
+                                         help="")
+
+    bureaucrat_document_list_ids = fields.Many2many('bureaucrat.knowledge.document',
+                                         domain=[('category_id.name', '=', 'After Care')],
                                          string='Aftercare List',
                                          help="")
 
@@ -38,12 +43,12 @@ class MultipleAftercare(models.TransientModel):
         active_id = self.env.context.get('active_id')
         current_id = self.env['hms.appointment'].browse(active_id)
         lines = []
-        for rec in self.document_list_ids:
+        for rec in self.bureaucrat_document_list_ids:
             if rec not in current_id.aftercare_ids.category_id:
                 lines.append((0, 0, {
                         'appointment_id': active_id,
                         'category_id': rec.id,
-                        'content': rec.content,
+                        'content': rec.document_body_html,
                         'name': rec.name
                 }))
         current_id.aftercare_ids = lines

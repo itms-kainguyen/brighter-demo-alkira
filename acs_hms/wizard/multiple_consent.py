@@ -27,7 +27,11 @@ class MultipleConsent(models.TransientModel):
     _name = "multiple.consent"
     _description = 'Multiple Selection'
 
-    document_list_ids = fields.Many2many('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'Consent')],
+    document_list_ids = fields.Many2many('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Consent')],
+                                         string='Consent Form List',
+                                         help="")
+
+    bureaucrat_document_list_ids = fields.Many2many('bureaucrat.knowledge.document', domain=[('category_id.name', '=', 'Consent')],
                                          string='Consent Form List',
                                          help="")
 
@@ -38,12 +42,12 @@ class MultipleConsent(models.TransientModel):
         active_id = self.env.context.get('active_id')
         current_id = self.env['hms.appointment'].browse(active_id)
         lines = []
-        for rec in self.document_list_ids:
+        for rec in self.bureaucrat_document_list_ids:
             if rec not in current_id.consent_ids.category_id:
                 lines.append((0, 0, {
                         'appointment_id': active_id,
                         'category_id': rec.id,
-                        'content': rec.content,
+                        'content': rec.document_body_html,
                         # 'name': self.env['ir.sequence'].next_by_code('consent.consent') or 'consent',
                         'patient_id': current_id.patient_id.id,
                         'nurse_id': current_id.nurse_id.id,
