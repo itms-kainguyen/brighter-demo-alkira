@@ -184,14 +184,14 @@
                                     <p class="text-center">Click on Photo/Plan to add or update details</p>
                                     <field name="attachment_ids" force_save="1">
                                         <kanban class="o_kanban_mobile" create="false">
-                                            <field name="description"/>
+                                            <field name="name"/>
                                             <field name="document_type"/>
                                             <templates>
                                                 <t t-name="kanban-box">
-                                                    <div t-attf-class="oe_kanban_global_click">
-                                                        <div>
+                                                    <div t-attf-class="oe_kanban_global_click kanban-ext">
+                                                        <div style="width: 100%; text-align: center;">
                                                             <div class="mb-1">
-                                                                <field name="description"/>
+                                                                <field name="name"/>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <field name="document_type"/>
@@ -215,7 +215,7 @@
                                                 <field name="datas" widget="image" string="File" attrs="{'invisible': [('instruction_type','==','pdf')]}"/>
                                                 <field name="instruction_pdf" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible': [('instruction_type','==','image')]}"/>
                                                 <field name="document_type"/>
-                                                <field name="description" string="Notes"/>
+                                                <field name="name" string="Notes"/>
                                             </group>
                                         </form>
                                     </field>

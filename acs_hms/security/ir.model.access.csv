@@ -159,5 +159,7 @@ access_acs_treatment_photos_template_user,acs.treatment.photos.template,model_tr
 hr.access_hr_employee_user,hr.employee user,hr.model_hr_employee,hr.group_hr_user,1,0,0,0
 access_hr_employee_manager,hr.employee manager,hr.model_hr_employee,hr.group_hr_manager,1,1,1,1
 event.access_event_event_user,event.event.user,event.model_event_event,event.group_event_user,1,0,0,0
+access_attachment_attachment_manager,attachment_attachment_manager,acs_hms.model_attachment_attachment,base.group_user,1,1,1,1
+
 
 

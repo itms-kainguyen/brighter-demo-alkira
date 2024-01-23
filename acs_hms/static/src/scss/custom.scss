@@ -80,6 +80,13 @@ img.o_signature.img.img-fluid {
     }
 }
 
+.kanban-ext {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-content: space-between !important;
+}
+
 
 
 .btn_remove_record {

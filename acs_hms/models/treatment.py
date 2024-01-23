@@ -165,12 +165,12 @@ class ACSTreatment(models.Model):
 
     # Photo form
     attachment_ids = fields.One2many(
-        'ir.attachment', 'res_id', domain=[('res_model', '=', 'hms.treatmen')],
+        'attachment.attachment', 'res_id',
         string='Attachments',
         readonly=False
     )
     attachment_copy_ids = fields.One2many(
-        'ir.attachment', 'res_id', domain=[('res_model', '=', 'hms.treatmen')],
+        'attachment.attachment', 'res_id',
         string='Attachments',
         readonly=False
     )
@@ -197,21 +197,12 @@ class ACSTreatment(models.Model):
         if not self.attachment_ids:
             self.is_invisible = True
 
-    @api.onchange('attachment_ids')
-    def onchange_attachment_ids(self):
-        if not self.attachment_ids:
-            self.is_invisible = True
-
     def upload_file(self, photo=False):
         if not photo:
             photo = self.photo
 
-        file = self.env['ir.attachment'].sudo().with_context(default_res_model=self._name,
-                                                             default_res_id=self._origin).create({
-            'res_model': self._name,
-            'res_id': self._origin,
-            'name': 'photo',
-            'type': 'binary',
+        file = self.env['attachment.attachment'].sudo().create({
+            'res_id': self._origin.id,
             'file_display': photo
         })
         file_type = self.detect_file_type(photo)

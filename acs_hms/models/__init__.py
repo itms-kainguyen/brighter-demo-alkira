@@ -23,5 +23,6 @@ from . import hr_employee
 from . import aftercare
 from . import analytic_line
 from . import pos
+from . import attachment_attachment
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
