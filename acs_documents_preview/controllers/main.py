@@ -16,12 +16,12 @@ class AcsImageZoom(http.Controller):
         ])
 
         # Fetch related prescription orders
-        prescriptions = request.env['prescription.order'].search([('patient_id', '=', record_obj.id)])
+        prescriptions = request.env['prescription.order'].search([('patient_id', '=', record_obj.patient_id.id)])
 
         return request.render("acs_documents_preview.acs_image_preview", {
             'attachments': attachments,
             'record_id': record,
-            'patient': record_obj,
+            'patient': record_obj.patient_id,
             'prescriptions': prescriptions, 
         })
 
