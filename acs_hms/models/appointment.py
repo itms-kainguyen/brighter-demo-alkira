@@ -431,7 +431,7 @@ class Appointment(models.Model):
         'treatment_ids',
         'treatment_ids.medicine_line_ids',
         'treatment_ids.medicine_line_ids.product_id',
-        'treatment_ids.medicine_line_ids.product_id.default_aftercare_id')
+        'treatment_ids.medicine_line_ids.product_id.aftercare_id')
     def _compute_aftercare_ids(self):
         for rec in self:
             rec.aftercare_ids = False
@@ -440,7 +440,7 @@ class Appointment(models.Model):
             if not product_ids:
                 continue
             aftercare_ids = False
-            aftercare_ids = product_ids.mapped('default_aftercare_id')
+            aftercare_ids = product_ids.mapped('aftercare_id')
             if not aftercare_ids:
                 continue
             for aftercare_id in aftercare_ids:
