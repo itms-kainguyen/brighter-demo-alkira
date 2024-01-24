@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="acs_hms_base.product_template_form_view_inherit"/>
         <field name="arch" type="xml">
             <field name="is_required_prescription" position="after">
-                <field name="default_aftercare_id"/>
+                <field name="aftercare_id"/>
             </field>
         </field>
     </record>
