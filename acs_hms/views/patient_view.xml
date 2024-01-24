@@ -145,7 +145,7 @@
             </widget>
 
             <div name="button_box" position="inside">
-                 <button class="oe_stat_button" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o">
+                 <button class="oe_stat_button" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o" invisible="1">
 <!--                     <field string="Medical Checklist" name="checklist_count" widget="statinfo"/>-->
                  </button>
                 <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">

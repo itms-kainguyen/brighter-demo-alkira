@@ -128,8 +128,8 @@
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button class="oe_stat_button" type="object" name="action_view_consent_form"
-                    icon="fa-pencil-square-o">
-                    <field string="Consent Forms" name="consent_count" widget="statinfo"/>
+                    icon="fa-pencil-square-o" invisible="1">
+                    <field string="Consent Forms" name="consent_count" widget="statinfo" />
                 </button>
             </div>
         </field>

@@ -92,16 +92,16 @@
         </t>
     </template>
 
-    <record id="action_patient_barcode_lable" model="ir.actions.report">
-        <field name="name">Patient BarCode LP</field>
-        <field name="model">hms.patient</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">acs_hms_barcode.report_patient_barcode_lable</field>
-        <field name="report_file">acs_hms_barcode.report_patient_barcode_lable</field>
-        <field name="print_report_name">(object.code or object.name).replace('/','_')+'_BarCode'</field>
-        <field name="binding_model_id" ref="model_hms_patient"/>
-        <field name="groups_id" eval="[(4, ref('acs_hms_base.group_hms_manager'))]"/>
-        <field name="binding_type">report</field>
-    </record>
+<!--    <record id="action_patient_barcode_lable" model="ir.actions.report">-->
+<!--        <field name="name">Patient BarCode LP</field>-->
+<!--        <field name="model">hms.patient</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">acs_hms_barcode.report_patient_barcode_lable</field>-->
+<!--        <field name="report_file">acs_hms_barcode.report_patient_barcode_lable</field>-->
+<!--        <field name="print_report_name">(object.code or object.name).replace('/','_')+'_BarCode'</field>-->
+<!--        <field name="binding_model_id" ref="model_hms_patient"/>-->
+<!--        <field name="groups_id" eval="[(4, ref('acs_hms_base.group_hms_manager'))]"/>-->
+<!--        <field name="binding_type">report</field>-->
+<!--    </record>-->
 
 </odoo>
