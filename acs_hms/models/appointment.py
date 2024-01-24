@@ -447,7 +447,7 @@ class Appointment(models.Model):
                 # prepare patient.aftercare value
                 aftercare_val = {
                     'name': aftercare_id.name,
-                    'category_id': aftercare_id.id,
+                    'knowledge_id': aftercare_id.id,
                     'appointment_id': rec.id,
                 }
                 rec.aftercare_ids = [(0, 0, aftercare_val)]
