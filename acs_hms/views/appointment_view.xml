@@ -260,9 +260,9 @@
                         </button> -->
                         <!-- <button name="action_view_patient_procedures" class="oe_stat_button" icon="fa-medkit" type="object" string="Procedures"/> -->
                         <field name="prescription_ids" invisible="1"/>
-                        <!-- <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
+                        <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" attrs="{'invisible': [('attach_count', '=', 0)]}">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
-                        </button> -->
+                        </button>
                     </div>
                     <field name="image_128" widget='image' class="oe_avatar"/>
                     <div class="oe_title">
