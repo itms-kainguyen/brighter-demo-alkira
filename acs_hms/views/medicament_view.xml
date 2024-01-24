@@ -41,18 +41,18 @@
                             <field name="medicine_technique"/>
                             <field name="medicine_depth"/>
                             <field name="medicine_method"/>
-                            <field name="allow_substitution" optional="hide"/>
-                            <field name="common_dosage_id" optional="hide"/>
+                            <field name="allow_substitution" optional="hide" invisible="1"/>
+                            <field name="common_dosage_id" optional="hide" invisible="1"/>
                             <field name="dose"/>
                             <field name="dosage_uom_id"/>
                             <field name="repeat"/>
                             <field name="use" optional="show"/>
-                            <field name="route_id" optional="hide"/>
+                            <field name="route_id" optional="hide" invisible="1"/>
                             <field name="product_uom_category_id" invisible="1"/>
                             <field name="qty_per_day"/>
-                            <field name="days" optional="hide"/>
-                            <field name="quantity" optional="hide"/>
-                            <field name="short_comment" optional="hide"/>
+                            <field name="days" optional="hide" invisible="1"/>
+                            <field name="quantity" optional="hide" invisible="1"/>
+                            <field name="short_comment" optional="hide" invisible="1"/>
                         </tree>
                     </field>
                 </sheet>
