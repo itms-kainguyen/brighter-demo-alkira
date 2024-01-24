@@ -1,30 +1,15 @@
 # -*- coding: utf-8 -*-
-#╔══════════════════════════════════════════════════════════════════════╗
-#║                                                                      ║
-#║                  ╔═══╦╗       ╔╗  ╔╗     ╔═══╦═══╗                   ║
-#║                  ║╔═╗║║       ║║ ╔╝╚╗    ║╔═╗║╔═╗║                   ║
-#║                  ║║ ║║║╔╗╔╦╦══╣╚═╬╗╔╬╗ ╔╗║║ ╚╣╚══╗                   ║
-#║                  ║╚═╝║║║╚╝╠╣╔╗║╔╗║║║║║ ║║║║ ╔╬══╗║                   ║
-#║                  ║╔═╗║╚╣║║║║╚╝║║║║║╚╣╚═╝║║╚═╝║╚═╝║                   ║
-#║                  ╚╝ ╚╩═╩╩╩╩╩═╗╠╝╚╝╚═╩═╗╔╝╚═══╩═══╝                   ║
-#║                            ╔═╝║     ╔═╝║                             ║
-#║                            ╚══╝     ╚══╝                             ║
-#║                  SOFTWARE DEVELOPED AND SUPPORTED BY                 ║
-#║                ALMIGHTY CONSULTING SOLUTIONS PVT. LTD.               ║
-#║                      COPYRIGHT (C) 2016 - TODAY                      ║
-#║                      https://www.almightycs.com                      ║
-#║                                                                      ║
-#╚══════════════════════════════════════════════════════════════════════╝
+
 {
-    'name' : 'Documents Preview',
-    'summary': 'ACS Hospital / Patient Documents Preview.',
-    'description': """Hospital / Patient Documents Preview. Document management system document preview acs hms medical
+    'name' : 'AAA Preview',
+    'summary': 'AAA Documents Preview.',
+    'description': """AAA
     """,
     'version': '1.0.1',
-    'category': 'Hospitality Management/HMS',
-    'author': 'Almighty Consulting Solutions Pvt. Ltd.',
-    'support': 'info@almightycs.com',
-    'website': 'https://www.almightycs.com',
+    'category': 'Medical',
+    'author': 'ITMSGROUP',
+    'support': 'support@itmsgroup.com.au',
+    'website': 'https://itmsgroup.com.au',
     'license': 'OPL-1',
     'depends' : ['portal','acs_document_base'],
     'data' : [
@@ -38,7 +23,7 @@
     ],
     'application': False,
     'sequence': 0,
-    'price': 36,
+    'price': 0,
     'currency': 'USD',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
