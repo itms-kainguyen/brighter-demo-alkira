@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="wz_before_picture" model="ir.ui.view">
+    <!-- <record id="wz_before_picture" model="ir.ui.view">
         <field name="name">hms.picture.before.wizard.form</field>
         <field name="model">hms.picture.before.wizard</field>
         <field name="arch" type="xml">
@@ -15,7 +15,7 @@
             </footer>
         </form>
         </field>
-    </record>
+    </record> -->
     
     
 

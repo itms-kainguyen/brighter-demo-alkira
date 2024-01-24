@@ -2,7 +2,7 @@
 
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
-
+import base64
 
 class ACSDocumntViewerMixin(models.AbstractModel):
     _name = "acs.documnt.view.mixin"
@@ -11,41 +11,16 @@ class ACSDocumntViewerMixin(models.AbstractModel):
     def _get_document_preview_url(self):
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
         for rec in self:
-            rec.document_preview_url = base_url + "/my/acs/image/%s/%s" % (self._name,rec.id)
+            rec.document_preview_url = base_url + "/my/acs/image/%s/%s" % (self._name, rec.id)
 
     document_preview_url = fields.Char(compute=_get_document_preview_url, string="Document Preview Link")
 
     def acs_action_attachments_preview(self):
         ''' Open the website page with the preview results view '''
-
         attachments = self.env['ir.attachment'].search([
-            ('res_model', '=', self._name),
-            ('res_id', '=', self.id),
-            ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
+            ('id', 'in', self.attachment_ids.ids),
+            ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']),
         ])
-
-        attachments_patient_document = self.env['patient.document'].search([
-            ('res_model', '=', self._name),
-            ('res_id', '=', self.id),
-            ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
-        ])
-
-        attachments_treatment = None
-        if self._name == 'hms.treatment':
-            attachments_treatment = self.env['ir.attachment'].search([
-                '&', '|',
-                ('id', 'in', self.attachment_before_ids.ids),
-                ('id', 'in', self.attachment_after_ids.ids),
-                ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
-            ])
-            for attachment_treat in attachments_treatment:
-                ir_att = self.env['ir.attachment'].browse(attachment_treat.id)
-                attachments += ir_att
-
-        for attachment in attachments_patient_document:
-            ir_att = self.env['ir.attachment'].browse(attachment.ir_attachment_id.id)
-            attachments += ir_att
-
         if len(attachments) == 0:
             raise ValidationError(_("There are no documents to Preview. Please Add it in chatter."))
 
@@ -56,5 +31,6 @@ class ACSDocumntViewerMixin(models.AbstractModel):
             'target': 'new',
             'url': self.document_preview_url
         }
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
