@@ -16,7 +16,7 @@ class MedicamentGroupLine(models.Model):
     product_id = fields.Many2one('product.product', ondelete='restrict', string='Medicine Name', required=True)
     allow_substitution = fields.Boolean(string='Allow substitution')
     prnt = fields.Boolean(string='Print', help='Check this box to print this line of the prescription.')
-    dose = fields.Float(string='Dosage', digits=(16, 2), help="Amount of medication (eg, 250 mg) per dose", default=1.0)
+    dose = fields.Float(string='Dose', digits=(16, 2), help="Amount of medication (eg, 250 mg) per dose", default=1.0)
     dosage_uom_id = fields.Many2one('uom.uom', string='Unit of Dosage', help='Amount of Medicine (eg, mg) per dose',
                                     domain="[('category_id', '=', product_uom_category_id)]")
     product_uom_category_id = fields.Many2one('uom.category', related='product_id.uom_id.category_id')
@@ -28,6 +28,61 @@ class MedicamentGroupLine(models.Model):
                             help="Number of units of the medicament. Example : 30 capsules of amoxicillin", store=True)
     qty_per_day = fields.Float(string='Qty Per Day', default=1.0)
     route_id = fields.Many2one('drug.route', string='Route')
+
+    medicine_area = fields.Selection([
+        ('pre-area', 'Pre-AArea'),
+        ('cheek', 'Cheek'),
+        ('lips', 'Lips'),
+        ('chin', 'Chin'),
+        ('alar', 'Alar'),
+        ('marionettes', 'Marionettes'),
+        ('accordion', 'Accordion lines'),
+        ('forehead', 'Forehead'),
+        ('peri-oral', 'Peri-Oral'),
+        ('tear-trough', 'Tear-Trough'),
+        ('peri-orbital', 'Peri-Orbital'),
+        ('skinbooster', 'Skinbooster'),
+        ('nose', 'Nose'),
+        ('ear-lobe', 'Ear-lobe'),
+        ('neck', 'Neck'),
+        ('hands', 'Hands'),
+        ('body', 'Body'),
+        ('glabella', 'Glabella'),
+        ('frontalis', 'Frontalis'),
+        ('LCL', 'LCL'),
+        ('nasalis', 'Nasalis'),
+        ('LLSAN', 'LLSAN'),
+        ('oris', 'O.Oris'),
+        ('DAOs', 'DAOs'),
+        ('mentalis', 'Mentalis'),
+        ('platysma', 'Platysma'),
+        ('masseters', 'Masseters'),
+        ('micro-tox', 'Micro-tox'),
+        ('other', 'Other'),
+    ], default='pre-area', string="Area")
+    medicine_technique = fields.Selection([
+        ('bolus', 'Bolus'),
+        ('micro-bolus', 'Micro-Bolus'),
+        ('aliquot', 'Aliquot'),
+        ('retrograde', 'Retrograde thread'),
+        ('anterograde', 'Anterograde thread'),
+        ('julie', 'Julie'),
+        ('russian', 'Russian')], default='bolus', string='Technique')
+    medicine_depth = fields.Selection([
+        ('subdermal', 'Subdermal'),
+        ('subcutaneous', 'Subcutaneous'),
+        ('preperiosteal', 'Preperiosteal'),
+        ('intramus', 'Intramuscular')], default='subdermal', string='Depth')
+    medicine_method = fields.Selection([
+        ('sharp', 'Sharp needle'),
+        ('cannula', 'Cannula'),
+        ('slip', 'Slip'),
+        ('micro', 'Micro-needling'),
+        ('dermal', 'Dermal puncture')], default='sharp', string='Method')
+
+    use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')],
+                           string="Expiration", help="")
+    repeat = fields.Integer(string='Repeat', default=5)
 
     @api.onchange('product_id')
     def onchange_product_id(self):
