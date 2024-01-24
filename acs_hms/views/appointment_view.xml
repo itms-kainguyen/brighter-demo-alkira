@@ -393,8 +393,8 @@
                                     <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
                                     <field name="knowledge_id" />
                                     <field name="name"/>
-                                    <field name="patient_id" />
-                                    <field name="nurse_id"/>
+                                    <field name="patient_id" invisible="1"/>
+                                    <field name="nurse_id" invisible="1"/>
                                     <field name="nurse_signed_on"/>
                                     <button name="consent_forms_confirm"
                                             type="object"
