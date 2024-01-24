@@ -21,7 +21,7 @@
     'description': """Hospital / Patient Documents Preview. Document management system document preview acs hms medical
     """,
     'version': '1.0.1',
-    'category': 'Hospitality Management/HMS',
+    'category': 'Medical',
     'author': 'Almighty Consulting Solutions Pvt. Ltd.',
     'support': 'info@almightycs.com',
     'website': 'https://www.almightycs.com',
