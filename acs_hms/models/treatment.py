@@ -622,14 +622,14 @@ class TreatmentMedicineLine(models.Model):
     forecast_availability = fields.Float('Forecast Availability', compute='_compute_forecast_information',
                                          digits='Product Unit of Measure', compute_sudo=True)
     is_red = fields.Boolean(default=False)
-    colour_forecast = fields.Char(string="Color", default="#0000FF")
+    colour_forecast = fields.Char(string="Color", default="#008000")
 
     @api.depends('product_id', 'acs_lot_id', 'amount')
     def _compute_forecast_information(self):
         for line in self:
             line.forecast_availability = 0.0
             line.is_red = False
-            line.colour_forecast = "#0000FF"
+            line.colour_forecast = "#008000"
             if line.acs_lot_id:
                 line.forecast_availability = line.acs_lot_id.product_qty
                 if line.forecast_availability < float(line.amount):

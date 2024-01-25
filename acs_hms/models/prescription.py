@@ -133,6 +133,8 @@ class ACSPrescriptionOrder(models.Model):
     department_id = fields.Many2one('hr.department', domain=[('patient_department', '=', True)], default=get_clinic,
                                     string='Clinic Name', tracking=True)
 
+
+
     def write(self, vals):
         res = super(ACSPrescriptionOrder, self).write(vals)
 
@@ -753,6 +755,17 @@ class ACSPrescriptionLine(models.Model):
             to schedule the appointment")
     use = fields.Selection([('Stat', 'Stat'), ('3', '3 months'), ('6', '6 months'), ('12', '12 months')],
                            string="Expiration", help="")
+    is_red = fields.Boolean(default=False)
+    colour_forecast = fields.Char(string="Color", compute='_compute_colour_forecast')
+
+    @api.depends('product_id', 'qty_available', 'dose')
+    def _compute_colour_forecast(self):
+        for line in self:
+            line.is_red = False
+            line.colour_forecast = "#008000"
+            if line.qty_available < float(line.dose):
+                line.is_red = True
+                line.colour_forecast = "#FF0000"
 
     @api.depends('repeat')
     def _compute_remaining_repeat(self):
