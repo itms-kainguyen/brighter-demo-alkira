@@ -21,6 +21,13 @@ class ResPartner(models.Model):
     suitable_assignee_ids = fields.Many2many('res.partner', compute='_compute_suitable_assignee_ids', precompute=True,
                                              compute_sudo=True)
 
+    is_hide_assignee = fields.Boolean(compute='_compute_is_hide_assignee')
+
+    def _compute_is_hide_assignee(self):
+        self.is_hide_assignee = False
+        if not self.env.user.has_group('base.group_system'):
+            self.is_hide_assignee = True
+
     def _compute_suitable_assignee_ids(self):
         for record in self:
             nurse_ids = self.env['res.users'].sudo().search(
@@ -175,7 +182,8 @@ class Pricelist(models.Model):
     def get_clinic(self):
         return self.env.user.department_ids
 
-    department_ids = fields.Many2many('hr.department', 'pricelist_department_rel', 'pricelist_id', 'department_id', default=get_clinic, string='Clinic')
+    department_ids = fields.Many2many('hr.department', 'pricelist_department_rel', 'pricelist_id', 'department_id',
+                                      default=get_clinic, string='Clinic')
 
 
 class product_template(models.Model):

@@ -197,7 +197,8 @@
                         <group>
                             <field name="acs_patient_id"/>
                              <field name="suitable_assignee_ids" widget="many2many_tags" string="Suitable Assignees" invisible="1"/>
-                            <field name="assignee_ids" widget="many2many_tags"/>
+                            <field name="assignee_ids" widget="many2many_tags" attrs="{'invisible': [('is_hide_assignee','=',True)]}"/>
+                             <field name="is_hide_assignee" invisible="1"/>
                         </group>
                         <group>
                             <button name="create_patient" string="Create Patient" class="oe_highlight oe_inline" attrs="{'invisible': [('acs_patient_id', '!=', False)]}" type="object"/>
