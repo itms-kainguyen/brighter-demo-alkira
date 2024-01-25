@@ -21,7 +21,7 @@
                             <field string="Documents" name="attach_count" widget="statinfo"/>
                         </button>
                         <button class="oe_stat_button" type="object"
-                            name="acs_action_attachments_preview" icon="fa-files-o" string="Imaging">
+                            name="acs_action_attachments_preview" icon="fa-files-o" string="preview document">
                         </button>
                     </div>
                     <h1>

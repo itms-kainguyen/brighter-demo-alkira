@@ -10,16 +10,16 @@ class AcsImageZoom(http.Controller):
     @http.route(['/my/acs/image/<string:model>/<int:record>'], type='http', auth="user", website=True, sitemap=False)
     def acs_image_preview(self, model=False, record=False, **kwargs):
         record_obj = request.env[model].browse([record])
-        attachments = request.env['ir.attachment'].search([
-            ('id', 'in', record_obj.attachment_ids.ids),
-            ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']),
-        ])
+        # attachments = request.env['patient.document'].search([
+        #     ('id', 'in', record_obj.attachment_ids.ids),
+        #     ('mimetype', 'in', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']),
+        # ])
 
         # Fetch related prescription orders
         prescriptions = request.env['prescription.order'].search([('patient_id', '=', record_obj.patient_id.id)])
 
         return request.render("acs_documents_preview.acs_image_preview", {
-            'attachments': attachments,
+            'attachments': record_obj.attachment_ids.mapped('ir_attachment_id'),
             'record_id': record,
             'patient': record_obj.patient_id,
             'prescriptions': prescriptions, 

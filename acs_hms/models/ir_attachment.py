@@ -3,8 +3,8 @@ from odoo import api, fields, models
 import json
 
 
-class IrAttachment(models.Model):
-    _inherit = 'ir.attachment'
+class PatientDocument(models.Model):
+    _inherit = 'patient.document'
 
     document_type = fields.Selection([
         ('front_view', 'Front View'),

@@ -164,13 +164,14 @@ class ACSTreatment(models.Model):
     employee_id = fields.Many2one('hr.employee', compute='_compute_employee_id', string='Employee')
 
     # Photo form
-    attachment_ids = fields.One2many(
-        'attachment.attachment', 'res_id',
-        string='Attachments',
-        readonly=False
-    )
-    attachment_copy_ids = fields.One2many(
-        'attachment.attachment', 'res_id',
+    # attachment_ids = fields.Many2many(comodel_name='ir.attachment')
+    # attachment_ids = fields.One2many(
+    #     'attachment.attachment', 'res_id',
+    #     string='Attachments',
+    #     readonly=False
+    # )
+    attachment_copy_ids = fields.Many2many(
+        'patient.document', 'res_id',
         string='Attachments',
         readonly=False
     )
@@ -201,8 +202,10 @@ class ACSTreatment(models.Model):
         if not photo:
             photo = self.photo
 
-        file = self.env['attachment.attachment'].sudo().create({
+        file = self.env['patient.document'].sudo().create({
             'res_id': self._origin.id,
+            'res_model': 'hms.treatment',
+            'name': 'Photo',
             'file_display': photo
         })
         file_type = self.detect_file_type(photo)
