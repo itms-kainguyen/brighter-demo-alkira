@@ -164,7 +164,7 @@
                                 <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
                                     <field string="Transactions" name="transaction_count" widget="statinfo"/>
                                 </button>
-                                  <button class="oe_stat_button btn-green" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o">
+                                  <button class="oe_stat_button btn-green" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o" invisible="1">
                                 </button>
 
                             </div>
