@@ -406,6 +406,22 @@ class Appointment(models.Model):
     medical_checklist_answer_ids = fields.One2many('patient.medical.checklist.line', 'appointment_id',
                                                    string="Medical Treatment Checklist")
 
+    duration_selection = fields.Selection([
+        ("15", "15min"),
+        ("30", "30min"),
+        ("60", "1hr"),
+        ("120", "2hr"),
+        ("180", "3hr"),
+        ("240", "4hr"),
+    ], string = "Duration", default="30")
+
+    @api.onchange('duration_selection')
+    def _onchange_duration_selection(self):
+        from datetime import timedelta
+        if self.duration_selection:
+            if self.date:
+                self.date_to = self.date + timedelta(minutes=int(self.duration_selection))
+
     @api.onchange('patient_id')
     def _onchange_patient_id(self):
         if self.patient_id:

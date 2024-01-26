@@ -321,6 +321,7 @@
                                 <field name="date_to" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
                             </div>
                             <field name="planned_duration" widget="float_time" invisible="1"/>
+                            <field name="duration_selection" widget="radio"  options="{'horizontal': true}" invisible="0"/>
                             <field name="consultation_type"/>
                             <field name="follow_date" invisible="1" attrs="{'invisible': [('state', 'not in', ['in_consultation','done','to_invoice'])]}"/>
                             <field name="product_id" invisible="1" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>
