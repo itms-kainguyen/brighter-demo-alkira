@@ -90,4 +90,7 @@
         action="acs_hms.res_partner_action_customer_pos"
         sequence="100"/>
 
+    <menuitem id="menu_patient_checklist" name="Medical Checklist Template" action="acs_hms.act_open_patient_medical_checklist" parent="acs_hms_base.menu_hms_patient_cofig" sequence="18"/>
+
+
 </odoo>

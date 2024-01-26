@@ -189,9 +189,9 @@
         <field name="name">hms.appointment.form</field>
         <field name="model">hms.appointment</field>
         <field name="arch" type="xml">
-            <form>
+            <form delete="0" duplicate="0">
                 <header>
-                    <button name="appointment_confirm" states="draft" type="object" groups="acs_hms_base.group_hms_manager" string="Schedule &amp; Send Appointment Details" class="oe_highlight"/>
+                    <button name="appointment_confirm" states="draft" type="object" groups="acs_hms_base.group_hms_manager" string="Schedule &amp; Send" class="oe_highlight"/>
                     <button name="appointment_waiting" states="confirm" type="object" groups="acs_hms_base.group_hms_manager" string="Waiting" class="oe_highlight" invisible="1"/>
                     <button name="appointment_waiting_manual" states="confirm" type="object" groups="acs_hms_base.group_hms_manager" string="Sign Consent Form(s)" class="oe_highlight"/>
                     <button name="print_report" string="Print" type="object" states="draft,confirm" invisible="1"/>
@@ -222,9 +222,9 @@
                             'from_appointment': True}"
                         />
                     <button name="appointment_done" states="to_after_care" groups="acs_hms_base.group_hms_manager" type="object" string="Send Aftercare" class="oe_highlight"/>
-                    <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,waiting,in_consultation" type="action" invisible="1"/>
+                    <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,confirm_consent,in_consultation" type="action" invisible="0"/>
                     <button name="appointment_draft" string="Draft" states="cancel" type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_after_care,done"/>
+                    <field name="state" widget="statusbar" invisible="1" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_after_care,done"/>
                     <field name="appointment_invoice_policy" invisible="1"/>
                     <field name="consumable_invoice_id" invisible="1"/>
                     <field name="consumable_line_ids" invisible="1"/>
@@ -234,7 +234,7 @@
                     <field name="medical_alert_ids" nolabel="1" widget="many2many_tags"/>
                 </div>
                 <sheet>
-                    <div class="oe_button_box" name="button_box" groups="acs_hms_base.group_hms_manager">
+                    <div class="oe_button_box" name="button_box" groups="acs_hms_base.group_hms_manager" invisible="1">
 <!--                        <button name="action_refer_doctor" string="Refer. To" type="object" states="in_consultation,invoiced" class="oe_stat_button" icon="fa-pencil-square-o"/>-->
                         <!-- <button name="action_view_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
                             <field string="Treatments" name="treatment_count" widget="statinfo"/>
@@ -264,10 +264,10 @@
                             <field string="Documents" name="attach_count" widget="statinfo"/>
                         </button>
                     </div>
-                    <field name="image_128" widget='image' class="oe_avatar"/>
-                    <div class="oe_title">
+                    <field name="image_128" widget='image' class="oe_avatar" invisible="1"/>
+                    <div class="oe_title" invisible="1">
                         <h1>
-                            <field name="name"/>
+                            <field name="name" invisible="1"/>
                         </h1>
                     </div>
 
@@ -291,13 +291,13 @@
                     <page name="general" string="General">
                     <group>
                         <group>
-                            <field name="patient_id"/>
+                            <field name="patient_id" options="{'no_open': True}"/>
                             <field name="age"/>
-                            <field name="department_id"/>
+                            <field name="department_id" options="{'no_open': True}"/>
                             <field name="department_type" invisible="1"/>
-                            <field name="physician_id" required="0" string="Prescriber"/>
-                            <field name="nurse_id"/>
-                            <field name="cabin_id"/>
+                            <field name="physician_id" required="0" string="Prescriber" options="{'no_open': True}"/>
+                            <field name="nurse_id" options="{'no_open': True}"/>
+                            <field name="cabin_id" options="{'no_open': True}"/>
                              <field name="medicine_ids" widget="many2many_tags" groups="acs_hms_base.group_hms_manager" invisible="1"/>
                             <field name="diseases_ids" widget="many2many_tags" groups="acs_hms_base.group_hms_manager" invisible="1"/>
                             <field name="responsible_id" invisible="1"/>
@@ -392,7 +392,7 @@
                                     <field name="nurse_signature" invisible="1"/>
                                     <field name="appointment_id" invisible="1" context="{'default_appointment_id': active_id}"/>
                                     <field name="knowledge_id" />
-                                    <field name="name"/>
+                                    <field name="name" invisible="1"/>
                                     <field name="patient_id" invisible="1"/>
                                     <field name="nurse_id" invisible="1"/>
                                     <field name="nurse_signed_on"/>
@@ -412,33 +412,42 @@
                             </field>
                         </page>
                         <page string="Medical Treatment Checklist">
-                            <group>
-                                <group>
-                                    <label for="survey_id" groups="survey.group_survey_user"/>
-                                    <div groups="survey.group_survey_user" class="o_row">
-                                        <field name="survey_id"
-                                            context="{'default_access_mode': 'token'}" invisible="1"/>
-                                        <button string="Display Checklist Form" name="action_start_survey" type="object" invisible="1" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>
-                                        <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="0"/>
-                                    </div>
-                                 </group>
-                                <group></group>
-                            </group>
-                            <field name="survey_answer_ids" widget="one2many_list" options="{'always_reload': True}">
-                                  <tree decoration-muted="skipped == True">
-                                    <field name="question_sequence" invisible="1"/>
-                                    <field name="create_date" optional="hidden"/>
-                                    <field name="page_id" optional="hidden"/>
-                                    <field name="question_id"/>
-                                    <field name="answer_type" optional="hidden"/>
-                                    <field name="skipped" optional="hidden"/>
-                                    <field name="matrix_row_id" string="Row answer"/>
-                                      <field name="suggested_answer_yes"/>
-                                      <field name="suggested_answer_no"/>
-                                    <field name="answer_is_correct" optional="hidden"/>
-                                    <field name="answer_score" sum="Score" optional="hidden"/>
+                             <field name="medical_checklist_answer_ids" widget="one2many_list" options="{'always_reload': True}">
+                                  <tree editable="bottom" create="0" delete="0">
+                                    <field name="checklist_id" string="Question" force_save="1"/>
+                                     <field name="question_id" string="Row Answer" readonly="1" force_save="1"/>
+                                     <field name="yes"/>
+                                     <field name="no"/>
                                 </tree>
                             </field>
+
+<!--                            <group>-->
+<!--                                <group>-->
+<!--                                    <label for="survey_id" groups="survey.group_survey_user"/>-->
+<!--                                    <div groups="survey.group_survey_user" class="o_row">-->
+<!--                                        <field name="survey_id"-->
+<!--                                            context="{'default_access_mode': 'token'}" invisible="1"/>-->
+<!--                                        <button string="Display Checklist Form" name="action_start_survey" type="object" invisible="1" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1"/>-->
+<!--                                        <button string="Update Results" name="update_checklist" type="object" attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link pb-1" invisible="0"/>-->
+<!--                                    </div>-->
+<!--                                 </group>-->
+<!--                                <group></group>-->
+<!--                            </group>-->
+<!--                            <field name="survey_answer_ids" widget="one2many_list" options="{'always_reload': True}">-->
+<!--                                  <tree decoration-muted="skipped == True">-->
+<!--                                    <field name="question_sequence" invisible="1"/>-->
+<!--                                    <field name="create_date" optional="hidden"/>-->
+<!--                                    <field name="page_id" optional="hidden"/>-->
+<!--                                    <field name="question_id"/>-->
+<!--                                    <field name="answer_type" optional="hidden"/>-->
+<!--                                    <field name="skipped" optional="hidden"/>-->
+<!--                                    <field name="matrix_row_id" string="Row answer"/>-->
+<!--                                      <field name="suggested_answer_yes"/>-->
+<!--                                      <field name="suggested_answer_no"/>-->
+<!--                                    <field name="answer_is_correct" optional="hidden"/>-->
+<!--                                    <field name="answer_score" sum="Score" optional="hidden"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
 <!--                            <separator string="Individual Checklist"/>-->
 <!--                            <field name="answer_individual_ids" widget="one2many_list">-->
 <!--                                <tree string="Individual Checklist">-->
@@ -787,11 +796,11 @@
         <field name="model">hms.appointment</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
-            <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to">
+            <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to" delete="0">
                 <!-- <field name="physician_id"/> -->
                 <field name="patient_id"/>
                 <field name="age"/>
-                <field name="medical_alert_ids" widget="many2many_tags"/>
+                <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/>
                 <field name="state" filters="1"/>
                 <!-- <field name="physician_id" avatar_field="image_128"/> -->
             </calendar>
@@ -844,7 +853,7 @@
         <field name="name">Appointments</field>
         <field name="res_model">hms.appointment</field>
         <field name="view_id" ref="view_acs_appointment_calendar"/>
-        <field name="view_mode">calendar,tree,form,kanban,pivot,graph,activity</field>
+        <field name="view_mode">calendar,tree,form,kanban</field>
         <field name="context"></field>
         <field name="domain">[]</field>
         <field name="help" type="html">
@@ -869,8 +878,8 @@
                 <field name="date" invisible="1"/>
                 <field name="survey_id" invisible="1"/>
                 <field name="is_done_survey" invisible="1"/>
-                <field name="state" invisible="0" optional="hide" decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" decoration-success="state=='done'" decoration-primary="state=='in_consultation'" decoration-warning="state=='to_invoice'" decoration-it="state=='pause'" widget="badge"/>
-                <button string="Start Medical Checklist" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False),('is_done_survey','=',True)]}" class="oe_link pb-1"/>
+                <field name="state" invisible="0" optional="show" decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" decoration-success="state=='done'" decoration-primary="state=='in_consultation'" decoration-warning="state=='to_invoice'" decoration-it="state=='pause'" widget="badge"/>
+                <button string="Start Medical Checklist" name="action_start_survey" type="object" attrs="{'invisible':[('survey_id','=',False),('is_done_survey','=',True)]}" class="oe_link pb-1" invisible="1"/>
             </tree>
         </field>
     </record>

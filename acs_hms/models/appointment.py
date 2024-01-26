@@ -403,6 +403,15 @@ class Appointment(models.Model):
 
     prescription_count = fields.Integer(compute='_rec_count', string='Prescriptions')
 
+    medical_checklist_answer_ids = fields.One2many('patient.medical.checklist.line', 'appointment_id',
+                                                   string="Medical Treatment Checklist")
+
+    @api.onchange('patient_id')
+    def _onchange_patient_id(self):
+        if self.patient_id:
+            for line in self.patient_id.answer_ids:
+                line.appointment_id = self.id
+
     @api.depends('procedure_ids')
     def _compute_consent_ids(self):
         for rec in self:
