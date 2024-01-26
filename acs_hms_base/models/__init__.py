@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from . import ir_attachment
 from . import hms_mixin
 from . import hms_base
 from . import hms_consumable_line
