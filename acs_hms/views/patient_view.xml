@@ -280,7 +280,7 @@
                  <page string="Medical Questionnaire">
                      <field name="answer_ids" widget="one2many_list" options="{'always_reload': True}">
                          <tree editable="bottom" create="0">
-                             <field name="checklist_id" readonly="1" force_save="1"/>
+                             <field name="checklist_id" readonly="1" force_save="1" invisible="1"/>
                              <field name="question_id" readonly="1" force_save="1"/>
                              <field name="yes"/>
                              <field name="no"/>
