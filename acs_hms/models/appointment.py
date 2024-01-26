@@ -403,6 +403,8 @@ class Appointment(models.Model):
 
     prescription_count = fields.Integer(compute='_rec_count', string='Prescriptions')
 
+    is_checklist = fields.Boolean('Is checklist', compute='_compute_is_checklist')
+
     medical_checklist_answer_ids = fields.One2many('patient.medical.checklist.line', 'appointment_id',
                                                    string="Medical Treatment Checklist")
 
@@ -413,7 +415,7 @@ class Appointment(models.Model):
         ("120", "2hr"),
         ("180", "3hr"),
         ("240", "4hr"),
-    ], string = "Duration", default="30")
+    ], string="Duration", default="30")
 
     @api.onchange('duration_selection')
     def _onchange_duration_selection(self):
@@ -421,6 +423,14 @@ class Appointment(models.Model):
         if self.duration_selection:
             if self.date:
                 self.date_to = self.date + timedelta(minutes=int(self.duration_selection))
+
+    @api.depends('patient_id')
+    def _compute_is_checklist(self):
+        self.is_checklist = False
+        if self.patient_id:
+            for line in self.patient_id.answer_ids:
+                line.appointment_id = self.id
+                self.is_checklist = True
 
     @api.onchange('patient_id')
     def _onchange_patient_id(self):

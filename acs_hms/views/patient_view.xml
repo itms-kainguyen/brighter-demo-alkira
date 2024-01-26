@@ -282,8 +282,8 @@
                          <tree editable="bottom" create="0">
                              <field name="checklist_id" readonly="1" force_save="1" invisible="1"/>
                              <field name="question_id" readonly="1" force_save="1"/>
-                             <field name="yes"/>
-                             <field name="no"/>
+                             <field name="yes" widget="boolean_toggle"/>
+<!--                             <field name="no"/>-->
                          </tree>
                      </field>
                  </page>

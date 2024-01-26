@@ -119,6 +119,9 @@ class ACSPatient(models.Model):
             return False
         return self.env.user.department_ids
 
+    def get_checklist(self):
+        return self.env['medical.checklist'].search([]) or False
+
     ref_doctor_ids = fields.Many2many('res.partner', 'rel_doc_pat', 'doc_id',
                                       'patient_id', 'Referring Doctors', domain=[('is_referring_doctor', '=', True)])
 
@@ -205,7 +208,7 @@ class ACSPatient(models.Model):
     checklist_count = fields.Integer(compute='_rec_count', string='Medical Checklist')
 
     question_ids = fields.Many2many('medical.checklist', 'medical_checklist_rel', 'question_id',
-                                    'patient_id', string="Medical Checklist")
+                                    'patient_id', string="Medical Checklist", default=get_checklist)
 
     answer_ids = fields.One2many('patient.medical.checklist.line', 'patient_id', string="Medical Questionnaire")
 

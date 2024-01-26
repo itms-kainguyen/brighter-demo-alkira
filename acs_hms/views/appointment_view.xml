@@ -374,6 +374,7 @@
 
                             <field name="cancel_reason" placeholder="Cancellation Reason..."
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
+                            <field name="is_checklist" invisible="1"/>
                         </group>
                     <!-- </group>
                     <group name="group_info"> -->
@@ -415,10 +416,10 @@
                         <page string="Medical Treatment Checklist">
                              <field name="medical_checklist_answer_ids" widget="one2many_list" options="{'always_reload': True}">
                                   <tree editable="bottom" create="0" delete="0">
-                                    <field name="checklist_id" string="Question" force_save="1"/>
+                                    <field name="checklist_id" string="Question" force_save="1" invisible="1"/>
                                      <field name="question_id" string="Row Answer" readonly="1" force_save="1"/>
-                                     <field name="yes"/>
-                                     <field name="no"/>
+                                     <field name="yes" widget="boolean_toggle"/>
+<!--                                     <field name="no"/>-->
                                 </tree>
                             </field>
 

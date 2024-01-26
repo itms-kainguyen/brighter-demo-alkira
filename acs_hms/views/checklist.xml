@@ -58,8 +58,8 @@
             <tree string="Medical Checklist" create="0" delete="0" edit="0">
                  <field name="checklist_id" string="Question" force_save="1"/>
                  <field name="question_id" string="Row Answer" readonly="1" force_save="1"/>
-                 <field name="yes"/>
-                 <field name="no"/>
+                 <field name="yes" widget="boolean_toggle"/>
+<!--                 <field name="no"/>-->
             </tree>
         </field>
     </record>
