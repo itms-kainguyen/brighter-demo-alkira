@@ -128,8 +128,7 @@
         <field name="report_name">acs_hms.report_acs_appointment</field>
         <field name="report_file">acs_hms.report_acs_appointment</field>
         <field name="print_report_name">(object.name or 'Appointment').replace('/','_')</field>
-        <field name="binding_model_id" ref="model_hms_appointment"/>
-        <field name="binding_type">report</field>
+
     </record>
 
 </odoo>

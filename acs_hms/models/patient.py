@@ -114,7 +114,8 @@ class ACSPatient(models.Model):
             rec.acs_cancelled_appointments = cancelled_appointments
 
     def get_clinic(self):
-        if self.env.user.has_group('acs_hms.group_hms_doctor') and not self.env.user.has_group('acs_hms_base.group_hms_manager'):
+        if self.env.user.has_group('acs_hms.group_hms_doctor') and not self.env.user.has_group(
+                'acs_hms_base.group_hms_manager'):
             return False
         return self.env.user.department_ids
 
@@ -203,6 +204,26 @@ class ACSPatient(models.Model):
     is_patient_valid_prescription = fields.Boolean("Valid", compute='_check_valid')
     checklist_count = fields.Integer(compute='_rec_count', string='Medical Checklist')
 
+    question_ids = fields.Many2many('medical.checklist', 'medical_checklist_rel', 'question_id',
+                                    'patient_id', string="Medical Checklist")
+
+    answer_ids = fields.One2many('patient.medical.checklist.line', 'patient_id', string="Medical Questionnaire")
+
+    @api.onchange('question_ids')
+    def _onchange_question_ids(self):
+        lines = []
+        for record in self:
+            # record.answer_ids = False
+            if record.question_ids:
+                for checklist in record.question_ids:
+                    for line in checklist.detail_ids:
+                        if line.checklist_id.id not in lines and line._origin.id not in [a.question_id.id for a in record.answer_ids]:
+                            lines.append((0, 0, {
+                                'question_id': line.id,
+                                'patient_id': record.id,
+                                'checklist_id': line.checklist_id.id
+                            }))
+            record.answer_ids = lines
 
     def _check_valid(self):
         Prescription = self.env['prescription.order']

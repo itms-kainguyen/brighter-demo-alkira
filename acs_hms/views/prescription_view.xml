@@ -158,14 +158,15 @@
                             <div class="oe_button_box" name="button_box">
                                 <!-- <button string="Make Appointment" name="make_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope">
                                 </button> -->
+                                <button class="oe_stat_button btn-green" name="action_view_medical_checklist" string="Checklist" type="object" icon="fa-pencil-square-o" invisible="0">
+                                </button>
                                 <button class="oe_stat_button btn-green" name="action_view_medicine_history" string="Treatment History" type="object" icon="fa-user-md">
                                     <field string="Treatment History" name="treatment_medicine_count" widget="statinfo"/>
                                 </button>
                                 <button class="oe_stat_button btn-green" name="action_view_transaction" string="Payment Transaction" type="object"  icon="fa-pencil-square-o"  attrs="{'invisible': ['|',('id','=',False),('transaction_count', '=', '0')]}">
                                     <field string="Transactions" name="transaction_count" widget="statinfo"/>
                                 </button>
-                                  <button class="oe_stat_button btn-green" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o" invisible="1">
-                                </button>
+
 
                             </div>
                             <div class="oe_title">

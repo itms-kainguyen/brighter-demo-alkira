@@ -7,6 +7,7 @@ from . import evaluation
 from . import product_kit
 from . import physician
 from . import appointment
+from . import checklist
 from . import survey_user_input
 from . import diseases
 from . import medicament

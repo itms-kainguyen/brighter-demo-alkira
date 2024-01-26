@@ -176,6 +176,10 @@
                  <field name="is_hide_assignee" invisible="1"/>
             </field>
 
+             <field name="allergies_ids" position="after">
+                 <field name="question_ids" widget="many2many_tags"/>
+             </field>
+
             <field name="caste" position="after">
                 <field name="ethnic_group_id" groups="acs_hms_base.group_hms_manager" invisible="1"/>
             </field>
@@ -272,6 +276,18 @@
                     </field>
                 </page>
             </page>
+             <page name="hospital_info" position="after">
+                 <page string="Medical Questionnaire">
+                     <field name="answer_ids" widget="one2many_list" options="{'always_reload': True}">
+                         <tree editable="bottom" create="0">
+                             <field name="checklist_id" readonly="1" force_save="1" invisible="1"/>
+                             <field name="question_id" readonly="1" force_save="1"/>
+                             <field name="yes"/>
+                             <field name="no"/>
+                         </tree>
+                     </field>
+                 </page>
+             </page>
          </field>
     </record>
 
