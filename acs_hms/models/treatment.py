@@ -178,6 +178,9 @@ class ACSTreatment(models.Model):
     photo = fields.Binary(string='Photo')
     is_invisible = fields.Boolean(compute="_compute_is_invisible")
 
+    def action_print(self):
+        return self.env.ref('acs_hms.action_treatment_report').report_action(self)
+
     @api.depends('attachment_ids')
     def _compute_is_invisible(self):
         for rec in self:

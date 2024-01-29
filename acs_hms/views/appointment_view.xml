@@ -680,7 +680,7 @@
                                         <create string="Add a treatment"/>
                                     </control> -->
                                     <field name="name"/>
-                                    <field name="finding"/>
+                                    <field name="finding" invisible="1"/>
                                     <field name="state"/>
                                 </tree>
                             </field>

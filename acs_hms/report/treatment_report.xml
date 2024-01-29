@@ -189,8 +189,6 @@
         <field name="report_name">acs_hms.report_acs_treatment</field>
         <field name="report_file">acs_hms.report_acs_treatment</field>
         <field name="print_report_name">(object.name or 'Treatment').replace('/','_')</field>
-        <field name="binding_model_id" ref="model_hms_treatment"/>
-        <field name="binding_type">report</field>
     </record>
 
 </odoo>
