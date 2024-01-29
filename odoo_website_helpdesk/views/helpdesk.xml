@@ -65,9 +65,9 @@
                                 attrs="{'required': [('ticket_name', '!=', 'Adverse Event')]}"/>
                             <field name="primary_physician_id"/>
                             <field name="ticket_name" invisible="1"/>
-                            <field name="email"/>
+                            <field name="email" invisible="1"/>
                             <field name="phone"/>
-                            <field name="tags" widget="many2many_tags"/>
+                            <field name="tags" widget="many2many_tags" invisible="1"/>
                         </group>
                         <group attrs="{'invisible': [('ticket_name', '=', 'Adverse Event')]}">
                             <field name="show_category" invisible="1"/>
