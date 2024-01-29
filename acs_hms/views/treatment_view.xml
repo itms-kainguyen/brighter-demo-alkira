@@ -16,7 +16,7 @@
                     </group>
                     <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
                     <button name="action_print" states="done" type="object" string="Print" class="oe_highlight"/>
-                     <button name="create_order" string="Create Order" attrs="{'invisible': ['|',('order_id','!=', False),('state','!=','done')]}" type="object" class="oe_highlight"/>
+                     <button name="create_order" string="Create Order" invisible="1" attrs="{'invisible': ['|',('order_id','!=', False),('state','!=','done')]}" type="object" class="oe_highlight"/>
                      <button name="action_link_patient" states="done" type="object" string="Done" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="done"/>
                 </header>
@@ -63,7 +63,7 @@
                                     <field name="department_type" invisible="1"/>
                                     <field name="end_date" invisible="1"/>
                                     <field name="attending_physician_ids" widget="many2many_tags" invisible="1"/>
-                                     <field name="order_id" options="{'no_open': True}"/>
+                                     <field name="order_id" options="{'no_open': True}" invisible="1"/>
                                 </group>
                             </group>
 
