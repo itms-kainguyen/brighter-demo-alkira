@@ -323,7 +323,7 @@
                             <button name="treatment_done" states="draft" type="object" string="Done" class="oe_highlight"/>
                             <button name="treatment_draft" string="Edit" states="done" type="object" class="oe_highlight"/>
                             <button name="action_unlink" string="Delete Treatment" states="draft" type="object"/>
-                            <button name="create_order" string="Create Order" attrs="{'invisible': ['|',('order_id','!=', False),('state','!=','done')]}" type="object" class="oe_highlight"/>
+<!--                            <button name="create_order" string="Create Order" attrs="{'invisible': ['|',('order_id','!=', False),('state','!=','done')]}" type="object" class="oe_highlight"/>-->
                         </footer>
                     </notebook>
                     <script type="text/javascript">

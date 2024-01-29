@@ -65,8 +65,7 @@ class Consent(models.Model):
         # Send the email.
         template_consent_creation = template_consent.with_context(**email_values).sudo().send_mail(
             self.appointment_id.id, raise_exception=False, force_send=True)
-
         if template_consent_creation:
-            return True
+            template_consent.reset_template()
         else:
             raise UserError(_("Error: Send email."))
