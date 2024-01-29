@@ -780,7 +780,7 @@
                 <filter name="consultation" string="Consultation Appointment" domain="[('consultation_type','=','consultation')]" invisible="1"/>
                 <filter name="consultation" string="Followup Appointment" domain="[('consultation_type','=','followup')]" invisible="1"/>
                 <separator/>
-                <filter name="done" string="Not Done" domain="[('state','!=','done')]"/>
+                <filter name="done" string="Not Done" domain="[('state','not in',('done','cancel'))]"/>
                 <group expand="0" string="Group By...">
                      <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter string="Physician" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}" />
