@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="acs_hms.view_patient_form"/>
         <field name="arch" type="xml">
             <button name="action_view_attachments" position="after">
-                <button class="oe_inline oe_stat_button" type="object" name="acs_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+                <button class="oe_inline oe_stat_button" type="object" name="acs_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo" invisible="1"/>
             </button>
         </field>
     </record>
