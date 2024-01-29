@@ -498,6 +498,9 @@ class Appointment(models.Model):
         self.survey_id.appointment_id = self.id
         return action
 
+    def action_confirm_checklist(self):
+        self.state = 'in_consultation'
+
     def action_view_aftercare(self):
         ctx = {'appointment_id': self.id, 'partner_id': self.patient_id.partner_id.id}
         return {
