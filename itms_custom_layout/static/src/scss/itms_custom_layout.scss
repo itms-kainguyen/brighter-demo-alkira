@@ -406,3 +406,9 @@ ITMS dashboard
 .o_navbar_apps_menu.show .dropdown-menu .o_app > a .mk_app_icon {
   width: auto !important;
 }
+
+
+// hide all activity button
+button.o_ChatterTopbar_button.o_ChatterTopbar_buttonScheduleActivity {
+  display: none !important;
+}
