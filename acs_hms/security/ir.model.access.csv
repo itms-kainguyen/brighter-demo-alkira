@@ -165,6 +165,8 @@ access_medical_checklist_user,medical.checklist user,acs_hms.model_medical_check
 access_medical_checklist_line_user,medical.checklist.line user,acs_hms.model_medical_checklist_line,base.group_user,1,1,1,1
 access_patient_medical_checklist_line_user,patient.medical.checklist.line user,acs_hms.model_patient_medical_checklist_line,base.group_user,1,1,1,1
 
+access_patient_document_user,patient.document user,acs_hms.model_patient_document,base.group_user,1,1,1,1
+
 
 
 

@@ -165,18 +165,31 @@ class ACSTreatment(models.Model):
 
     # Photo form
     # attachment_ids = fields.Many2many(comodel_name='ir.attachment')
-    # attachment_ids = fields.One2many(
-    #     'attachment.attachment', 'res_id',
-    #     string='Attachments',
-    #     readonly=False
-    # )
+    attachment_ids = fields.One2many(
+        'patient.document', 'res_id',
+        string='Attachments', domain=[('display_type', '=', 'after')],
+        readonly=False
+    )
     attachment_copy_ids = fields.Many2many(
         'patient.document', 'res_id',
         string='Attachments',
         readonly=False
     )
     photo = fields.Binary(string='Photo')
+
+    attachment_before_ids = fields.One2many(
+        'patient.document', 'res_id',
+        string='Attachments', domain=[('display_type', '=', 'before')],
+        readonly=False
+    )
+    attachment_before_copy_ids = fields.Many2many(
+        'patient.document', 'res_id',
+        string='Attachments',
+        readonly=False
+    )
+    photo_before = fields.Binary(string='Photo Before')
     is_invisible = fields.Boolean(compute="_compute_is_invisible")
+    is_invisible_before = fields.Boolean(compute="_compute_is_invisible_before")
 
     def action_print(self):
         return self.env.ref('acs_hms.action_treatment_report').report_action(self)
@@ -189,6 +202,14 @@ class ACSTreatment(models.Model):
                 is_invisible = False
             rec.is_invisible = is_invisible
 
+    @api.depends('attachment_before_ids')
+    def _compute_is_invisible_before(self):
+        for rec in self:
+            is_invisible_before = True
+            if rec.attachment_before_ids:
+                is_invisible_before = False
+            rec.is_invisible_before = is_invisible_before
+
     @api.onchange('photo')
     def onchange_photo(self):
         if self.photo:
@@ -196,10 +217,22 @@ class ACSTreatment(models.Model):
             self.is_invisible = False
             self.photo = False
 
+    @api.onchange('photo_before')
+    def onchange_photo_before(self):
+        if self.photo_before:
+            self.upload_file_before()
+            self.is_invisible_before = False
+            self.photo_before = False
+
     @api.onchange('attachment_ids')
     def onchange_attachment_ids(self):
         if not self.attachment_ids:
             self.is_invisible = True
+
+    @api.onchange('attachment_before_ids')
+    def onchange_attachment_before_ids(self):
+        if not self.attachment_before_ids:
+            self.is_invisible_before = True
 
     def upload_file(self, photo=False):
         if not photo:
@@ -208,7 +241,8 @@ class ACSTreatment(models.Model):
         file = self.env['patient.document'].sudo().create({
             'res_id': self._origin.id,
             'res_model': 'hms.treatment',
-            'name': 'Photo',
+            'name': 'Photo After',
+            'display_type': 'after',
             'file_display': photo
         })
         file_type = self.detect_file_type(photo)
@@ -219,10 +253,39 @@ class ACSTreatment(models.Model):
         else:
             file.datas = photo
             file.instruction_type = 'image'
-        attachment_ids = self.attachment_ids.ids
+        attachment_ids = self.attachment_ids.filtered(
+            lambda x: x.display_type == "after"
+        ).ids
         attachment_ids.append(file.id)
         self.attachment_copy_ids = [(6, 0, attachment_ids)]
         self.attachment_ids = self.attachment_copy_ids
+        return file
+
+    def upload_file_before(self, photo_before=False):
+        if not photo_before:
+            photo = self.photo_before
+
+        file = self.env['patient.document'].sudo().create({
+            'res_id': self._origin.id,
+            'res_model': 'hms.treatment',
+            'name': 'Photo Before',
+            'display_type': 'before',
+            'file_display': photo
+        })
+        file_type = self.detect_file_type(photo)
+
+        if 'pdf' in file_type.lower():
+            file.instruction_pdf = photo
+            file.instruction_type = 'pdf'
+        else:
+            file.datas = photo
+            file.instruction_type = 'image'
+        attachment_ids = self.attachment_before_ids.filtered(
+            lambda x: x.display_type == "before"
+        ).ids
+        attachment_ids.append(file.id)
+        self.attachment_before_copy_ids = [(6, 0, attachment_ids)]
+        self.attachment_before_ids = self.attachment_before_copy_ids
         return file
 
     def detect_file_type(self, file_content):

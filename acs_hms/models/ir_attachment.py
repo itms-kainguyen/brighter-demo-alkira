@@ -22,6 +22,7 @@ class PatientDocument(models.Model):
         ('pdf', 'PDF'), ('image', 'Image')],
         string="Instruction", default="image"
     )
+    display_type = fields.Selection([('before', 'Before'), ('after', 'After')], string='Type')
 
     def action_remove_record(self):
         for rec in self:
