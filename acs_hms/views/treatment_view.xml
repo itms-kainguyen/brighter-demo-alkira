@@ -77,8 +77,8 @@
                         <div class="card-deck">
                             <div class="container">
                                 <!-- <field name="photo2" string="Upload File or Photo" widget="image"/> -->
-                                <field name="is_invisible" invisible="1"/>
-                                <div attrs="{'invisible': [('is_invisible','==',True)]}">
+                                <field name="is_invisible_before" invisible="1"/>
+                                <div attrs="{'invisible': [('is_invisible_before','==',True)]}">
                                     <p class="text-center">Click on Photo/Plan to add or update details</p>
                                     <field name="attachment_before_ids" force_save="1">
                                         <kanban class="o_kanban_mobile" create="false">
