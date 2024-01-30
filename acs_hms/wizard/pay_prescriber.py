@@ -136,10 +136,10 @@ class PayPrescriberWiz(models.TransientModel):
             url = config_parameter_obj.get_param('web.base.url')
             url += '/web#id={id}&cids=1&model=prescription.order&view_type=form'.format(id=current_id.id)
             body_html = '''<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
-                            <p>Hi <strong>{prescriber}</strong>,</p>
-                            <p>This is <strong>{nurse}</strong>, a nurse at <strong>{clinic}</strong>, reaching out regarding a current patient under our care.</p>
+                            <p>Hi <b>{prescriber}</b>,</p>
+                            <p>This is <b>{nurse}</b>, a nurse at <b>{clinic}</b>, reaching out regarding a current patient under our care.</p>
                             <p>Patient Details:</p>
-                            <p>Name: <strong>{patient}</strong></p>
+                            <p>Name: <b>{patient}</b></p>
                             <p>Prescription Order: <a href="{link}">{order}</a></p>
                             <p>Current Situation: The patient is here for their scheduled appointment and has been evaluated. Based on their condition and our preliminary assessment, we believe that a prescription for [Medicines Name] would be beneficial for their treatment plan.<p>
                             <br/>
