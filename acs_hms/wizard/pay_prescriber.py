@@ -136,12 +136,23 @@ class PayPrescriberWiz(models.TransientModel):
             url = config_parameter_obj.get_param('web.base.url')
             url += '/web#id={id}&cids=1&model=prescription.order&view_type=form'.format(id=current_id.id)
             body_html = '''<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
-                           <p>Hi {prescriber},</p>
-                           <p> We are about to call for patient: {patient}.</p>
-                           <p>Link: {link}.</p>
+                            <p>Hi <strong>{prescriber}</strong>,</p>
+                            <p>This is <strong>{nurse}</strong>, a nurse at <strong>{clinic}</strong>, reaching out regarding a current patient under our care.</p>
+                            <p>Patient Details:</p>
+                            <p>Name: <strong>{patient}</strong></p>
+                            <p>Prescription Order: <a href="{link}">{order}</a></p>
+                            <p>Current Situation: The patient is here for their scheduled appointment and has been evaluated. Based on their condition and our preliminary assessment, we believe that a prescription for [Medicines Name] would be beneficial for their treatment plan.<p>
+                            <br/>
+                            <p>Action Required:</p>
+                            <p>We request your expertise to review & authorize the necessary prescription. We plan to initiate a telehealth call shortly to discuss this case in more detail.</p>
+                            <br/>
+                            <p>Patient Background:</p>
+                            <p>The patient has completed a medical checklist and their allergies are: [Allergies]. We are ready to provide any additional information required during the telehealth call.</p>
+                            <br/><br/>
+                            Thank you
                        </div>
-                       '''.format(prescriber=current_id.physician_id.name, patient=current_id.patient_id.name,
-                                  link=url)
+                       '''.format(prescriber=current_id.physician_id.name, nurse=current_id.nurse_id.name, clinic=current_id.department_id.name, patient=current_id.patient_id.name,
+                                  link=url, order=current_id.name)
             channel = self.env['mail.channel'].channel_get([current_id.physician_id.partner_id.id])
             channel_id = self.env['mail.channel'].browse(channel["id"])
             channel_id.message_post(
@@ -149,6 +160,13 @@ class PayPrescriberWiz(models.TransientModel):
                 message_type='comment',
                 subtype_xmlid='mail.mt_comment',
             )
+            channel_prescriber_id = self.env['mail.channel'].browse(37)
+            if channel_prescriber_id:
+                channel_prescriber_id.message_post(
+                    body=(body_html),
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_comment',
+                )
 
     def save_payment(self):
         return {

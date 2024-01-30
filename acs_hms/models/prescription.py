@@ -300,7 +300,7 @@ class ACSPrescriptionOrder(models.Model):
         return {
             'type': 'ir.actions.act_url',
             'url': url + '/web#action=120&menu_id=82&cids=1&active_id=mail.channel_{id}'.format(id=channel_id.id),
-            'target': 'new',
+            'target': 'self',
         }
 
     def button_request_change(self):
