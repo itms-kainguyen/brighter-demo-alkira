@@ -132,6 +132,23 @@ class PayPrescriberWiz(models.TransientModel):
         if transaction:
             transaction.action_post()
             self.payment_transaction_id = transaction.payment_transaction_id.id
+            config_parameter_obj = self.env['ir.config_parameter'].sudo()
+            url = config_parameter_obj.get_param('web.base.url')
+            url += '/web#id={id}&cids=1&model=prescription.order&view_type=form'.format(id=current_id.id)
+            body_html = '''<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+                           <p>Hi {prescriber},</p>
+                           <p> We are about to call for patient: {patient}.</p>
+                           <p>Link: {link}.</p>
+                       </div>
+                       '''.format(prescriber=current_id.physician_id.name, patient=current_id.patient_id.name,
+                                  link=url)
+            channel = self.env['mail.channel'].channel_get([current_id.physician_id.partner_id.id])
+            channel_id = self.env['mail.channel'].browse(channel["id"])
+            channel_id.message_post(
+                body=(body_html),
+                message_type='comment',
+                subtype_xmlid='mail.mt_comment',
+            )
 
     def save_payment(self):
         return {

@@ -133,8 +133,6 @@ class ACSPrescriptionOrder(models.Model):
     department_id = fields.Many2one('hr.department', domain=[('patient_department', '=', True)], default=get_clinic,
                                     string='Clinic Name', tracking=True)
 
-
-
     def write(self, vals):
         res = super(ACSPrescriptionOrder, self).write(vals)
 
@@ -292,6 +290,17 @@ class ACSPrescriptionOrder(models.Model):
             'target': 'new',
             # 'target': 'current',
             'context': {}
+        }
+
+    def call_prescriber(self):
+        config_parameter_obj = self.env['ir.config_parameter'].sudo()
+        url = config_parameter_obj.get_param('web.base.url')
+        channel = self.env['mail.channel'].channel_get([self.physician_id.partner_id.id])
+        channel_id = self.env['mail.channel'].browse(channel["id"])
+        return {
+            'type': 'ir.actions.act_url',
+            'url': url + '/discuss/channel/{id}'.format(id=channel_id.id),
+            'target': 'new',
         }
 
     def button_request_change(self):
