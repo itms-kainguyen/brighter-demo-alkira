@@ -135,24 +135,25 @@ class PayPrescriberWiz(models.TransientModel):
             config_parameter_obj = self.env['ir.config_parameter'].sudo()
             url = config_parameter_obj.get_param('web.base.url')
             url += '/web#id={id}&cids=1&model=prescription.order&view_type=form'.format(id=current_id.id)
+            allergies = ','.join([a.name for a in current_id.patient_id.allergies_ids])
             body_html = '''<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
                             <p>Hi <b>{prescriber}</b>,</p>
                             <p>This is <b>{nurse}</b>, a nurse at <b>{clinic}</b>, reaching out regarding a current patient under our care.</p>
                             <p>Patient Details:</p>
                             <p>Name: <b>{patient}</b></p>
-                            <p>Prescription Order: <a href="{link}">{order}</a></p>
                             <p>Current Situation: The patient is here for their scheduled appointment and has been evaluated. Based on their condition and our preliminary assessment, we believe that a prescription for [Medicines Name] would be beneficial for their treatment plan.<p>
                             <br/>
                             <p>Action Required:</p>
                             <p>We request your expertise to review & authorize the necessary prescription. We plan to initiate a telehealth call shortly to discuss this case in more detail.</p>
                             <br/>
                             <p>Patient Background:</p>
-                            <p>The patient has completed a medical checklist and their allergies are: [Allergies]. We are ready to provide any additional information required during the telehealth call.</p>
+                            <p>The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.</p>
+                            <p>Prescription Order: <a href="{link}">{order}</a></p>
                             <br/><br/>
                             Thank you
                        </div>
                        '''.format(prescriber=current_id.physician_id.name, nurse=current_id.nurse_id.name, clinic=current_id.department_id.name, patient=current_id.patient_id.name,
-                                  link=url, order=current_id.name)
+                                  link=url, order=current_id.name, allergies=allergies)
             channel = self.env['mail.channel'].channel_get([current_id.physician_id.partner_id.id])
             channel_id = self.env['mail.channel'].browse(channel["id"])
             channel_id.message_post(
