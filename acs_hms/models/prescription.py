@@ -299,7 +299,7 @@ class ACSPrescriptionOrder(models.Model):
         channel_id = self.env['mail.channel'].browse(channel["id"])
         return {
             'type': 'ir.actions.act_url',
-            'url': url + '/discuss/channel/{id}'.format(id=channel_id.id),
+            'url': url + '/web#action=120&menu_id=82&cids=1&active_id=mail.channel_{id}'.format(id=channel_id.id),
             'target': 'new',
         }
 
