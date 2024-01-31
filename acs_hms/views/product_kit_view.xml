@@ -118,6 +118,9 @@
                     <field name="acs_kit_line_ids"/>
                 </page>
             </xpath>
+            <xpath expr="//page[@name='general_information']//field[@name='uom_po_id']" position="after">
+                <field name="department_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+            </xpath>
         </field>
     </record>
 

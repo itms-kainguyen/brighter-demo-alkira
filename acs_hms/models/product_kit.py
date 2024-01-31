@@ -72,10 +72,16 @@ class ProductTemplate(models.Model):
             rec.kit_amount_total = sum(rec.acs_kit_line_ids.mapped('total_price'))
             rec.kit_cost_total = sum(rec.acs_kit_line_ids.mapped('total_standard_price'))
 
+    def get_clinic(self):
+        return self.env.user.department_ids
+
     is_kit_product = fields.Boolean("Kit Product", help="Adding this product will lead to component consumption when added in medical flow")
     acs_kit_line_ids = fields.One2many('acs.product.kit.line', 'product_template_id', string='Kit Components')
     kit_amount_total = fields.Float(compute='acs_get_kit_amount_total', string="Kit Total")
     kit_cost_total = fields.Float(compute='acs_get_kit_amount_total', string="Kit Cost Total")
+
+    department_ids = fields.Many2many('hr.department', 'product_department_rel', 'product_template_id', 'department_id',
+                                      default=get_clinic, string='Clinic')
 
     @api.onchange('is_kit_product')
     def onchange_is_kit_product(self):
