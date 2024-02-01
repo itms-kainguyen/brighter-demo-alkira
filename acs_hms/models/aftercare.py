@@ -28,6 +28,7 @@ class AfterCare(models.Model):
             "view_mode": "form",
             "view_type": "form",
             "views": [(False, "form")],
+            "context": {'is_invisible': True, 'create': False, 'edit': False, 'is_display': True},
             "view_id": False,
             "target": "new",
         }

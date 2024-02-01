@@ -23,29 +23,29 @@
             <field name="arch" type="xml">
                 <form string="Consent">
                     <header>
-                        <button name="action_consent_send" string="Send by Email" type="object" data-hotkey="g" attrs="{'invisible': [('is_agree', '!=', False)]}"/>
+                        <button name="action_consent_send" string="Send by Email" type="object" data-hotkey="g" invisible="context.get('is_invisible')"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="action_preview_consent"
+                            <button name="action_preview_consent" invisible="context.get('is_invisible')"
                                 type="object"
                                 class="oe_stat_button"
                                 icon="fa-globe icon">
-                                <div class="o_field_widget o_stat_info">
+                                <div class="o_field_widget o_stat_info" invisible="context.get('is_invisible')">
                                     <span class="o_stat_text">Preview</span>
                                 </div>
                     </button>
                 </div>
                         <group>
                              <group>
-                                 <field name="patient_id"/>
-                                 <field name="name" string="Title"/>
-                                 <field name="knowledge_id" string="Select Template Form"/>
+                                 <field name="patient_id" invisible="context.get('is_invisible')"/>
+                                 <field name="name" string="Title" invisible="context.get('is_invisible')"/>
+                                 <field name="knowledge_id" string="Select Template Form" invisible="context.get('is_invisible')"/>
                              </group>
                              <group>
-                                 <field name="nurse_id"/>
-                                 <field name="nurse_signed_on"/>
-                                 <field name="department_id"/>
+                                 <field name="nurse_id" invisible="context.get('is_invisible')"/>
+                                 <field name="nurse_signed_on" invisible="context.get('is_invisible')"/>
+                                 <field name="department_id" invisible="context.get('is_invisible')"/>
                              </group>
                         </group>
                         <field name="content" widget="html" placeholder="e.g. Once upon a time..." options="{'safe': True, 'codeview': True, 'collaborative': True}"/>

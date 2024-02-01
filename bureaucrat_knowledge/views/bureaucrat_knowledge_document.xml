@@ -59,7 +59,7 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <div class="oe_button_box" name="button_box" invisible="context.get('is_invisible')">
                         <button class="oe_stat_button"
                                 name="action_view_history"
                                 type="object"
@@ -74,7 +74,7 @@
                     <widget name="web_ribbon" title="Archived"
                             bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"/>
-                    <group name="group_document_head">
+                    <group name="group_document_head" invisible="context.get('is_invisible')">
                         <group name="group_document_head_left">
                             <field name="name" placeholder="Name..."/>
                             <field name="category_id"/>
@@ -91,8 +91,15 @@
                             <field name="document_number"/>
                         </group>
                     </group>
+                     <field name="document_body_html"
+                                   attrs="{'invisible': [('document_format', '!=', 'html')]}"
+                                   options="{'style-inline': true, 'codeview': true }" invisible="not context.get('is_display')"/>
+                    <field name="document_body_pdf"
+                                attrs="{'invisible': [('document_format', '!=', 'pdf')]}"
+                                widget="pdf_viewer" invisible="not context.get('is_display')"/>
+                    <field name="commit_summary" class="oe_edit_only" placeholder="Commit summary ..." invisible="not context.get('is_display')"/>
                     <notebook>
-                        <page name="document_document" string="Document">
+                        <page name="document_document" string="Document" invisible="context.get('is_invisible')">
                             <field name="document_body_html"
                                    attrs="{'invisible': [('document_format', '!=', 'html')]}"
                                    options="{'style-inline': true, 'codeview': true }"/>
@@ -101,7 +108,7 @@
                                 widget="pdf_viewer"/>
                             <field name="commit_summary" class="oe_edit_only" placeholder="Commit summary ..."/>
                         </page>
-                        <page name="document_settings" string="Settings">
+                        <page name="document_settings" string="Settings" invisible="context.get('is_invisible')">
                             <!-- TODO: have to be visible only for owners -->
                             <div>
                                 <group>
@@ -168,7 +175,7 @@
                                 </group>
                             </div>
                         </page>
-                        <page name="page_other" string="Other">
+                        <page name="page_other" string="Other" invisible="context.get('is_invisible')">
                             <group name="group_other_root">
                                 <group name="group_other_left">
                                     <field name="ir_model_data_id"
