@@ -181,10 +181,17 @@
                                     <field name="patient_id"/>
                                     <field name="patient_age" invisible="1"/>
                                     <field name="is_editable" invisible="1"/>
-                                    <field 
-                                        name="physician_id" 
-                                        attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]}"
-                                    />
+                                     <label for="physician_id" string="Prescriber"/>
+                                     <div class="oe_inline">
+                                        <field
+                                            name="physician_id"
+                                            attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]}" class="oe_inline"
+                                        />
+                                         <span><field
+                                            name="physician_phone"
+                                            attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]}" class="oe_inline" widget="phone"
+                                        /></span>
+                                    </div>
                                      <field name="is_owner_prescriber" invisible="1"/>
                                     <field name="nurse_id" string="Practitioner"/>
                                     <field name="prescription_type" invisible="1"/>

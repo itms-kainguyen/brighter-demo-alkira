@@ -141,12 +141,6 @@ class PayPrescriberWiz(models.TransientModel):
                             <p>This is <b>{nurse}</b>, a nurse at <b>{clinic}</b>, reaching out regarding a current patient under our care.</p>
                             <p>Patient Details:</p>
                             <p>Name: <b>{patient}</b></p>
-                            <p>Current Situation: The patient is here for their scheduled appointment and has been evaluated. Based on their condition and our preliminary assessment, we believe that a prescription for [Medicines Name] would be beneficial for their treatment plan.<p>
-                            <br/>
-                            <p>Action Required:</p>
-                            <p>We request your expertise to review & authorize the necessary prescription. We plan to initiate a telehealth call shortly to discuss this case in more detail.</p>
-                            <br/>
-                            <p>Patient Background:</p>
                             <p>The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.</p>
                             <p>Prescription Order: <a href="{link}">{order}</a></p>
                             <br/><br/>
@@ -168,6 +162,47 @@ class PayPrescriberWiz(models.TransientModel):
                     message_type='comment',
                     subtype_xmlid='mail.mt_comment',
                 )
+            mobile_number = current_id.physician_phone or current_id.physician_id.phone or current_id.physician_id.mobile
+            twilio_account_id = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
+            twilio_account_from_number = twilio_account_id.account_from_mobile_number
+            result = False
+            response = {}
+            if mobile_number:
+                formatted_number = (mobile_number or "").replace(" ", "")
+
+                if formatted_number.startswith('0'):
+                    formatted_number = formatted_number[1:]
+
+                # Adding +61 if the number doesn't start with it
+                if not formatted_number.startswith('+61'):
+                    formatted_number = '+61' + formatted_number
+                message = '''Hi {prescriber}, This is {nurse}, a nurse at {clinic}, reaching out regarding a current patient under our care.
+                            Patient Name: {patient}
+                            The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.
+                            Prescription Order: {order}
+                            Thank you
+                       '''.format(prescriber=current_id.physician_id.name, nurse=current_id.nurse_id.name, clinic=current_id.department_id.name, patient=current_id.patient_id.name,
+                                  link=url, order=current_id.name, allergies=allergies)
+                datas = {
+                    "From": twilio_account_from_number,
+                    "To": formatted_number,
+                    "Body": message
+                }
+                result, response = self.env['twilio.sms.send'].send_sms_to_recipients(datas)
+
+            # Response Process
+            if result:
+                self.env['twilio.sms.send'].write({
+                    'state': 'done',
+                })
+            elif not result:
+                self.env['twilio.sms.send'].write({
+                    'state': 'error',
+                    'error_code': response.get('code'),
+                    'error_message': response.get('message'),
+                    'error_status_code': response.get('status'),
+                    'error_more_info': response.get('more_info'),
+                })
 
     def save_payment(self):
         return {

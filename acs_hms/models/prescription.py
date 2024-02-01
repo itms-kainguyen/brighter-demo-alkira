@@ -70,6 +70,7 @@ class ACSPrescriptionOrder(models.Model):
                                            compute='_compute_prescription_date_format')
     physician_id = fields.Many2one('hms.physician', ondelete="restrict", string='Prescriber',
                                    states=READONLY_STATES, default=_current_user_doctor, tracking=True)
+    physician_phone = fields.Char('Phone')
     state = fields.Selection([
         ('draft', 'Prescription Order'),
         ('confirmed', 'Pending Review'),
@@ -250,6 +251,11 @@ class ACSPrescriptionOrder(models.Model):
         self.notes = False
         if self.advice_id:
             self.notes = self.advice_id.description
+
+    @api.onchange('physician_id')
+    def onchange_physician_id(self):
+        if self.physician_id:
+            self.physician_phone = self.physician_id.phone or self.physician_id.mobile
 
     def unlink(self):
         for rec in self:
