@@ -164,6 +164,9 @@ class PayPrescriberWiz(models.TransientModel):
                 )
             mobile_number = current_id.physician_phone or current_id.physician_id.phone or current_id.physician_id.mobile
             twilio_account_id = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
+            # if not twilio_account_id:
+            #     error_message = _("SMS Account is required so select Account and try again to Send Message.")
+            #     raise UserError(error_message)
             twilio_account_from_number = twilio_account_id.account_from_mobile_number
             result = False
             response = {}
@@ -177,11 +180,10 @@ class PayPrescriberWiz(models.TransientModel):
                 if not formatted_number.startswith('+61'):
                     formatted_number = '+61' + formatted_number
                 message = '''Hi {prescriber}, This is {nurse}, a nurse at {clinic}, reaching out regarding a current patient under our care.
-                            Patient Name: {patient}
-                            The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.
-                            Prescription Order: {order}
-                            Thank you
-                       '''.format(prescriber=current_id.physician_id.name, nurse=current_id.nurse_id.name, clinic=current_id.department_id.name, patient=current_id.patient_id.name,
+                Patient Name: {patient}
+                The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.
+                Prescription Order: {order}
+                Thank you'''.format(prescriber=current_id.physician_id.name, nurse=current_id.nurse_id.name, clinic=current_id.department_id.name, patient=current_id.patient_id.name,
                                   link=url, order=current_id.name, allergies=allergies)
                 datas = {
                     "From": twilio_account_from_number,
