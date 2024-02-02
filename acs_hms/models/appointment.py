@@ -411,10 +411,10 @@ class Appointment(models.Model):
     duration_selection = fields.Selection([
         ("15", "15min"),
         ("30", "30min"),
+        ("45", "45min"),
         ("60", "1hr"),
+        ("90", "1.5hr"),
         ("120", "2hr"),
-        ("180", "3hr"),
-        ("240", "4hr"),
     ], string="Duration", default="30")
 
     @api.onchange('duration_selection')
