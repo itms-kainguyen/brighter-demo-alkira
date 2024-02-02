@@ -62,7 +62,7 @@
         <field name="model">hms.patient</field>
         <field name="arch" type="xml">
             <tree string="Patient">
-                <field name="code" optional="hidden"/>
+                <field name="code" optional="hidden" invisible="1"/>
                 <field name="name"/>
                 <field name="age" optional="show"/>
                 <field name="gender" optional="show"/>
@@ -145,7 +145,7 @@
                             <field name="gov_code" invisible="1"/>
                             <field name="birthday"/>
                             <field name="age"/>
-                            <field name="allergies_ids" widget="many2many_tags" string="Allergies"/>
+                            <field name="allergies_ids" widget="many2many_tags" string="Allergies" options="{'no_open': True}"/>
                             <field name="acs_tag_ids" options="{'color_field': 'color'}" widget="many2many_tags" string="Tags" invisible="1"/>
                         </group>
                     </group>
