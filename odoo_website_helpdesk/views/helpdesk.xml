@@ -68,6 +68,7 @@
                             <field name="email" invisible="1"/>
                             <field name="phone"/>
                             <field name="tags" widget="many2many_tags" invisible="1"/>
+                            <field name="assigned_user" string="Assign ticket to" options="{'no_open': True}"/>
                         </group>
                         <group attrs="{'invisible': [('ticket_name', '=', 'Adverse Event')]}">
                             <field name="show_category" invisible="1"/>
@@ -115,9 +116,64 @@
 
                         </page>
                         <page string="Add Photos">
-                            <group>
-                                <field name="attachment_ids" string="Add Photos" widget="many2many_binary"/>
-                            </group>
+
+                            <div class="o_field_custom" id="photo_form">
+                                <div class="d-flex header_photo_form">
+                                    <h3>Plans and Photos</h3>
+                                    <div>
+                                        <field name="photo" string="Upload File or Photo"/>
+                                    </div>
+                                </div>
+                                <div class="card-deck-wrapper border-top pt-2">
+                        <div class="card-deck">
+                            <div class="container">
+                                <!-- <field name="photo2" string="Upload File or Photo" widget="image"/> -->
+                                <field name="is_invisible" invisible="1"/>
+                                <div attrs="{'invisible': [('is_invisible','==',True)]}">
+                                    <p class="text-center">Click on Photo/Plan to add or update details</p>
+                                    <field name="attachment_ids" force_save="1">
+                                        <kanban class="o_kanban_mobile" create="false">
+                                            <field name="document_type"/>
+                                            <field name="name"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="oe_kanban_global_click kanban-ext">
+                                                        <div style="width: 100%; text-align: center;">
+                                                            <div class="mb-1">
+                                                                <field name="name"/>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <field name="document_type"/>
+                                                            </div>
+                                                            <field name="instruction_type" invisible="1"/>
+                                                            <field name="datas" style="width:100%;" widget="image" string="File" attrs="{'invisible': [('instruction_type','==','pdf')]}"/>
+                                                            <field name="instruction_pdf" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible': [('instruction_type','==','image')]}"/>
+                                                        </div>
+                                                        <div class="btn_remove_record">
+                                                            <button type="object" name="action_remove_record" class="btn btn-danger" string="Remove"/>
+                                                        </div>
+
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+
+                                        <form delete="false">
+                                            <group>
+                                                <field name="instruction_type" invisible="1"/>
+                                                <field name="datas" widget="image" string="File" attrs="{'invisible': [('instruction_type','==','pdf')]}"/>
+                                                <field name="instruction_pdf" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible': [('instruction_type','==','image')]}"/>
+                                                <field name="document_type"/>
+                                                <field name="name" string="Notes"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+
                         </page>
                         <!-- <page string="Customer Rating">
                             <group>
@@ -126,12 +182,11 @@
                                 <field name="review"/>
                             </group>
                         </page> -->
-                        <page string="Other Information">
+                        <page string="Other Information" invisible="1">
                             <group>
                                 <group>
                                     <field name="team_id"/>
                                     <field name="team_head"/>
-                                    <field name="assigned_user"/>
                                     <field name="category_id"
                                            groups="odoo_website_helpdesk.group_show_category"/>
                                 </group>

@@ -25,8 +25,8 @@ from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
 from twilio.rest import Client
 from odoo.addons.twilio_sms_gateway_gsc.twilio_sms_gateway_gsc_api.twilio_sms_gateway_gsc_api import TwilioSendSMSAPI
-
-
+import magic
+import base64
 
 _logger = logging.getLogger(__name__)
 
@@ -129,8 +129,7 @@ class HelpDeskTicket(models.Model):
                                   help='Category')
     tags = fields.Many2many('helpdesk.tag', help='Tags')
     assign_user = fields.Boolean(default=False, help='Assign User')
-    attachment_ids = fields.One2many('ir.attachment', 'res_id',
-                                     help='Attachment Line', string='Add Photos')
+
     merge_ticket_invisible = fields.Boolean(string='Merge Ticket',
                                             help='Merge Ticket Invisible or '
                                                  'Not', default=False)
@@ -152,6 +151,68 @@ class HelpDeskTicket(models.Model):
     infections_event_boolean = fields.Boolean(string='Infections', default=False)
     allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
     is_sent = fields.Boolean(string='Sent', default=False)
+
+    attachment_ids = fields.One2many(
+        'patient.document', 'res_id',
+        string='Attachments', ondelete='cascade',
+        readonly=False
+    )
+    attachment_copy_ids = fields.Many2many(
+        'patient.document', 'ticket_attachment_rel', 'res_id', 'ticket_id', ondelete='cascade',
+        string='Attachments',
+        readonly=False
+    )
+    photo = fields.Binary(string='Photo')
+    is_invisible = fields.Boolean(compute="_compute_is_invisible")
+
+    @api.depends('attachment_ids')
+    def _compute_is_invisible(self):
+        for rec in self:
+            is_invisible = True
+            if rec.attachment_ids:
+                is_invisible = False
+            rec.is_invisible = is_invisible
+
+    @api.onchange('photo')
+    def onchange_photo(self):
+        if self.photo:
+            self.upload_file()
+            self.is_invisible = False
+            self.photo = False
+
+    @api.onchange('attachment_ids')
+    def onchange_attachment_ids(self):
+        if not self.attachment_ids:
+            self.is_invisible = True
+
+    def upload_file(self, photo=False):
+        if not photo:
+            photo = self.photo
+
+        file = self.env['patient.document'].sudo().create({
+            'res_id': self._origin.id,
+            'res_model': 'help.ticket',
+            'name': 'Photo',
+            'file_display': photo
+        })
+        file_type = self.detect_file_type(photo)
+
+        if 'pdf' in file_type.lower():
+            file.instruction_pdf = photo
+            file.instruction_type = 'pdf'
+        else:
+            file.datas = photo
+            file.instruction_type = 'image'
+        attachment_ids = self.attachment_ids.ids
+        attachment_ids.append(file.id)
+        self.attachment_copy_ids = [(6, 0, attachment_ids)]
+        self.attachment_ids = self.attachment_copy_ids
+        return file
+
+    def detect_file_type(self, file_content):
+        file_type = magic.from_buffer(base64.b64decode(file_content))
+        return file_type
+
 
     def action_add_follower(self):
         self.ensure_one()
