@@ -815,8 +815,8 @@ class Appointment(models.Model):
         inv_data['create_stock_move'] = True
         product_data = []
         for treat in self.treatment_ids:
-            if not treat.consumable_line_ids:
-                raise UserError(_("There is no consumed product to invoice."))
+            # if not treat.consumable_line_ids:
+            #     raise UserError(_("There is no consumed product to invoice."))
 
             # product_data = self.acs_appointment_inv_product_data()
             if treat.medicine_line_ids:
