@@ -68,7 +68,7 @@
                             <field name="email" invisible="1"/>
                             <field name="phone"/>
                             <field name="tags" widget="many2many_tags" invisible="1"/>
-                            <field name="assigned_user" string="Assign ticket to" options="{'no_open': True}"/>
+                            <field name="assigned_user" string="Assign ticket to" options="{'no_open': True}" invisible="1"/>
                         </group>
                         <group attrs="{'invisible': [('ticket_name', '=', 'Adverse Event')]}">
                             <field name="show_category" invisible="1"/>
@@ -206,7 +206,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="o_attachment_preview"/>
+<!--                <div class="o_attachment_preview"/>-->
                 <div class="oe_chatter">
                     <field name="message_follower_ids"
                            groups="base.group_user"/>

@@ -123,7 +123,7 @@ class HelpDeskTicket(models.Model):
                                     domain=lambda self: [
                                         ('groups_id', 'in', self.env.ref(
                                             'odoo_website_helpdesk.helpdesk_user').id)],
-                                    default=lambda self: self.env.user.id ,
+                                    default=lambda self: self.env.user.id,
                                     help='Assigned User Name')
     category_id = fields.Many2one('helpdesk.categories',
                                   help='Category')
@@ -139,12 +139,16 @@ class HelpDeskTicket(models.Model):
 
     customer_id = fields.Many2one('res.partner', related="patient_id.partner_id")
     patient_id = fields.Many2one('hms.patient', string='Patient')
-    primary_physician_id = fields.Many2one('hms.physician', string='Prescriber', related='patient_id.primary_physician_id')
+    primary_physician_id = fields.Many2one('hms.physician', string='Prescriber',
+                                           related='patient_id.primary_physician_id')
     nurse_id = fields.Many2one('res.users', string='Nurse', default=lambda self: self.env.user.id)
-    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic', default=lambda self: self.env.user.department_ids[0].id)
-    allow_department_ids = fields.Many2many('hr.department', string='Allowed Departments', related='nurse_id.department_ids')
+    branch_id = fields.Many2one('hr.department', ondelete="cascade", string='Clinic',
+                                default=lambda self: self.env.user.department_ids[0].id)
+    allow_department_ids = fields.Many2many('hr.department', string='Allowed Departments',
+                                            related='nurse_id.department_ids')
     clinic_manager_id = fields.Many2one('hr.employee', string='Clinic Manager', related='branch_id.manager_id')
-    alkira_manager_id = fields.Many2one('hr.employee', readonly='1', string='Alkira Manager', compute='_compute_alkira_manager_id')
+    alkira_manager_id = fields.Many2one('hr.employee', readonly='1', string='Alkira Manager',
+                                        compute='_compute_alkira_manager_id')
     chemical_burns_event_boolean = fields.Boolean(string='Chemical Burns', default=False)
     medication_error_event_boolean = fields.Boolean(string='Medication Errors', default=False)
     blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
@@ -172,6 +176,11 @@ class HelpDeskTicket(models.Model):
             if rec.attachment_ids:
                 is_invisible = False
             rec.is_invisible = is_invisible
+
+    @api.onchange('primary_physician_id')
+    def onchange_primary_physician_id(self):
+        if self.primary_physician_id:
+            self.assign_user = self.primary_physician_id.user_id.id
 
     @api.onchange('photo')
     def onchange_photo(self):
@@ -213,7 +222,6 @@ class HelpDeskTicket(models.Model):
         file_type = magic.from_buffer(base64.b64decode(file_content))
         return file_type
 
-
     def action_add_follower(self):
         self.ensure_one()
         # add prescriber, clinic manager, alkira manager as followers
@@ -221,16 +229,16 @@ class HelpDeskTicket(models.Model):
         if self.primary_physician_id:
             parter_ids.append(self.primary_physician_id.partner_id.id)
         if self.clinic_manager_id:
-            parter_ids.append(self.clinic_manager_id.related_contact_ids 
+            parter_ids.append(self.clinic_manager_id.related_contact_ids
                               and self.clinic_manager_id.related_contact_ids[0].id or False)
         if self.alkira_manager_id:
-            parter_ids.append(self.alkira_manager_id.related_contact_ids 
+            parter_ids.append(self.alkira_manager_id.related_contact_ids
                               and self.alkira_manager_id.related_contact_ids[0].id or False)
         self.message_subscribe(partner_ids=parter_ids)
 
     @api.depends('ticket_type')
     def _compute_alkira_manager_id(self):
-        alkira_clinic_id = self.env['hr.department'].sudo().name_search('Alkira Aesthetics') 
+        alkira_clinic_id = self.env['hr.department'].sudo().name_search('Alkira Aesthetics')
         if not alkira_clinic_id:
             for rec in self:
                 rec.alkira_manager_id = False
@@ -256,11 +264,11 @@ class HelpDeskTicket(models.Model):
                 rec.subject += ' - ' + rec.ticket_type.name
 
     @api.onchange(
-        'nurse_id', 'patient_id', 
-        'chemical_burns_event_boolean', 
-        'medication_error_event_boolean', 
-        'blindness_event_boolean', 
-        'infections_event_boolean', 
+        'nurse_id', 'patient_id',
+        'chemical_burns_event_boolean',
+        'medication_error_event_boolean',
+        'blindness_event_boolean',
+        'infections_event_boolean',
         'allergic_event_boolean',
         'ticket_type')
     def onchange_adverse_event_boolean(self):
@@ -298,9 +306,9 @@ Adverse Event: {rec.description}.'''
         recipients = []
         self.is_sent = True
         stage_id = self.env['ticket.stage'].search([
-                ('name', '=', 'In Progress')
-            ], limit=1)
-        self.write({'stage_id':stage_id.id})
+            ('name', '=', 'In Progress')
+        ], limit=1)
+        self.write({'stage_id': stage_id.id})
 
         value = self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_nurse')
         if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_nurse'):
@@ -309,16 +317,16 @@ Adverse Event: {rec.description}.'''
             if self.clinic_manager_id.user_id not in recipients:
                 recipients.append(self.clinic_manager_id.user_id)
         if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_brighter_emergency'):
-            user_id = self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.brighter_emergency_contact')
+            user_id = self.env['ir.config_parameter'].sudo().get_param(
+                'odoo_website_helpdesk.brighter_emergency_contact')
             user = self.env['res.users'].browse(int(user_id))
             if user not in recipients:
                 recipients.append(user)
 
-
         if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_sms'):
             twilio_account_id = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
             twilio_account_from_number = twilio_account_id.account_from_mobile_number
-            message= self.description
+            message = self.description
 
             for partner_id in recipients:
                 customer_number = partner_id.mobile or partner_id.phone or ""
@@ -337,8 +345,8 @@ Adverse Event: {rec.description}.'''
                 # log to user
                 if partner_id:
                     body = f"SMS to {formatted_number}: {message}"
-                    message_type='sms'
-                    partner_id.partner_id.message_post(body=body, type=message_type)	
+                    message_type = 'sms'
+                    partner_id.partner_id.message_post(body=body, type=message_type)
                 # log to helpdesk
                 if self.id:
                     self.message_post(body=body, type=message_type)
@@ -346,10 +354,10 @@ Adverse Event: {rec.description}.'''
                     break
             pass
         if self.env['ir.config_parameter'].sudo().get_param('odoo_website_helpdesk.noti_email'):
-            #s end email here
+            # s end email here
             for partner_id in recipients:
                 mail_pool = self.env['mail.mail']
-                values={}
+                values = {}
                 values.update({
                     'subject': self.name,
                     'email_to': partner_id.partner_id.email,
@@ -358,8 +366,8 @@ Adverse Event: {rec.description}.'''
                 msg_id = mail_pool.sudo().create(values).send()
                 if partner_id:
                     body = f"Emailed to {partner_id.partner_id.email}: {self.description}"
-                    message_type='email'
-                    partner_id.partner_id.message_post(body=body, type=message_type)	
+                    message_type = 'email'
+                    partner_id.partner_id.message_post(body=body, type=message_type)
                 # log to helpdesk
                 if self.id:
                     self.message_post(body=body, type=message_type)
@@ -376,16 +384,11 @@ Adverse Event: {rec.description}.'''
                 )
                 if partner_id:
                     body = f"Noticed to chatter: {self.description}"
-                    message_type='sms'
-                    partner_id.partner_id.message_post(body=body, type=message_type)	
+                    message_type = 'sms'
+                    partner_id.partner_id.message_post(body=body, type=message_type)
                 # log to helpdesk
                 if self.id:
                     self.message_post(body=body, type=message_type)
-
-            
-
-
-
 
     @api.onchange('team_id', 'team_head')
     def team_leader_domain(self):
@@ -497,7 +500,7 @@ Adverse Event: {rec.description}.'''
         return stage_ids
 
     @api.model_create_multi
-    def create(self, vals_list): 
+    def create(self, vals_list):
         """Create function"""
         return super(HelpDeskTicket, self).create(vals_list)
 
@@ -641,31 +644,32 @@ Adverse Event: {rec.description}.'''
                 'default_res_id': self.id,
             }
         }
+
     def solved(self):
         for line in self:
             stage_id = self.env['ticket.stage'].search([
                 ('name', '=', 'Closed')
             ], limit=1)
-            line.write({'stage_id':stage_id.id})
+            line.write({'stage_id': stage_id.id})
 
     def cancel(self):
         for line in self:
             stage_id = self.env['ticket.stage'].search([
                 ('name', '=', 'Canceled')
             ], limit=1)
-            line.write({'stage_id':stage_id.id})
+            line.write({'stage_id': stage_id.id})
 
     # copy from send sms
     def send_sms_to_recipients(self, datas):
         twilio_sms_log_history_obj = self.env['twilio.sms.log.history']
         twilioSendSMSAPIObj = TwilioSendSMSAPI()
         twilio_account_id = self.env['twilio.sms.gateway.account'].search([('state', '=', 'confirmed')], limit=1)
-        #twilio_account_id = self.twilio_account_id
+        # twilio_account_id = self.twilio_account_id
         response_obj = twilioSendSMSAPIObj.post_twilio_sms_send_to_recipients_api(twilio_account_id, datas)
         if response_obj.status_code in [200, 201]:
             response = response_obj.json()
             twilio_sms_log_history_obj.create({
-                #'sms_send_rec_id': self.id,
+                # 'sms_send_rec_id': self.id,
                 'twilio_account_id': twilio_account_id.id,
                 'message_id': response.get("sid"),
                 'mobile_number': response.get("to"),
@@ -676,7 +680,7 @@ Adverse Event: {rec.description}.'''
         elif response_obj.status_code in [400]:
             response = response_obj.json()
             twilio_sms_log_history_obj.create({
-                #'sms_send_rec_id': self.id,
+                # 'sms_send_rec_id': self.id,
                 'twilio_account_id': twilio_account_id.id,
                 'message_id': "",
                 'mobile_number': datas.get("To"),
@@ -691,7 +695,7 @@ Adverse Event: {rec.description}.'''
         elif response_obj.status_code in [401]:
             response = response_obj.json()
             twilio_sms_log_history_obj.create({
-                #'sms_send_rec_id': self.id,
+                # 'sms_send_rec_id': self.id,
                 'twilio_account_id': twilio_account_id.id,
                 'message_id': "",
                 'mobile_number': datas.get("To"),
@@ -705,7 +709,6 @@ Adverse Event: {rec.description}.'''
             })
             return False, response
         return True, ""
-
 
 
 class StageTicket(models.Model):
@@ -770,5 +773,3 @@ class HelpdeskTags(models.Model):
     _description = 'Helpdesk Tags'
 
     name = fields.Char(string='Tag', help='Tag Name')
-
-
