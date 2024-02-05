@@ -335,30 +335,28 @@ class ACSPrescriptionOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         vals = []
-        # for move_type in ['out_invoice', 'in_invoice']:
         service = self.env['product.product'].search([('product_tmpl_id.name', '=', 'Prescriber Service')], limit=1)
-        if service:
-            vals.append({
-                'move_type': 'out_invoice',
-                'narration': self.notes,
-                'currency_id': self.env.user.company_id.currency_id.id,
-                'partner_id': self.patient_id.partner_id.id,
-                # if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                'patient_id': self.patient_id.id,  # if move_type == 'out_invoice' else False,
-                'partner_shipping_id': self.patient_id.partner_id.id,
-                # if move_type == 'out_invoice' else self.physician_id.partner_id.id,
-                'invoice_origin': self.name,
-                'company_id': self.env.user.company_id.id,
-                'invoice_date': self.prescription_date,
-                'ref': self.name,
-                'invoice_line_ids': [[0, 0, {
-                    'product_id': service.id,
-                    'quantity': 1,
-                    'price_unit': service.list_price,  # if move_type == 'out_invoice' else service.standard_price,
-                    'name': service.name or self.name,
-                    'product_uom_id': service.uom_id.id}]]
+        for move_type in ['out_invoice', 'in_invoice']:
+            if service:
+                vals.append({
+                    'move_type': move_type,
+                    'narration': self.notes,
+                    'currency_id': self.env.user.company_id.currency_id.id,
+                    'partner_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                    'patient_id': self.patient_id.id, # if move_type == 'out_invoice' else False,
+                    'partner_shipping_id': self.patient_id.partner_id.id if move_type == 'out_invoice' else self.physician_id.partner_id.id,
+                    'invoice_origin': self.name,
+                    'company_id': self.env.user.company_id.id,
+                    'invoice_date': self.prescription_date,
+                    'ref': self.name,
+                    'invoice_line_ids': [[0, 0, {
+                        'product_id': service.id,
+                        'quantity': 1,
+                        'price_unit': service.list_price if move_type == 'out_invoice' else service.standard_price,
+                        'name': service.name or self.name,
+                        'product_uom_id': service.uom_id.id}]]
 
-            })
+                })
         return vals
 
     def pay_confirm(self):
