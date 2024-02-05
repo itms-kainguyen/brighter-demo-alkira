@@ -332,13 +332,12 @@ class ACSPrescriptionOrder(models.Model):
                 app.state = 'request'
         return True
 
-    def _prepare_invoice(self):
+    def _prepare_invoice(self, move_type):
         self.ensure_one()
         vals = []
         service = self.env['product.product'].search([('product_tmpl_id.name', '=', 'Prescriber Service')], limit=1)
-        for move_type in ['out_invoice', 'in_invoice']:
-            if service:
-                vals.append({
+        if service:
+            vals.append({
                     'move_type': move_type,
                     'narration': self.notes,
                     'currency_id': self.env.user.company_id.currency_id.id,
@@ -395,7 +394,7 @@ class ACSPrescriptionOrder(models.Model):
                 prescription_type_label = dict(prescription_type_label)
                 # prescription_type_label.get(app.prescription_type) + ": " +
                 app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
-            invoice_vals = self._prepare_invoice()
+            invoice_vals = self._prepare_invoice(move_type='out_invoice')
             moves = self.env['account.move'].sudo().create(invoice_vals)
             if moves:
                 moves.action_post()
@@ -431,6 +430,10 @@ class ACSPrescriptionOrder(models.Model):
             if not app.name:
                 app.name = self.env['ir.sequence'].next_by_code('prescription.order') or '/'
             app.state = 'prescription'
+            invoice_vals = self._prepare_invoice(move_type='in_invoice')
+            moves = self.env['account.move'].sudo().create(invoice_vals)
+            if moves:
+                moves.action_post()
             # create prescription detail based on prescription line
             vals_list = []
             for line in app.prescription_line_ids:
