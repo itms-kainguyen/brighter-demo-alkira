@@ -717,7 +717,8 @@ class ACSPrescriptionLine(models.Model):
     sequence = fields.Integer("Sequence", default=10)
     prescription_id = fields.Many2one('prescription.order', ondelete="cascade", string='Prescription')
     product_id = fields.Many2one('product.product', ondelete="cascade", string='Product',
-                                 domain=[('hospital_product_type', '=', 'medicament')], tracking=True)
+                                 domain=[('hospital_product_type', '=', 'medicament'), ('qty_available', '>', 0)],
+                                 tracking=True)
     allow_substitution = fields.Boolean(string='Allow Substitution')
     prnt = fields.Boolean(string='Print', help='Check this box to print this line of the prescription.', default=True)
     manual_prescription_qty = fields.Boolean(related="product_id.manual_prescription_qty",
