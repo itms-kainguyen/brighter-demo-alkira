@@ -225,7 +225,7 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
-                             style="width:180px; justify-content: flex-start;">
+                             style="width: 210px; justify-content: flex-start; text-align: justify; font-size: 12px; word-spacing: 3px;">
                             <div class="o_dropdown_kanban dropdown mt-1"
                                  groups="base.group_user">
                                 <a class="dropdown-toggle" role="button"
@@ -269,6 +269,18 @@
                                             <span class="text-black-50 font-weight-light"
                                                   t-esc="record.document_preview_text.value"/>
                                         </div>
+                                        <style type="text/css">
+                                            @media only screen and (max-width: 768px) {
+                                              /* For mobile phones: */
+
+                                                .oe_kanban_global_click {
+                                                    width: 100% !important;
+                                                }
+                                                .overflow-hidden {
+                                                    width: auto !important;
+                                                }
+                                            }
+                                        </style>
                                     </t>
                                 </div>
                             </div>
