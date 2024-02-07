@@ -23,7 +23,7 @@ class PatientMedicalChecklistLine(models.Model):
 
     question_id = fields.Many2one('medical.checklist.line', string='Question')
     checklist_id = fields.Many2one('medical.checklist', string='Checklist')
-    yes = fields.Boolean('Yes/No')
+    yes = fields.Boolean('No/Yes')
     no = fields.Boolean('No')
     patient_id = fields.Many2one('hms.patient', string='Patient')
     appointment_id = fields.Many2one('hms.appointment', string='Appointment')
