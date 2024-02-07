@@ -148,10 +148,10 @@
                  <button class="oe_stat_button" name="action_view_medical_checklist" string="Medical Checklist" type="object" icon="fa-pencil-square-o" invisible="1">
 <!--                     <field string="Medical Checklist" name="checklist_count" widget="statinfo"/>-->
                  </button>
-                <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md">
+                <button name="action_treatment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-user-md" invisible="0">
                     <field string="Treatments" name="treatment_count" widget="statinfo"/>
                 </button>
-                <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope">
+                <button name="action_appointment" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope" invisible="0">
                     <field string="Appointments" name="appointment_count" widget="statinfo"/>
                 </button>
                 <button name="action_evaluation" type="object" class="oe_stat_button" groups="acs_hms_base.group_hms_manager" icon="fa-stethoscope" invisible="1">
@@ -172,7 +172,7 @@
             <field name="age" position="after">
                 <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
                 <field name="suitable_assignee_ids" widget="many2many_tags" string="Suitable Assignees" invisible="1"/>
-                <field name="assignee_ids" widget="many2many_tags" string="Assignees" attrs="{'invisible': [('is_hide_assignee','=',True)]}"/>
+                <field name="assignee_ids" widget="many2many_tags" string="Assignees" attrs="{'invisible': [('is_hide_assignee','=',True)]}" options="{'no_open': True}"/>
                  <field name="is_hide_assignee" invisible="1"/>
             </field>
 
@@ -185,8 +185,8 @@
             </field>
             <group name="ref_doc_details" position="inside">
                 <field name="ref_doctor_ids" widget="many2many_tags" invisible="1"/>
-                <field name="assignee_ids" widget="many2many_tags"/>
-                <field name="registration_product_id" groups="acs_hms_base.group_hms_manager"/>
+                <field name="assignee_ids" widget="many2many_tags" options="{'no_open': True}"/>
+                <field name="registration_product_id" groups="acs_hms_base.group_hms_manager" options="{'no_open': True}"/>
             </group>
 
             <page name="hospital_info" position="after">
@@ -278,14 +278,14 @@
                  <page string="Medical Questionnaire">
                      <group>
                          <group>
-                             <field name="question_ids" widget="many2many_tags"/>
+                             <field name="question_ids" widget="many2many_tags" options="{'no_open': True}"/>
                          </group>
                          <group></group>
                      </group>
                      <field name="answer_ids" widget="one2many_list" options="{'always_reload': True}">
                          <tree editable="bottom" create="0" delete="0">
                              <field name="checklist_id" readonly="1" force_save="1" invisible="1"/>
-                             <field name="question_id" readonly="1" force_save="1"/>
+                             <field name="question_id" readonly="1" force_save="1" options="{'no_open': True}"/>
                              <field name="yes" widget="boolean_toggle"/>
 <!--                             <field name="no"/>-->
                          </tree>

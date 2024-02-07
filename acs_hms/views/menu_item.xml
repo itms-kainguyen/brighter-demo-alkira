@@ -14,7 +14,7 @@
     <menuitem id="menu_appointment" name="Appointments" sequence="5" parent="menu_hms" action="action_appointment"/>
  
     <!-- Prescription Menu-->
-    <menuitem id="hos_prescription" name="Prescription" parent="acs_hms.menu_hms" sequence="5" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor" action="act_open_hms_prescription_order_view"/>
+    <menuitem id="hos_prescription" name="Prescription" parent="acs_hms.menu_hms" sequence="5" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" action="act_open_hms_prescription_order_view"/>
 
     <!-- Referring Doc -->
 <!--    <menuitem id="menu_referring_doctors" sequence="15"-->
@@ -45,32 +45,32 @@
 <!--    <menuitem id="menu_physician_referring_physicians" sequence="1" parent="acs_hms_base.main_menu_physician" action='action_referring_doctors'/>-->
 
     <!-- Schedule Main menu -->
-    <menuitem id="action_menu_working_schedule" name="Schedule" sequence="75" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" action="action_resource_calendar" web_icon="acs_hms,static/src/img/calendar.png"/>
+    <menuitem id="action_menu_working_schedule" name="Schedule" sequence="75" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" action="action_resource_calendar" web_icon="acs_hms,static/src/img/calendar.png"/>
 
     <!-- Main Treatment Menu -->
-    <menuitem id="main_menu_treatment" name="Treatments" sequence="2" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/treatment2.png"/>
+    <menuitem id="main_menu_treatment" name="Treatments" sequence="2" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" web_icon="acs_hms,static/src/img/treatment2.png"/>
     <menuitem id="menu_treatment" name="Treatments" parent="main_menu_treatment" action="acs_action_form_hospital_treatment" sequence="10"/>
     <!-- <menuitem id="menu_acs_patient_procedure_treatment" name="Patient Procedures" parent="main_menu_treatment" action="action_acs_patient_procedure" sequence="20"/> -->
-    <menuitem id="menu_treatment_cofig" name="Configuration" parent="main_menu_treatment" groups="acs_hms_base.group_hms_manager" sequence="100"/>
+    <menuitem id="menu_treatment_cofig" name="Configuration" parent="main_menu_treatment" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" sequence="100"/>
     <menuitem id="menu_procedure_group" name="Procedure Groups" parent="menu_treatment_cofig" action="action_procedure_group" sequence="10"/>
     <menuitem id="menu_treatment_template" name="Treatment Note Template" parent="menu_treatment_cofig" action="act_open_treatment_template_view" sequence="11"/>
 
     <!-- Main Appointment Menu -->
-    <menuitem id="action_main_menu_appointmnet_opd" action="action_appointment" sequence="1" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/Cal.png"/>
+    <menuitem id="action_main_menu_appointmnet_opd" action="action_appointment" sequence="1" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" web_icon="acs_hms,static/src/img/Cal.png"/>
 
     <!-- Appointment Configuration -->
     <menuitem id="menu_appointment_cofig" name="Configuration"
         parent="acs_hms.action_main_menu_appointmnet_opd" sequence="100"/>
 
 <!--    <menuitem id="menu_patient_appointment" name="Appointment Purpose" sequence="0" parent="acs_hms.menu_appointment_cofig" action="act_open_appointment_purpose" groups="acs_hms_base.group_hms_manager"/>-->
-    <menuitem id="menu_open_appointment_cabin" name="Room" sequence="1" parent="acs_hms.menu_appointment_cofig" action="act_open_appointment_cabin" groups="acs_hms_base.group_hms_manager"/>
-    <menuitem id="menu_acs_cancel_reason" name="Cancellation" sequence="50" parent="menu_appointment_cofig" action="action_acs_cancel_reason" groups="acs_hms_base.group_hms_manager"/>
+    <menuitem id="menu_open_appointment_cabin" name="Room" sequence="1" parent="acs_hms.menu_appointment_cofig" action="act_open_appointment_cabin" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic"/>
+    <menuitem id="menu_acs_cancel_reason" name="Cancellation" sequence="50" parent="menu_appointment_cofig" action="action_acs_cancel_reason" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic"/>
 
     <!-- Main Prescriptions Menu -->
-    <menuitem id="hos_pres_root" name="Prescriptions" sequence="6" groups="acs_hms_base.group_hms_manager" web_icon="acs_hms,static/src/img/prescription2.png"/>
+    <menuitem id="hos_pres_root" name="Prescriptions" sequence="6" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" web_icon="acs_hms,static/src/img/prescription2.png"/>
     <menuitem id="hos_prescption_inner_root" name="Prescription" parent="hos_pres_root" action="act_open_hms_prescription_order_view"/>
 
-    <menuitem id="menu_pres_cofig" name="Configuration" parent="hos_pres_root" groups="acs_hms.group_hms_doctor" sequence="100"/>
+    <menuitem id="menu_pres_cofig" name="Configuration" parent="hos_pres_root" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" sequence="100"/>
 
     <menuitem id="menuitem_action_presc_medicament_group" name="Prescription Template"
         parent="acs_hms.menu_pres_cofig" action="act_open_medicament_group_view" sequence="11"/>

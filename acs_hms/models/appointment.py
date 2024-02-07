@@ -216,7 +216,6 @@ class Appointment(models.Model):
                                                   string="Appointment Invoicing Policy")
     invoice_exempt = fields.Boolean('Invoice Exempt', states=READONLY_STATES)
     consultation_type = fields.Selection([
-        ('adverse', 'Adverse Event'),
         ('consultation', 'Consultation'),
         ('consultation_prescription', 'Consultation and Prescription'),
         ('followup', 'Follow-Up Appointment')], 'Consultation Type', default='consultation_prescription',
