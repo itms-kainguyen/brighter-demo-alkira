@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_itms_crm_extended_itms_crm_extended,itms_crm_extended.itms_crm_extended,model_itms_crm_extended_itms_crm_extended,base.group_user,1,1,1,1
