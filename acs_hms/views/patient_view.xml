@@ -129,7 +129,7 @@
         <field name="arch" type="xml">
             <header position="inside">
                 <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight" invisible="1" groups="acs_hms_base.group_hms_manager"/>
-                <button name="create_prescription" string="Create Prescription" type="object" class="oe_highlight" />
+                <button name="create_prescription" string="Request Prescription" type="object" class="oe_highlight" />
 
                 <button name="create_appointment" string="Create Appointment" type="object" class="oe_highlight" />
                 <field name="invoice_id" invisible="1"/>
@@ -172,7 +172,7 @@
             <field name="age" position="after">
                 <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
                 <field name="suitable_assignee_ids" widget="many2many_tags" string="Suitable Assignees" invisible="1"/>
-                <field name="assignee_ids" widget="many2many_tags" string="Assignees" attrs="{'invisible': [('is_hide_assignee','=',True)]}" options="{'no_open': True}"/>
+                <field name="assignee_ids" widget="many2many_tags" string="Assignees" attrs="{'invisible': [('is_hide_assignee','=',True)]}" options="{'no_open': True}" invisible="1"/>
                  <field name="is_hide_assignee" invisible="1"/>
             </field>
 

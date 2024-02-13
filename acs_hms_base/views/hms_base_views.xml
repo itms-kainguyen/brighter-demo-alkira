@@ -34,7 +34,7 @@
         </field>
     </record>
 
-    <!-- <Patient Tag> -->
+    <!-- <Patient Tag> 
     <record id="view_patient_tag_tree" model="ir.ui.view">
         <field name="name">hms.patient.tag.tree</field>
         <field name="model">hms.patient.tag</field>
@@ -44,7 +44,7 @@
                 <field name="color" widget="color_picker" />
             </tree>
         </field>
-    </record>
+    </record>-->
 
     <record id="view_patient_tag_form" model="ir.ui.view">
         <field name="name">hms.patient.tag.form</field>
@@ -76,7 +76,7 @@
                 <field name="name"/>
             </search>
         </field>
-    </record>
+    </record>-->
 
     <record model="ir.actions.act_window" id="act_open_patient_tag">
         <field name="name">Patient Tag</field>

@@ -12,7 +12,7 @@
                 <field name="name"/>
                 <field name="image_128"/>
                 <field name="age"/>
-                <field name="gender"/>
+                <field name="gender" default="female"/>
                 <field name="primary_physician_id" string="Prescriber"/>
                 <field name="parent_id"/>
                 <field name="function"/>
@@ -31,9 +31,9 @@
                                 <div>
                                     <strong class="oe_partner_heading"><field name="display_name"/></strong>
                                     <ul>
-<!--                                    <li><b>Code:</b> <field name="code"/></li>-->
-<!--                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>-->
-<!--                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>-->
+                                    <li><b>Code:</b> <field name="code"/></li>
+                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>
+                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>
                                     <li t-if="record.primary_physician_id.raw_value"><b>Prescriber:</b> <field name="primary_physician_id"/></li>
                                     </ul>
                                     <span class="oe_kanban_list_many2many">
@@ -113,7 +113,7 @@
                     <group>
                         <group>
                             <field name="code" readonly="1" invisible="1"/>
-                            <field name="gender" required="1"/>
+                            <field name="gender" default="female" required="1"/>
                             <field name="primary_physician_id" string="Prescriber" options="{'no_open': True}"/>
                             <field name="title" options="{'no_open': True}"/>
                             <field name="currency_id" invisible="1"/>
@@ -227,9 +227,6 @@
                 <newline/>
                 <group expand="0" string="Group By...">
                     <filter string="Birthday" name="birthday_groupby" domain="[]" context="{'group_by':'birthday'}"/>
-                    <filter string="Company" name="company_group" domain="[]" context="{'group_by':'company_id'}"/>
-                    <filter string="Blood Group" name="blood_group" domain="[]" context="{'group_by':'blood_group'}"/>
-                    <filter string="Corporate Company" name="corpo_company_id" domain="[]" context="{'group_by':'corpo_company_id'}"/>
                 </group>
             </search>
         </field>

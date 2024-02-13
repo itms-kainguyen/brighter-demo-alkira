@@ -34,7 +34,7 @@ class ResPartner(models.Model):
     gender = fields.Selection([
         ('male', 'Male'), 
         ('female', 'Female'), 
-        ('other', 'Other')], string='Gender', default='male', tracking=True)
+        ('other', 'Other')], string='Gender', default='female', tracking=True)
     birthday = fields.Date(string='Date of Birth', tracking=True)
     date_of_death = fields.Date(string='Date of Death')
     age = fields.Char(string='Age', compute='_get_age')

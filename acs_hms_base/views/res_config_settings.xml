@@ -44,24 +44,6 @@
                             </div>
                         </div>
                      </div>
-                    <h2>Brighter Mobile App</h2>
-                    <div class="row mt16 o_settings_container">
-                        <div class='col-12 col-lg-6 o_setting_box' id='appstore'>
-                            <div class="d-flex">
-                                <div class="o_setting_right_pane">
-                                    <a class="d-block mx-auto" href="https://play.google.com/store/apps/details?id=com.almightycspatient" target="blank">
-                                        <img alt="On Google Play" class="d-block mx-auto img img-fluid" src="/base_setup/static/src/img/google_play.png"/>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a class='d-block mx-auto' href="https://apps.apple.com/us/app/almightyhms-patient-portal/id1551078716" target="blank">
-                                        <img alt="On Apple Store" class="d-block mx-auto img img-fluid" src="/base_setup/static/src/img/app_store.png"/>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </xpath>
         </field>
