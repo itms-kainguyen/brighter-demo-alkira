@@ -7,53 +7,52 @@
         <field name="model">hms.patient</field>
         <field name="type">kanban</field>
         <field name="arch" type="xml">
-            <kanban>
-                <field name="id"/>
-                <field name="name"/>
-                <field name="image_128"/>
-                <field name="age"/>
-                <field name="gender"/>
-                <field name="primary_physician_id" string="Prescriber"/>
-                <field name="parent_id"/>
-                <field name="function"/>
-                <field name="code"/>
-                <field name="today_is_birthday"/>
-                <field name="acs_tag_ids"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
-                            <div class="ribbon acs-kanban-ribbon ribbon-top-right o_widget" t-if="record.today_is_birthday.raw_value">
-                                <span class="bg-success"><i class="fa fa-birthday-cake"/> Birthday</span>
-                            </div>
-                            <t t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
-                            <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('hms.patient', 'image_128', record.id.raw_value, placeholder)}')"/>
-                            <div class="oe_kanban_details d-flex flex-column justify-content-between">
-                                <div>
-                                    <strong class="oe_partner_heading"><field name="display_name"/></strong>
-                                    <ul>
-<!--                                    <li><b>Code:</b> <field name="code"/></li>-->
-<!--                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>-->
-<!--                                    <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>-->
-                                    <li t-if="record.primary_physician_id.raw_value"><b>Prescriber:</b> <field name="primary_physician_id"/></li>
-                                    </ul>
-                                    <span class="oe_kanban_list_many2many">
-                                        <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                    </span>
-
-                                </div>
-                                 <div class="o_kanban_record_bottom">
-                                        <div class="oe_kanban_bottom_left">
-                                        </div>
-                                        <div class="oe_kanban_bottom_right">
-                                            <field name="activity_ids" widget="kanban_activity" invisible="1"/>
-                                        </div>
-                                 </div>
-                            </div>
-
+ <kanban>
+    <field name="id"/>
+    <field name="name"/>
+    <field name="image_128"/>
+    <field name="age"/>
+    <field name="gender"/>
+    <field name="primary_physician_id" string="Prescriber"/>
+    <field name="parent_id"/>
+    <field name="function"/>
+    <field name="code"/>
+    <field name="today_is_birthday"/>
+    <field name="acs_tag_ids"/>
+    <templates>
+        <t t-name="kanban-box">
+            <div class="oe_kanban_global_click o_kanban_record_has_image_fill fancy_kanban_card">
+                <div class="ribbon acs-kanban-ribbon ribbon-top-right o_widget" t-if="record.today_is_birthday.raw_value">
+                    <span class="bg-success"><i class="fa fa-birthday-cake"/> Birthday</span>
+                </div>
+                <t t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
+                <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('hms.patient', 'image_128', record.id.raw_value, placeholder)}')"/>
+                <div class="oe_kanban_details d-flex flex-column justify-content-between fancy_kanban_details">
+                    <div>
+                        <strong class="oe_partner_heading fancy_name"><field name="display_name"/></strong>
+                        <ul class="fancy_details_list">
+                            <li><b>Code:</b> <field name="code"/></li>
+                            <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>
+                            <li t-if="record.gender.raw_value"><b>Gender:</b> <field name="gender"/></li>
+                            <li t-if="record.primary_physician_id.raw_value"><b>Prescriber:</b> <field name="primary_physician_id"/></li>
+                        </ul>
+                        <span class="oe_kanban_list_many2many">
+                            <field name="acs_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </span>
+                    </div>
+                    <div class="o_kanban_record_bottom fancy_bottom">
+                        <div class="oe_kanban_bottom_left">
                         </div>
-                    </t>
-                </templates>
-            </kanban>
+                        <div class="oe_kanban_bottom_right">
+                            <field name="activity_ids" widget="kanban_activity" invisible="1"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </templates>
+</kanban>
+
         </field>
     </record>
 
@@ -113,7 +112,7 @@
                     <group>
                         <group>
                             <field name="code" readonly="1" invisible="1"/>
-                            <field name="gender" required="1"/>
+                            <field name="gender" default="female" required="1"/>
                             <field name="primary_physician_id" string="Prescriber" options="{'no_open': True}"/>
                             <field name="title" options="{'no_open': True}"/>
                             <field name="currency_id" invisible="1"/>
@@ -227,9 +226,6 @@
                 <newline/>
                 <group expand="0" string="Group By...">
                     <filter string="Birthday" name="birthday_groupby" domain="[]" context="{'group_by':'birthday'}"/>
-                    <filter string="Company" name="company_group" domain="[]" context="{'group_by':'company_id'}"/>
-                    <filter string="Blood Group" name="blood_group" domain="[]" context="{'group_by':'blood_group'}"/>
-                    <filter string="Corporate Company" name="corpo_company_id" domain="[]" context="{'group_by':'corpo_company_id'}"/>
                 </group>
             </search>
         </field>

@@ -13,7 +13,7 @@ class ACSPatient(models.Model):
         'res.partner': 'partner_id',
     }
     _rec_names_search = ['name', 'code']
-
+    
     def _rec_count(self):
         Invoice = self.env['account.move']
         for rec in self:

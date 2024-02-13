@@ -61,11 +61,14 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'acs_hms/static/src/js/hms_graph_field.js',
+            'acs_hms/static/src/js/hms_graph_field.js',       
             'acs_hms/static/src/js/hms_graph_field.xml',
             'acs_hms/static/src/js/hms_graph_field.scss',
             'acs_hms/static/src/scss/custom.scss',
-            'acs_hms/static/src/xml/**/*'
+            'acs_hms/static/src/xml/**/*',
+
+            'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/datepicker.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js',
         ]
     },
     'installable': True,
