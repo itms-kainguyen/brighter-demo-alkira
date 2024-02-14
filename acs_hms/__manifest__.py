@@ -67,8 +67,9 @@
             'acs_hms/static/src/scss/custom.scss',
             'acs_hms/static/src/xml/**/*',
 
-            'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/datepicker.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js',   
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js',
+ 
         ]
     },
     'installable': True,
