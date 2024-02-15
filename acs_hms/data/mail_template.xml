@@ -8,8 +8,8 @@
             <field name="email_to">{{ object.patient_id.email }}</field>
             <field name="subject">{{ object.patient_id.name }} Your Appointment has been scheduled</field>
             <field name="model_id" ref="acs_hms.model_hms_appointment"/>
-            <field name="report_template" ref="acs_hms.action_appointment_report"/>
-            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
+<!--            <field name="report_template" ref="acs_hms.action_appointment_report"/>-->
+<!--            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>-->
             <field name="lang">{{ object.patient_id.lang }}</field>
              <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
@@ -25,7 +25,10 @@
             <p>Reference Number: <t t-out="object.name"/></p>
         </li>
         <li>
-            <p>Clinician Name: <t t-out="object.nurse_id.name"/>, <t t-out="object.department_id.name"/><t t-out="object.nurse_id.partner_id.street"/>, <t t-out="object.nurse_id.partner_id.city"/>, <t t-out="object.nurse_id.partner_id.state_id.code or ''"/>, <t t-out="object.nurse_id.partner_id.zip"/>, <t t-out="object.nurse_id.partner_id.country_id.code or ''"/></p>
+            <p>Clinician Name: <t t-out="object.department_id.name"/></p>
+        </li>
+         <li>
+            <p>Address: <t t-out="object.nurse_id.partner_id.street"/>, <t t-out="object.nurse_id.partner_id.city"/>, <t t-out="object.nurse_id.partner_id.state_id.code or ''"/>, <t t-out="object.nurse_id.partner_id.zip"/>, <t t-out="object.nurse_id.partner_id.country_id.code or ''"/></p>
         </li>
         <li>
             <p>Date &amp; Time: <t t-out="appointment_date or ''"/></p>

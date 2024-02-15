@@ -8,6 +8,9 @@ from datetime import datetime
 class ResPartner(models.Model):
     _inherit= "res.partner"
 
+    def _default_country_id(self):
+        return self.env['res.country'].search([('code', '=', 'AU')], limit=1)
+
     @api.depends('birthday', 'date_of_death')
     def _get_age(self):
         today = datetime.now()        
@@ -50,6 +53,9 @@ class ResPartner(models.Model):
         string='Is Patient', help="Check if customer is linked with patient.")
     acs_amount_due = fields.Monetary(compute='_compute_acs_amount_due',currency_field='currency_id')
     acs_patient_id = fields.Many2one('hms.patient', compute='_is_patient', string='Patient', readonly=True)
+
+    country_id = fields.Many2one('res.country', default=_default_country_id, string='Country', ondelete='restrict')
+
 
     def _compute_acs_amount_due(self):
         MoveLine = self.env['account.move.line']
