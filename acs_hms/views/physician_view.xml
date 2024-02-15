@@ -58,6 +58,11 @@
                 </button>
             </div>
 
+            <field name="degree_ids" position="before">
+                <field name="firstname"/>
+                <field name="lastname"/>
+            </field>
+
             <field name="user_id" position="after">
                 <field name="consultaion_service_id" widget="many2one_tags" options="{'no_open': True}" domain="[('type','=','service'), ('sale_ok','=',True)]" context="{'default_detailed_type':'service', 'default_hospital_product_type':'consultation'}"/>
                 <field name="followup_service_id" domain="[('type','=','service'),('sale_ok','=',True)]" options="{'no_open': True}" context="{'default_detailed_type':'service','default_hospital_product_type':'consultation'}"/>

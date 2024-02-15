@@ -169,6 +169,11 @@
                 </button> -->
             </div>
 
+            <field name="gender" position="before">
+                <field name="firstname"/>
+                <field name="lastname"/>
+            </field>
+
             <field name="age" position="after">
                 <field name="department_ids" widget="many2many_tags" groups="acs_hms.group_allow_multi_department" options="{'no_open': True, 'no_create': True}" context="{'tree_view_ref': 'acs_hms.view_hr_department_tree'}" domain="[('patient_department','=',True)]"/>
                 <field name="suitable_assignee_ids" widget="many2many_tags" string="Suitable Assignees" invisible="1"/>
