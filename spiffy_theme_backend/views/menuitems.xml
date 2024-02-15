@@ -7,15 +7,15 @@
 		<menuitem id="menu_backend_config" name="Backend Config" 
 			parent="spiffy_theme_backend.back_config_main" action="action_backend_config" sequence="80" /> -->
 
-		<menuitem id="bizople_backend_theme_configuration_mainmenu" name="Spiffy Configuration" 
+		<menuitem id="bizople_backend_theme_configuration_mainmenu" name="ITMS Theme Configuration" 
 			parent="base.menu_administration" sequence="10"/>
 
 		<record model='ir.actions.act_url' id='action_spiffy_documentation'>
-            <field name='name'>Spiffy Documentation</field>
-            <field name='url'>https://www.bizople.com/spiffy-document</field>
+            <field name='name'>ITMS Documentation</field>
+            <field name='url'>https://www.itmsgroup.com.au/</field>
         </record>
         <menuitem id="spiffy_documentation_menu" parent="bizople_backend_theme_configuration_mainmenu" 
-			name="Spiffy Documentation" sequence="2" action="action_spiffy_documentation"/>
+			name="ITMS Documentation" sequence="2" action="action_spiffy_documentation"/>
 
 		<menuitem action="spiffy_theme_backend.change_menu_icon_action" id="change_menu_icon_menu" 
 			parent="bizople_backend_theme_configuration_mainmenu" sequence="5"/>
