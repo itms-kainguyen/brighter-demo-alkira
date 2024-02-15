@@ -17,7 +17,7 @@ class Consent(models.Model):
             "res_id": self.id,
             "view_mode": "form",
             "view_type": "form",
-            'context': {'is_invisible': True, 'create': False, 'edit': False},
+            'context': {'is_invisible': True, 'create': False, 'edit': True},
             "views": [(False, "form")],
             "view_id": False,
             "target": "new",
