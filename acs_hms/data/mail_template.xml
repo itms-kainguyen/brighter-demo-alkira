@@ -15,24 +15,23 @@
             <field name="body_html" type="html">
 <div style="margin:auto;background: #FFFFFF;color:#777777">
     <t t-set="appointment_date" t-value="format_datetime(dt=object.date, tz=object.physician_id.tz or 'UTC', lang_code=object.physician_id.lang)"/>
-    <p>Hello <t t-out="object.patient_id.name"/>,</p>
+    <p>Dear <t t-out="object.patient_id.name"/>, Thankyou for booking and appointment with us.</p>
     <p>Your Appointment has been scheduled with following details.</p>
     <ul> 
         <li>
-            <p>Subject: <t t-out="object.purpose_id.name"/></p>
+            <p>Treatment: <t t-out="ctx.get('treatment')"/></p>
         </li>
         <li>
             <p>Reference Number: <t t-out="object.name"/></p>
         </li>
         <li>
-            <p>Nurse Name: <t t-out="object.nurse_id.name"/></p>
+            <p>Clinician Name: <t t-out="object.nurse_id.name"/>, <t t-out="object.department_id.name"/><t t-out="object.nurse_id.partner_id.street"/>, <t t-out="object.nurse_id.partner_id.city"/>, <t t-out="object.nurse_id.partner_id.state_id.code or ''"/>, <t t-out="object.nurse_id.partner_id.zip"/>, <t t-out="object.nurse_id.partner_id.country_id.code or ''"/></p>
         </li>
         <li>
-            <p>Date &amp; Time: <t t-out="appointment_date or ''"/> (Timezone: <t t-out="object.physician_id.tz or 'UTC'"/>)</p>
+            <p>Date &amp; Time: <t t-out="appointment_date or ''"/></p>
         </li>
     </ul>
-    <p>Please feel free to call anytime for further information or any query.</p>
-
+    <p>We look forward to seeing you. If you need to reschedule, please contact us on <t t-out=" object.nurse_id.partner_id.phone or ''"/>.</p>
     <p>Best regards.</p><br/>
 </div>
                 

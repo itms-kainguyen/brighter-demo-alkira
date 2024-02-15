@@ -950,7 +950,9 @@ class Appointment(models.Model):
                 self.company_id.acs_auto_appo_confirmation_mail or self._context.get('acs_online_transaction')):
             try:
                 template = self.env.ref('acs_hms.acs_appointment_email')
-                template_appointment_creation = template.sudo().send_mail(self.id, raise_exception=False,
+                treatment = ', '.join([t.name for t in self.procedure_ids])
+                email_values = {'treatment': treatment}
+                template_appointment_creation = template.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
                                                                           force_send=True)
                 if template_appointment_creation:
                     template.reset_template()
