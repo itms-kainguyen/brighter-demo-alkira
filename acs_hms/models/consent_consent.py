@@ -11,6 +11,7 @@ class Consent(models.Model):
         # return the form view of this partner
         self.ensure_one()
         return {
+            'name': f"Consent Form",
             "type": "ir.actions.act_window",
             "res_model": "consent.consent",
             "res_id": self.id,

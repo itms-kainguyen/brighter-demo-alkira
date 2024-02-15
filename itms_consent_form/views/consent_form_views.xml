@@ -56,11 +56,7 @@
 <!--                            <div>-->
 <!--                                <field name="patient_attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>-->
 <!--                            </div>-->
-                            <div>
-                                <span>
-                                    <field name="is_agree"/> I read and give my consent to this document
-                                </span>
-                            </div>
+
                         </div>
                         <div>
                             <p>Nurse Signature</p>
@@ -69,7 +65,13 @@
 <!--                                <field name="nurse_attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>-->
 <!--                            </div>-->
                         </div>
+
                         </div>
+                         <div>
+                                <span>
+                                    <field name="is_agree"/> I read and give my consent to this document
+                                </span>
+                            </div>
                     </sheet>
                      <div class="oe_chatter">
                         <field name="message_follower_ids" groups="base.group_user"/>
