@@ -249,8 +249,8 @@
                                             <field name="display_type" invisible="1"/>
                                             <field name="sequence" widget="handle"/>
                                             <field name="product_id" string="Medicine Name"/>
-                                            <field name="active_component_ids" widget="many2many_tags" optional="hide"/>
-                                            <field name="allow_substitution" optional="hide"/>
+                                            <field name="active_component_ids" widget="many2many_tags" invisible="1"/>
+                                            <field name="allow_substitution"  invisible="1"/>
                                             <field name="common_dosage_id" invisible="1"/>
                                             <field name="common_dosage_group" invisible="1"/>
                                             <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Dose"/>
@@ -259,7 +259,7 @@
                                             <field name="use" optional="show"/>
                                             <field name="use_every" invisible="1"/>
                                             <field name="product_uom_category_id" invisible="1"/>
-                                            <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}" optional="hide"/>
+                                            <field name="qty_per_day" attrs="{'required': [('display_type', '=', False)]}"  invisible="1"/>
                                             <!-- <field name="days" attrs="{'required': [('display_type', '=', False)]}"/> -->
                                             <field name="manual_prescription_qty" invisible="1"/>
                                             <field name="manual_quantity" invisible="1"/>
@@ -380,14 +380,8 @@
                 <!--<filter name="Pregancy Warning" string="Pregancy Warning" domain="[('pregnancy_warning','=',1)]"/>-->
                 <newline/>
                 <group expand="0" string="Group By...">
-                    <filter string="Patient" name="patient_id_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter string="Prescription Date" name="prescription_date_groupby" domain="[]" context="{'group_by':'prescription_date'}"/>
-                    <filter string="Prescriber" name="physician_id_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
-                    <filter string="Nurse" name="nurse_id_groupby" domain="[]" context="{'group_by':'nurse_id'}"/>
                     <filter name="today" string="Today's Prescription" domain="[('prescription_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('prescription_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
-                    <filter string="Company" name="company_group" domain="[]" context="{'group_by':'company_id'}"/>
-                    <filter string="Appointment" name="appointment_id_groupby" domain="[]" context="{'group_by':'appointment_id'}"/>
-                    <filter string="Treatment" name="treatment_id_groupby" domain="[]" context="{'group_by':'treatment_id'}"/>
                 </group>
             </search>
         </field>
@@ -436,7 +430,7 @@
             </kanban>
         </field>
     </record>
-
+    <!-- 
     <record id="view_acs_prescription_calendar" model="ir.ui.view">
         <field name="name">prescription.order.calendar</field>
         <field name="model">prescription.order</field>
@@ -462,12 +456,12 @@
             </pivot>
         </field>
     </record>
-
+ -->
     <record model="ir.actions.act_window" id="act_open_hms_prescription_order_view">
         <field name="name">Prescription Order</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">prescription.order</field>
-        <field name="view_mode">tree,kanban,form,calendar,pivot</field>
+        <field name="view_mode">tree,kanban,form</field>
         <field name="search_view_id" ref="view_hms_prescription_order_search"/>
         <field name="view_id" ref="view_hms_prescription_order_tree"/>
         <field name="context">{'search_default_today': 1}</field>

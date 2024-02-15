@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
     <!-- Appointment Purpose -->
     <record id="view_appointment_purpose_form_tree" model="ir.ui.view">
         <field name="name">appointment.purpose.tree</field>
@@ -87,7 +86,7 @@
         </field>
     </record>
 
-    <!-- Cancel Reason -->
+    <!-- Cancel Reason  -->
     <record id="view_acs_cancel_reason_tree" model="ir.ui.view">
         <field name="name">acs.cancel.reason.tree</field>
         <field name="model">acs.cancel.reason</field>
@@ -111,7 +110,7 @@
                 Click to add a Cancellation.
             </p>
         </field>
-    </record>
+    </record> 
 
     <!-- Appointment -->
     <record model="ir.ui.view" id="appointment_kanban_view">
@@ -199,7 +198,7 @@
                     <button name="action_confirm_checklist" states="confirm_consent" groups="acs_hms_base.group_hms_manager" type="object" string="Confirm" class="oe_highlight"/>
                     <button name="action_pause" states="in_consultation" groups="acs_hms_base.group_hms_manager" type="object" string="Pause" invisible="1"/>
                     <button name="action_start_paused" states="pause" groups="acs_hms_base.group_hms_manager" type="object" string="Start"/>
-                    <button name="button_pres_req" string="Create Prescription" groups="acs_hms_base.group_hms_manager" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
+                    <button name="button_pres_req" string="Request Prescription" groups="acs_hms_base.group_hms_manager" type="object" states="in_consultation,invoiced" class="oe_highlight" invisible="1"/>
 <!--                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" attrs="{'invisible': [('state','!=','to_invoice')]}" type="object" class="oe_highlight"/>-->
  <!--                    <button name="consent_forms_confirm" states="confirm" type="object" groups="acs_hms_base.group_hms_manager" string="Send Consent Email" class="oe_highlight"/>-->
 <!--                    <button name="action_appointment_send" string="Send by Email" type="object" states="draft,confirm"/>-->
@@ -315,12 +314,12 @@
                             <field name="pause_duration" widget="float_time" attrs="{'invisible': [('pause_duration','=',0)]}"/>
                         </group>
                         <group>
-                            <label for="date" string="Schedule Date" invisible="0"/>
-                            <div class="o_row" invisible="0">
-                                <field name="date" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_to'}"/>
-                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                                <field name="date_to" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
-                            </div>
+<label for="date" string="Schedule Date" invisible="0"/>
+<div class="o_row" invisible="0">
+    <field name="date" nolabel="1" class="oe_inline" widget="datetimepicker" options="{'related_end_date': 'date_to'}"/>
+    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+    <field name="date_to" nolabel="1" class="oe_inline" widget="datetimepicker" options="{'related_start_date': 'date'}"/>
+</div>
                             <field name="planned_duration" widget="float_time" invisible="1"/>
                             <field name="duration_selection" widget="radio"  options="{'horizontal': true}" invisible="0"/>
                             <field name="consultation_type"/>
@@ -377,14 +376,6 @@
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
                             <field name="is_checklist" invisible="1"/>
                         </group>
-                    <!-- </group>
-                    <group name="group_info"> -->
-                        <!--                            <separator string="Chief Complaints"/>-->
-                        <!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
-                        <!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms_base.group_hms_manager"/>-->
-                        <!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms_base.group_hms_manager"/>-->
-                        <!--                            <separator name="past_history" string="Past History" groups="acs_hms_base.group_hms_manager"/>-->
-                        <!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms_base.group_hms_manager"/>-->
                     </group>
                     </page>
                         <page name="consent_form" string="Consent Form">
@@ -530,12 +521,7 @@
                                     <field name="is_video_call" invisible="1"/>
                                 </group>
                             </group>
-<!--                            <separator string="Chief Complaints"/>-->
-<!--                            <field name="chief_complain" placeholder="Chief Complaints..."/>-->
-<!--                            <separator name="present_illness" string="History of Present Illness" groups="acs_hms_base.group_hms_manager"/>-->
-<!--                            <field name="present_illness" placeholder="History of Present Illness..." groups="acs_hms_base.group_hms_manager"/>-->
-<!--                            <separator name="past_history" string="Past History" groups="acs_hms_base.group_hms_manager"/>-->
-<!--                            <field name="past_history" placeholder="Past History..." groups="acs_hms_base.group_hms_manager"/>-->
+
                             <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
                             <group>
                                 <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
@@ -620,7 +606,7 @@
                             <separator string="Diseases History"/>
                             <field name="patient_diseases_ids"/>
                         </page>
-                        <!-- <page name="consumed_products" string="Consumed Products/Services" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" attrs="{'invisible': [('state','=','draft')]}">
+                         <page name="consumed_products" string="Products/Services" groups="acs_hms_base.group_hms_manager,acs_hms_base.group_hms_manager" attrs="{'invisible': [('state','=','draft')]}">
                             <label for="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}"/>
                             <div name="acs_kit_id" attrs="{'invisible': [('state','in', ['done','cancel'])]}">
                                 <field name="acs_kit_id" nolabel="1" options="{'no_create': True}"/>
@@ -647,7 +633,7 @@
                                     <field name="patient_id" invisible="1"/>
                                 </tree>
                             </field>
-                        </page> -->
+                        </page> 
                         <!-- <page name="photos" string="Photos">
                           <group name="extra_info">
                                 <group>
@@ -794,21 +780,22 @@
         </field>
     </record>
 
-    <record id="view_acs_appointment_calendar" model="ir.ui.view">
-        <field name="name">hms.appointment.calendar</field>
-        <field name="model">hms.appointment</field>
-        <field name="type">calendar</field>
-        <field name="arch" type="xml">
-            <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to" delete="0">
-                <!-- <field name="physician_id"/> -->
-                <field name="patient_id"/>
-                <field name="age"/>
-                <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/>
-                <field name="state" filters="1"/>
-                <!-- <field name="physician_id" avatar_field="image_128"/> -->
-            </calendar>
-        </field>
-    </record>
+<record id="view_acs_appointment_calendar" model="ir.ui.view">
+    <field name="name">hms.appointment.calendar</field>
+    <field name="model">hms.appointment</field>
+    <field name="type">calendar</field>
+    <field name="arch" type="xml">
+        <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to" delete="0">
+            <field name="patient_id"/>
+            <field name="age"/>
+            <field name="state" filters="1"/>
+            <field name="procedure_ids"/>
+            <field name="consultation_type"/>
+            <field name="is_confirmed_consent"/>
+        </calendar>
+    </field>
+</record>
+
 
     <record id="view_appointment_pivot" model="ir.ui.view">
         <field name="name">hms.appointment.pivot</field>
@@ -856,7 +843,7 @@
         <field name="name">Appointments</field>
         <field name="res_model">hms.appointment</field>
         <field name="view_id" ref="view_acs_appointment_calendar"/>
-        <field name="view_mode">calendar</field>
+        <field name="view_mode">calendar,tree</field>
         <field name="context"></field>
         <field name="domain">[]</field>
         <field name="help" type="html">
@@ -868,8 +855,6 @@
             </p>
         </field>
     </record>
-
-
     <record id="view_checklist_hms_appointment_tree" model="ir.ui.view">
         <field name="name">hms.appointment.checklist.tree</field>
         <field name="model">hms.appointment</field>
@@ -886,7 +871,6 @@
             </tree>
         </field>
     </record>
-
      <record id="action_checklist_appointment" model="ir.actions.act_window">
         <field name="name">Medical Checklist</field>
         <field name="res_model">hms.appointment</field>
@@ -901,5 +885,4 @@
             </p>
         </field>
     </record>
-
 </odoo>

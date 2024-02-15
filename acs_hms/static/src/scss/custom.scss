@@ -1,6 +1,8 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
-
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css');
 
 
 .o_kanban_dashboard.o_acs_hms_kanban {
@@ -97,7 +99,6 @@ img.o_signature.img.img-fluid {
         width: 60%;
         margin: 0px auto;
     }
-}
 
 .o_dialog .modal-content.position-absolute {
     left: 0;
@@ -107,4 +108,18 @@ img.o_signature.img.img-fluid {
 .credit-card-position-absolute {
     position: absolute;
     right: 15px;
+}
+
+.o_list_view table thead {
+    display: none;
+}
+.o_list_view table td {
+    display: flex;
+    flex-direction: column;
+}
+.o_list_view table td::before {
+    content: attr(data-label); /* Assuming you set the data-label attribute */
+    font-weight: bold;
+    margin-bottom:  5px;
+}
 }
