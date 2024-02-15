@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 
 import time
 import json
@@ -31,6 +30,17 @@ class ACSPatient(models.Model):
         attachments = super(ACSPatient, self)._acs_get_attachemnts()
         attachments += self.appointment_ids.mapped('attachment_ids')
         return attachments
+
+    @api.depends('name', 'mobile', 'city')
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = rec.name
+            mobile = rec.mobile if rec.mobile else "NA"
+            city = rec.city if rec.city else "NA"
+            display_name = ' - '.join(filter(None, [name, mobile, city]))
+            result.append((rec.id, display_name))
+        return result
 
     @api.model
     def _get_service_id(self):

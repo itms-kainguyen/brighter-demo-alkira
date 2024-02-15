@@ -780,21 +780,22 @@
         </field>
     </record>
 
-    <record id="view_acs_appointment_calendar" model="ir.ui.view">
-        <field name="name">hms.appointment.calendar</field>
-        <field name="model">hms.appointment</field>
-        <field name="type">calendar</field>
-        <field name="arch" type="xml">
-            <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to" delete="0">
-                <!-- <field name="physician_id"/> -->
-                <field name="patient_id"/>
-                <field name="age"/>
-               <!-- <field name="medical_alert_ids" widget="many2many_tags" invisible="1"/> -->
-                <field name="state" filters="1"/>
-                <!-- <field name="physician_id" avatar_field="image_128"/> -->
-            </calendar>
-        </field>
-    </record>
+<record id="view_acs_appointment_calendar" model="ir.ui.view">
+    <field name="name">hms.appointment.calendar</field>
+    <field name="model">hms.appointment</field>
+    <field name="type">calendar</field>
+    <field name="arch" type="xml">
+        <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to" delete="0">
+            <field name="patient_id"/>
+            <field name="age"/>
+            <field name="state" filters="1"/>
+            <field name="procedure_ids"/>
+            <field name="consultation_type"/>
+            <field name="is_confirmed_consent"/>
+        </calendar>
+    </field>
+</record>
+
 
     <record id="view_appointment_pivot" model="ir.ui.view">
         <field name="name">hms.appointment.pivot</field>
