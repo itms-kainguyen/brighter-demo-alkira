@@ -7,7 +7,7 @@ class AcsCancelReasonWiz(models.TransientModel):
     _name = 'acs.cancel.reason.wiz'
     _description = "Cancellation Reason"
 
-    cancel_reason_id = fields.Many2one('acs.cancel.reason', string='Cancellation Reason', required=True)
+    cancel_reason_id = fields.Many2one('acs.cancel.reason', string='Cancellation Reason', required=False)
     cancel_reason = fields.Text(string="Reason", required=True)
 
     @api.onchange('cancel_reason_id')

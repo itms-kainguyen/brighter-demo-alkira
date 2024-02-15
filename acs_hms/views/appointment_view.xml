@@ -295,7 +295,7 @@
                             <field name="age"/>
                             <field name="department_id" options="{'no_open': True}"/>
                             <field name="department_type" invisible="1"/>
-                            <field name="physician_id" required="0" string="Prescriber" options="{'no_open': True}"/>
+                            <field name="physician_id" required="0" string="Prescriber" options="{'no_open': True}" invisible="1"/>
                             <field name="nurse_id" options="{'no_open': True}"/>
                             <field name="cabin_id" options="{'no_open': True}"/>
                              <field name="medicine_ids" widget="many2many_tags" groups="acs_hms_base.group_hms_manager" invisible="1"/>
@@ -369,7 +369,7 @@
                                 invisible="1" />
                             <separator string="Cancel Reason" name="acs_cancel_reason"
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
-                            <field name="cancel_reason_id"
+                            <field name="cancel_reason_id" invisible="1"
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
 
                             <field name="cancel_reason" placeholder="Cancellation Reason..."
