@@ -197,12 +197,12 @@ class ACSPatient(models.Model):
         records = self.search([("firstname", "=", False), ("lastname", "=", False)])
 
         # Force calculations there
-        records._inverse_name()
-        _logger.info("%d partners updated installing module.", len(records))
+        # records._inverse_name()
+        # _logger.info("%d partners updated installing module.", len(records))
 
     # Disabling SQL constraint givint a more explicit error using a Python
     # contstraint
-    _sql_constraints = [("check_name", "CHECK( 1=1 )", "Contacts require a name.")]
+    # _sql_constraints = [("check_name", "CHECK( 1=1 )", "Contacts require a name.")]
 
     def _rec_count(self):
         rec = super(ACSPatient, self)._rec_count()

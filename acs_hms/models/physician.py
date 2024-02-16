@@ -221,12 +221,12 @@ class Physician(models.Model):
         records = self.search([("firstname", "=", False), ("lastname", "=", False)])
 
         # Force calculations there
-        records._inverse_name()
-        _logger.info("%d partners updated installing module.", len(records))
+        # records._inverse_name()
+        # _logger.info("%d partners updated installing module.", len(records))
 
     # Disabling SQL constraint givint a more explicit error using a Python
     # contstraint
-    _sql_constraints = [("check_name", "CHECK( 1=1 )", "Contacts require a name.")]
+    # _sql_constraints = [("check_name", "CHECK( 1=1 )", "Contacts require a name.")]
 
     def action_treatment(self):
         action = self.env["ir.actions.actions"]._for_xml_id("acs_hms.acs_action_form_hospital_treatment")
