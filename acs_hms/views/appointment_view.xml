@@ -293,7 +293,9 @@
                         <group>
                             <field name="patient_id" options="{'no_open': True}"/>
                             <field name="age"/>
-                            <field name="department_id" options="{'no_open': True}"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="department_id" options="{'no_open': True}" invisible="1"/>
                             <field name="department_type" invisible="1"/>
                             <field name="physician_id" required="0" string="Prescriber" options="{'no_open': True}" invisible="1"/>
                             <field name="nurse_id" options="{'no_open': True}"/>

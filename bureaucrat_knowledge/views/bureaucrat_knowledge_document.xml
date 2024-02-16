@@ -78,17 +78,17 @@
                         <group name="group_document_head_left">
                             <field name="name" placeholder="Name..."/>
                             <field name="category_id"/>
-                             <field name="document_type_id" string="Document Type"/>
+                             <field name="document_type_id" string="Document Type" invisible="1"/>
+                            <field name="document_format" widget="selection"/>
                         </group>
                         <group name="group_document_head_right">
-                            <field name="document_format" widget="selection"/>
                             <field name="tag_ids"
                                    options="{'color_field': 'color'}"
                                    widget="many2many_tags"
                                    placeholder="Tags..."
-                                   context="{'default_model': 'bureaucrat.knowledge.document'}"/>
-                            <field name="code"/>
-                            <field name="document_number"/>
+                                   context="{'default_model': 'bureaucrat.knowledge.document'}" invisible="1"/>
+
+                            <field name="document_number" invisible="1"/>
                         </group>
                     </group>
                      <field name="document_body_html"
@@ -178,6 +178,7 @@
                         <page name="page_other" string="Other" invisible="context.get('is_invisible')">
                             <group name="group_other_root">
                                 <group name="group_other_left">
+                                     <field name="code"/>
                                     <field name="ir_model_data_id"
                                            groups="base.group_no_one"/>
                                     <field name="ir_model_data_xmlid"/>

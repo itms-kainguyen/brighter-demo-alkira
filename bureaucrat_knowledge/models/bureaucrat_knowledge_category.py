@@ -397,9 +397,8 @@ class BureaucratKnowledgeCategory(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            rec_name = "%(name)s [%(code)s]" % {
+            rec_name = "%(name)s" % {
                 'name': record.name,
-                'code': record.code,
             }
             result.append((record.id, rec_name))
         return result

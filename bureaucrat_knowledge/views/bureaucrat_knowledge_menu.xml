@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <menuitem id="bureaucrat_knowledge_menu"
-              name="Compliance"
+              name="Clinic Forms"
               groups="bureaucrat_knowledge.group_bureaucratic_knowledge_user"
               web_icon="bureaucrat_knowledge,static/description/knowledge.png"
               sequence="10"/>

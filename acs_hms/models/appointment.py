@@ -208,6 +208,8 @@ class Appointment(models.Model):
                                  states=READONLY_STATES)
     age = fields.Char(compute="get_patient_age", string='Age', store=True,
                       help="Computed patient age at the moment of the evaluation")
+    mobile = fields.Char('Mobile')
+    email = fields.Char('Email')
     company_id = fields.Many2one('res.company', ondelete='restrict', states=READONLY_STATES,
                                  string='Hospital', default=lambda self: self.env.company)
     appointment_invoice_policy = fields.Selection([('at_end', 'Invoice in the End'),
@@ -887,6 +889,8 @@ class Appointment(models.Model):
     def onchange_patient_id(self):
         if self.patient_id:
             self.age = self.patient_id.age
+            self.mobile = self.patient_id.mobile
+            self.email = self.patient_id.email
             followup_days = self.env.user.company_id.followup_days
             followup_day_limit = (datetime.now() - timedelta(days=followup_days)).strftime(
                 DEFAULT_SERVER_DATETIME_FORMAT)
