@@ -226,10 +226,10 @@ class ACSPatient(models.Model):
         result = []
         for rec in self:
             name = rec.name
-            # mobile = rec.mobile if rec.mobile else "NA"
-            # city = rec.city if rec.city else "NA"
-            # display_name = ' - '.join(filter(None, [name, mobile, city]))
-            result.append((rec.id, name))
+            mobile = rec.mobile if rec.mobile else "NA"
+            city = rec.city if rec.city else "NA"
+            display_name = ' - '.join(filter(None, [name, mobile, city]))
+            result.append((rec.id, display_name))
         return result
 
     @api.model
