@@ -18,23 +18,23 @@ class Consent(models.Model):
     patient_id = fields.Many2one('hms.patient', required=1, string='Patient')
     category_id = fields.Many2one('document.page', domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Consent')],
                                   string='Template')
-    nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], string='Nurse')
+    nurse_id = fields.Many2one('res.users', domain=[('physician_id', '=', False)], string='Clinician')
     patient_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
                                              string='Patient Attachments')
     nurse_attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'consent.form')],
-                                           string='Nurse Attachments')
+                                           string='Clinician Attachments')
     patient_signature = fields.Binary(string="Patient Signature")
     patient_signed_by = fields.Char(
         string="Patient Signed By", copy=False)
     patient_signed_on = fields.Datetime(
         string="Patient Signed On", copy=False, compute='_compute_patient_signature')
     is_agree = fields.Boolean('I read and give my consent to this document')
-    nurse_signature = fields.Binary(string="Nurse Signature", compute="_compute_signature", readonly=False, store=True,
+    nurse_signature = fields.Binary(string="Clinician Signature", compute="_compute_signature", readonly=False, store=True,
                                     copy=False)
-    nurse_signed_by = fields.Char(compute='_compute_nurse_signature', string="Nurse Signature", readonly=1, copy=False,
+    nurse_signed_by = fields.Char(compute='_compute_nurse_signature', string="Clinician Signature", readonly=1, copy=False,
                                   store=True)
     nurse_signed_on = fields.Datetime(compute='_compute_nurse_signature',
-                                      string="Nurse Signed On", readonly=1, copy=False)
+                                      string="Clinician Signed On", readonly=1, copy=False)
 
     department_id = fields.Many2one('hr.department', ondelete='restrict', string='Clinic', default=get_clinic)
 

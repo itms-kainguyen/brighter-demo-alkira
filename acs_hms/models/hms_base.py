@@ -15,7 +15,7 @@ class ResPartner(models.Model):
     is_referring_doctor = fields.Boolean(string="Is Refereinng Physician")
     # ACS Note: Adding assignee as relation with partner for receptionist or Doctor to access only those patients assigned to them
     assignee_ids = fields.Many2many('res.partner', 'acs_partner_asignee_relation', 'partner_id', 'assigned_partner_id',
-                                    domain="[('id','in', suitable_assignee_ids)]", string='Nurse')
+                                    domain="[('id','in', suitable_assignee_ids)]", string='Clinician')
     department_id = fields.Many2one('hr.department', string='Clinic')
 
     suitable_assignee_ids = fields.Many2many('res.partner', compute='_compute_suitable_assignee_ids', precompute=True,

@@ -113,7 +113,7 @@ class ACSPrescriptionOrder(models.Model):
         required=True, tracking=True)
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
-    nurse_id = fields.Many2one('res.users', 'Nurse', domain=[('physician_id', '=', False)], required=True,
+    nurse_id = fields.Many2one('res.users', 'Clinician', domain=[('physician_id', '=', False)], required=True,
                                default=lambda self: self.env.user, states=READONLY_STATES, )
 
     survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',

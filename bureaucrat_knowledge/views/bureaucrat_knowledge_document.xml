@@ -22,9 +22,9 @@
                 <searchpanel>
                     <field name="category_id" string="Categories"/>
                     <field name="tag_ids" string="Tags" select="multi"
-                           domain="[('model_id.model', '=', 'bureaucrat.knowledge.document')]"/>
-                    <field name="document_format" string="Types"/>
-                    <field name="document_type_id" string="Types"/>
+                           domain="[('model_id.model', '=', 'bureaucrat.knowledge.document')]" invisible="1"/>
+                    <field name="document_format" string="Types" invisible="1"/>
+                    <field name="document_type_id" string="Types" invisible="1"/>
                 </searchpanel>
                 <group name="group_group_by" expand="0" string="Group by...">
                     <filter name="filter_group_by_document_format"

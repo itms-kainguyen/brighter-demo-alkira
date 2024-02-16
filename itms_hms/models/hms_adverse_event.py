@@ -24,7 +24,7 @@ class Adverse_Event(models.Model):
                                   domain=[('type', '=', 'content'), ('parent_id.name', '=', 'Adverse Event')],
                                   string='Adverse Event')
 
-    nurse_phone = fields.Char(string='Nurse Phone')
+    nurse_phone = fields.Char(string='Clinician Phone')
     content = fields.Char('Content')
 
     @api.onchange('nurse_id', 'patient_id', 'chemical_burns_event_boolean', 'medication_error_event_boolean', 'blindness_event_boolean', 'infections_event_boolean', 'allergic_event_boolean')
