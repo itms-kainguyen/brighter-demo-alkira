@@ -64,7 +64,7 @@
 
 <!--    <menuitem id="menu_patient_appointment" name="Appointment Purpose" sequence="0" parent="acs_hms.menu_appointment_cofig" action="act_open_appointment_purpose" groups="acs_hms_base.group_hms_manager"/>-->
     <menuitem id="menu_open_appointment_cabin" name="Room" sequence="1" parent="acs_hms.menu_appointment_cofig" action="act_open_appointment_cabin" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic"/>
-    <menuitem id="menu_acs_cancel_reason" name="Cancellation" sequence="50" parent="menu_appointment_cofig" action="action_acs_cancel_reason" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic"/>
+<!--    <menuitem id="menu_acs_cancel_reason" name="Cancellation" sequence="50" parent="menu_appointment_cofig" action="action_acs_cancel_reason" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic"/>-->
 
     <!-- Main Prescriptions Menu -->
     <menuitem id="hos_pres_root" name="Prescriptions" sequence="6" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" web_icon="acs_hms,static/src/img/prescription2.png"/>
