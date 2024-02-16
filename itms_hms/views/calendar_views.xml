@@ -72,7 +72,7 @@
                     <!-- For recurrence update Dialog -->
                     <field name="recurrency" invisible="1"/>
                     <field name="recurrence_update" invisible="1"/>
-                    <field name="partner_id" string="Nurse"/>
+                    <field name="partner_id" string="Clinician"/>
                      <field name="name" invisible="1"/>
                      <field name="patient_id"/>
                      <field name="physician_id"/>

@@ -59,7 +59,7 @@
 
                         </div>
                         <div>
-                            <p>Nurse Signature</p>
+                            <p>Clinician Signature</p>
                             <field name="nurse_signature" nolable="1" widget="signature"/>
 <!--                            <div>-->
 <!--                                <field name="nurse_attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>-->

@@ -38,7 +38,7 @@
             <field name="company_id" position="after">
                 <field name='department_id' groups="acs_hms.group_allow_multi_department"/>
             <filter name="my_app" string="Doctor's Schedule" domain="[('category', '=','doctor')]"/>
-            <filter name="my_app" string="Nurse's Schedule" domain="[('category', '=','nurse')]"/>
+            <filter name="my_app" string="Clinician's Schedule" domain="[('category', '=','nurse')]"/>
             <group expand="0" string="Group By...">
                 <filter string="Department" name="department_id_groupby" domain="[]" context="{'group_by':'department_id'}" />
             </group>

@@ -14,7 +14,7 @@
                         <field name="infections_event_boolean" string="Infections" widget="boolean_toggle" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                         <field name="allergic_event_boolean" string="Allergic Reactions" widget="boolean_toggle" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                         <field name="branch_id" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                        <field name="nurse_id" string="Nurse" attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                        <field name="nurse_id" string="Clinician" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                         <field name="nurse_phone" string="Contact" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                         <field name="content" string="Message" widget="text" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                         <field name="is_sent" string="Sent" invisible="1"/>
@@ -47,7 +47,7 @@
                 <field name="infections_event_boolean" string="Infections" widget="boolean_toggle" optional="show" readonly="1"/>
                 <field name="allergic_event_boolean" string="Allergic Reactions" widget="boolean_toggle" optional="show" readonly="1"/>
                 <field name="branch_id" string="Clinic" readonly="1" />
-                <field name="nurse_id" string="Nurse" readonly="1" />
+                <field name="nurse_id" string="Clinician" readonly="1" />
                 <field name="nurse_phone" string="Contact" readonly="1" />
                 <field name="create_uid" readonly="1" />
                 <field name="create_date" readonly="1" />
@@ -66,7 +66,7 @@
                 <field name="nurse_id" />
                 <separator/>
                 <group expand="0" string="Group By">
-                    <filter string="Nurse" name="nurse_group" domain="[]" context="{'group_by':'nurse_id'}"/>
+                    <filter string="Clinician" name="nurse_group" domain="[]" context="{'group_by':'nurse_id'}"/>
                     <filter string="Clinic" name="branch_group" domain="[]" context="{'group_by':'branch_id'}"/>
                     <filter string="Patient" name="patient_group" domain="[]" context="{'group_by':'patient_id'}"/>
                     <separator/>

@@ -418,7 +418,7 @@
                                             <field name="physician_id"/>
                                         </li>
                                          <li t-if="record.physician_id.raw_value">
-                                            <b>Nurse:</b>
+                                            <b>Clinician:</b>
                                             <field name="nurse_id"/>
                                         </li>
                                     </ul>
