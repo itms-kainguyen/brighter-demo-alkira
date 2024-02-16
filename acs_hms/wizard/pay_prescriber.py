@@ -138,7 +138,7 @@ class PayPrescriberWiz(models.TransientModel):
             allergies = ','.join([a.name for a in current_id.patient_id.allergies_ids])
             body_html = '''<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
                             <p>Hi <b>{prescriber}</b>,</p>
-                            <p>This is <b>{nurse}</b>, a nurse at <b>{clinic}</b>, reaching out regarding a current patient under our care.</p>
+                            <p>This is <b>{nurse}</b>, a clinician at <b>{clinic}</b>, reaching out regarding a current patient under our care.</p>
                             <p>Patient Details:</p>
                             <p>Name: <b>{patient}</b></p>
                             <p>The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.</p>
@@ -179,7 +179,7 @@ class PayPrescriberWiz(models.TransientModel):
                 # Adding +61 if the number doesn't start with it
                 if not formatted_number.startswith('+61'):
                     formatted_number = '+61' + formatted_number
-                message = '''Hi {prescriber}, This is {nurse}, a nurse at {clinic}, reaching out regarding a current patient under our care.
+                message = '''Hi {prescriber}, This is {nurse}, a clinician at {clinic}, reaching out regarding a current patient under our care.
                 Patient Name: {patient}
                 The patient has completed a medical checklist and their allergies are: {allergies}. We are ready to provide any additional information required during the telehealth call.
                 Prescription Order: {order}
