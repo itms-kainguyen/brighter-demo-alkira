@@ -159,7 +159,7 @@
         <field name="name">hms.appointment.tree</field>
         <field name="model">hms.appointment</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" name="appointment_tree">
+            <tree decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='waiting'" name="appointment_tree" >
                 <field name="name"/>
                 <field name="purpose_id" optional="hide"/>
                 <field name="cabin_id" optional="hide"/>
@@ -177,8 +177,8 @@
                 <field name="waiting_date_end" invisible="1"/>
                 <field name="date_start" invisible="1"/>
                 <field name="date_end" invisible="1"/>
-                <!-- This is options to load fast. Timer read records every-time and it takes more loading time So its optional -->
-                <field name="waiting_duration_timer" widget="AcsTimer" options="{'widget_start_field': 'waiting_date_start', 'widget_stop_field': 'waiting_date_end', 'duration_field': 'waiting_duration_timer'}" optional="hide"/>
+                <!-- This is options to load fast. Timer read records every-time and it takes more loading time So its optional 
+                <field name="waiting_duration_timer" widget="AcsTimer" options="{'widget_start_field': 'waiting_date_start', 'widget_stop_field': 'waiting_date_end', 'duration_field': 'waiting_duration_timer'}" optional="hide"/> -->
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
             </tree>
         </field>
@@ -748,39 +748,39 @@
         </field>
     </record>
 
-    <record id="view_hms_appointment_search" model="ir.ui.view">
-        <field name="name">Appointment Search</field>
-        <field name="model">hms.appointment</field>
-        <field name="arch" type="xml">
-            <search string="Search Appointments">
-                <field name="name"/>
-                <field name="patient_id"/>
-                <field name="physician_id"/>
-                <field name="purpose_id"/>
-                <field name="cabin_id"/>
-                <field name="treatment_id"/>
-                <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
-                <field name="ref_physician_id"/>
-                <filter name="today" string="Today" domain="[('date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
-                <filter name="my_app" string="My Appointments" domain="[('physician_id.user_id', '=',uid)]" invisible="1"/>
-                <filter name="urgency" string="Urgent Appointment" domain="[('urgency','=','urgent')]" invisible="1"/>
-                <filter name="urgency" string="Medical Emergency" domain="[('urgency','=','medical_emergency')]" invisible="1"/>
-                <filter name="consultation" string="Consultation Appointment" domain="[('consultation_type','=','consultation')]" invisible="1"/>
-                <filter name="consultation" string="Followup Appointment" domain="[('consultation_type','=','followup')]" invisible="1"/>
-                <separator/>
-                <filter name="done" string="Not Done" domain="[('state','not in',('done','cancel'))]"/>
-                <group expand="0" string="Group By...">
-                     <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
-                    <filter string="Physician" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}" />
-                    <filter string="Date" name="date_groupby" domain="[]" context="{'group_by':'date'}" />
-                    <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Purpose" name="purpose_groupby" domain="[]" context="{'group_by':'purpose_id'}" />
-                    <filter string="Department" name="department_groupby" domain="[]" context="{'group_by':'department_id'}" />
-                    <filter string="Referring Prescriber" name="ref_physician_groupby" domain="[]" context="{'group_by':'ref_physician_id'}" />
-                </group>
-            </search>
-        </field>
-    </record>
+<record id="view_hms_appointment_search" model="ir.ui.view">
+    <field name="name">Appointment Search</field>
+    <field name="model">hms.appointment</field>
+    <field name="arch" type="xml">
+        <search string="Search Appointments">
+            <field name="name"/>
+            <field name="patient_id"/>
+            <field name="physician_id"/>
+            <field name="purpose_id"/>
+            <field name="cabin_id"/>
+            <field name="treatment_id"/>
+            <field name="department_id" groups="acs_hms.group_allow_multi_department"/>
+            <field name="ref_physician_id"/>
+            <filter name="today" string="Today" domain="[('date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+            <filter name="my_app" string="My Appointments" domain="[('physician_id.user_id', '=',uid)]" invisible="1"/>
+            <filter name="urgency" string="Urgent Appointment" domain="[('urgency','=','urgent')]" invisible="1"/>
+            <filter name="urgency" string="Medical Emergency" domain="[('urgency','=','medical_emergency')]" invisible="1"/>
+            <filter name="consultation" string="Consultation Appointment" domain="[('consultation_type','=','consultation')]" invisible="1"/>
+            <filter name="consultation" string="Followup Appointment" domain="[('consultation_type','=','followup')]" invisible="1"/>
+            <separator/>
+            <filter name="done" string="Not Done" domain="[('state','not in',('done','cancel'))]"/>
+            <group expand="0" string="Group By...">
+                <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
+                <filter string="Physician" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}" />
+                <filter string="Date" name="date_groupby" domain="[]" context="{'group_by':'date'}" />
+                <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>
+                <filter string="Purpose" name="purpose_groupby" domain="[]" context="{'group_by':'purpose_id'}" />
+                <filter string="Department" name="department_groupby" domain="[]" context="{'group_by':'department_id'}" />
+                <filter string="Referring Prescriber" name="ref_physician_groupby" domain="[]" context="{'group_by':'ref_physician_id'}" />
+            </group>
+        </search>
+    </field>
+</record>
 
 <record id="view_acs_appointment_calendar" model="ir.ui.view">
     <field name="name">hms.appointment.calendar</field>
