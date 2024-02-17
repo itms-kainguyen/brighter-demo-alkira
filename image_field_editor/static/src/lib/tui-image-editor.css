@@ -12,8 +12,8 @@ body > textarea {
   padding: 0;
   box-sizing: border-box;
   min-height: 300px;
-  width: 80% !important;
-  height: 80% !important;
+  width: 70% !important;
+  height: 70% !important;
   position: absolute;
   background-color: #282828;
   overflow: hidden;
@@ -67,7 +67,7 @@ body > textarea {
 .tui-image-editor-container .tui-image-editor-controls-buttons div {
   display: inline-block;
   position: relative;
-  width: 120px;
+  width: 40px;
   height: 40px;
   padding: 0;
   line-height: 40px;
