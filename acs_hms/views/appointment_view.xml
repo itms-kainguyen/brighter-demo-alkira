@@ -369,7 +369,7 @@
                             <field name="appointment_duration" widget="float_time"
                                 attrs="{'invisible': [('state','=','in_consultation')]}"
                                 invisible="1" />
-                            <separator string="Cancel Reason" name="acs_cancel_reason"
+                            <separator string="Cancellation" name="acs_cancel_reason"
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
                             <field name="cancel_reason_id" invisible="1"
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
@@ -524,7 +524,7 @@
                                 </group>
                             </group>
 
-                            <separator string="Cancel Reason" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
+                            <separator string="Cancellation" name="acs_cancel_reason" attrs="{'invisible': [('state','!=','cancel')]}"/>
                             <group>
                                 <field name="cancel_reason_id" attrs="{'invisible': [('state','!=','cancel')]}"/>
                             </group>
