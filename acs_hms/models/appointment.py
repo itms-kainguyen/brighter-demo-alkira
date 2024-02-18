@@ -27,7 +27,7 @@ class AppointmentCabin(models.Model):
 
 class AcsCancelReason(models.Model):
     _name = 'acs.cancel.reason'
-    _description = "Cancel Reason"
+    _description = "Reason"
 
     name = fields.Char('Reason')
 
@@ -286,7 +286,7 @@ class Appointment(models.Model):
     location = fields.Char(string="Appointment Location", states=READONLY_STATES)
     outside_appointment = fields.Boolean(string="Outside Appointment", states=READONLY_STATES)
     is_video_call = fields.Boolean("Is Video Call", states=READONLY_STATES)
-    cancel_reason = fields.Text(string="Cancel Reason", states=READONLY_STATES, copy=False)
+    cancel_reason = fields.Text(string="Cancellation Reason", states=READONLY_STATES, copy=False)
     cancel_reason_id = fields.Many2one('acs.cancel.reason', string='Cancellation Reason', states=READONLY_STATES)
     user_id = fields.Many2one('res.users', string='Responsible', states=READONLY_STATES,
                               ondelete='cascade',
