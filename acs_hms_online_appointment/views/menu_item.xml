@@ -2,8 +2,8 @@
 <odoo>
     
     <!-- Appointment -->
-    <menuitem id="menu_action_online_appointments" name="Online Appointments"
-        parent="acs_hms.action_main_menu_appointmnet_opd" sequence="50" action="action_online_appointments"/>
+<!--    <menuitem id="menu_action_online_appointments" name="Online Appointments"-->
+<!--        parent="acs_hms.action_main_menu_appointmnet_opd" sequence="50" action="action_online_appointments"/>-->
 
     <!-- My schedules -->
 <!--    <menuitem id="main_menu_my_appointment_schedules" name="My Schedules"-->

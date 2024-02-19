@@ -788,12 +788,12 @@
     <field name="type">calendar</field>
     <field name="arch" type="xml">
         <calendar string="Appointments" color="state" date_start="date" quick_add="False" date_stop="date_to" delete="0">
-            <field name="patient_id"/>
-            <field name="age"/>
-            <field name="state" filters="1"/>
-            <field name="procedure_ids"/>
-            <field name="consultation_type"/>
-            <field name="is_confirmed_consent"/>
+            <field name="patient_id" readonly="1"/>
+            <field name="age" readonly="1"/>
+            <field name="state" filters="1" readonly="1"/>
+            <field name="procedure_ids" readonly="1"/>
+            <field name="consultation_type" readonly="1"/>
+            <field name="is_confirmed_consent" readonly="1"/>
         </calendar>
     </field>
 </record>
