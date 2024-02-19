@@ -111,14 +111,16 @@ body.o_web_client {
                     font-family: 'remixicon';
                     content: "\ea6c";
                 }
-                .o_cp_top{
+                .o_cp_top {
                     align-items: start !important;
-                    .o_form_button_create{
-                        margin-top:5px;
+                    .o_form_button_create {
+                        display: none; /* Hide the button */
+                        margin-top: 5px;
                         // background-color: white !important;
                         margin-left: auto;
                     }
                 }
+                
                 .oe_title{
                     // max-width: 100% !important;
                     h2{
