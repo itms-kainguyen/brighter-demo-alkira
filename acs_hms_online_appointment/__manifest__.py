@@ -1,28 +1,13 @@
 # -*- coding: utf-8 -*-
-#╔══════════════════════════════════════════════════════════════════════╗
-#║                                                                      ║
-#║                  ╔═══╦╗       ╔╗  ╔╗     ╔═══╦═══╗                   ║
-#║                  ║╔═╗║║       ║║ ╔╝╚╗    ║╔═╗║╔═╗║                   ║
-#║                  ║║ ║║║╔╗╔╦╦══╣╚═╬╗╔╬╗ ╔╗║║ ╚╣╚══╗                   ║
-#║                  ║╚═╝║║║╚╝╠╣╔╗║╔╗║║║║║ ║║║║ ╔╬══╗║                   ║
-#║                  ║╔═╗║╚╣║║║║╚╝║║║║║╚╣╚═╝║║╚═╝║╚═╝║                   ║
-#║                  ╚╝ ╚╩═╩╩╩╩╩═╗╠╝╚╝╚═╩═╗╔╝╚═══╩═══╝                   ║
-#║                            ╔═╝║     ╔═╝║                             ║
-#║                            ╚══╝     ╚══╝                             ║
-#║                  SOFTWARE DEVELOPED AND SUPPORTED BY                 ║
-#║                ALMIGHTY CONSULTING SOLUTIONS PVT. LTD.               ║
-#║                      COPYRIGHT (C) 2016 - TODAY                      ║
-#║                      https://www.almightycs.com                      ║
-#║                                                                      ║
-#╚══════════════════════════════════════════════════════════════════════╝
 {
-    'name' : 'HMS Online Appointment',
+    'name' : 'BrighterAPN Online Appointment',
     'summary' : 'Allow patients to Book an Appointment on-line from portal',
-    'description' : """HMS Website Portal to Book an Appointment online. acs hms medical Allow patients to Book an Appointment online from portal""",
+    'description' : """BrighterAPN Website Portal to Book an Appointment online. acs hms medical Allow patients to Book an Appointment online from portal""",
     'version': '1.1.10',
-    'category': 'Hospitality Management/HMS',
-    'author': 'Almighty Consulting Solutions Pvt. Ltd.',
-    'website': 'https://www.almightycs.com',
+    'category': 'BrighterAPN',
+    'support': 'support@itmsgroup.com.au',
+    'author': "ITMS Group",
+    'website': "http://www.itmsgroup.com.au",
     'license': 'OPL-1',
     'depends' : ['acs_hms_portal','website_payment','account_payment'],
     'data' : [
@@ -47,7 +32,7 @@
         ]
     },
     'images': [
-        'static/description/acs_hms_online_booking_almightycs_cover.jpg',
+        'static/description/icon.png',
     ],
     'installable': True,
     'application': True,

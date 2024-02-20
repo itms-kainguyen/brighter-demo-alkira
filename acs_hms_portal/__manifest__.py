@@ -1,31 +1,15 @@
 # -*- coding: utf-8 -*-
-#╔══════════════════════════════════════════════════════════════════════╗
-#║                                                                      ║
-#║                  ╔═══╦╗       ╔╗  ╔╗     ╔═══╦═══╗                   ║
-#║                  ║╔═╗║║       ║║ ╔╝╚╗    ║╔═╗║╔═╗║                   ║
-#║                  ║║ ║║║╔╗╔╦╦══╣╚═╬╗╔╬╗ ╔╗║║ ╚╣╚══╗                   ║
-#║                  ║╚═╝║║║╚╝╠╣╔╗║╔╗║║║║║ ║║║║ ╔╬══╗║                   ║
-#║                  ║╔═╗║╚╣║║║║╚╝║║║║║╚╣╚═╝║║╚═╝║╚═╝║                   ║
-#║                  ╚╝ ╚╩═╩╩╩╩╩═╗╠╝╚╝╚═╩═╗╔╝╚═══╩═══╝                   ║
-#║                            ╔═╝║     ╔═╝║                             ║
-#║                            ╚══╝     ╚══╝                             ║
-#║                  SOFTWARE DEVELOPED AND SUPPORTED BY                 ║
-#║                ALMIGHTY CONSULTING SOLUTIONS PVT. LTD.               ║
-#║                      COPYRIGHT (C) 2016 - TODAY                      ║
-#║                      https://www.almightycs.com                      ║
-#║                                                                      ║
-#╚══════════════════════════════════════════════════════════════════════╝
 {
-    'name' : 'Hospital Patient Portal Management',
+    'name' : 'BrighterAPN Patient Portal Management',
     'summary' : 'This Module Adds Hospital Portal facility for Patients to allow access to their appointments and prescriptions',
     'description' : """
     This Module Adds Hospital Portal facility for Patients to allow access to their appointments and prescriptions
-    HMS Website Portal acs hms hospital management system medical
     """,
     'version': '1.0.6',
-    'category': 'Hospitality Management/HMS',
-    'author': 'Almighty Consulting Solutions Pvt. Ltd.',
-    'website': 'https://www.almightycs.com',
+    'category': 'BrighterAPN',
+    'support': 'support@itmsgroup.com.au',
+    'author': "ITMS Group",
+    'website': "http://www.itmsgroup.com.au",
     'license': 'OPL-1',
     'depends' : ['portal','acs_hms','website'],
     'data' : [
@@ -44,7 +28,7 @@
         ]
     },
     'images': [
-        'static/description/hms_portal_almightycs_odoo_cover.jpg',
+        'static/description/icon.png',
     ],
     'installable': True,
     'application': True,
