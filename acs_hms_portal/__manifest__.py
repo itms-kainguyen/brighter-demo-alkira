@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name' : 'BrighterAPN Patient Portal Management',
+    'name' : 'Brighter Patient Portal Management',
     'summary' : 'This Module Adds Hospital Portal facility for Patients to allow access to their appointments and prescriptions',
     'description' : """
     This Module Adds Hospital Portal facility for Patients to allow access to their appointments and prescriptions

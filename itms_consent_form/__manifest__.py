@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 {
-    "name": "ITMS CONSENT FORM",
+    "name": "Brighter Consent Form",
     "version": "16.0.1.0.0",
-    'category': 'ITMS/ITMS',
+    'category': 'BrighterAPN',
     "summary": "",
     'author': "ITMS Group",
     'website': "https://itmsgroup.com.au",

@@ -1,21 +1,7 @@
 # -*- coding: utf-8 -*-
-#################################################################################
-# Author      : CFIS (<https://www.cfis.store/>)
-# Copyright(c): 2017-Present CFIS.
-# All Rights Reserved.
-#
-#
-#
-# This program is copyright property of the author mentioned above.
-# You can`t redistribute it and/or modify it.
-#
-#
-# You should have received a copy of the License along with this program.
-# If not, see <https://www.cfis.store/>
-#################################################################################
 
 {
-    "name": "Image Editor | Photo Editor | Editor Image | Editor Photo | Edit Image | Edit Photo",
+    "name": "Brighter Image Editor",
     "summary": "With the Image Editor that is the perfect combination of simple and beautiful, the Image Editor is a Full-Featured one that is perfect for everyday use.",
     "version": "16.0.1",
     "description": """

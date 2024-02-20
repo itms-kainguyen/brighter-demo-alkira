@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-    'name' : 'BrighterAPN Online Appointment',
+    'name' : 'Brighter Online Appointment',
     'summary' : 'Allow patients to Book an Appointment on-line from portal',
-    'description' : """BrighterAPN Website Portal to Book an Appointment online. acs hms medical Allow patients to Book an Appointment online from portal""",
+    'description' : """Brighter Website Portal to Book an Appointment online. acs hms medical Allow patients to Book an Appointment online from portal""",
     'version': '1.1.10',
     'category': 'BrighterAPN',
     'support': 'support@itmsgroup.com.au',

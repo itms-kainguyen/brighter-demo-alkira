@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "ITMS HMS",
+    'name': "Brighter Extra",
     'summary': "",
     'description': "",
-    'category': 'ITMS/ITMS',
+    'category': 'BrighterAPN',
+    "summary": "",
+    'author': "ITMS Group",
+    'website': "https://itmsgroup.com.au",
+    "license": "AGPL-3",
     'version': '16.0.2',
     # any module necessary for this one to work correctly
     'depends': ['base', 'web', 'mail','sms','product','acs_hms','acs_hms_online_appointment','auth_signup'],

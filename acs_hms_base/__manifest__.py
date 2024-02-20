@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'BrighterAPN System Base',
+    'name': 'Brighter System Base',
     'summary': 'BrighterAPN System Base',
     'description': """
-        BrighterAPN Management System for managing Hospital and medical facilities flows
+        Brighter Management System for managing Hospital and medical facilities flows
         Medical Flows
         
         This module helps you to manage your hospitals and clinics which includes managing

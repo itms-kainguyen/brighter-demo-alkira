@@ -1,5 +1,5 @@
 {
-    'name': "Bureaucrat Knowledge",
+    'name': "Brighter Bureaucrat Knowledge",
 
     'summary': """
         Bureaucrat Knowledge

@@ -1,20 +1,7 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-#################################################################################
-# Author      : Grow Consultancy Services (<https://www.growconsultancyservices.com/>)
-# Copyright(c): 2021-Present Grow Consultancy Services
-# All Rights Reserved.
-#
-#
-# This program is copyright property of the author mentioned above.
-# You can`t redistribute it and/or modify it.
-#
-#
-# You should have received a copy of the License along with this program.
-#################################################################################
 {
     # Application Information
-    'name': 'Odoo Twilio SMS Gateway || SMS Marketing || SMS Gateway || Bulk SMS || SMS Integration',
+    'name': 'Brighter SMS Integration',
     'version': '16.0.3.0.0',
     'category': 'Tools',
     'license': 'OPL-1',

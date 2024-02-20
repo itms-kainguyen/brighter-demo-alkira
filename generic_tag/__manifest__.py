@@ -1,5 +1,5 @@
 {
-    'name': "Generic Tag",
+    'name': "Brighter Generic Tag",
 
     'summary': """
         Generic tag management.

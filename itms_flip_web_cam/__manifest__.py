@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Flip Web Cam",
+    'name': "Brighter Flip Web Cam",
     'summary': "Flip Web Cam",
     'description': "Flip Web Cam",
-    'category': 'ITMS/ITMS',
-    'version': '16.0.2',
-    "website": "https://www.itmsgroup.com.au",
-    "author": "ITMS Group",
+    'category': 'BrighterAPN',
+    'support': 'support@itmsgroup.com.au',
+    'author': "ITMS Group",
+    'website': "http://www.itmsgroup.com.au",
     "license": "AGPL-3",
     # any module necessary for this one to work correctly
     'depends': ['base', 'web', 'mail'],
