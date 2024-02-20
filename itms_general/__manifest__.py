@@ -1,17 +1,15 @@
 {
-    "name": "General - ITMS",
+    "name": "Brighter General",
     "summary": """
         Contain all general extended feature
         """,
     "description": """
 
     """,
-    "author": "ITMS Group",
-    "website": "http://www.itmsgroup.com.au",
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    "category": "ITMS",
+    'category': 'BrighterAPN',
+    "summary": "",
+    'author': "ITMS Group",
+    'website': "https://itmsgroup.com.au",
     "version": "16.3.1",
     # any module necessary for this one to work correctly
     "depends": ["base"],
