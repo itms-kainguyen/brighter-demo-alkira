@@ -473,7 +473,7 @@ class Appointment(models.Model):
     def _compute_display_name(self):
         for record in self:
             record.display_name = record.name or False
-            treatment = ', '.join([t.name for t in self.procedure_ids])
+            treatment = ', '.join([t.name for t in record.procedure_ids])
             if treatment:
                 record.display_name = treatment
                 if record.patient_id:
