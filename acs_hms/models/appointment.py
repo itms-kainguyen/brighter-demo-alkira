@@ -117,7 +117,7 @@ class Appointment(models.Model):
 
     name = fields.Char(string='Number', readonly=True, copy=False, tracking=True, states=READONLY_STATES)
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
-                                  index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
+                                 index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
     display_name = fields.Char(compute='_compute_display_name', string='Patient')
 
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
@@ -469,14 +469,17 @@ class Appointment(models.Model):
                     }
                     rec.consent_ids = [(0, 0, consent_val)]
 
-    @api.depends('name', 'patient_id')
+    @api.depends('name', 'patient_id', 'procedure_ids')
     def _compute_display_name(self):
         for record in self:
             record.display_name = record.name or False
-            if record.patient_id:
-                record.display_name = record.patient_id.name
-                if record.name:
-                    record.display_name = record.name + ' - ' + record.patient_id.name
+            treatment = ', '.join([t.name for t in self.procedure_ids])
+            if treatment:
+                record.display_name = treatment
+                if record.patient_id:
+                    record.display_name = treatment + ' - ' + record.patient_id.name
+                # if record.name:
+                #     record.display_name = record.name + ' - ' + record.patient_id.name
 
     @api.depends(
         'treatment_ids',
