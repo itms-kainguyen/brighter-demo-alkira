@@ -325,7 +325,7 @@ class Appointment(models.Model):
     def get_current_user(self):
         return self.env.user.id or False
 
-    nurse_id = fields.Many2one('res.users', 'Clinician', domain=[('physician_id', '=', False)], required=True,
+    nurse_id = fields.Many2one('res.users', 'Clinician', domain="""[('physician_id', '=', False), ('id', '=', uid)]""", required=True,
                                default=get_current_user)
 
     prescription_id = fields.Many2one('prescription.order', 'Prescription Order')
