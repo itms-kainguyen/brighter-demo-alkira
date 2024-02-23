@@ -793,7 +793,7 @@
             <field name="patient_id" readonly="1"/>
             <field name="age" readonly="1"/>
             <field name="state" filters="1" readonly="1"/>
-            <field name="procedure_ids" readonly="1"/>
+            <field name="procedure_ids" string="Treatment" readonly="1"/>
             <field name="consultation_type" readonly="1"/>
             <field name="is_confirmed_consent" readonly="1"/>
         </calendar>

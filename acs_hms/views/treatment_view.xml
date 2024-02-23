@@ -431,10 +431,11 @@
         <field name="model">hms.treatment</field>
         <field name="arch" type="xml">
             <tree string="Treatment Sheet">
-                <field name="name"/>
+                <field name="name" invisible="1"/>
                 <!-- <field name="subject"/> -->
-                <field name="patient_id"/>
                 <field name="date"/>
+                <field name="patient_id"/>
+                <field name="display_name"/>
                 <field name="activity_ids" widget="list_activity" optional="hide"/>
                 <field name="state" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-success="state=='done'" decoration-warning="state=='running'" widget="badge"/>
                 <field name="company_id" groups="base.group_multi_company"/>

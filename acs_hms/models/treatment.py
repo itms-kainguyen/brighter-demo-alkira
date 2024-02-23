@@ -43,6 +43,7 @@ class ACSTreatment(models.Model):
     READONLY_STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
 
     name = fields.Char(string='Name', readonly=True, index=True, copy=False, tracking=True)
+    display_name = fields.Char(compute='_compute_display_name', string='Treatment Note Title')
     subject = fields.Char(string='Subject', tracking=True, states=READONLY_STATES)
     patient_id = fields.Many2one('hms.patient', 'Patient', required=True, index=True, states=READONLY_STATES,
                                  tracking=True)
@@ -53,7 +54,8 @@ class ACSTreatment(models.Model):
     healed_date = fields.Date(string='Healed Date', states=READONLY_STATES)
     end_date = fields.Date(string='End Date', help='End of treatment date', states=READONLY_STATES)
     diagnosis_id = fields.Many2one('hms.diseases', string='Medicine', states=READONLY_STATES)
-    nurse_id = fields.Many2one('res.users', 'Clinician', domain=[('physician_id', '=', False)], default=lambda self: self.env.user.id, required=True)
+    nurse_id = fields.Many2one('res.users', 'Clinician', domain=[('physician_id', '=', False)],
+                               default=lambda self: self.env.user.id, required=True)
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Prescriber', states=READONLY_STATES,
                                    tracking=True)
     attending_physician_ids = fields.Many2many('hms.physician', 'hosp_treat_doc_rel', 'treat_id', 'doc_id',
@@ -193,6 +195,14 @@ class ACSTreatment(models.Model):
 
     def action_print(self):
         return self.env.ref('acs_hms.action_treatment_report').report_action(self)
+
+    @api.depends('template_ids')
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = False
+            treatment = ', '.join([t.name for t in record.template_ids])
+            if treatment:
+                record.display_name = treatment
 
     @api.depends('attachment_ids')
     def _compute_is_invisible(self):
