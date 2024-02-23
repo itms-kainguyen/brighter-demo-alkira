@@ -224,6 +224,7 @@
                     <button name="appointment_done" states="to_after_care" groups="acs_hms_base.group_hms_manager" type="object" string="Send Aftercare" class="oe_highlight"/>
                     <button name="%(action_acs_cancel_reason_wiz)d" string="Cancel" states="draft,confirm,confirm_consent,in_consultation" type="action" attrs="{'invisible': [('id','=',False)]}"/>
                     <button name="appointment_draft" string="Reschedule" states="cancel" type="object" class="oe_highlight"/>
+                    <button name="create_patient" string="New Patient" states="draft" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" invisible="1" statusbar_visible="draft,confirm,confirm_consent,in_consultation,to_after_care,done"/>
                     <field name="appointment_invoice_policy" invisible="1"/>
                     <field name="consumable_invoice_id" invisible="1"/>
@@ -291,6 +292,7 @@
                     <page name="general" string="General">
                     <group>
                         <group>
+                            <field name="is_new_patient" invisible="1"/>
                             <field name="patient_id" options="{'no_open': True}"/>
                             <field name="age"/>
                             <field name="mobile"/>

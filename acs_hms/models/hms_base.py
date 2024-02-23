@@ -109,10 +109,7 @@ class HospitalDepartment(models.Model):
     consultaion_service_id = fields.Many2one('product.product', ondelete='restrict', string='Consultation Service')
     followup_service_id = fields.Many2one('product.product', ondelete='restrict', string='Followup Service')
     image = fields.Binary(string='Image')
-    location_id = fields.Many2one(
-        'stock.location', 
-        string='Location', 
-        help="Location of the department, for stock management purpose.")
+
 
 class ACSEthnicity(models.Model):
     _description = "Ethnicity"

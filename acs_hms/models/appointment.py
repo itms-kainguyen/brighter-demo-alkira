@@ -117,7 +117,7 @@ class Appointment(models.Model):
 
     name = fields.Char(string='Number', readonly=True, copy=False, tracking=True, states=READONLY_STATES)
     patient_id = fields.Many2one('hms.patient', ondelete='restrict', string='Patient',
-                                 required=True, index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
+                                  index=True, help='Patient Name', states=READONLY_STATES, tracking=True)
     display_name = fields.Char(compute='_compute_display_name', string='Patient')
 
     image_128 = fields.Binary(related='patient_id.image_128', string='Image', readonly=True)
@@ -393,8 +393,7 @@ class Appointment(models.Model):
         states=READONLY_STATES,
         required=True, tracking=True)
     procedure_ids = fields.Many2many('treatment.procedure', ondelete='restrict', string='Procedure',
-                                     states=READONLY_STATES,
-                                     required=True, tracking=True)
+                                     states=READONLY_STATES, tracking=True)
 
     survey_answer_ids = fields.One2many('survey.user_input.line', 'appointment_id', 'Answer',
                                         copy=False, readonly=True)
@@ -417,6 +416,20 @@ class Appointment(models.Model):
         ("90", "1.5hr"),
         ("120", "2hr"),
     ], string="Duration", default="30")
+
+    is_new_patient = fields.Boolean('Is new patient', default=False)
+
+    def create_patient(self):
+        self.is_new_patient = True
+        return {
+            'name': _('New Patient'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hms.patient',
+            'view_mode': 'form',
+            'view_id': self.env.ref('acs_hms.view_patient_form').id,
+            'context': {'appointment_id': self.id},
+            'target': 'new',
+        }
 
     @api.onchange('duration_selection')
     def _onchange_duration_selection(self):
@@ -459,9 +472,11 @@ class Appointment(models.Model):
     @api.depends('name', 'patient_id')
     def _compute_display_name(self):
         for record in self:
-            record.display_name = record.patient_id.name
-            if record.name:
-                record.display_name = record.name + ' - ' + record.patient_id.name
+            record.display_name = record.name or False
+            if record.patient_id:
+                record.display_name = record.patient_id.name
+                if record.name:
+                    record.display_name = record.name + ' - ' + record.patient_id.name
 
     @api.depends(
         'treatment_ids',
@@ -956,8 +971,9 @@ class Appointment(models.Model):
                 template = self.env.ref('acs_hms.acs_appointment_email')
                 treatment = ', '.join([t.name for t in self.procedure_ids])
                 email_values = {'treatment': treatment}
-                template_appointment_creation = template.with_context(**email_values).sudo().send_mail(self.id, raise_exception=False,
-                                                                          force_send=True)
+                template_appointment_creation = template.with_context(**email_values).sudo().send_mail(self.id,
+                                                                                                       raise_exception=False,
+                                                                                                       force_send=True)
                 if template_appointment_creation:
                     template.reset_template()
                     # Get the mail template for the sale order confirmation.

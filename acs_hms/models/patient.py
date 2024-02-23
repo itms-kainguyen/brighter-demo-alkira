@@ -33,6 +33,7 @@ class ACSPatient(models.Model):
     def create(self, vals_list):
         """Add inverted names at creation if unavailable."""
         context = dict(self.env.context)
+
         for vals in vals_list:
             name = vals.get("name", context.get("default_name"))
 
@@ -51,7 +52,13 @@ class ACSPatient(models.Model):
                 if "default_name" in context:
                     del context["default_name"]
         # pylint: disable=W8121
-        return super(ACSPatient, self.with_context(context)).create(vals_list)
+
+        res = super(ACSPatient, self.with_context(context)).create(vals_list)
+        if 'appointment_id' in context:
+            appointment = self.env['hms.appointment'].search([('id', '=', context.get("appointment_id"))], limit=1)
+            if appointment:
+                appointment.patient_id = res.id if res else False
+        return res
 
     @api.model
     def default_get(self, fields_list):
