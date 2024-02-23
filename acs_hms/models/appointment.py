@@ -431,12 +431,11 @@ class Appointment(models.Model):
             'target': 'new',
         }
 
-    @api.onchange('duration_selection')
+    @api.onchange('date', 'duration_selection')
     def _onchange_duration_selection(self):
         from datetime import timedelta
-        if self.duration_selection:
-            if self.date:
-                self.date_to = self.date + timedelta(minutes=int(self.duration_selection))
+        if self.date and self.duration_selection:
+            self.date_to = self.date + timedelta(minutes=int(self.duration_selection))
 
     @api.depends('patient_id')
     def _compute_is_checklist(self):
