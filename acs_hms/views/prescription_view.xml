@@ -225,7 +225,7 @@
                                         <group>
                                             <label for="medicament_group_id" attrs="{'invisible': [('state','!=', 'draft')]}"/>
                                             <div name="medicament_group_id" attrs="{'invisible': [('state','!=', 'draft')]}">
-                                                <field name="medicament_group_id" nolabel="1" options="{'no_create': True}"/>
+                                                <field name="medicament_group_id" nolabel="1" widget="many2many_tags" options="{'no_create': True}"/>
                                                 <!-- <field name="acs_kit_qty" class="oe_inline" nolabel="1" attrs="{'invisible': [('acs_kit_id','=', False)]}"/> -->
         <!--                                        <button name="get_acs_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" attrs="{'invisible': [('acs_kit_id','=', False)]}"/>-->
                                             </div>

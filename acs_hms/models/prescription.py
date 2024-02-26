@@ -93,7 +93,8 @@ class ACSPrescriptionOrder(models.Model):
     alert_count = fields.Integer(compute='_get_alert_count', default=0)
     old_prescription_id = fields.Many2one('prescription.order', 'Old Prescription', copy=False, states=READONLY_STATES)
     acs_kit_id = fields.Many2one('acs.product.kit', string='Template', states=READONLY_STATES)
-    medicament_group_id = fields.Many2one('medicament.group', string='Template', states=READONLY_STATES)
+    medicament_group_id = fields.Many2many('medicament.group', 'prescription_medical_group_rel', 'prescription_id',
+                                           'group_id', string='Template', states=READONLY_STATES)
     acs_kit_qty = fields.Integer("Kit Qty", states=READONLY_STATES, default=1)
     expire_date = fields.Date(
         string='Expire Date',
@@ -610,26 +611,27 @@ class ACSPrescriptionOrder(models.Model):
         appointment_id = self.appointment_id and self.appointment_id.id or False
         self.prescription_line_ids = False
         if self.medicament_group_id:
-            for line in self.medicament_group_id.medicament_group_line_ids:
-                lines.append((0, 0, {
-                    'product_id': line.product_id.id,
-                    'medicine_area': line.medicine_area,
-                    'medicine_technique': line.medicine_technique,
-                    'medicine_depth': line.medicine_depth,
-                    'medicine_method': line.medicine_method,
-                    'use': line.use,
-                    'repeat': line.repeat,
-                    'common_dosage_group': line.common_dosage_id.id or False,
-                    'dose': line.dose or line.product_id.dosage,
-                    'allow_substitution': line.allow_substitution,
-                    'dosage_uom_id': line.dosage_uom_id.id if line.common_dosage_id else False,
-                    'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
-                    'form_id': line.product_id.form_id.id,
-                    'qty_per_day': line.qty_per_day or line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
-                    'days': line.days or line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
-                    'appointment_id': appointment_id,
-                    'name': appointment_id,
-                }))
+            for group in self.medicament_group_id:
+                for line in group.medicament_group_line_ids:
+                    lines.append((0, 0, {
+                        'product_id': line.product_id.id,
+                        'medicine_area': line.medicine_area,
+                        'medicine_technique': line.medicine_technique,
+                        'medicine_depth': line.medicine_depth,
+                        'medicine_method': line.medicine_method,
+                        'use': line.use,
+                        'repeat': line.repeat,
+                        'common_dosage_group': line.common_dosage_id.id or False,
+                        'dose': line.dose or line.product_id.dosage,
+                        'allow_substitution': line.allow_substitution,
+                        'dosage_uom_id': line.dosage_uom_id.id if line.common_dosage_id else False,
+                        'active_component_ids': [(6, 0, [x.id for x in line.product_id.active_component_ids])],
+                        'form_id': line.product_id.form_id.id,
+                        'qty_per_day': line.qty_per_day or line.product_id.common_dosage_id and line.product_id.common_dosage_id.qty_per_day or 1,
+                        'days': line.days or line.product_id.common_dosage_id and line.product_id.common_dosage_id.days or 1,
+                        'appointment_id': appointment_id,
+                        'name': appointment_id,
+                    }))
         self.prescription_line_ids = lines
 
     def action_prescription_send(self):
