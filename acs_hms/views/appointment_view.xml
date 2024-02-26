@@ -502,12 +502,13 @@
                         </page>
 
                         <page name="prescription_order" string="Request Prescription">
-                            <field name="prescription_ids">
+                            <field name="prescription_ids" context="{'default_patient_id': patient_id, 'patient_id': patient_id}">
                                 <tree>
                                     <field name="name"/>
                                     <field name="prescription_date_format" string="Prescription date"/>
                                     <field name="first_product_id"/>
                                     <field name="physician_id"/>
+                                    <field name="patient_id" invisible="1"/>
                                     <button name="status"/>
                                 </tree>
                             </field>
