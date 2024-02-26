@@ -163,6 +163,7 @@
             </div>
 
             <field name="gender" position="before">
+                <field name="title" default_focus="1" options="{'no_open': True}"/>
                 <field name="firstname"/>
                 <field name="lastname"/>
             </field>
