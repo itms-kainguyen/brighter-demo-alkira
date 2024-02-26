@@ -7,10 +7,12 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class AfterCare(models.Model):
     _inherit = 'patient.aftercare'
 
     appointment_id = fields.Many2one('hms.appointment', string='Appointment')
+    treatment_id = fields.Many2one('hms.treatment', string='Treatment')
 
     @api.onchange('knowledge_id')
     def onchange_knowledge_id(self):
@@ -67,13 +69,16 @@ class AfterCare(models.Model):
                                             {'product_name': product_name, 'medicine_area': medicine_area,
                                              'amount': amount,
                                              'batch_number': batch_number, 'medicine_technique': medicine_technique,
-                                             'medicine_depth': medicine_depth, 'medicine_method': medicine_method, 'template': treat.template_id.name})
+                                             'medicine_depth': medicine_depth, 'medicine_method': medicine_method,
+                                             'template': treat.template_id.name})
                             if treat.template_id:
                                 finding = treat.finding or ''
                                 template = treat.template_id.name
                                 treatment_notes.append({'template': template, 'finding': finding})
                 email_values = {'medicine_line_ids': medicine_line_ids, 'treatment_notes': treatment_notes}
-                is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.appointment_id.id, raise_exception=False, force_send=True)
+                is_sent = template_aftercare.with_context(**email_values).sudo().send_mail(self.appointment_id.id,
+                                                                                           raise_exception=False,
+                                                                                           force_send=True)
         except Exception as e:
             _logger.warning('Failed to send appointment Aftercare email: %s', e)
 

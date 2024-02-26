@@ -138,6 +138,9 @@ class ACSPrescriptionOrder(models.Model):
                                           domain=[('hospital_product_type', '=', 'pharmacy')],
                                           tracking=True)
 
+    treatment_id = fields.Many2one('hms.treatment', ondelete="restrict",
+                                   string='Treatment')
+
     def write(self, vals):
         res = super(ACSPrescriptionOrder, self).write(vals)
 

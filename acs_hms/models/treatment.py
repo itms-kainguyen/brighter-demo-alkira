@@ -165,6 +165,9 @@ class ACSTreatment(models.Model):
     # preview_img_view = fields.Binary(string='Preview Image')
     employee_id = fields.Many2one('hr.employee', compute='_compute_employee_id', string='Employee')
 
+    request_prescription_ids = fields.One2many('prescription.order', 'treatment_id', 'Request Prescription', copy=False)
+
+
     # Photo form
     # attachment_ids = fields.Many2many(comodel_name='ir.attachment')
     attachment_ids = fields.One2many(
@@ -192,6 +195,38 @@ class ACSTreatment(models.Model):
     photo_before = fields.Binary(string='Photo Before')
     is_invisible = fields.Boolean(compute="_compute_is_invisible")
     is_invisible_before = fields.Boolean(compute="_compute_is_invisible_before")
+
+    aftercare_ids = fields.One2many(
+        'patient.aftercare',
+        'treatment_id',
+        'Aftercare',
+        compute="_compute_aftercare_ids",
+        store=True,
+        readonly=False)
+
+    @api.depends(
+        'medicine_line_ids',
+        'medicine_line_ids.product_id',
+        'medicine_line_ids.product_id.aftercare_id')
+    def _compute_aftercare_ids(self):
+        for rec in self:
+            rec.aftercare_ids = False
+            product_ids = ''
+            product_ids = rec.mapped('medicine_line_ids.product_id')
+            if not product_ids:
+                continue
+            aftercare_ids = False
+            aftercare_ids = product_ids.mapped('aftercare_id')
+            if not aftercare_ids:
+                continue
+            for aftercare_id in aftercare_ids:
+                # prepare patient.aftercare value
+                aftercare_val = {
+                    'name': aftercare_id.name,
+                    'knowledge_id': aftercare_id.id,
+                    'treatment_id': rec.id,
+                }
+                rec.aftercare_ids = [(0, 0, aftercare_val)]
 
     def action_print(self):
         return self.env.ref('acs_hms.action_treatment_report').report_action(self)

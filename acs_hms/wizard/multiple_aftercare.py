@@ -40,16 +40,29 @@ class MultipleAftercare(models.TransientModel):
         """Function for adding all the products to the order line that are
         selected from the wizard"""
         active_model = self.env.context.get('active_model')
-        active_id = self.env.context.get('active_id')
-        current_id = self.env['hms.appointment'].browse(active_id)
         lines = []
-        for rec in self.bureaucrat_document_list_ids:
-            if rec not in current_id.aftercare_ids.knowledge_id:
-                lines.append((0, 0, {
-                        'appointment_id': active_id,
+        if active_model == 'hms.appointment':
+            appointment_id = self.env.context.get('active_id')
+            current_id = self.env['hms.appointment'].browse(appointment_id)
+            for rec in self.bureaucrat_document_list_ids:
+                if rec not in current_id.aftercare_ids.knowledge_id:
+                    lines.append((0, 0, {
+                        'appointment_id': appointment_id,
                         'knowledge_id': rec.id,
                         'content': rec.document_body_html,
                         'name': rec.name
-                }))
+                    }))
+        if active_model == 'hms.treatment':
+            treatment_id = self.env.context.get('active_id')
+            current_id = self.env['hms.treatment'].browse(treatment_id)
+            for rec in self.bureaucrat_document_list_ids:
+                if rec not in current_id.aftercare_ids.knowledge_id:
+                    lines.append((0, 0, {
+                        'treatment_id': treatment_id,
+                        'knowledge_id': rec.id,
+                        'content': rec.document_body_html,
+                        'name': rec.name
+                    }))
+
         current_id.aftercare_ids = lines
 
