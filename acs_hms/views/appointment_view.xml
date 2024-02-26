@@ -501,7 +501,7 @@
                             </field>
                         </page>
 
-                        <page name="prescription_order" string="Request prescription">
+                        <page name="prescription_order" string="Request Prescription">
                             <field name="prescription_ids">
                                 <tree>
                                     <field name="name"/>
