@@ -40,9 +40,8 @@
                                 <group>
                                     <field name="date" string="Date"/>
                                     <!-- <field name="subject" class="ml4" string="Title"/> -->
-                                    <field name="appointment_id" groups="base.group_no_one" invisible="1"/>
                                     <field name="appointment_prescription_line_id" invisible="1"/>
-                                    <field name="appointment_id" groups="base.group_no_one" options="{'no_open': True}"/>
+                                    <field name="appointment_id" groups="base.group_no_one" options="{'no_open': True}" invisible="1"/>
                                     <field name="appointment_prescription_line_id" invisible="1" groups="base.group_no_one"/>
                                     <field name="diagnosis_id" invisible="1"/>
                                     <field name="age" invisible="1"/>
