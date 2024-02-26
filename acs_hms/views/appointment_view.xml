@@ -500,6 +500,19 @@
                                 </tree>
                             </field>
                         </page>
+
+                        <page name="prescription_order" string="Create a prescription">
+                            <field name="prescription_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="prescription_date_format" string="Prescription date"/>
+                                    <field name="first_product_id"/>
+                                    <field name="physician_id"/>
+                                    <button name="status"/>
+                                </tree>
+                            </field>
+                        </page>
+
                         <page name="prescription_line_repeat_ids" string="Remaining Prescription" invisible="1">
                             <field name="prescription_line_repeat_ids" invisible="1"> 
                                 <tree editable="bottom">
