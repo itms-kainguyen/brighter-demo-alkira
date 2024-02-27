@@ -215,11 +215,11 @@
                                     <field name="prescription_id"/>
                                     <field name="medicine_area"/>
                                     <field name="amount"  class="amount-medicine"/>
-                                    <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}"/>
-                                    <field name="expiration_date"/>
+                                    <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}" optional="hide"/>
+                                    <field name="expiration_date" optional="hide"/>
 <!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->
                                     <field name="is_red" string="Color" class="show-red" invisible="1"/>
-                                    <field name="forecast_availability" string="Availability" decoration-danger="is_red == True"/>
+                                    <field name="forecast_availability" string="Availability" decoration-danger="is_red == True" optional="hide"/>
                                     <field name="colour_forecast" widget="color" nolabel="1"/>
 <!--                                    <button title="Forecasted" class="o_forecast_report_button btn btn-link o_icon_button ms-2 forecast-medicine" icon="fa-area-chart" decoration-danger="is_red == True"/>-->
 <!--                                    <widget name="qty_at_date_widget" width="20px"/>-->
@@ -227,7 +227,7 @@
                                     <field name="medicine_technique"/>
                                     <field name="medicine_depth"/>
                                     <field name="medicine_method"/>
-                                    <field name="repeat"/>
+                                    <field name="repeat" optional="hide"/>
                                 </tree>
                             </field>
                              <group colspan="4">
