@@ -68,6 +68,8 @@
                      <div t-if="doc.patient_id" class="col-3 mb-2">
                         <strong>Address</strong>
                         <p class="m-0" t-field="doc.patient_id.street"/>
+                         <p class="m-0" t-field="doc.patient_id.state_id"/>
+                         <p class="m-0" t-field="doc.patient_id.zip"/>
                     </div>
                 </div>
 
