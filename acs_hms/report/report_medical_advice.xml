@@ -17,7 +17,7 @@
                 <t t-foreach="prescription.prescription_line_ids" t-as="line">
                     <tr>
                         <t t-if="not line.display_type">
-                            <td>
+                            <td style="text-align: center;">
                                 <span t-esc="line_index + 1"/>
                             </td>
                             <td>
@@ -26,10 +26,10 @@
 <!--                            <td>-->
 <!--                                <span t-field="line.allow_substitution"/>-->
 <!--                            </td>-->
-                            <td>
+                            <td style="text-align: right;">
                                 <span t-if="line.dose" t-field="line.dose"/>
                             </td>
-                            <td style="text-align: right;">
+                            <td>
                                 <span t-field="line.medicine_area"/>
                             </td>
                             <td style="text-align: right;">
