@@ -267,7 +267,7 @@ class ACSPrescriptionOrder(models.Model):
 
     def unlink(self):
         for rec in self:
-            if rec.state not in ['draft']:
+            if rec.state not in ['draft', 'confirmed']:
                 raise UserError(_('Prescription Order can be delete only in Draft state.'))
         return super(ACSPrescriptionOrder, self).unlink()
 
