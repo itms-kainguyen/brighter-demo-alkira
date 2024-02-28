@@ -285,7 +285,7 @@
                      <field name="answer_ids" widget="section_and_note_one2many" options="{'always_reload': True}">
                          <tree editable="bottom" create="1" delete="1">
                               <control>
-                                      <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}" attrs="{'invisible': [('is_add_note','=',False)]}"/>
+                                      <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                              </control>
                              <field name="checklist_id" readonly="1" force_save="1" invisible="1"/>
                              <field name="question_id" readonly="1" force_save="1" options="{'no_open': True}"/>
