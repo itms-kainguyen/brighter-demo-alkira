@@ -534,7 +534,7 @@ class ACSPrescriptionOrder(models.Model):
             prescription = self.search([('patient_id', '=', self.patient_id.id), ('state', '=', 'prescription')],
                                        order='id desc', limit=1)
             self.old_prescription_id = prescription.id if prescription else False
-            self.physician_id = self.patient_id.primary_physician_id.id if self.patient_id.primary_physician_id else False
+            # self.physician_id = self.patient_id.primary_physician_id.id if self.patient_id.primary_physician_id else False
 
     @api.onchange('pregnancy_warning')
     def onchange_pregnancy_warning(self):
@@ -784,6 +784,7 @@ class ACSPrescriptionLine(models.Model):
     colour_forecast = fields.Char(string="Color", compute='_compute_colour_forecast')
 
     is_pbs = fields.Boolean('PBS', default=False)
+
 
     @api.depends('product_id', 'qty_available', 'dose')
     def _compute_colour_forecast(self):
