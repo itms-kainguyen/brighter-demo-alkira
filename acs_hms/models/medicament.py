@@ -108,6 +108,7 @@ class ACSMedicamentGroup(models.Model):
     diseases_id = fields.Many2one('hms.diseases', ondelete='set null', string='Diseases')
     medicament_group_line_ids = fields.One2many('medicament.group.line', 'group_id', string='Medicament line')
     limit = fields.Integer('Limit')
+    active = fields.Boolean(string="Active", default=True)
 
 
 class ACSMedicationDosage(models.Model):
