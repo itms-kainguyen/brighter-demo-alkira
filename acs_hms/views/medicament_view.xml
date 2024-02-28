@@ -41,20 +41,20 @@
                     </group>
                     <field name="medicament_group_line_ids">
                         <tree string="" editable="top">
-                            <field name="product_id" expand="1"/>
-                            <field name="medicine_area"/>
-                            <field name="medicine_technique"/>
-                            <field name="medicine_depth"/>
-                            <field name="medicine_method"/>
+                            <field name="product_id" expand="1" optional="show"/>
+                            <field name="medicine_area" optional="show"/>
+                            <field name="medicine_technique" optional="show"/>
+                            <field name="medicine_depth" optional="show"/>
+                            <field name="medicine_method" optional="show"/>
                             <field name="allow_substitution" optional="hide" invisible="1"/>
                             <field name="common_dosage_id" optional="hide" invisible="1"/>
-                            <field name="dose"/>
-                            <field name="dosage_uom_id"/>
-                            <field name="repeat"/>
+                            <field name="dose" optional="show"/>
+                            <field name="dosage_uom_id" optional="show"/>
+                            <field name="repeat" optional="show"/>
                             <field name="use" optional="show"/>
                             <field name="route_id" optional="hide" invisible="1"/>
                             <field name="product_uom_category_id" invisible="1"/>
-                            <field name="qty_per_day"/>
+                            <field name="qty_per_day" optional="show"/>
                             <field name="days" optional="hide" invisible="1"/>
                             <field name="quantity" optional="hide" invisible="1"/>
                             <field name="short_comment" optional="hide" invisible="1"/>
