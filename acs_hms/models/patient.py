@@ -419,6 +419,17 @@ class ACSPatient(models.Model):
 
     answer_ids = fields.One2many('patient.medical.checklist.line', 'patient_id', string="Medical Questionnaire")
 
+    is_add_note = fields.Boolean('Is add notes', compute='_compute_is_add_note')
+
+    @api.depends('answer_ids')
+    def _compute_is_add_note(self):
+        for record in self:
+            record.is_add_note = False
+            if len(record.answer_ids) > 0:
+                answers = record.answer_ids.filtered(lambda x: x.display_type != 'line_note')
+                last_answer = answers[-1]
+                record.is_add_note = last_answer.yes
+
     @api.onchange('question_ids')
     def _onchange_question_ids(self):
         lines = []

@@ -21,12 +21,19 @@ class MedicalChecklistLine(models.Model):
 class PatientMedicalChecklistLine(models.Model):
     _name = 'patient.medical.checklist.line'
 
+    name = fields.Char('Notes')
     question_id = fields.Many2one('medical.checklist.line', string='Question')
     checklist_id = fields.Many2one('medical.checklist', string='Checklist')
     yes = fields.Boolean('No/Yes')
     no = fields.Boolean('No')
     patient_id = fields.Many2one('hms.patient', string='Patient')
     appointment_id = fields.Many2one('hms.appointment', string='Appointment')
+    display_type = fields.Selection(
+        selection=[
+            ('line_section', "Section"),
+            ('line_note', "Note"),
+        ],
+        default=False)
 
     @api.onchange('question_id', 'yes')
     def _onchange_choose_yes(self):
