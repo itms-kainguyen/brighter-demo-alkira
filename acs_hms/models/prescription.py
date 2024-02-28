@@ -31,6 +31,14 @@ class ACSPrescriptionOrder(models.Model):
     def get_clinic(self):
         return self.env.user.department_ids[0].id if len(self.env.user.department_ids) > 0 else False
 
+    @api.model
+    def _get_clinician(self):
+        nurse_id = False
+        ids = self.env['res.users'].search([('department_ids', 'in', self.env.user.department_ids.ids)])
+        if ids:
+            nurse_id = ids[0].id
+        return nurse_id
+
     def _rec_count(self):
         for rec in self:
             rec.transaction_count = len(self.env['payment.transaction'].search(
@@ -115,7 +123,7 @@ class ACSPrescriptionOrder(models.Model):
 
     first_product_id = fields.Many2one('product.product', string="Medicine", compute='get_1st_product')
     nurse_id = fields.Many2one('res.users', 'Clinician', domain=[('physician_id', '=', False)], required=True,
-                               default=lambda self: self.env.user, states=READONLY_STATES, )
+                               default=_get_clinician, states=READONLY_STATES, )
 
     survey_answer_ids = fields.One2many('survey.user_input.line', 'prescription_id', 'Answer',
                                         copy=False, readonly=True)
@@ -774,6 +782,8 @@ class ACSPrescriptionLine(models.Model):
                            string="Expiration", help="")
     is_red = fields.Boolean(default=False)
     colour_forecast = fields.Char(string="Color", compute='_compute_colour_forecast')
+
+    is_pbs = fields.Boolean('PBS', default=False)
 
     @api.depends('product_id', 'qty_available', 'dose')
     def _compute_colour_forecast(self):
