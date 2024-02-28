@@ -347,8 +347,8 @@
                 <div invisible="context.get('show_pop_up',True)">
                     <p>Are you sure you want to charge $28 to your credit card?</p>
                     <footer>
-                        <button name="pay_prescription" type="object" string="Yes" class="oe_highlight"/>
-                        <button string="No" class="oe_link" special="cancel" />
+                        <button name="pay_prescription" type="object" string="Yes" class="oe_highlight" invisible="1"/>
+                        <button string="No" class="oe_link" special="cancel" invisible="1"/>
                     </footer>
                 </div>
             </sheet>
