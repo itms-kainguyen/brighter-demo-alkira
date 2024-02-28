@@ -517,8 +517,8 @@ class ACSPrescriptionOrder(models.Model):
                 subtype_xmlid='mail.mt_comment',
                 attachment_ids=[attachment.id]
             )
-            template_id = self.env.ref('acs_hms.acs_prescription_email')
-            template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
+            # template_id = self.env.ref('acs_hms.acs_prescription_email')
+            # template_id.sudo().send_mail(app.id, raise_exception=False, force_send=True)
             # channel = self.env['mail.channel'].create(message_vals)
 
     def button_done(self):
