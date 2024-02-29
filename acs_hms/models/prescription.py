@@ -35,7 +35,7 @@ class ACSPrescriptionOrder(models.Model):
     def _get_clinician(self):
         nurse_id = False
         ids = self.env['res.users'].search([('department_ids', 'in', self.env.user.department_ids.ids)])
-        is_nurse = self.env.user.has_group('acs_hms.group_hms_manager')
+        is_nurse = self.env.user.has_group('acs_hms_base.group_hms_manager')
         if is_nurse:
             nurse_id = self.env.user.id
         else:
