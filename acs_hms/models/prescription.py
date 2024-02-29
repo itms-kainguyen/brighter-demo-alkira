@@ -35,8 +35,12 @@ class ACSPrescriptionOrder(models.Model):
     def _get_clinician(self):
         nurse_id = False
         ids = self.env['res.users'].search([('department_ids', 'in', self.env.user.department_ids.ids)])
-        if ids:
-            nurse_id = ids[0].id
+        is_nurse = self.env.user.has_group('acs_hms.group_hms_manager')
+        if is_nurse:
+            nurse_id = self.env.user.id
+        else:
+            if ids:
+                nurse_id = ids[0].id
         return nurse_id
 
     def _rec_count(self):
@@ -784,7 +788,6 @@ class ACSPrescriptionLine(models.Model):
     colour_forecast = fields.Char(string="Color", compute='_compute_colour_forecast')
 
     is_pbs = fields.Boolean('PBS', default=False)
-
 
     @api.depends('product_id', 'qty_available', 'dose')
     def _compute_colour_forecast(self):
