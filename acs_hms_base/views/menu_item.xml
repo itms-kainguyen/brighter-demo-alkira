@@ -32,7 +32,7 @@
     <menuitem id="menu_acs_services" name="Services" parent="acs_services_root" action="product_template_action_services"/>
 
     <!-- Main Medicine Menu -->
-    <menuitem id="acs_medicine_root" name="Medicines" sequence="49" groups="acs_hms_base.group_manage_medicines,acs_hms_base.group_hms_manager" web_icon="acs_hms_base,static/src/img/medicine2.png"/>
+    <menuitem id="acs_medicine_root" name="Medicines" sequence="49" groups="acs_hms_base.group_manage_medicines" web_icon="acs_hms_base,static/src/img/medicine2.png"/>
 
     <menuitem id="menu_acs_medicine" name="Medicines" parent="acs_medicine_root" action="product_template_action_medicines"/>
 
