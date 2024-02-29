@@ -348,7 +348,7 @@
                 <div invisible="context.get('show_pop_up',True)">
                     <p>Are you sure you want to charge $28 to your credit card?</p>
                     <footer>
-                        <button class="btn btn-primary" special="save" data-hotkey="c">Submit</button>
+                        <button class="btn btn-primary" type="object" name="action_save_and_close">Submit</button>
 <!--                        <button class="btn btn-secondary" special="cancel" data-hotkey="j">Close</button>-->
                         <button name="pay_prescription" type="object" string="Yes" class="oe_highlight" invisible="1"/>
                         <button string="No" class="oe_link" special="cancel" invisible="1"/>
