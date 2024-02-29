@@ -161,7 +161,7 @@ class ACSPrescriptionOrder(models.Model):
 
 
     def action_save_and_close(self):
-        return True
+        return {'type': 'ir.actions.act_window_close'}
 
     @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
     def _compute_product_ids(self):
