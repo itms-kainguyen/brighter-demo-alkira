@@ -40,7 +40,7 @@ class ACSTreatment(models.Model):
             rec.appointment_count = len(rec.appointment_ids)
             rec.patient_procedure_count = len(rec.patient_procedure_ids)
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
+    READONLY_STATES = {'cancel': [('readonly', False)], 'done': [('readonly', False)]}
 
     name = fields.Char(string='Name', readonly=True, index=True, copy=False, tracking=True)
     display_name = fields.Char(compute='_compute_display_name', string='Treatment Note Title')
