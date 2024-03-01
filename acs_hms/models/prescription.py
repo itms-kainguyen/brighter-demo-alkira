@@ -384,6 +384,8 @@ class ACSPrescriptionOrder(models.Model):
 
     def pay_confirm(self):
         for app in self:
+            if not app.physician_id:
+                raise UserError(_('You cannot confirm a prescription order without Prescriber.'))
             if not app.prescription_line_ids:
                 raise UserError(_('You cannot confirm a prescription order without any order line.'))
             if not app.is_owner_prescriber:
