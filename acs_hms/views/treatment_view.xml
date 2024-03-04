@@ -129,6 +129,7 @@
                                     <field name="id"/>
                                      <field name="name"/>
                                      <field name="product_ids" widget="many2many_tags"/>
+                                     <field name="product_area"/>
                                      <field name="is_locked" invisible="1"/>
                                      <field name="state" invisible="1"/>
                                     <templates>
@@ -138,9 +139,13 @@
                                                     <strong class="oe_partner_heading"><field name="name"/></strong>
                                                     <ul>
                                                     </ul>
-                                                    <span class="oe_kanban_list_many2many">
-                                                        <field name="product_ids" widget="many2many_tags"/>
+<!--                                                    <span class="oe_kanban_list_many2many">-->
+<!--                                                        <field name="product_ids" widget="many2many_tags"/>-->
+<!--                                                    </span>-->
+                                                    <span>
+                                                        <p><field name="product_area" type="html"/></p>
                                                     </span>
+
                                                 </div>
                                                 <div class="o_kanban_record_bottom">
                                                         <div class="oe_kanban_bottom_left">

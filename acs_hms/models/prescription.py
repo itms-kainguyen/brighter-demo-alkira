@@ -141,6 +141,8 @@ class ACSPrescriptionOrder(models.Model):
                                       readonly=1)
     transaction_count = fields.Integer(compute='_rec_count', string='Transactions')
     product_ids = fields.Many2many('product.product', compute='_compute_product_ids', string='Medicines')
+    product_name = fields.Char(compute='_compute_product_ids', string='Medicine Name')
+    product_area = fields.Html(compute='_compute_product_ids', string='Medicine Area')
     treatment_ids = fields.Many2many('hms.treatment', 'prescription_treatment_rel', 'treatment_id', 'prescription_id')
     treatment_medicine_count = fields.Integer(compute='_rec_count', string='History')
     is_owner_prescriber = fields.Boolean("Owner Prescriber", compute='_compute_is_owner_prescriber', store=True)
@@ -159,15 +161,22 @@ class ACSPrescriptionOrder(models.Model):
 
         return res
 
-
     def action_save_and_close(self):
         return {'type': 'ir.actions.act_window_close'}
 
     @api.depends('prescription_line_ids', 'prescription_line_ids.product_id')
     def _compute_product_ids(self):
         for rec in self:
+            tmp = ''
             rec.product_ids = False
             rec.product_ids = rec.prescription_line_ids.mapped('product_id')
+            rec.product_name = ''
+            rec.product_area = ''
+            for line in rec.prescription_line_ids:
+                rec.product_name += line.product_id.name
+                tmp += line.product_id.name + ' ' + dict(line._fields['medicine_area'].selection).get(
+                    line.medicine_area) + ' ' + str(line.dose) + 'ui' + '<br/>'
+            rec.product_area = tmp
 
     @api.depends('prescription_date')
     def _compute_prescription_date_format(self):
