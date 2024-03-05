@@ -10,6 +10,9 @@
 @import url('https://cdn.jsdelivr.net/npm/@chakra-ui/css@1.0.0-next.3/dist/cjs/index.min.js');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css');
 
+.top_navbar_section.mb-3.mb-md-5 {
+    background-color: #ff4f00;
+}
 
 .o_kanban_dashboard.o_acs_hms_kanban {
     .o_kanban_record {
