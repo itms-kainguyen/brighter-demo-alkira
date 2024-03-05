@@ -401,7 +401,7 @@
                 <field name="name"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_content">
+                        <div class="oe_kanban_global_click oe_kanban_content">
                             <div class="oe_kanban_vignette oe_semantic_html_override">
                                 <div class="oe_kanban_details">
                                     <h3>
