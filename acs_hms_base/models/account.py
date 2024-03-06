@@ -13,7 +13,7 @@ class AccountMove(models.Model):
 
     @api.onchange('patient_id')
     def onchange_patient(self):
-        if self.patient_id and not self.partner_id:
+        if self.patient_id:
             self.partner_id = self.patient_id.partner_id.id
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

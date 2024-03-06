@@ -8,8 +8,27 @@
             <field name="partner_id" position="after">
                 <field name="patient_id" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
             </field>
+             <xpath expr="//label[@for='partner_id']" position="attributes">
+                 <attribute name="invisible">1</attribute>
+             </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('o_td_label')]" position="attributes">
+                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('d-flex')]" position="attributes">
+                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@id='aml_tab']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+              <xpath expr="//page[@id='other_tab']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
             <notebook position="inside">
-                <page name="hospital_info" string="Clinic Info" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}">
+                <page name="hospital_info" invisible="1" string="Clinic Info" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}">
                     <group name="general">
                         <group name="general_details" string="General Details">
                             <field name="physician_id"/>
