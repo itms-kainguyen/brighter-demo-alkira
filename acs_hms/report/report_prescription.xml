@@ -42,14 +42,14 @@
                 </center>
 
                  <div class="row mt32 mb16" id="informations">
-                    <div t-if="doc.prescription_date" class="col-3 mb-2">
+                    <div t-if="doc.prescription_date" class="col-4 mb-2">
                         <strong>Date</strong>
                         <p class="m-0" t-field="doc.prescription_date"/>
                     </div>
                  </div>
 
                 <div class="row mt32 mb16" id="informations">
-                    <div t-if="doc.patient_id" class="col-3 mb-2">
+                    <div t-if="doc.patient_id" class="col-4 mb-2">
                         <strong>Patient</strong>
                         <p class="m-0" t-field="doc.patient_id"/>
                     </div>
@@ -58,7 +58,7 @@
 <!--                        <p class="m-0" t-field="doc.patient_age"/>-->
 <!--                    </div>-->
 
-                     <div t-if="doc.patient_age" class="col-3 mb-2">
+                     <div t-if="doc.patient_id.birthday" class="col-4 mb-2">
                         <strong>D.O.B</strong>
                         <p class="m-0" t-field="doc.patient_id.birthday"/>
                     </div>
