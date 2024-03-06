@@ -173,8 +173,8 @@ class ACSPrescriptionOrder(models.Model):
             rec.product_name = ''
             rec.product_area = ''
             for line in rec.prescription_line_ids:
-                rec.product_name += line.product_id.name
-                tmp += line.product_id.name + ' ' + dict(line._fields['medicine_area'].selection).get(
+                rec.product_name += line.product_id.name or ''
+                tmp += line.product_id.name or '' + ' ' + dict(line._fields['medicine_area'].selection).get(
                     line.medicine_area) + ' ' + str(line.dose) + 'ui' + '<br/>'
             rec.product_area = tmp
 
