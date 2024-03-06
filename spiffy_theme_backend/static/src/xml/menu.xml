@@ -157,7 +157,7 @@
 				<div class="company_logo_brand d-none d-md-flex align-items-center">
 					<div class="o_company_logo d-none d-md-block">
 						<t t-if="currentCompany">
-							<img class="img img-fluid company_logo" t-attf-src="/web/image?model=res.company&amp;field=backend_menubar_logo&amp;id={{currentCompany.id}}"/>
+							<img class="img img-fluid company_logo" t-attf-src="/web/image?model=res.company&amp;field=logo&amp;id={{currentCompany.id}}"/>
 							<img class="img img-fluid company_logo_icon d-none" t-attf-src="/web/image?model=res.company&amp;field=backend_menubar_logo_icon&amp;id={{currentCompany.id}}"/>
 						</t>
 					</div>
@@ -196,7 +196,7 @@
 				</div>
 				<div class="o_company_logo">
 					<t t-if="currentCompany">
-						<img class="img img-fluid company_logo" t-attf-src="/web/image?model=res.company&amp;field=backend_menubar_logo&amp;id={{currentCompany.id}}"/>
+						<img class="img img-fluid company_logo" t-attf-src="/web/image?model=res.company&amp;field=logo&amp;id={{currentCompany.id}}"/>
 						<img class="img img-fluid company_logo_icon d-none" t-attf-src="/web/image?model=res.company&amp;field=backend_menubar_logo_icon&amp;id={{currentCompany.id}}"/>
 					</t>
 				</div>
@@ -313,7 +313,7 @@
 							<span class="ri ri-arrow-left-s-line"/>
 						</a>
 						<a class="o_company_logo">
-							<img class="img img-fluid company_logo" src="/web/image?model=res.company&amp;field=backend_menubar_logo&amp;id=1"/>
+							<img class="img img-fluid company_logo" src="/web/image?model=res.company&amp;field=logo&amp;id=1"/>
 							<img class="img img-fluid company_logo_icon d-none" src="/web/image?model=res.company&amp;field=backend_menubar_logo_icon&amp;id=1"/>
 						</a>
 					</div>
