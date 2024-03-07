@@ -328,7 +328,7 @@
 									<i class="ri ri-search-line" style="color: white;"></i>
 								</span>
 							</div>
-							<input type="text" id="app_menu_search" class="form-control ccolor" style="background: white !important;" placeholder="Search"/>
+							<input type="text" id="app_menu_search" class="form-control ccolor" style="border: 1px solid white !important;" placeholder="Search"/>
 					</div>
 					</div>
 
