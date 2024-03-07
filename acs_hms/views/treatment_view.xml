@@ -151,21 +151,21 @@
                                                         <div class="oe_kanban_bottom_left">
                                                             <button
                                                         name="select_prescription" type="object"
-                                                        string="Select" icon="fa-plus" class="oe_highlight"
+                                                        string="Select" icon="fa-plus" class="oe_highlight al-btn-adjust"
                                                         context="{'default_treatment_id': parent.id}"/>
                                                         <button
                                                             name="remove_prescription" type="object"
-                                                            string="Deselect" icon="fa-minus" class="oe_highlight"
+                                                            string="Deselect" icon="fa-minus" class="oe_highlight al-btn-adjust"
                                                             context="{'default_treatment_id': parent.id}"
                                                         />
                                                              <button
                                                             name="button_open_edit" type="object"
-                                                            string="Edit" class="oe_highlight" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','not in',('prescription','request'))]}"
+                                                            string="Edit" class="oe_highlight al-btn-adjust" groups="acs_hms.group_hms_doctor" attrs="{'invisible': ['|',('is_locked','=',True),('state','not in',('prescription','request'))]}"
                                                             context="{'default_treatment_id': parent.id}"
                                                         />
                                                          <button
                                                             name="button_request_change" type="object" attrs="{'invisible': ['|',('is_locked','=',True),('state','!=','prescription')]}"
-                                                            string="Request Change" groups="acs_hms_base.group_hms_manager" class="oe_highlight" confirm="Do you wish to contact the Prescriber/Doctor to request a change?"
+                                                            string="Request Change" groups="acs_hms_base.group_hms_manager" class="oe_highlight al-btn-adjust" confirm="Do you wish to contact the Prescriber/Doctor to request a change?"
                                                             context="{'default_treatment_id': parent.id}"/>
                                                         </div>
 
