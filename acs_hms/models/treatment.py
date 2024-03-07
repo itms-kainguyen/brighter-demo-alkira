@@ -67,8 +67,8 @@ class ACSTreatment(models.Model):
                                         states=READONLY_STATES)
     template_id = fields.Many2one('treatment.template', 'Template Note')
     template_ids = fields.Many2many('treatment.template', 'treatment_template_rel', 'treatment_id', 'template_id')
-    finding = fields.Html(string="Findings", readonly="[('state', 'in', ['cancel', 'done'])]")
-    finding_tmp = fields.Html(string="Findings Tmp", readonly="[('state', 'in', ['cancel', 'done'])]")
+    finding = fields.Html(string="Findings")
+    finding_tmp = fields.Html(string="Findings Tmp")
     appointment_ids = fields.One2many('hms.appointment', 'treatment_id', string='Appointments',
                                       states=READONLY_STATES)
     appointment_count = fields.Integer(compute='_rec_count', string='# Appointments')
