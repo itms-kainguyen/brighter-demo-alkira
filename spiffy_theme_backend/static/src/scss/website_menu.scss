@@ -1,3 +1,11 @@
+body.o_web_client.custom_drawer_color .o_main_navbar.appdrawer-toggle .o_menu_systray a:not(.dropdown-item), body.o_web_client.custom_drawer_color .o_main_navbar.appdrawer-toggle .o_menu_systray button, body.o_web_client.custom_drawer_color .o_main_navbar.appdrawer-toggle .o_menu_systray .dark_mode label {
+    color: white !important;
+}
+
+body.o_web_client.custom_drawer_color .o_main_navbar.appdrawer-toggle .o_menu_systray .o_user_menu .user-image-style .user-info span {
+    color: white !important;
+}
+
 body.o_web_client {
     &.top_menu_vertical,&.top_menu_vertical_mini{
         &:not(.o_website_fullscreen){

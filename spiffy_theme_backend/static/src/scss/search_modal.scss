@@ -1,4 +1,14 @@
 // Search-bar Design in fullpage
+
+#app_menu_search::placeholder {
+  color: red;
+  opacity: 1; /* Firefox */
+}
+
+#app_menu_search::-ms-input-placeholder { /* Edge 12 -18 */
+  color: red;
+}
+
 #search_bar_modal {
     background-color: rgba(0, 0, 0, 0.5) !important;
     input,select,textarea{

@@ -309,7 +309,7 @@
 				<t t-call="AllAppsMenus"/>
 				<div class="appdrawer_section">
 					<div class="top_navbar_section mb-3 mb-md-5">
-						<a class="close_fav_app_btn d-none">
+						<a class="close_fav_app_btn d-none" style="color: white">
 							<span class="ri ri-arrow-left-s-line"/>
 						</a>
 						<a class="o_company_logo">
