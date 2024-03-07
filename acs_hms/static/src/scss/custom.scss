@@ -21,6 +21,12 @@
     font-size: 10px;
 }
 
+@media only screen and (max-width: 600px) {
+      .al-btn-adjust span {
+        overflow-wrap: unset !important;
+        font-size: 8px;
+        }
+}
 
 .cprint {
     position: absolute;
