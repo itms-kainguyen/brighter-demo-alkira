@@ -169,6 +169,10 @@ access_patient_medical_checklist_line_user,patient.medical.checklist.line user,a
 
 access_patient_document_user,patient.document user,acs_hms.model_patient_document,base.group_user,1,1,1,1
 
+access_medicine_area_user,medicine.area.user,acs_hms.model_medicine_area,base.group_user,1,1,1,1
+access_medicine_technique_user,medicine.technique.user,acs_hms.model_medicine_technique,base.group_user,1,1,1,1
+access_medicine_depth_user,medicine.depth.user,acs_hms.model_medicine_depth,base.group_user,1,1,1,1
+access_medicine_method_user,medicine.method.user,acs_hms.model_medicine_method,base.group_user,1,1,1,1
 
 
 

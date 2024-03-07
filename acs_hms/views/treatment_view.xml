@@ -218,7 +218,7 @@
                                 <tree string="Medicine" editable="bottom">
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
                                     <field name="prescription_id"/>
-                                    <field name="medicine_area"/>
+                                    <field name="medicine_area_id"/>
                                     <field name="amount"  class="amount-medicine"/>
                                     <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}" optional="hide"/>
                                     <field name="expiration_date" optional="hide"/>
@@ -229,9 +229,9 @@
 <!--                                    <button title="Forecasted" class="o_forecast_report_button btn btn-link o_icon_button ms-2 forecast-medicine" icon="fa-area-chart" decoration-danger="is_red == True"/>-->
 <!--                                    <widget name="qty_at_date_widget" width="20px"/>-->
 <!--                                   <i class="fa fa-fw o_button_icon fa-area-chart">hi</i>-->
-                                    <field name="medicine_technique"/>
-                                    <field name="medicine_depth"/>
-                                    <field name="medicine_method"/>
+                                    <field name="medicine_technique_id"/>
+                                    <field name="medicine_depth_id"/>
+                                    <field name="medicine_method_id"/>
                                     <field name="repeat" optional="hide"/>
                                 </tree>
                             </field>

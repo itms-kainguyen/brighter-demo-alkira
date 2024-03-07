@@ -167,7 +167,6 @@ class ACSTreatment(models.Model):
 
     request_prescription_ids = fields.One2many('prescription.order', 'treatment_id', 'Request Prescription', copy=False)
 
-
     # Photo form
     # attachment_ids = fields.Many2many(comodel_name='ir.attachment')
     attachment_ids = fields.One2many(
@@ -722,6 +721,11 @@ class TreatmentMedicineLine(models.Model):
         ('micro', 'Micro-needling'),
         ('dermal', 'Dermal puncture')], default='sharp', string='Method')
 
+    medicine_area_id = fields.Many2one('medicine.area', string="Area")
+    medicine_technique_id = fields.Many2one('medicine.technique', string='Technique')
+    medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')
+    medicine_method_id = fields.Many2one('medicine.method', string='Method')
+
     treatment_id = fields.Many2one('hms.treatment', string='Treatment')
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='treatment_id.company_id')
@@ -737,6 +741,8 @@ class TreatmentMedicineLine(models.Model):
                                          digits='Product Unit of Measure', compute_sudo=True)
     is_red = fields.Boolean(default=False)
     colour_forecast = fields.Char(string="Color", default="#008000")
+
+
 
     @api.depends('product_id', 'acs_lot_id', 'amount')
     def _compute_forecast_information(self):
@@ -767,6 +773,38 @@ class TreatmentMedicineLine(models.Model):
 
     def _openReport(self):
         return
+
+
+class Medicinearea(models.Model):
+    _name = "medicine.area"
+    _description = "medicine area"
+    _rec_name = 'name'
+
+    name = fields.Char(string='Name', required=True)
+
+
+class Medicinetechnique(models.Model):
+    _name = "medicine.technique"
+    _description = "medicine technique"
+    _rec_name = 'name'
+
+    name = fields.Char(string='Name', required=True)
+
+
+class Medicinedepth(models.Model):
+    _name = "medicine.depth"
+    _description = "medicine depth"
+    _rec_name = 'name'
+
+    name = fields.Char(string='Name', required=True)
+
+
+class Medicinemethod(models.Model):
+    _name = "medicine.method"
+    _description = "medicine method"
+    _rec_name = 'name'
+
+    name = fields.Char(string='Name', required=True)
 
 
 class TreatmentTemplate(models.Model):

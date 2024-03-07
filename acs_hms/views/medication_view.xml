@@ -77,4 +77,84 @@
         <field name="context">{}</field>
     </record>
 
+
+
+
+    <record id="view_medicine_area_tree" model="ir.ui.view">
+        <field name="name">medicine.area.tree</field>
+        <field name="model">medicine.area</field>
+        <field name="arch" type="xml">
+            <tree string="Area" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medicine_area_view">
+        <field name="name">Area</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.area</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="view_medicine_technique_tree" model="ir.ui.view">
+        <field name="name">medicine.technique.tree</field>
+        <field name="model">medicine.technique</field>
+        <field name="arch" type="xml">
+            <tree string="Technique" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medicine_technique_view">
+        <field name="name">Technique</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.technique</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+      <record id="view_medicine_depth_tree" model="ir.ui.view">
+        <field name="name">medicine.depth.tree</field>
+        <field name="model">medicine.depth</field>
+        <field name="arch" type="xml">
+            <tree string="Depth" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medicine_depth_view">
+        <field name="name">Depth</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.depth</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+     <record id="view_medicine_method_tree" model="ir.ui.view">
+        <field name="name">medicine.method.tree</field>
+        <field name="model">medicine.method</field>
+        <field name="arch" type="xml">
+            <tree string="Method" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medicine_method_view">
+        <field name="name">Method</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.method</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+
 </odoo>
