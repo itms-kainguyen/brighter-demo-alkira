@@ -93,6 +93,44 @@
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="allergic_event_boolean" string="Allergic Reactions" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
+
+                            <field name="vascular" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="occlusion" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="skin" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="necrosis" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="granuloma" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="ptosis" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="odema" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="needle" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="stick" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="injury" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                             <field name="vasovegal" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                             <field name="episode" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                             <field name="bruising" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                             <field name="herpetic" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="reaction" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="tyndall" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="effect" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="migration" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+
                             <field name="nurse_id" string="Clinician" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="branch_id" domain="[('id', 'in', allow_department_ids)]" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="clinic_manager_id" />

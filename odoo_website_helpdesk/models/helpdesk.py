@@ -154,6 +154,26 @@ class HelpDeskTicket(models.Model):
     blindness_event_boolean = fields.Boolean(string='Blindness', default=False)
     infections_event_boolean = fields.Boolean(string='Infections', default=False)
     allergic_event_boolean = fields.Boolean(string='Allergic Reactions', default=False)
+
+    vascular = fields.Boolean(string='Vascular', default=False)
+    occlusion = fields.Boolean(string='Occlusion', default=False)
+    skin = fields.Boolean(string='Skin', default=False)
+    necrosis = fields.Boolean(string='Necrosis', default=False)
+    granuloma = fields.Boolean(string='Granuloma', default=False)
+    ptosis = fields.Boolean(string='Ptosis', default=False)
+    odema = fields.Boolean(string='Odema', default=False)
+    needle = fields.Boolean(string='Needle', default=False)
+    stick = fields.Boolean(string='Stick', default=False)
+    injury = fields.Boolean(string='Injury', default=False)
+    vasovegal = fields.Boolean(string='Vasovegal', default=False)
+    episode = fields.Boolean(string='Episode', default=False)
+    bruising = fields.Boolean(string='Bruising', default=False)
+    herpetic = fields.Boolean(string='Herpetic', default=False)
+    reaction = fields.Boolean(string='Reaction', default=False)
+    tyndall = fields.Boolean(string='Tyndall', default=False)
+    effect = fields.Boolean(string='Effect', default=False)
+    migration = fields.Boolean(string='Migration', default=False)
+
     is_sent = fields.Boolean(string='Sent', default=False)
 
     attachment_ids = fields.One2many(
