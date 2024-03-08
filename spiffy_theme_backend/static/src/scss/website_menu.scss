@@ -6,6 +6,51 @@ body.o_web_client.custom_drawer_color .o_main_navbar.appdrawer-toggle .o_menu_sy
     color: white !important;
 }
 
+@media only screen and (max-width: 768px) {
+      .custom_mobile {
+        width: 58px !important;
+   }
+}
+.custom-menu-search {
+    position: absolute;
+    top: 0;
+    right: 56px;
+    width: 531px;
+    background-color: #ff4f00;
+}
+
+@media only screen and (max-width: 768px) {
+      .custom-menu-search {
+        position: absolute;
+        top: 0;
+        right: 9px;
+        width: 214px;
+        background-color: #ff4f00;
+        }
+}
+
+.custom-icon-search {
+    position: absolute;
+    right: 532px;
+    top: 4px;
+}
+
+
+@media only screen and (max-width: 992.98px) {
+body.o_web_client.top_menu_horizontal .o_main_navbar .o_menu_systray {
+    order: 3 !important;
+}
+}
+
+@media only screen and (max-width: 768px) {
+      .custom-icon-search {
+            position: absolute;
+            right: 214px;
+            top: 4px;
+        }
+}
+
+
 body.o_web_client {
     &.top_menu_vertical,&.top_menu_vertical_mini{
         &:not(.o_website_fullscreen){
