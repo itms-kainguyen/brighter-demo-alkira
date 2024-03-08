@@ -10,7 +10,7 @@
     "license": "AGPL-3",
     'version': '16.0.2',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'mail','sms','product','acs_hms','acs_hms_online_appointment','auth_signup'],
+    'depends': ['base', 'web', 'mail','sms','product','acs_hms','acs_hms_online_appointment','auth_signup','point_of_sale'],
     # always loaded
     'data': [
         'security/security.xml',
@@ -28,12 +28,20 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'itms_hms/static/src/**/*',
+            'itms_hms/static/src/scss/mrp_document_kanban_view.scss',
+            'itms_hms/static/src/scss/style.scss',
+            'itms_hms/static/src/xml/phone_field.xml',
+            'itms_hms/static/src/xml/discuss_sidebar.xml',
         ],
         'web.assets_frontend': [
         ],
+        'point_of_sale.assets': [
+            'itms_hms/static/src/scss/pos.scss',
+            'itms_hms//static/src/xml/pos.xml',
+        ],
 
     },
+
     'installable': True,
     'application': True,
     'license': 'OPL-1',
