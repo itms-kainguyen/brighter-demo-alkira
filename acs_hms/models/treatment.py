@@ -811,8 +811,10 @@ class TreatmentTemplate(models.Model):
     _name = "treatment.template"
     _description = "Treatment Template"
     _rec_name = 'name'
+    _order = 'sequence ASC'
 
     name = fields.Char(string='Title', required=True)
+    sequence = fields.Integer(default=10)
     notes = fields.Html(string='Treatment Note', required=True)
 
 

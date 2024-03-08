@@ -776,6 +776,7 @@
         <field name="model">treatment.template</field>
         <field name="arch" type="xml">
             <tree string="Treatment Template">
+                <field name="sequence"/>
                 <field name="name"/>
                 <field name="notes"/>
             </tree>
@@ -793,6 +794,12 @@
                         <h1>
                             <field name="name" placeholder="Title..."/>
                         </h1>
+                        <group>
+                            <group>
+                                <field name="sequence"/>
+                            </group>
+                            <group></group>
+                        </group>
                     </div>
 
                     <notebook>
