@@ -84,6 +84,11 @@ class MedicamentGroupLine(models.Model):
                            string="Expiration", help="")
     repeat = fields.Integer(string='Repeat', default=5)
 
+    medicine_area_id = fields.Many2one('medicine.area', string="Area")
+    medicine_technique_id = fields.Many2one('medicine.technique', string='Technique')
+    medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')
+    medicine_method_id = fields.Many2one('medicine.method', string='Method')
+
     @api.onchange('product_id')
     def onchange_product_id(self):
         if self.product_id:

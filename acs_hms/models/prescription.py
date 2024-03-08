@@ -642,10 +642,10 @@ class ACSPrescriptionOrder(models.Model):
                 for line in group.medicament_group_line_ids:
                     lines.append((0, 0, {
                         'product_id': line.product_id.id,
-                        'medicine_area': line.medicine_area,
-                        'medicine_technique': line.medicine_technique,
-                        'medicine_depth': line.medicine_depth,
-                        'medicine_method': line.medicine_method,
+                        'medicine_area_id': line.medicine_area_id.id or False,
+                        'medicine_technique_id': line.medicine_technique_id.id or False,
+                        'medicine_depth_id': line.medicine_depth_id.id or False,
+                        'medicine_method_id': line.medicine_method_id.id or False,
                         'use': line.use,
                         'repeat': line.repeat,
                         'common_dosage_group': line.common_dosage_id.id or False,

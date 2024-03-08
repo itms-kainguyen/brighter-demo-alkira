@@ -42,10 +42,14 @@
                     <field name="medicament_group_line_ids">
                         <tree string="" editable="top">
                             <field name="product_id" expand="1" optional="show"/>
-                            <field name="medicine_area" optional="show"/>
-                            <field name="medicine_technique" optional="show"/>
-                            <field name="medicine_depth" optional="show"/>
-                            <field name="medicine_method" optional="show"/>
+                             <field name="medicine_area_id" options="{'always_reload': True}" optional="show"/>
+                             <field name="medicine_technique_id" options="{'always_reload': True}" optional="show"/>
+                            <field name="medicine_depth_id" options="{'always_reload': True}" optional="show"/>
+                            <field name="medicine_method_id" options="{'always_reload': True}" optional="show"/>
+                            <field name="medicine_area" optional="show" invisible="1"/>
+                            <field name="medicine_technique" optional="show" invisible="1"/>
+                            <field name="medicine_depth" optional="show" invisible="1"/>
+                            <field name="medicine_method" optional="show" invisible="1"/>
                             <field name="allow_substitution" optional="hide" invisible="1"/>
                             <field name="common_dosage_id" optional="hide" invisible="1"/>
                             <field name="dose" optional="show"/>
