@@ -61,6 +61,12 @@
     <menuitem id="menu_method" name="Method" parent="menu_treatment_cofig" action="act_open_medicine_method_view" sequence="14"/>
 
 
+     <menuitem id="menu_area" name="Area" parent="acs_hms.menu_pres_cofig" action="act_open_medicine_area_view" sequence="12"/>
+    <menuitem id="menu_technique" name="Technique" parent="acs_hms.menu_pres_cofig" action="act_open_medicine_technique_view" sequence="13"/>
+    <menuitem id="menu_depth" name="Depth" parent="acs_hms.menu_pres_cofig" action="act_open_medicine_depth_view" sequence="13"/>
+    <menuitem id="menu_method" name="Method" parent="acs_hms.menu_pres_cofig" action="act_open_medicine_method_view" sequence="14"/>
+
+
     <!-- Main Appointment Menu -->
     <menuitem id="action_main_menu_appointmnet_opd" action="action_appointment" sequence="1" groups="acs_hms_base.group_hms_manager,acs_hms.group_hms_doctor,acs_hms.group_hms_doctor_clinic" web_icon="acs_hms,static/src/img/Cal.png"/>
 

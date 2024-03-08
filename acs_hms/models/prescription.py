@@ -804,6 +804,11 @@ class ACSPrescriptionLine(models.Model):
 
     is_pbs = fields.Boolean('PBS', default=False)
 
+    medicine_area_id = fields.Many2one('medicine.area', string="Area")
+    medicine_technique_id = fields.Many2one('medicine.technique', string='Technique')
+    medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')
+    medicine_method_id = fields.Many2one('medicine.method', string='Method')
+
     @api.depends('product_id', 'qty_available', 'dose')
     def _compute_colour_forecast(self):
         for line in self:
