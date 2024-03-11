@@ -69,6 +69,12 @@
                             <field name="phone"/>
                             <field name="tags" widget="many2many_tags" invisible="1"/>
                             <field name="assigned_user" string="Assign ticket to" options="{'no_open': True}" invisible="1"/>
+                            <field name="nurse_id" string="Clinician" attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="branch_id" domain="[('id', 'in', allow_department_ids)]" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            <field name="clinic_manager_id" />
+                            <!-- <field name="alkira_manager_id" /> -->
+                            <field name="is_sent" string="Sent" invisible="1"/>
+                            <field name="allow_department_ids" invisible="1"/>
                         </group>
                         <group attrs="{'invisible': [('ticket_name', '=', 'Adverse Event')]}">
                             <field name="show_category" invisible="1"/>
@@ -82,8 +88,8 @@
                             <field name="merge_ticket_invisible" invisible="1"/>
                         </group>
                         <group attrs="{'invisible':[('ticket_name', '!=', 'Adverse Event')]}">
-                            <!-- <field name="patient_id" string="Patient" attrs="{'readonly': [('is_sent', '=', True)]}"/> -->
-                            <field name="chemical_burns_event_boolean" string="Chemical Burns" widget="boolean_toggle"
+                            <group>
+                                  <field name="chemical_burns_event_boolean" string="Chemical Burns" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="medication_error_event_boolean" string="Medication Errors" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
@@ -94,49 +100,42 @@
                             <field name="allergic_event_boolean" string="Allergic Reactions" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
 
-                            <field name="vascular" widget="boolean_toggle"
+                            <field name="vascular" string="Vascular Occlusion" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="occlusion" widget="boolean_toggle"
+                            <field name="skin" string="Skin Necrosis" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="skin" widget="boolean_toggle"
+                              <field name="necrosis" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="necrosis" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+                            </group>
+                            <group>
+
                             <field name="granuloma" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="ptosis" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="odema" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="needle" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="stick" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="injury" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                             <field name="vasovegal" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                             <field name="episode" widget="boolean_toggle"
+
+                             <field name="vasovegal" string="Vasovegal Spisode" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                              <field name="bruising" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                             <field name="herpetic" widget="boolean_toggle"
+                             <field name="herpetic" string="Herpetic Reaction" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="reaction" widget="boolean_toggle"
+
+                            <field name="tyndall" string="Tyndall Effect" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="tyndall" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="effect" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+
                             <field name="migration" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
 
-                            <field name="nurse_id" string="Clinician" attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="branch_id" domain="[('id', 'in', allow_department_ids)]" string="Clinic" attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                            <field name="clinic_manager_id" />
-                            <!-- <field name="alkira_manager_id" /> -->
-                            <field name="is_sent" string="Sent" invisible="1"/>
-                            <field name="allow_department_ids" invisible="1"/>
+
+                            <field name="needle" string="Needle Stick Injury" widget="boolean_toggle"
+                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+
+                            </group>
+                            <!-- <field name="patient_id" string="Patient" attrs="{'readonly': [('is_sent', '=', True)]}"/> -->
+
+
+
                         </group>
                     </group>
                     <notebook>
