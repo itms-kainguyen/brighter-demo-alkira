@@ -104,13 +104,12 @@
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             <field name="skin" string="Skin Necrosis" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
-                              <field name="necrosis" widget="boolean_toggle"
+                                <field name="granuloma" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
                             </group>
                             <group>
 
-                            <field name="granuloma" widget="boolean_toggle"
-                                attrs="{'readonly': [('is_sent', '=', True)]}"/>
+
                             <field name="ptosis" widget="boolean_toggle"
                                 attrs="{'readonly': [('is_sent', '=', True)]}"/>
 
