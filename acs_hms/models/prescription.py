@@ -783,7 +783,7 @@ class ACSPrescriptionLine(models.Model):
                                    store=True)
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='prescription_id.company_id')
-    qty_available = fields.Float(related='product_id.qty_available', string='Available Qty')
+    qty_available = fields.Float(compute='_compute_colour_forecast', string='Available Qty', digits='Product Unit of Measure', compute_sudo=True)
     days = fields.Float("Days", default=1.0)
     qty_per_day = fields.Float(string='Qty Per Day', default=1.0)
     state = fields.Selection(related="prescription_id.state", store=True)
@@ -809,11 +809,19 @@ class ACSPrescriptionLine(models.Model):
     medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')
     medicine_method_id = fields.Many2one('medicine.method', string='Method')
 
+    acs_lot_id = fields.Many2one("stock.lot",
+                                 domain="[('product_id', '=', product_id),'|',('expiration_date','=',False),"
+                                        "('expiration_date', '>', context_today().strftime('%Y-%m-%d'))]",
+                                 string="Lot/Serial number")
+
     @api.depends('product_id', 'qty_available', 'dose')
     def _compute_colour_forecast(self):
         for line in self:
             line.is_red = False
             line.colour_forecast = "#008000"
+            line.qty_available = line.product_id.qty_available
+            if line.acs_lot_id:
+                line.qty_available = line.acs_lot_id.product_qty
             if line.qty_available < float(line.dose):
                 line.is_red = True
                 line.colour_forecast = "#FF0000"
@@ -854,6 +862,10 @@ class ACSPrescriptionLine(models.Model):
 
                 if warning:
                     return {'warning': warning}
+
+            return {'domain': {'acs_lot_id': [('product_id', '=', self.product_id.id), '|',
+                                              ('expiration_date', '=', False),
+                                              ('expiration_date', '>', datetime.now().strftime('%Y-%m-%d'))]}}
 
     @api.onchange('common_dosage_id')
     def onchange_common_dosage(self):
