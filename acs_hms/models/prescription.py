@@ -814,7 +814,7 @@ class ACSPrescriptionLine(models.Model):
                                         "('expiration_date', '>', context_today().strftime('%Y-%m-%d'))]",
                                  string="Lot/Serial number")
 
-    @api.depends('product_id', 'qty_available', 'dose')
+    @api.depends('product_id', 'acs_lot_id', 'qty_available', 'dose')
     def _compute_colour_forecast(self):
         for line in self:
             line.is_red = False
