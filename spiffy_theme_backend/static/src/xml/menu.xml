@@ -321,16 +321,16 @@
 <!--							<input type="text" id="app_menu_search" class="form-control" placeholder="Search"/>-->
 <!--						</a>-->
 					</div>
-					<div style="position: relative;background-color: #ff4f00;width: 100%;height: 50px;margin: 0;padding: 0;">
-						<div class="custom-menu-search">
-							<div class="custom-icon-search">
-								<span>
-									<i class="ri ri-search-line" style="color: white;"></i>
-								</span>
-							</div>
-							<input type="text" id="app_menu_search" class="form-control ccolor" style="border: 1px solid white !important;" placeholder="Search"/>
-					</div>
-					</div>
+<!--					<div style="position: relative;background-color: #ff4f00;width: 100%;height: 50px;margin: 0;padding: 0;">-->
+<!--						<div class="custom-menu-search">-->
+<!--							<div class="custom-icon-search">-->
+<!--								<span>-->
+<!--									<i class="ri ri-search-line" style="color: white;"></i>-->
+<!--								</span>-->
+<!--							</div>-->
+<!--							<input type="text" id="app_menu_search" class="form-control ccolor" style="border: 1px solid white !important;" placeholder="Search"/>-->
+<!--					</div>-->
+<!--					</div>-->
 
 					<div class="container">
 <!--						<div class="input-group">-->
