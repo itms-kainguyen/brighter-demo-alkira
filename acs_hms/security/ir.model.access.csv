@@ -174,5 +174,6 @@ access_medicine_technique_user,medicine.technique.user,acs_hms.model_medicine_te
 access_medicine_depth_user,medicine.depth.user,acs_hms.model_medicine_depth,base.group_user,1,1,1,1
 access_medicine_method_user,medicine.method.user,acs_hms.model_medicine_method,base.group_user,1,1,1,1
 
+access_medicine_amount_user,medicine.amount.user,acs_hms.model_medicine_amount,base.group_user,1,1,1,1
 
 

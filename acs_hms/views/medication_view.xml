@@ -157,4 +157,23 @@
     </record>
 
 
+    <record id="view_medicine_amount_tree" model="ir.ui.view">
+        <field name="name">medicine.amount.tree</field>
+        <field name="model">medicine.amount</field>
+        <field name="arch" type="xml">
+            <tree string="Amount" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="act_open_medicine_amount_view">
+        <field name="name">Amount</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.amount</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
 </odoo>

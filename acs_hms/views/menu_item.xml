@@ -59,6 +59,7 @@
     <menuitem id="menu_technique" name="Technique" parent="acs_hms.menu_treatment_cofig" action="act_open_medicine_technique_view" sequence="13" groups="acs_hms_base.group_hms_user"/>
     <menuitem id="menu_depth" name="Depth" parent="acs_hms.menu_treatment_cofig" action="act_open_medicine_depth_view" sequence="13" groups="acs_hms_base.group_hms_user"/>
     <menuitem id="menu_method" name="Method" parent="acs_hms.menu_treatment_cofig" action="act_open_medicine_method_view" sequence="14" groups="acs_hms_base.group_hms_user"/>
+    <menuitem id="menu_amount" name="Amount" parent="acs_hms.menu_treatment_cofig" action="act_open_medicine_amount_view" sequence="15" groups="acs_hms_base.group_hms_user"/>
 
 
 <!--    <menuitem id="menu_area" name="Area" parent="acs_hms.menu_pres_cofig" action="act_open_medicine_area_view" sequence="12" groups="acs_hms_base.group_hms_user"/>-->

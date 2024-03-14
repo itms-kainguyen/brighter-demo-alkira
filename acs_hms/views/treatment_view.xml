@@ -219,7 +219,7 @@
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
                                     <field name="prescription_id"/>
                                     <field name="medicine_area_id" options="{'always_reload': True}"/>
-                                    <field name="amount"  class="amount-medicine"/>
+                                    <field name="medicine_amount"  class="amount-medicine"/>
                                     <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}" optional="hide"/>
                                     <field name="expiration_date" optional="hide"/>
 <!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->

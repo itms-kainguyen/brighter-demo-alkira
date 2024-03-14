@@ -721,6 +721,7 @@ class TreatmentMedicineLine(models.Model):
         ('micro', 'Micro-needling'),
         ('dermal', 'Dermal puncture')], default='sharp', string='Method')
 
+    medicine_amount = fields.Many2one('medicine.amount', string='Amount')
     medicine_area_id = fields.Many2one('medicine.area', string="Area")
     medicine_technique_id = fields.Many2one('medicine.technique', string='Technique')
     medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')
@@ -741,8 +742,6 @@ class TreatmentMedicineLine(models.Model):
                                          digits='Product Unit of Measure', compute_sudo=True)
     is_red = fields.Boolean(default=False)
     colour_forecast = fields.Char(string="Color", default="#008000")
-
-
 
     @api.depends('product_id', 'acs_lot_id', 'amount')
     def _compute_forecast_information(self):
@@ -805,6 +804,14 @@ class Medicinemethod(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(string='Name', required=True)
+
+
+class Medicineamount(models.Model):
+    _name = "medicine.amount"
+    _description = "medicine amount"
+    _rec_name = 'name'
+
+    name = fields.Char(string='Amount', required=True)
 
 
 class TreatmentTemplate(models.Model):
