@@ -24,6 +24,7 @@ class ProcedureGroup(models.Model):
 
     name = fields.Char(string='Group Name', required=True)
     line_ids = fields.One2many('procedure.group.line', 'group_id', string='Group lines')
+    active = fields.Boolean(string="Active", default=True)
 
 
 class AcsPatientProcedure(models.Model):
