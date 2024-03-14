@@ -61,8 +61,8 @@ class ACSPrescriptionOrder(models.Model):
     group_id = fields.Many2one('medicament.group', ondelete="set null", string='Medicaments Group',
                                states=READONLY_STATES, copy=False)
 
-    advice_id = fields.Many2one('advice.template', ondelete="set null", string='Advice Template',
-                                states=READONLY_STATES, copy=False, tracking=True)
+    advice_id = fields.Many2many('advice.template', 'advice_prescription_rel', 'advice_id', 'prescription_id',
+                                 string='Advice Template', states=READONLY_STATES, copy=False)
 
     patient_id = fields.Many2one('hms.patient', ondelete="restrict", string='Patient', required=True,
                                  states=READONLY_STATES, tracking=True)
@@ -281,9 +281,10 @@ class ACSPrescriptionOrder(models.Model):
 
     @api.onchange('advice_id')
     def onchange_advice_id(self):
-        self.notes = False
+        self.notes = ''
         if self.advice_id:
-            self.notes = self.advice_id.description
+            for advice in self.advice_id:
+                self.notes += advice.description or ''
 
     @api.onchange('physician_id')
     def onchange_physician_id(self):
@@ -783,7 +784,8 @@ class ACSPrescriptionLine(models.Model):
                                    store=True)
     company_id = fields.Many2one('res.company', ondelete="cascade", string='Clinic',
                                  related='prescription_id.company_id')
-    qty_available = fields.Float(compute='_compute_colour_forecast', string='Available Qty', digits='Product Unit of Measure', compute_sudo=True)
+    qty_available = fields.Float(compute='_compute_colour_forecast', string='Available Qty',
+                                 digits='Product Unit of Measure', compute_sudo=True)
     days = fields.Float("Days", default=1.0)
     qty_per_day = fields.Float(string='Qty Per Day', default=1.0)
     state = fields.Selection(related="prescription_id.state", store=True)
