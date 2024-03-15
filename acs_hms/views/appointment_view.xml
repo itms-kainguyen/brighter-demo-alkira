@@ -379,6 +379,7 @@
                             <field name="cancel_reason" placeholder="Cancellation Reason..."
                                 attrs="{'invisible': [('state','!=','cancel')]}" />
                             <field name="is_checklist" invisible="1"/>
+                            <field name="pos_config_id" invisible="1"/>
                         </group>
                     </group>
                     </page>

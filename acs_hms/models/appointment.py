@@ -325,7 +325,11 @@ class Appointment(models.Model):
     def get_current_user(self):
         return self.env.user.id or False
 
-    nurse_id = fields.Many2one('res.users', 'Clinician', domain="""[('physician_id', '=', False), ('id', '=', uid)]""", required=True,
+    def _get_pos_config(self):
+        return self.env['pos.config'].search([], limit=1)
+
+    nurse_id = fields.Many2one('res.users', 'Clinician', domain="""[('physician_id', '=', False), ('id', '=', uid)]""",
+                               required=True,
                                default=get_current_user)
 
     prescription_id = fields.Many2one('prescription.order', 'Prescription Order')
@@ -419,6 +423,8 @@ class Appointment(models.Model):
 
     is_new_patient = fields.Boolean('Is new patient', default=False)
 
+    pos_config_id = fields.Many2one('pos.config', ondelete='cascade', default=_get_pos_config, string='POS')
+
     def create_patient(self):
         self.is_new_patient = True
         return {
@@ -430,6 +436,9 @@ class Appointment(models.Model):
             'context': {'appointment_id': self.id},
             'target': 'new',
         }
+
+    def checkout_pos(self):
+        return self.pos_config_id.open_ui()
 
     @api.onchange('date', 'duration_selection')
     def _onchange_duration_selection(self):
