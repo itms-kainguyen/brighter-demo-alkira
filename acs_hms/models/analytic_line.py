@@ -2,10 +2,23 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from odoo.osv import expression
 
 
 class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
+
+    def _domain_project_id(self):
+        domain = [('allow_timesheets', '=', True)]
+        if not self.user_has_groups('hr_timesheet.group_timesheet_manager'):
+            return expression.AND([domain,
+                                   ['|', ('privacy_visibility', '!=', 'followers'),
+                                    ('message_partner_ids', 'in', [self.env.user.partner_id.id])]
+                                   ])
+        return domain
+
+    def _get_project_id(self):
+        return self.env['project.project'].search([('name', 'ilike', 'CPD')], limit=1)
 
     description = fields.Text('Description')
     name = fields.Char('Name')
@@ -18,6 +31,10 @@ class AccountAnalyticLine(models.Model):
     certification_expiry = fields.Date('Date Expiry')
     channel_id = fields.Many2one('slide.channel', string="Title", index=True,
                                  ondelete='cascade')
+
+    project_id = fields.Many2one(
+        'project.project', 'Project', domain=_domain_project_id, default=_get_project_id, index=True,
+        compute='_compute_project_id', store=True, readonly=False)
 
     @api.onchange('description')
     def _onchange_description(self):
