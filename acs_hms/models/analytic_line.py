@@ -16,6 +16,8 @@ class AccountAnalyticLine(models.Model):
     attachment_certification_ids = fields.Many2many('ir.attachment', 'certification_attachment_rel', 'attachment_id',
                                                     'analytic_id', string='Certifications')
     certification_expiry = fields.Date('Date Expiry')
+    channel_id = fields.Many2one('slide.channel', string="Title", index=True,
+                                 ondelete='cascade')
 
     @api.onchange('description')
     def _onchange_description(self):

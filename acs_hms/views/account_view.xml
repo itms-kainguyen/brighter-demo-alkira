@@ -29,6 +29,7 @@
                 <field name="certification_expiry"/>
             </field>
             <field name="date" position="before">
+                <field name="channel_id"/>
                 <field name="user_id" readonly="1" invisible="1"/>
             </field>
              <field name="name" position="replace">
