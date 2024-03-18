@@ -217,7 +217,7 @@
                             <field name="medicine_line_ids" string="Medicine">
                                 <tree string="Medicine" editable="bottom">
                                     <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
-                                    <field name="prescription_id"/>
+                                    <field name="prescription_id" optional="hide"/>
                                     <field name="medicine_area_id" options="{'always_reload': True}"/>
                                     <field name="medicine_amount"  class="amount-medicine"/>
                                     <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}" optional="hide"/>
@@ -225,7 +225,7 @@
 <!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->
                                     <field name="is_red" string="Color" class="show-red" invisible="1"/>
                                     <field name="forecast_availability" string="Availability" decoration-danger="is_red == True" optional="hide"/>
-                                    <field name="colour_forecast" widget="color" nolabel="1"/>
+                                    <field name="colour_forecast" widget="color" nolabel="1" optional="hide"/>
 <!--                                    <button title="Forecasted" class="o_forecast_report_button btn btn-link o_icon_button ms-2 forecast-medicine" icon="fa-area-chart" decoration-danger="is_red == True"/>-->
 <!--                                    <widget name="qty_at_date_widget" width="20px"/>-->
 <!--                                   <i class="fa fa-fw o_button_icon fa-area-chart">hi</i>-->
