@@ -24,17 +24,16 @@
         <field name="model">account.analytic.line</field>
         <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
         <field name="arch" type="xml">
-            <field name="task_id" position="after">
+             <field name="task_id" position="after">
                 <field name="location"/>
                 <field name="certification_expiry" invisible="1"/>
+                <field name="description" class="acs_col2"/>
             </field>
             <field name="date" position="before">
-                <field name="channel_id"/>
+                <field name="name" string="Title"/>
+                <field name="channel_id" string="Course"/>
                 <field name="user_id" readonly="1" invisible="1"/>
             </field>
-             <field name="name" position="replace">
-                 <field name="description" class="acs_col2"/>
-             </field>
             <field name="project_id" position="attributes">
                 <field name="invisible">1</field>
              </field>
