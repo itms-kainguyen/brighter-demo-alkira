@@ -190,16 +190,17 @@
                                         />
                                          <span><field
                                             name="physician_phone"
-                                            attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]}" class="oe_inline" widget="phone"
+                                            attrs="{'readonly': [('is_editable', '=', False), ('is_locked','=',True)]}" class="oe_inline"
                                         /></span>
+                                          <span>
+                                              <button name="call_prescriber" icon="fa-phone" nolabel="1" string="Call" type="object" groups="acs_hms_base.group_hms_manager" class="oe_highlight oe_inline"/>
+                                          </span>
                                     </div>
                                      <field name="is_owner_prescriber" invisible="1"/>
                                      <label for="nurse_id" string="Clinician"/>
                                          <div class="oe_inline">
                                             <field name="nurse_id" class="oe_inline"/>
-                                            <span>
-                                              <button name="call_prescriber" icon="fa-phone" nolabel="1" string="Call" type="object" groups="acs_hms_base.group_hms_manager" class="oe_highlight oe_inline"/>
-                                            </span>
+
                                       </div>
                                     <field name="prescription_type" invisible="1"/>
                                     <field name="group_id" invisible="1" string="Prescription Template"/>
