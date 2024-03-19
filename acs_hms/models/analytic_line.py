@@ -3,6 +3,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.osv import expression
+from odoo.exceptions import UserError
 
 
 class AccountAnalyticLine(models.Model):
@@ -50,3 +51,8 @@ class AccountAnalyticLine(models.Model):
     def _onchange_description(self):
         if self.description:
             self.name = self.description
+
+    def unlink(self):
+        if self.env.user.has_group('hr_timesheet.group_timesheet_manager'):
+            raise UserError(_("You can not delete record."))
+        return super(AccountAnalyticLine, self).unlink()
