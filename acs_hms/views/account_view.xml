@@ -37,6 +37,9 @@
             <field name="project_id" position="attributes">
                 <field name="invisible">1</field>
              </field>
+            <field name="employee_id" position="after">
+                <field name="department_id"/>
+            </field>
         </field>
     </record>
 

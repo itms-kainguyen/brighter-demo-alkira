@@ -44,6 +44,8 @@ class AccountAnalyticLine(models.Model):
         'project.project', 'Project', domain=_domain_project_id, default=_get_project_id, index=True,
         compute='_compute_project_id', store=True, readonly=False)
 
+    department_id = fields.Many2one('hr.department', ondelete='restrict', related='employee_id.department_id', string='Clinic')
+
     @api.onchange('description')
     def _onchange_description(self):
         if self.description:
