@@ -48,12 +48,9 @@ class AccountAnalyticLine(models.Model):
     department_id = fields.Many2one('hr.department', ondelete='restrict', related='employee_id.department_id',
                                     string='Clinic')
 
-    @api.onchange('description')
-    def _onchange_description(self):
-        if self.description:
-            self.name = self.description
+    is_admin = fields.Boolean(compute='_compute_is_admin', string='Is Admin')
 
     def unlink(self):
-        # if self.env.user.has_group('hr_timesheet.group_timesheet_manager') and self.env.user.id != self.user_id.id:
-        #     raise UserError(_("You are not allowed delete record."))
+        if self.env.user.has_group('hr_timesheet.group_timesheet_manager') and self.env.user.id != self.user_id.id and self.project_id:
+            raise UserError(_("You are not allowed delete record."))
         return super(AccountAnalyticLine, self).unlink()
