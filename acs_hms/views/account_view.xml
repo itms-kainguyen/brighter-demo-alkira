@@ -35,11 +35,16 @@
                 <field name="user_id" readonly="1" invisible="1"/>
             </field>
             <field name="project_id" position="attributes">
-                <field name="invisible">1</field>
+                <attribute name="invisible">1</attribute>
+             </field>
+             <field name="employee_id" position="attributes">
+                 <attribute name="invisible">0</attribute>
+                 <attribute name="groups">hr_timesheet.group_timesheet_manager</attribute>
              </field>
             <field name="employee_id" position="after">
-                <field name="department_id"/>
+                <field name="department_id" groups="hr_timesheet.group_timesheet_manager"/>
             </field>
+
         </field>
     </record>
 
