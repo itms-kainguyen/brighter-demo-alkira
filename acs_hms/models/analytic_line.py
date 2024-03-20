@@ -49,7 +49,8 @@ class AccountAnalyticLine(models.Model):
                                     string='Clinic')
 
     def unlink(self):
-        if self.env.user.has_group(
-                'hr_timesheet.group_timesheet_manager') and self.env.user.id != self.user_id.id and self.project_id:
-            raise UserError(_("You are not allowed delete record."))
+        is_delete = bool(self.env.user.has_group('hr_timesheet.group_timesheet_manager') and self.env.user.id != self.user_id.id and self.project_id)
+        for record in self:
+            if is_delete:
+                raise UserError(_('You are not allowed delete %s record') % record.name or record.channel_id.name)
         return super(AccountAnalyticLine, self).unlink()

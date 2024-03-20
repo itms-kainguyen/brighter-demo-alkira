@@ -55,6 +55,7 @@
         'views/res_config_settings_views.xml',
         'views/digest_view.xml',
         'views/res_users.xml',
+        'views/forum.xml',
         'views/menu_item.xml',
         'views/hr_employee.xml',
         'views/survey_view.xml',
