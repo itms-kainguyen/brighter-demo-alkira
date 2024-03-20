@@ -168,7 +168,7 @@
         <field name="view_id" ref="stock.product_product_stock_tree"/>
         <field name="search_view_id" ref="stock.product_search_form_view_stock_report"/>
         <field name="context">{'default_detailed_type': 'product'}</field>
-        <field name="domain">[('detailed_type', '=', 'product'), ('create_uid', '=', uid)]</field>
+        <field name="domain">['|',('qty_available', '>', 0), ('create_uid', '=', uid)]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No stock to show
