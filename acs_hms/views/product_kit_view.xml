@@ -162,7 +162,7 @@
 
 
     <record model="ir.actions.act_window" id="action_product_stock_user_view">
-        <field name="name">Inventory</field>
+        <field name="name">Inventory User</field>
         <field name="res_model">product.product</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="stock.product_product_stock_tree"/>
