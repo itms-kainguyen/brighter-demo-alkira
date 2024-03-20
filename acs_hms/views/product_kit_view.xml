@@ -165,8 +165,8 @@
         <field name="name">Stock</field>
         <field name="res_model">product.product</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="product_product_stock_tree"/>
-        <field name="search_view_id" ref="product_search_form_view_stock_report"/>
+        <field name="view_id" ref="stock.product_product_stock_tree"/>
+        <field name="search_view_id" ref="stock.product_search_form_view_stock_report"/>
         <field name="context">{'default_detailed_type': 'product'}</field>
         <field name="domain">[('detailed_type', '=', 'product'), ('create_uid', '=', uid)]</field>
         <field name="help" type="html">
