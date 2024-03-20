@@ -162,7 +162,7 @@
 
 
     <record model="ir.actions.act_window" id="action_product_stock_user_view">
-        <field name="name">Stock</field>
+        <field name="name">Inventory</field>
         <field name="res_model">product.product</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="stock.product_product_stock_tree"/>
@@ -177,9 +177,5 @@
             </p>
         </field>
     </record>
-
-     <menuitem id="menu_product_stock_user" name="Inventory" action="acs_hms.action_product_stock_user_view"
-        parent="stock.menu_warehouse_report" sequence="9" groups="acs_hms.group_stock_only_user" web_icon="itms_hms,static/description/stock.png"/>
-
 
 </odoo>
