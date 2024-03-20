@@ -423,7 +423,7 @@
                                         </tree>
                                     </field>
                                     <group colspan="4">
-                                        <field name="advice_id" invisible="0" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
+                                        <field name="advice_id" invisible="0" widget="many2many_tags" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
                                         <field name="notes" string="Advice" colspan="2" attrs="{'readonly': [('is_doctor_editable','=', True), ('state','in', ('prescription','finished','expired','cancel'))]}"/>
                                     </group>
                                 </page>
