@@ -216,12 +216,16 @@
                             </field>
                             <field name="medicine_line_ids" string="Medicine">
                                 <tree string="Medicine" editable="bottom">
-                                    <field name="product_id" domain="[('hospital_product_type','=','medicament')]"/>
+                                    <field name="product_id" string="Medicine Name" domain="[('hospital_product_type','=','medicament')]"/>
                                     <field name="prescription_id" optional="hide"/>
-                                    <field name="medicine_area_id" options="{'always_reload': True}"/>
-                                    <field name="medicine_amount"  class="amount-medicine"/>
+                                    <field name="medicine_area_id" options="{'always_reload': True}" optional="show"/>
+                                    <field name="medicine_technique_id" options="{'always_reload': True}" optional="show"/>
+                                    <field name="medicine_depth_id" options="{'always_reload': True}" optional="show"/>
+                                    <field name="medicine_method_id" options="{'always_reload': True}" optional="show"/>
+                                    <field name="medicine_amount" string="Dose" class="amount-medicine"/>
+                                    <field name="repeat" optional="show"/>
+                                    <field name="expiration_date" string="Expiration" optional="show"/>
                                     <field name="acs_lot_id" string="Batch Number" options="{'always_reload': True}" optional="hide"/>
-                                    <field name="expiration_date" optional="hide"/>
 <!--                                        $('i.fa.fa-fw.o_button_icon.fa-area-chart').css('color', 'blue');-->
                                     <field name="is_red" string="Color" class="show-red" invisible="1"/>
                                     <field name="forecast_availability" string="Availability" decoration-danger="is_red == True" optional="hide"/>
@@ -229,10 +233,7 @@
 <!--                                    <button title="Forecasted" class="o_forecast_report_button btn btn-link o_icon_button ms-2 forecast-medicine" icon="fa-area-chart" decoration-danger="is_red == True"/>-->
 <!--                                    <widget name="qty_at_date_widget" width="20px"/>-->
 <!--                                   <i class="fa fa-fw o_button_icon fa-area-chart">hi</i>-->
-                                    <field name="medicine_technique_id" options="{'always_reload': True}"/>
-                                    <field name="medicine_depth_id" options="{'always_reload': True}"/>
-                                    <field name="medicine_method_id" options="{'always_reload': True}"/>
-                                    <field name="repeat" optional="hide"/>
+
                                 </tree>
                             </field>
                              <group colspan="4">
