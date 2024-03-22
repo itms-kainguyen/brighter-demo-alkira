@@ -47,9 +47,7 @@
             <field name="unit_amount" position="attributes">
                  <attribute name="invisible">1</attribute>
              </field>
-             <field name="so_line" position="attributes">
-                 <attribute name="invisible">1</attribute>
-             </field>
+            
              <field name="date" position="after">
                  <field name="unit_amount"/>
              </field>
