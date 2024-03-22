@@ -721,7 +721,7 @@ class TreatmentMedicineLine(models.Model):
         ('micro', 'Micro-needling'),
         ('dermal', 'Dermal puncture')], default='sharp', string='Method')
 
-    medicine_amount = fields.Many2one('medicine.amount', string='Amount')
+    medicine_amount = fields.Many2one('medicine.amount', string='Dose')
     medicine_area_id = fields.Many2one('medicine.area', string="Area")
     medicine_technique_id = fields.Many2one('medicine.technique', string='Technique')
     medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')

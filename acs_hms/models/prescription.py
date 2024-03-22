@@ -172,10 +172,16 @@ class ACSPrescriptionOrder(models.Model):
             rec.product_ids = rec.prescription_line_ids.mapped('product_id')
             rec.product_name = ''
             rec.product_area = ''
+
             for line in rec.prescription_line_ids:
                 rec.product_name += str(line.product_id.name)
-                tmp += str(line.product_id.name) + ' ' + dict(line._fields['medicine_area'].selection).get(
-                    line.medicine_area) + ' ' + str(line.dose) + 'ui' + '<br/>'
+                dose = ''
+                area = ''
+                if line.medicine_area_id:
+                    area = line.medicine_area_id.name
+                if line.medicine_amount:
+                    dose = line.medicine_amount.name
+                tmp += str(line.product_id.name) + ' ' + area + ' ' + str(dose) + '<br/>'
             rec.product_area = tmp
 
     @api.depends('prescription_date')
@@ -810,6 +816,7 @@ class ACSPrescriptionLine(models.Model):
     medicine_technique_id = fields.Many2one('medicine.technique', string='Technique')
     medicine_depth_id = fields.Many2one('medicine.depth', string='Depth')
     medicine_method_id = fields.Many2one('medicine.method', string='Method')
+    medicine_amount = fields.Many2one('medicine.amount', string='Dose')
 
     acs_lot_id = fields.Many2one("stock.lot",
                                  domain="[('product_id', '=', product_id),'|',('expiration_date','=',False),"

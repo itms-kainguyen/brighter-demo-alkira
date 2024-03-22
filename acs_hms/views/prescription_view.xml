@@ -262,7 +262,8 @@
                                             <field name="common_dosage_id" invisible="1"/>
                                             <field name="common_dosage_group" invisible="1"/>
                                              <field name="medicine_area_id" options="{'always_reload': True}" optional="show"/>
-                                            <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Dose" optional="show"/>
+                                            <field name="medicine_amount" options="{'always_reload': True}" optional="show"/>
+                                            <field name="dose" attrs="{'required': [('display_type', '=', False)]}" string="Dose" optional="show" invisible="1"/>
                                              <field name="medicine_technique_id" options="{'always_reload': True}" optional="show"/>
                                             <field name="medicine_depth_id" options="{'always_reload': True}" optional="show"/>
                                             <field name="medicine_method_id" options="{'always_reload': True}" optional="show"/>
