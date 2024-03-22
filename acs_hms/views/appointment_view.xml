@@ -654,7 +654,7 @@
                                             <field name="quantity" invisible="1" attrs="{'readonly': [('manual_prescription_qty', '=', False)], 'required': [('display_type', '=', False)]}" string="Total Qty" force_save="1"/>
                                             <field name="is_red" string="Color" class="show-red" invisible="1"/>
                                             <field name="qty_available" readonly="1" optional="show" decoration-danger="is_red == True"/>
-                                            <field name="colour_forecast" widget="color" nolabel="1"/>
+                                            <field name="colour_forecast" widget="color" nolabel="1" optional="show"/>
                                             <field name="is_pbs" optional="show" invisible="0" groups="acs_hms.group_hms_doctor_clinic, acs_hms.group_hms_doctor"/>
                                             <field name="prnt" invisible="1"/>
                                             <field name="short_comment" invisible="1"/>
