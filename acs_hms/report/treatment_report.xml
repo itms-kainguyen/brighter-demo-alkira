@@ -99,12 +99,12 @@
                                 <th>Medicine</th>
 <!--                                <th>Prescription</th>-->
                                 <th>Area</th>
-                                <th>Amount</th>
-                                <th>Batch Number</th>
+                                <th>Dose</th>
                                 <th>Technique</th>
                                 <th>Depth</th>
                                 <th>Method</th>
                                 <th>Repeat</th>
+                                <th>Batch Number</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,25 +117,25 @@
 <!--                                        <span t-if="line.sudo().prescription_id" t-field="line.sudo().prescription_id.name"/>-->
 <!--                                    </td>-->
                                     <td>
-                                        <span t-field="line.medicine_area"/>
+                                        <span t-if="line.medicine_area_id" t-field="line.medicine_area_id.name"/>
                                     </td>
                                      <td>
-                                        <span t-field="line.amount"/>
-                                    </td>
-                                     <td>
-                                         <span t-if="line.sudo().acs_lot_id" t-field="line.acs_lot_id.name"/>
+                                        <span t-if="line.medicine_amount" t-field="line.medicine_amount.name"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.medicine_technique"/>
+                                        <span t-if="line.medicine_technique_id" t-field="line.medicine_technique_id.name"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.medicine_depth"/>
+                                        <span t-if="line.medicine_depth_id" t-field="line.medicine_depth_id.name"/>
                                     </td>
                                     <td>
-                                        <span t-field="line.medicine_method"/>
+                                        <span t-if="line.medicine_method_id" t-field="line.medicine_method_id.name"/>
                                     </td>
                                     <td style="text-align: right;">
                                         <span t-field="line.repeat"/>
+                                    </td>
+                                     <td>
+                                         <span t-if="line.sudo().acs_lot_id" t-field="line.acs_lot_id.name"/>
                                     </td>
 
                                 </tr>

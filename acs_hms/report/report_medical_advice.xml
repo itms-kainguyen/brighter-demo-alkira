@@ -30,7 +30,7 @@
                                 <span t-if="line.dose" t-field="line.dose"/>
                             </td>
                             <td>
-                                <span t-field="line.medicine_area"/>
+                                <span t-if="line.medicine_area_id" t-field="line.medicine_area_id.name"/>
                             </td>
                             <td style="text-align: right;">
                                 <span t-field="line.repeat"/>

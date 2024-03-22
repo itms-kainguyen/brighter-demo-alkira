@@ -47,9 +47,9 @@
             <field name="unit_amount" position="attributes">
                  <attribute name="invisible">1</attribute>
              </field>
-            
+
              <field name="date" position="after">
-                 <field name="unit_amount"/>
+                 <field name="unit_amount" optional="show" widget="timesheet_uom" sum="Total" decoration-danger="unit_amount &gt; 24 or unit_amount &lt; 0"/>
              </field>
 
         </field>
