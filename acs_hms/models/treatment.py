@@ -372,11 +372,11 @@ class ACSTreatment(models.Model):
                 if line.repeat > 0:
                     rec.medicine_line_ids = [(0, 0, {
                         'product_id': line.product_id.id,
-                        'medicine_area': line.medicine_area,
-                        'medicine_technique': line.medicine_technique,
-                        'medicine_depth': line.medicine_depth,
-                        'medicine_method': line.medicine_method,
-                        'amount': line.dose,
+                        'medicine_area_id': line.medicine_area_id.id if line.medicine_area_id else False,
+                        'medicine_technique_id': line.medicine_technique_id.id if line.medicine_technique_id else False,
+                        'medicine_depth_id': line.medicine_depth_id.id if line.medicine_depth_id else False,
+                        'medicine_method_id': line.medicine_method_id.id if line.medicine_method_id else False,
+                        'medicine_amount': line.medicine_amount.id if line.medicine_amount else False,
                         'repeat': line.repeat,
                         'prescription_id': line.prescription_id.id,
                     })]
