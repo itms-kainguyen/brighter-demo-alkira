@@ -68,10 +68,6 @@
             'acs_hms/static/src/scss/custom.scss',
             'acs_hms/static/src/xml/**/*',
             'acs_hms/static/src/js/calendar.js',
-
-            # 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js',
-            # 'https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js',
- 
         ]
     },
     'installable': True,
