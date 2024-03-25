@@ -2,7 +2,7 @@
     <template id="acs_image_preview" name="Image Preview">
         <t t-call="web.layout">
             <!-- Include Bootstrap CSS from the CDN -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+            <link rel="stylesheet" href="/acs_documents_preview/static/src/lib/bootstrap.min.css"/>
             <link rel="stylesheet" href="/acs_documents_preview/static/src/lib/css/custom.css"/>
             <div id="wrap" class="MainClass">
                 <div class="left-class">
