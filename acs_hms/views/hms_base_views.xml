@@ -38,7 +38,6 @@
                     <field name="lot_no" invisible="1"/>
                     <field name="batch_no"/>
                     <field name="store_box"/>
-                    <field name="is_show_all" invisible="1"/>
                 </group>
             </xpath>
         </field>
