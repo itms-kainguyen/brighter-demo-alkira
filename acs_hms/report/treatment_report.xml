@@ -103,8 +103,8 @@
                                 <th>Technique</th>
                                 <th>Depth</th>
                                 <th>Method</th>
-                                <th>Repeat</th>
                                 <th>Batch Number</th>
+                                <th>Expiration Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,11 +131,14 @@
                                     <td>
                                         <span t-if="line.medicine_method_id" t-field="line.medicine_method_id.name"/>
                                     </td>
-                                    <td style="text-align: right;">
-                                        <span t-field="line.repeat"/>
-                                    </td>
+<!--                                    <td style="text-align: right;">-->
+<!--                                        <span t-field="line.repeat"/>-->
+<!--                                    </td>-->
                                      <td>
                                          <span t-if="line.sudo().acs_lot_id" t-field="line.acs_lot_id.name"/>
+                                    </td>
+                                    <td>
+                                         <span t-if="line.expiration_date" t-field="line.expiration_date"/>
                                     </td>
 
                                 </tr>
