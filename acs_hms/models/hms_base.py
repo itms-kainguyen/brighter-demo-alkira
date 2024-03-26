@@ -219,12 +219,6 @@ class ProductProduct(models.Model):
     company = fields.Char(string='Company')
     lot_no = fields.Char(string='Lot No.')
     batch_no = fields.Char(string='Batch No.')
-    # is_show_all = fields.Boolean(compute='_compute_is_show_all', string='Show all', store=True)
-    #
-    # def _compute_is_show_all(self):
-    #     self.is_show_all = False
-    #     if self.env.user.has_group('stock.group_stock_manager'):
-    #         self.is_show_all = True
 
 
 class ACSConsumableLine(models.Model):
